@@ -1,0 +1,15 @@
+$shm_hitalama_app $mol_page
+	cb? *
+	tools /
+		<= Tokens_title $mol_text
+			text \Сбор осуществляется от имени
+		<= Tokens $shm_hitalama_token_switch
+			current => token
+	- auto / <= res
+	body /
+		<= Auth $mol_link
+			uri <= auth_uri \
+		<= Dump $mol_dump_value
+			value <= cb
+		<= Avatar $mol_avatar
+			id <= token_str \

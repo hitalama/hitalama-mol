@@ -1,0 +1,23 @@
+$shm_hitalama_token_switch $mol_view
+	tokens /$shm_hitalama_token
+	current null $shm_hitalama_token
+	sub /
+		- ^ tokens_view /
+		<= Switch $mol_switch
+			value? <=> current_ref? \
+			keys <= tokens_refs /string
+			option_label* <= option_label* /
+				<= Token* $shm_hitalama_token_view
+					token <= token* $shm_hitalama_token
+		<= Add $mol_pop_over
+			Anchor <= Add_anchor $mol_button_minor title \Добавить
+			bubble_content /
+				<= Add_vk $mol_link
+					title \VK
+					uri <= vk_auth_uri
+	-
+	auto /
+		<= vk_token \
+	vk_client_id \7803698
+	vk_redirect_uri \http://localhost:9080/shm/hitalama/app/-/test.html
+	-
