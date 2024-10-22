@@ -1,5 +1,6 @@
 $shm_hitalama_token_view $mol_view
 	token $shm_hitalama_token
+	title <= user_id \
 	sub /
 		<= Logo $mol_image
 			uri \/shm/hitalama/token/logo/logo_vk.svg

@@ -22,6 +22,11 @@ namespace $.$$ {
 			return id ? this.token( id ) : null
 		}
 
+		@ $mol_mem
+		current_ref( next?: string ): string {
+			return $mol_state_local.value( `${ this }.current_ref()` , next ) || ''
+		}
+
 		@ $mol_mem_key
 		token( ref_str: string ) {
 			return this.$.$hyoo_crus_glob!.Node( $hyoo_crus_ref( ref_str ), $shm_hitalama_token )
