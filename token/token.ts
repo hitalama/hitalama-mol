@@ -6,6 +6,7 @@ namespace $ {
 		Token: $hyoo_crus_atom_str,
 		User_id: $hyoo_crus_atom_str,
 		Avatar: $hyoo_crus_file,
+		Avatar_url: $hyoo_crus_atom_str,
 		
 	}){
 		

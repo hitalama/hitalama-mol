@@ -11,6 +11,16 @@ namespace $.$$ {
 		user_id() {
 			return this.token().User_id()?.val() || ''
 		}
+
+		// @ $mol_mem
+		// logo_uri() {
+		// 	// return '
+		// }
+
+		@ $mol_mem
+		avatar_url() {
+			return this.token().Avatar_url()?.val() || ''
+		}
 		
 	}
 

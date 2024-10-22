@@ -12,6 +12,10 @@ namespace $.$$ {
 			return this.profile()?.Tokens()?.remote_list() ?? []
 		}
 
+		clear() {
+			this.profile()?.Tokens()?.remote_list( [] )
+		}
+
 		@ $mol_mem
 		current() {
 			const id = this.current_ref()
@@ -33,36 +37,38 @@ namespace $.$$ {
 			return this.tokens_refs().map( ref => this.Token( ref ) )
 		}
 
-		vk_get_user( token: string, user_id: string ){
-			const src = 'https://api.vk.com/method/execute?access_token=' + token +
-				'&code=return API.users.get({"user_ids":"'+ user_id + '"});&v=5.131&callback=' +
-				this.dom_id() + '.vk_user_receive'
-
-			$mol_import.script(src)
+		@ $mol_action
+		vk_get_user( token: $shm_hitalama_token, token_str: string, user_id: string ){
+			const code = 'return API.users.get({"user_ids":"'+ user_id + '","fields":"photo_50"});'
+			$shm_hitalama_jsonp.vk_execute( token_str, code, this.vk_user_receive, token )
 		}
 
-		vk_user_receive( res: string ){
-			console.log('res', res)
+		@ $mol_action
+		vk_user_receive( res: any, token: $shm_hitalama_token ){
+			const photo_url = res.response[0].photo_50
+			console.log('token', token)
+			console.log('photo_url', photo_url)
+			token.Avatar_url(null)?.val( photo_url )
 		}
 
 		@ $mol_mem
-		vk_token() {
+		vk_token_url_parse() {
 			const params = new URLSearchParams( this.$.$mol_state_arg.value('access_token') || '' )
-			console.log('params', params)
-			const vk_token = params.keys().next().value
-			if( !vk_token ) return
+
+			const token_str = params.keys().next().value
+			if( !token_str ) return
 
 			const user_id = params.get('user_id')!
 
-			const token = this.profile()?.Tokens(null)?.make( {} )
-			token?.Token(null)?.val( vk_token )
+			const token = this.profile()?.Tokens(null)?.make( {} )!
+			token?.Token(null)?.val( token_str )
 			token?.User_id(null)?.val( user_id )
-			
-			this.vk_get_user( vk_token, user_id )
 
 			this.$.$mol_state_arg.value('access_token', null)
+			
+			this.vk_get_user( token, token_str, user_id )
 
-			return vk_token
+			return token_str
 		}
 
 		@ $mol_mem

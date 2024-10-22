@@ -1,9 +1,10 @@
 $shm_hitalama_token_view $mol_view
 	token $shm_hitalama_token
 	sub /
-		<= Icon $mol_avatar
-			id <= token_str \
-		<= User_id $mol_paragraph
+		<= Logo $mol_image
+			uri \/shm/hitalama/token/logo/logo_vk.svg
+		- <= User_id $mol_paragraph
 			title <= user_id \
-		- <= Avatar* $mol_image
-			src <= avatar_src \
+		<= Avatar $mol_image
+			uri <= avatar_url \
+			title <= user_id \

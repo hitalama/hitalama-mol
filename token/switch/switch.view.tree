@@ -14,10 +14,12 @@ $shm_hitalama_token_switch $mol_view
 			bubble_content /
 				<= Add_vk $mol_link
 					title \VK
+					target \_self
 					uri <= vk_auth_uri
-	-
+		<= Clear $mol_button_minor
+			title \Очистить
+			click? <=> clear? null
 	auto /
-		<= vk_token \
+		<= vk_token_url_parse \
 	vk_client_id \7803698
 	vk_redirect_uri \http://localhost:9080/shm/hitalama/app/-/test.html
-	-
