@@ -1,49 +1,17 @@
-$shm_hitalama_app $mol_page
-	title \Hitalama
+$shm_hitalama_app $mol_book2_catalog
+	param \section
+	menu_title \Hitalama
 	plugins /
 		<= Theme $mol_theme_auto
 	tools /
-		<= Tokens_title $mol_text
-			text \Сбор осуществляется от имени
-		<= Tokens $shm_hitalama_token_switch
-			current => token
 		<= Lights $mol_lights_toggle
-	body /
-		<= Search_label $mol_labeler
-			title \Введите ссылку на сообщество
-			content /
-				<= Search_block $mol_view
-					sub /
-						<= Group_id $mol_string
-							value? <=> group? \smmblog
-						<= Search $mol_button_major
-							title \Поиск
-							click? <=> search? null
-							hint \https://vk.com/smmblog
-		^ search_result /
-			<= Group $mol_view
-				sub /
-					<= Photo $mol_image
-						uri <= group_photo_uri? \
-					<= Name_block $mol_view
-						sub /
-							<= Name $mol_paragraph
-								title <= group_name? \
-							<= Members_count $mol_view
-								sub /
-									<= Members_count_icon $mol_icon_account_group_outline
-									<= members_count? \
-					<= Collect_block $mol_view
-						sub /
-							<= Collect_posts $mol_button_major
-								title \Собрать посты
-								click? <=> collect? null
-							- <= Collect_date $mol_labeler
-			<= Dump $mol_dump_value
-				value? <= posts_data? null
-				expanded? <=> expanded? true
-	body_noauth /
-		<= Select_user_message $mol_text
-			text \Выберите пользователя
-	group_id? \
-	posts_data? null
+	spreads *
+		tokens <= Tokens_page $mol_page
+			title \Токены
+			body /
+				<= Tokens_title $mol_text
+					text \Сбор осуществляется от имени
+				<= Tokens $shm_hitalama_token_switch
+					current => token
+		group <= Group_page $shm_hitalama_group
+			token <= token

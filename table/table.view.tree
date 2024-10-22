@@ -1,0 +1,6 @@
+$shm_hitalama_table $mol_view
+	sub /
+		<= Head $mol_view
+			sub <= head /
+		<= Body $mol_list
+			sub <= rows /
