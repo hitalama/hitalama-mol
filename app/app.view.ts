@@ -50,12 +50,12 @@ namespace $.$$ {
 
 		@ $mol_action
 		collect() {
-			const group_id = this.group_id()
+			const owner_id = '-' + this.group_id()
 			
-			const code = 'var posts = API.wall.get({"owner_id":"-'+ group_id +'","count":100});' +
-				'return posts;'
-
-			$shm_hitalama_jsonp.vk_execute( this.token_str(), code, this.posts_data.bind(this) )
+			$shm_hitalama_jsonp.vk_newFuncWall( 
+				{ access_token: this.token_str(), owner_id, offset: '0', count_execute: '0' }, 
+				this.posts_data.bind(this) 
+			)
 		}
 		
 		@ $mol_mem
