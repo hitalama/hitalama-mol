@@ -16,6 +16,22 @@ namespace $.$$ {
 		body() {
 			return this.token_str() ? super.body() : this.body_noauth()
 		}
+
+		@ $mol_mem
+		result( next?: any ) {
+			return next ?? null
+		}
+
+		@ $mol_action
+		search() {
+			const code = 'return API.groups.getById({"group_id":"'+ this.group() +'"});'
+			$shm_hitalama_jsonp.vk_execute( this.token_str(), code, this.result.bind(this) )
+		}
+		
+		@ $mol_mem
+		search_result(): readonly ( any )[] {
+			return this.result() ? super.search_result() : []
+		}
 		
 	}
 

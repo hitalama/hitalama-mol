@@ -6,15 +6,20 @@ $shm_hitalama_app $mol_page
 		<= Tokens $shm_hitalama_token_switch
 			current => token
 	body /
-		<= Select_group $mol_labeler
+		<= Search_label $mol_labeler
 			title \Введите ссылку на сообщество
 			content /
 				<= Search_block $mol_view
 					sub /
 						<= Group $mol_string
-							value? <=> group? \
+							value? <=> group? \smmblog
 						<= Search $mol_button_major
 							title \Поиск
+							click? <=> search? null
+		^ search_result /
+			<= Dump $mol_dump_value
+				value? <= result? null
+				expanded? <=> expanded? true
 	body_noauth /
 		<= Select_user_message $mol_text
 			text \Выберите пользователя

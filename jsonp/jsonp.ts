@@ -20,7 +20,7 @@ namespace $ {
 			const src = 'https://api.vk.com/method/execute?access_token=' + token +
 				'&code=' + code + '&v=5.131&callback=' + cb_name
 
-			$mol_import.script(src)
+			$mol_wire_async($mol_import).script(src)
 
 		}
 		
