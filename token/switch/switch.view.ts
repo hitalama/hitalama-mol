@@ -13,6 +13,7 @@ namespace $.$$ {
 		}
 
 		clear() {
+			this.current_ref('')
 			this.profile()?.Tokens()?.remote_list( [] )
 		}
 

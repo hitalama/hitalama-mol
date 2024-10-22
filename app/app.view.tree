@@ -11,12 +11,25 @@ $shm_hitalama_app $mol_page
 			content /
 				<= Search_block $mol_view
 					sub /
-						<= Group $mol_string
+						<= Group_id $mol_string
 							value? <=> group? \smmblog
 						<= Search $mol_button_major
 							title \Поиск
 							click? <=> search? null
+							hint \https://vk.com/smmblog
 		^ search_result /
+			<= Group $mol_view
+				sub /
+					<= Photo $mol_image
+						uri <= group_photo_uri? \
+					<= Name_block $mol_view
+						sub /
+							<= Name $mol_paragraph
+								title <= group_name? \
+							<= Members_count $mol_view
+								sub /
+									<= Members_count_icon $mol_icon_account_group_outline
+									<= members_count? \
 			<= Dump $mol_dump_value
 				value? <= result? null
 				expanded? <=> expanded? true

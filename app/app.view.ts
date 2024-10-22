@@ -19,12 +19,23 @@ namespace $.$$ {
 
 		@ $mol_mem
 		result( next?: any ) {
+			if( next === undefined ) return null
+
+			const data = next.response[0]
+
+			this.group_name( data.name )
+			this.members_count( data.members_count )
+			this.group_photo_uri( data.photo_50 )
+
 			return next ?? null
 		}
 
 		@ $mol_action
 		search() {
-			const code = 'return API.groups.getById({"group_id":"'+ this.group() +'"});'
+			const group_id = this.group().replace( /http\w*:\/\/vk\.(com|ru)\//, '' )
+			console.log('group_id', group_id)
+			
+			const code = 'return API.groups.getById({"group_id":"'+ group_id +'","fields":"members_count"});'
 			$shm_hitalama_jsonp.vk_execute( this.token_str(), code, this.result.bind(this) )
 		}
 		
