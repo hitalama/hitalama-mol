@@ -18,30 +18,49 @@ namespace $.$$ {
 		}
 
 		@ $mol_mem
-		result( next?: any ) {
+		group_data( next?: any ) {
 			if( next === undefined ) return null
 
 			const data = next.response[0]
 
+			this.group_id( data.id )
 			this.group_name( data.name )
 			this.members_count( data.members_count )
 			this.group_photo_uri( data.photo_50 )
 
-			return next ?? null
+			return next
+		}
+
+		@ $mol_mem
+		posts_data( next?: any ) {
+			if( next === undefined ) return null
+
+			console.log('next', next)
+
+			return next
 		}
 
 		@ $mol_action
 		search() {
 			const group_id = this.group().replace( /http\w*:\/\/vk\.(com|ru)\//, '' )
-			console.log('group_id', group_id)
 			
 			const code = 'return API.groups.getById({"group_id":"'+ group_id +'","fields":"members_count"});'
-			$shm_hitalama_jsonp.vk_execute( this.token_str(), code, this.result.bind(this) )
+			$shm_hitalama_jsonp.vk_execute( this.token_str(), code, this.group_data.bind(this) )
+		}
+
+		@ $mol_action
+		collect() {
+			const group_id = this.group_id()
+			
+			const code = 'var posts = API.wall.get({"owner_id":"-'+ group_id +'","count":100});' +
+				'return posts;'
+
+			$shm_hitalama_jsonp.vk_execute( this.token_str(), code, this.posts_data.bind(this) )
 		}
 		
 		@ $mol_mem
 		search_result(): readonly ( any )[] {
-			return this.result() ? super.search_result() : []
+			return this.group_data() ? super.search_result() : []
 		}
 		
 	}

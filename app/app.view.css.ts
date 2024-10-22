@@ -24,6 +24,12 @@ namespace $.$$ {
 		Members_count_icon: {
 			width: '1.25rem',
 		},
+
+		Collect_block: {
+			align: {
+				items: 'flex-start',
+			},
+		},
 		
 	} )
 	

@@ -33,9 +33,17 @@ $shm_hitalama_app $mol_page
 								sub /
 									<= Members_count_icon $mol_icon_account_group_outline
 									<= members_count? \
+					<= Collect_block $mol_view
+						sub /
+							<= Collect_posts $mol_button_major
+								title \Собрать посты
+								click? <=> collect? null
+							- <= Collect_date $mol_labeler
 			<= Dump $mol_dump_value
-				value? <= result? null
+				value? <= posts_data? null
 				expanded? <=> expanded? true
 	body_noauth /
 		<= Select_user_message $mol_text
 			text \Выберите пользователя
+	group_id? \
+	posts_data? null
