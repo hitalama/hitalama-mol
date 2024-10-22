@@ -1,10 +1,13 @@
 $shm_hitalama_app $mol_page
 	title \Hitalama
+	plugins /
+		<= Theme $mol_theme_auto
 	tools /
 		<= Tokens_title $mol_text
 			text \Сбор осуществляется от имени
 		<= Tokens $shm_hitalama_token_switch
 			current => token
+		<= Lights $mol_lights_toggle
 	body /
 		<= Search_label $mol_labeler
 			title \Введите ссылку на сообщество
