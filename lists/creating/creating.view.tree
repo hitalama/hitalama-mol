@@ -1,0 +1,38 @@
+$shm_hitalama_lists_creating $mol_section
+	token $shm_hitalama_token
+	title \Создание списка
+	param \create
+	creating_list? /string
+	content /
+		<= Creating_cancel $mol_link
+			title \Отмена
+			arg <= cancel_arg *
+		<= Name_label $mol_labeler
+			title \Введите название списка
+			content /
+				<= Name $mol_string
+					value? <=> name? \Список 1
+		<= Add_block $mol_view
+			sub /
+				<= Search $shm_hitalama_group_search
+					token_str <= token_str
+					name => name_current
+					owner_id => owner_id_current
+					photo_uri => photo_uri_current
+					members_count => members_count_current
+				<= Add $mol_button_major
+					title \Добавить в список
+					click? <=> add? null
+		<= Creating_list $mol_view
+			sub <= groups /
+				<= Group* $mol_view
+					sub /
+						<= Photo* $mol_image
+							uri <= photo_uri* \
+						<= Remove* $mol_button_minor
+							sub / <= Remove_icon* $mol_icon_close
+							click? <=> remove*? null
+		<= Save $mol_button_major
+			title \Сохранить
+			click? <=> save? null
+			enabled <= save_enabled false
