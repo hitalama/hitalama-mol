@@ -5,13 +5,16 @@ $shm_hitalama_app $mol_book2_catalog
 		<= Theme $mol_theme_auto
 	tools /
 		<= Lights $mol_lights_toggle
-	spreads *
-		tokens <= Tokens_page $mol_page
-			title \Токены
-			body /
-				<= Tokens_title $mol_text
+	menu_body /
+		<= Tokens $mol_view
+			sub /
+				<= Tokens_label $mol_text
 					text \Сбор осуществляется от имени
-				<= Tokens $shm_hitalama_token_switch
+				<= Token_switch $shm_hitalama_token_switch
 					current => token
+		^
+	spreads *
 		group <= Group_page $shm_hitalama_group
 			token <= token
+		lists <= Lists $mol_page
+			title \Списки сообществ

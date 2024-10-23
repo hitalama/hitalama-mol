@@ -1,0 +1,11 @@
+$shm_hitalama_posts $mol_ghost
+	token_str \
+	owner_id \
+	posts_data? null
+	collect null
+	post_id* \
+	post_date* \
+	post_likes* \
+	post_reposts* \
+	post_comments* \
+	post_views* \

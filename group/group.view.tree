@@ -1,64 +1,56 @@
 $shm_hitalama_group $mol_book2_catalog
 	token $shm_hitalama_token
-	menu_title \Поиск группы
-	title \Поиск группы
+	token_str \
+	menu_title \Сбор и анализ постов
 	param \group_section
 	group_id? \
-	posts_data? null
-	spreads *
-		post_table <= Post_table_page $mol_page
+	owner_id? \
+	spreads <= spreads_visible *$mol_view
+		posts <= Posts_table_page $mol_page
 			title \Таблица постов
 			body /
-				<= Posts $shm_hitalama_table
-					head /
-						<= Head_id $mol_view sub / \Id
-						<= Head_date $mol_view sub / \Дата и время
-						<= Head_likes $mol_view sub / \Лайки 
-						<= Head_reposts $mol_view sub / \Репосты
-						<= Head_comments $mol_view sub / \Комментарии 
-						<= Head_views $mol_view sub / \Просмотры
-					rows <= posts_rows /
-						<= Post_row*0 $mol_view
-							- minimal_height 24
-							sub /
-								<= Post_id* $mol_paragraph title <= post_id* \
-								<= Post_date* $mol_paragraph title <= post_date* \
-								<= Post_likes* $mol_paragraph title <= post_likes* \
-								<= Post_reposts* $mol_paragraph title <= post_reposts* \
-								<= Post_comments* $mol_paragraph title <= post_comments* \
-								<= Post_views* $mol_paragraph title <= post_views* \
+				<= Posts $shm_hitalama_posts_table
+					token_str <= token_str
+					owner_id? <= owner_id?
+					collect? => collect?
+					posts_data? => posts_data?
+		plots <= Plots_page $mol_page
+			title \Графики
+			body /
+				<= Plots $shm_hitalama_posts_plots
+					posts_data? <= posts_data?
 	menu_body /
-		<= group_body /
-		<= Search_label $mol_labeler
-			title \Введите ссылку на сообщество
-			content /
-				<= Search_block $mol_view
-					sub /
-						<= Group_id $mol_string
-							value? <=> group? \smmblog
-						<= Search $mol_button_major
-							title \Поиск
-							click? <=> search? null
-							hint \https://vk.com/smmblog
-		^ search_result /
-			<= Group $mol_view
-				sub /
-					<= Photo $mol_image
-						uri <= group_photo_uri? \
-					<= Name_block $mol_view
+		^ group_body /
+			<= Search_label $mol_labeler
+				title \Введите ссылку на сообщество
+				content /
+					<= Search_block $mol_view
 						sub /
-							<= Name $mol_paragraph
-								title <= group_name? \
-							<= Members_count $mol_view
-								sub /
-									<= Members_count_icon $mol_icon_account_group_outline
-									<= members_count? \
-			<= Collect_block $mol_view
-				sub /
-					<= Collect_posts $mol_button_major
-						title \Собрать посты
-						click? <=> collect? null
-					- <= Collect_date $mol_labeler
+							<= Group_id $mol_string
+								value? <=> group? \smmblog
+							<= Search $mol_button_major
+								title \Поиск
+								click? <=> search? null
+								hint \https://vk.com/smmblog
+			^ search_result /
+				<= Group $mol_view
+					sub /
+						<= Photo $mol_image
+							uri <= group_photo_uri? \
+						<= Name_block $mol_view
+							sub /
+								<= Name $mol_paragraph
+									title <= group_name? \
+								<= Members_count $mol_view
+									sub /
+										<= Members_count_icon $mol_icon_account_group_outline
+										<= members_count? \
+				<= Collect_block $mol_row
+					sub /
+						<= Collect_posts $mol_button_major
+							title \Собрать посты
+							click? <=> collect?
+						- <= Collect_date $mol_labeler
 		^
 	group_body_noauth /
 		<= Select_user_message $mol_text
