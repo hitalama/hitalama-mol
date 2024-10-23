@@ -1,6 +1,6 @@
 namespace $.$$ {
 	
-	$mol_style_define( $shm_hitalama_group_analysis, {
+	$mol_style_define( $shm_hitalama_analysis, {
 
 		Body_content: {
 			transition: 'none',

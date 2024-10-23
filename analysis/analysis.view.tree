@@ -1,4 +1,4 @@
-$shm_hitalama_group_analysis $mol_page
+$shm_hitalama_analysis $mol_page
 	title \Сбор и анализ постов
 	token $shm_hitalama_token
 	token_str \

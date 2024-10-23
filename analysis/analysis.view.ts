@@ -1,6 +1,6 @@
 namespace $.$$ {
 
-	export class $shm_hitalama_group_analysis extends $.$shm_hitalama_group_analysis {
+	export class $shm_hitalama_analysis extends $.$shm_hitalama_analysis {
 		
 		@ $mol_mem
 		profile() {
