@@ -9,7 +9,15 @@ $shm_hitalama_lists $mol_page
 			<= Open_create $mol_link
 				title \Создать список
 				arg * create true
-			<= Lists $mol_view
-				sub / \Списки
+			<= Lists $mol_list sub <= lists /
+				<= List* $mol_list sub /
+					<= Name* $mol_paragraph
+						title <= name* \
+					<= Groups* $mol_view
+						sub <= groups* /
+							<= Group* $mol_view
+								sub /
+									<= Photo* $mol_image
+										uri <= group_photo_uri* \
 	Creating $shm_hitalama_lists_creating
 		token <= token

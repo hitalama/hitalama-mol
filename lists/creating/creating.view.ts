@@ -27,6 +27,8 @@ namespace $.$$ {
 				members_count: Number( this.members_count_current() ),
 			} )
 
+			if( this.creating_list().includes( owner_id ) ) return
+			
 			this.creating_list( [ ... this.creating_list(), owner_id ] )
 		}
 
