@@ -13,8 +13,9 @@ $shm_hitalama_app $mol_book2_catalog
 				current => token
 	spreads *
 		analysis <= Analysis $shm_hitalama_group_analysis
-			menu_head / <= Tokens
+			head / <= Tokens
 			token <= token
-		lists <= Lists $mol_book2_catalog
-			menu_head / <= Tokens
-			title \Списки сообществ
+		lists <= Lists $shm_hitalama_group_lists
+			head / <= Tokens
+			token <= token
+	Placeholder null

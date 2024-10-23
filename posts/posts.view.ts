@@ -4,9 +4,7 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		posts_data( next?: any ) {
-			// if( next === undefined ) return null
 			return $mol_state_local.value( `${ this }.posts_data()`, next ) || null
-			// return next
 		}
 		
 		@ $mol_mem_key

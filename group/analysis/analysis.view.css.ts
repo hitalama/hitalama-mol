@@ -1,6 +1,10 @@
 namespace $.$$ {
 	
 	$mol_style_define( $shm_hitalama_group_analysis, {
+
+		Body_content: {
+			transition: 'none',
+		},
 		
 		Search_block: {
 			gap: $mol_gap.block,

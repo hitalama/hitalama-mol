@@ -21,22 +21,30 @@ namespace $.$$ {
 		},
 
 		Analysis: {
-			Menu: {
-				Head: {
-					padding: {
-						top: 0,
-						bottom: 0,
-					},
+			flex: {
+				grow: 1,
+			},
+			Head: {
+				justify: {
+					content: 'flex-start',
+				},
+				padding: {
+					top: 0,
+					bottom: 0,
 				},
 			},
 		},
 		Lists: {
-			Menu: {
-				Head: {
-					padding: {
-						top: 0,
-						bottom: 0,
-					},
+			flex: {
+				grow: 1,
+			},
+			Head: {
+				justify: {
+					content: 'flex-start',
+				},
+				padding: {
+					top: 0,
+					bottom: 0,
 				},
 			},
 		},

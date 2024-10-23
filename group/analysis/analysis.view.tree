@@ -1,27 +1,12 @@
-$shm_hitalama_group_analysis $mol_book2_catalog
+$shm_hitalama_group_analysis $mol_page
+	title \Сбор и анализ постов
 	token $shm_hitalama_token
 	token_str \
-	menu_title \Сбор и анализ постов
-	param \group_section
 	group_id \
 	owner_id \
 	search_result? null
-	spreads <= spreads_visible *$mol_view
-		posts <= Posts_table_page $mol_page
-			title \Таблица постов
-			body /
-				<= Posts $shm_hitalama_posts_table
-					token_str <= token_str
-					owner_id? <= owner_id?
-					collect? => collect?
-					posts_data? => posts_data?
-		plots <= Plots_page $mol_page
-			title \Графики
-			body /
-				<= Plots $shm_hitalama_posts_plots
-					posts_data? <= posts_data?
-	menu_body /
-		<= Menu_title
+	body /
+		<= Title
 		^ group_body /
 			<= Search_label $mol_labeler
 				title \Введите ссылку на сообщество
@@ -53,7 +38,21 @@ $shm_hitalama_group_analysis $mol_book2_catalog
 							title \Собрать посты
 							click? <=> collect?
 						- <= Collect_date $mol_labeler
-		^
+				<= Posts_deck $mol_deck
+					items /
+						<= Posts_table_page $mol_view
+							title \Таблица постов
+							sub /
+								<= Posts $shm_hitalama_posts_table
+									token_str <= token_str
+									owner_id? <= owner_id?
+									collect? => collect?
+									posts_data? => posts_data?
+						<= Plots_page $mol_view
+							title \Графики
+							sub /
+								<= Plots $shm_hitalama_posts_plots
+									posts_data? <= posts_data?
 	group_body_noauth /
 		<= Select_user_message $mol_text
 			text \Выберите пользователя

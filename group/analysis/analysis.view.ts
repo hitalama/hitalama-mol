@@ -67,11 +67,6 @@ namespace $.$$ {
 				: this.search_result()?.error
 					? [ this.Search_error() ] : []
 		}
-
-		@ $mol_mem
-		spreads_visible() {
-			return this.group_id() ? super.spreads_visible() : {}
-		}
 		
 	}
 
