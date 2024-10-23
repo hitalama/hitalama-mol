@@ -27,18 +27,18 @@ namespace $.$$ {
 				members_count: Number( this.members_count_current() ),
 			} )
 
-			if( this.creating_list().includes( owner_id ) ) return
+			if( this.groups_list().includes( owner_id ) ) return
 			
-			this.creating_list( [ ... this.creating_list(), owner_id ] )
+			this.groups_list( [ ... this.groups_list(), owner_id ] )
 		}
 
 		remove( id: string ) {
-			this.creating_list( [ ... this.creating_list().filter( i => i != id ) ] )
+			this.groups_list( [ ... this.groups_list().filter( i => i != id ) ] )
 		}
 
 		@ $mol_mem
 		groups() {
-			return this.creating_list().map( id => this.Group( id ) )
+			return this.groups_list().map( id => this.Group( id ) )
 		}
 
 		@ $mol_mem_key
@@ -48,14 +48,15 @@ namespace $.$$ {
 
 		@ $mol_mem
 		save_enabled() {
-			return this.creating_list().length > 0
+			return this.groups_list().length > 0
 		}
 
+		@ $mol_action
 		save() {
 			const list = this.profile()?.Groups_lists(null)?.make( {} )
 			list?.Name(null)?.val( this.name() )
 
-			this.creating_list().forEach( id => {
+			this.groups_list().forEach( id => {
 				const data = this.groups_map.get( id )
 
 				const group = list?.Groups(null)?.make( list.land() )!
@@ -66,7 +67,7 @@ namespace $.$$ {
 				group.Members_count(null)?.val( data?.members_count )
 			} )
 
-			this.$.$mol_state_arg.value( 'create', null )
+			this.$.$mol_state_arg.value( this.param(), null )
 		}
 		
 	}

@@ -1,0 +1,4 @@
+$shm_hitalama_lists_editing $shm_hitalama_lists_creating
+	title \Редактирование списка
+	param \edit
+	list $shm_hitalama_list

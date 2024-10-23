@@ -4,7 +4,11 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		current_view() {
-			return this.$.$mol_state_arg.value( 'create' ) ? this.Creating() : this.Main()
+			return this.$.$mol_state_arg.value( 'create' ) 
+				? this.Creating()
+				: this.$.$mol_state_arg.value( 'edit' ) 
+					? this.Editing()
+					: this.Main()
 		}
 		
 		@ $mol_mem
@@ -45,7 +49,16 @@ namespace $.$$ {
 		@ $mol_mem_key
 		ref_str( ref: $hyoo_crus_ref ) {
 			return ref.description!
-			// return this.$.$hyoo_crus_glob.Node( ref, $shm_hitalama_group ).Owner_id()?.val() ?? ''
+		}
+
+		@ $mol_mem
+		list_editing() {
+			const ref_str = this.$.$mol_state_arg.value( 'edit' )!
+			return this.$.$hyoo_crus_glob.Node( $hyoo_crus_ref( ref_str ), $shm_hitalama_list )
+		}
+
+		remove_list( ref: $hyoo_crus_ref ) {
+			this.profile()?.Groups_lists()?.cut( ref )
 		}
 		
 	}

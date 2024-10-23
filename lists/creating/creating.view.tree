@@ -2,7 +2,7 @@ $shm_hitalama_lists_creating $mol_section
 	token $shm_hitalama_token
 	title \Создание списка
 	param \create
-	creating_list? /string
+	groups_list? /string
 	content /
 		<= Creating_cancel $mol_link
 			title \Отмена

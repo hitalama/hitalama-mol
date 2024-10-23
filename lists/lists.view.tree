@@ -21,7 +21,7 @@ $shm_hitalama_lists $mol_page
 									edit <= ref_str* \
 							<= Remove* $mol_button_minor
 								title \Удалить
-								click? <=> remove_group*? null
+								click? <=> remove_list*? null
 					<= Groups* $mol_view
 						sub <= groups* /
 							<= Group* $mol_view
@@ -30,3 +30,6 @@ $shm_hitalama_lists $mol_page
 										uri <= group_photo_uri* \
 	Creating $shm_hitalama_lists_creating
 		token <= token
+	Editing $shm_hitalama_lists_editing
+		token <= token
+		list <= list_editing $shm_hitalama_list
