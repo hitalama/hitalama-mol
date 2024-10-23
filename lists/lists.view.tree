@@ -11,8 +11,17 @@ $shm_hitalama_lists $mol_page
 				arg * create true
 			<= Lists $mol_list sub <= lists /
 				<= List* $mol_list sub /
-					<= Name* $mol_paragraph
-						title <= name* \
+					<= List_head* $mol_view
+						sub /
+							<= Name* $mol_paragraph
+								title <= name* \
+							<= Edit* $mol_link
+								title \Редактировать
+								arg *
+									edit <= ref_str* \
+							<= Remove* $mol_button_minor
+								title \Удалить
+								click? <=> remove_group*? null
 					<= Groups* $mol_view
 						sub <= groups* /
 							<= Group* $mol_view

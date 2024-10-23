@@ -2,7 +2,10 @@ namespace $.$$ {
 	
 	$mol_style_define( $shm_hitalama_lists_creating, {
 		
+		gap: $mol_gap.block,
+
 		Content: {
+			gap: $mol_gap.block,
 			align: {
 				items: 'flex-start'
 			},

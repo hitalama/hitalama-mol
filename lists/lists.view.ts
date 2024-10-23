@@ -41,6 +41,12 @@ namespace $.$$ {
 		group_photo_uri( ref: $hyoo_crus_ref ) {
 			return this.$.$hyoo_crus_glob.Node( ref, $shm_hitalama_group ).Photo_url()?.val() ?? ''
 		}
+
+		@ $mol_mem_key
+		ref_str( ref: $hyoo_crus_ref ) {
+			return ref.description!
+			// return this.$.$hyoo_crus_glob.Node( ref, $shm_hitalama_group ).Owner_id()?.val() ?? ''
+		}
 		
 	}
 
