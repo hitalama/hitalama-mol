@@ -2,59 +2,34 @@ $shm_hitalama_group_analysis $mol_page
 	title \Сбор и анализ постов
 	token $shm_hitalama_token
 	token_str \
-	group_id \
-	owner_id \
-	search_result? null
 	body /
-		<= Title
+		<= Section $mol_section
+			title <= title
 		^ group_body /
-			<= Search_label $mol_labeler
-				title \Введите ссылку на сообщество
-				content /
-					<= Search_block $mol_view
+			<= Collect_block $mol_view
+				sub /
+					<= Search $shm_hitalama_group_search
+						token_str <= token_str
+						owner_id => owner_id
+					<= Collect_posts $mol_button_major
+						title \Собрать посты
+						click? <=> collect?
+					- <= Collect_date $mol_labeler
+			<= Posts_deck $mol_deck
+				items /
+					<= Posts_table_page $mol_view
+						title \Таблица постов
 						sub /
-							<= Group_id $mol_string
-								value? <=> group? \smmblog
-							<= Search $mol_button_major
-								title \Поиск
-								click? <=> search? null
-								hint \https://vk.com/smmblog
-			^ search_result_view /
-				<= Group $mol_view
-					sub /
-						<= Photo $mol_image
-							uri <= group_photo_uri \
-						<= Name_block $mol_view
-							sub /
-								<= Name $mol_paragraph
-									title <= group_name \
-								<= Members_count $mol_view
-									sub /
-										<= Members_count_icon $mol_icon_account_group_outline
-										<= members_count? \
-				<= Collect_block $mol_row
-					sub /
-						<= Collect_posts $mol_button_major
-							title \Собрать посты
-							click? <=> collect?
-						- <= Collect_date $mol_labeler
-				<= Posts_deck $mol_deck
-					items /
-						<= Posts_table_page $mol_view
-							title \Таблица постов
-							sub /
-								<= Posts $shm_hitalama_posts_table
-									token_str <= token_str
-									owner_id? <= owner_id?
-									collect? => collect?
-									posts_data? => posts_data?
-						<= Plots_page $mol_view
-							title \Графики
-							sub /
-								<= Plots $shm_hitalama_posts_plots
-									posts_data? <= posts_data?
+							<= Posts $shm_hitalama_posts_table
+								token_str <= token_str
+								owner_id? <= owner_id?
+								collect? => collect?
+								posts_data? => posts_data?
+					<= Plots_page $mol_view
+						title \Графики
+						sub /
+							<= Plots $shm_hitalama_posts_plots
+								posts_data? <= posts_data?
 	group_body_noauth /
 		<= Select_user_message $mol_text
 			text \Выберите пользователя
-	Search_error $mol_text
-		text <= error_message \

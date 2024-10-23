@@ -1,0 +1,33 @@
+$shm_hitalama_group_search $mol_view
+	token_str \
+	group_id \
+	owner_id \
+	search_result? null
+	sub /
+		<= Search_label $mol_labeler
+			title \Введите ссылку на сообщество
+			content /
+				<= Search_block $mol_view
+					sub /
+						<= Group_id $mol_string
+							value? <=> group? \smmblog
+						<= Search $mol_button_major
+							title \Поиск
+							click? <=> search? null
+							hint \https://vk.com/smmblog
+		^ search_result_view /
+			<= Group $mol_view
+				sub /
+					<= Photo $mol_image
+						uri <= group_photo_uri \
+					<= Name_block $mol_view
+						sub /
+							<= Name $mol_paragraph
+								title <= group_name \
+							<= Members_count $mol_view
+								sub /
+									<= Members_count_icon $mol_icon_account_group_outline
+									<= members_count? \
+	Search_error $mol_text
+		text <= error_message \
+
