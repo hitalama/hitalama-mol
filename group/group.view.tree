@@ -3,8 +3,9 @@ $shm_hitalama_group $mol_book2_catalog
 	token_str \
 	menu_title \Сбор и анализ постов
 	param \group_section
-	group_id? \
-	owner_id? \
+	group_id \
+	owner_id \
+	search_result? null
 	spreads <= spreads_visible *$mol_view
 		posts <= Posts_table_page $mol_page
 			title \Таблица постов
@@ -32,15 +33,15 @@ $shm_hitalama_group $mol_book2_catalog
 								title \Поиск
 								click? <=> search? null
 								hint \https://vk.com/smmblog
-			^ search_result /
+			^ search_result_view /
 				<= Group $mol_view
 					sub /
 						<= Photo $mol_image
-							uri <= group_photo_uri? \
+							uri <= group_photo_uri \
 						<= Name_block $mol_view
 							sub /
 								<= Name $mol_paragraph
-									title <= group_name? \
+									title <= group_name \
 								<= Members_count $mol_view
 									sub /
 										<= Members_count_icon $mol_icon_account_group_outline
@@ -55,3 +56,5 @@ $shm_hitalama_group $mol_book2_catalog
 	group_body_noauth /
 		<= Select_user_message $mol_text
 			text \Выберите пользователя
+	Search_error $mol_text
+		text <= error_message \
