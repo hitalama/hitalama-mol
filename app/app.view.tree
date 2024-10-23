@@ -12,7 +12,7 @@ $shm_hitalama_app $mol_book2_catalog
 			<= Token_switch $shm_hitalama_token_switch
 				current => token
 	spreads *
-		group <= Group_page $shm_hitalama_group
+		analysis <= Analysis $shm_hitalama_group_analysis
 			menu_head / <= Tokens
 			token <= token
 		lists <= Lists $mol_book2_catalog

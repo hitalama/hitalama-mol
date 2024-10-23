@@ -6,9 +6,6 @@ namespace $.$$ {
 			align: {
 				content: 'center',
 			},
-			// flex: {
-			// 	direction: 'column',
-			// },
 		},
 
 		Tokens_label: {
@@ -23,7 +20,7 @@ namespace $.$$ {
 			},
 		},
 
-		Group_page: {
+		Analysis: {
 			Menu: {
 				Head: {
 					padding: {
