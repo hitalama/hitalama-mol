@@ -21,6 +21,7 @@ $shm_hitalama_group $mol_book2_catalog
 				<= Plots $shm_hitalama_posts_plots
 					posts_data? <= posts_data?
 	menu_body /
+		<= Menu_title
 		^ group_body /
 			<= Search_label $mol_labeler
 				title \Введите ссылку на сообщество
