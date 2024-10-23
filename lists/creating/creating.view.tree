@@ -20,9 +20,10 @@ $shm_hitalama_lists_creating $mol_section
 					owner_id => owner_id_current
 					photo_uri => photo_uri_current
 					members_count => members_count_current
-				<= Add $mol_button_major
-					title \Добавить в список
-					click? <=> add? null
+					buttons /
+						<= Add $mol_button_major
+							title \Добавить в список
+							click? <=> add? null
 		<= Creating_list $mol_view
 			sub <= groups /
 				<= Group* $mol_view

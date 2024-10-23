@@ -4,7 +4,8 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		search_result( next?: any ) {
-			return $mol_state_local.value( `${ this }.search_result()`, next )
+			return next ?? null
+			// return $mol_state_local.value( `${ this }.search_result()`, next )
 		}
 
 		@ $mol_mem

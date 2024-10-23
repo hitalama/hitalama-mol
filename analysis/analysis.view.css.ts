@@ -12,8 +12,8 @@ namespace $.$$ {
 			},
 		},
 
-		Collect_posts: {
-			margin: $mol_gap.block,
+		Collect: {
+			margin: $mol_gap.text,
 		},
 		
 	} )

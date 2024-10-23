@@ -16,7 +16,7 @@ namespace $.$$ {
 		group_body() {
 			return this.token_str() ? super.group_body() : this.group_body_noauth()
 		}
-		
+
 	}
 
 }

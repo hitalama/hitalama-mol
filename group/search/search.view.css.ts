@@ -1,13 +1,19 @@
 namespace $.$$ {
 	
 	$mol_style_define( $shm_hitalama_group_search, {
+
+		align: {
+			items: 'flex-end',
+		},
 		
-		Search_block: {
-			gap: $mol_gap.block,
+		Search_label: {
+			Content: {
+				gap: $mol_gap.block,
+			},
 		},
 
 		Group: {
-			padding: $mol_gap.block,
+			padding: $mol_gap.text,
 			gap: $mol_gap.block,
 		},
 

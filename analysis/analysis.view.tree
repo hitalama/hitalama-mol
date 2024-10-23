@@ -11,9 +11,9 @@ $shm_hitalama_analysis $mol_page
 					<= Search $shm_hitalama_group_search
 						token_str <= token_str
 						owner_id => owner_id
-					<= Collect_posts $mol_button_major
-						title \Собрать посты
-						click? <=> collect?
+						buttons / <= Collect $mol_button_major
+							title \Собрать посты
+							click? <=> collect?
 					- <= Collect_date $mol_labeler
 			<= Posts_deck $mol_deck
 				items /

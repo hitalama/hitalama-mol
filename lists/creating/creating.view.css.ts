@@ -18,7 +18,7 @@ namespace $.$$ {
 		},
 
 		Add: {
-			margin: $mol_gap.block,
+			margin: $mol_gap.text,
 		},
 
 		Group: {
