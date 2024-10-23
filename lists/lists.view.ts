@@ -19,7 +19,7 @@ namespace $.$$ {
 
 		@ $mol_mem_key
 		group_list( ref: $hyoo_crus_ref ) {
-			return this.$.$hyoo_crus_glob.Node( ref, $shm_hitalama_group_list )
+			return this.$.$hyoo_crus_glob.Node( ref, $shm_hitalama_list )
 		}
 
 		@ $mol_mem_key
