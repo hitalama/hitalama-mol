@@ -13,7 +13,7 @@ namespace $.$$ {
 		}
 
 		@ $mol_mem
-		group_name(): string {
+		name(): string {
 			return this.search_result()?.response?.[0].name ?? ''
 		}
 
@@ -23,13 +23,13 @@ namespace $.$$ {
 		}
 
 		@ $mol_mem
-		owner_id(): string {
-			return this.group_id() ? '-' + this.group_id() : ''
+		photo_uri() {
+			return this.search_result()?.response?.[0].photo_50 ?? ''
 		}
 
 		@ $mol_mem
-		group_photo_uri() {
-			return this.search_result()?.response?.[0].photo_50 ?? ''
+		owner_id(): string {
+			return this.group_id() ? '-' + this.group_id() : ''
 		}
 
 		@ $mol_mem

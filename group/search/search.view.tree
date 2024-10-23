@@ -19,15 +19,14 @@ $shm_hitalama_group_search $mol_view
 			<= Group $mol_view
 				sub /
 					<= Photo $mol_image
-						uri <= group_photo_uri \
+						uri <= photo_uri \
 					<= Name_block $mol_view
 						sub /
 							<= Name $mol_paragraph
-								title <= group_name \
+								title <= name \
 							<= Members_count $mol_view
 								sub /
 									<= Members_count_icon $mol_icon_account_group_outline
 									<= members_count? \
 	Search_error $mol_text
 		text <= error_message \
-

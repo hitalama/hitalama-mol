@@ -1,0 +1,44 @@
+$shm_hitalama_group_lists $mol_page
+	title \Списки сообществ
+	token $shm_hitalama_token
+	body /
+		<= current_view <= Main
+	Main $mol_section
+		title <= title
+		content /
+			<= Open_create $mol_link
+				title \Создать список
+				arg * create true
+			<= Lists $mol_view
+				sub / \Списки
+	creating_list? /string
+	Creating $mol_section
+		title \Создание списка
+		content /
+			<= Creating_cancel $mol_link
+				title \Отмена
+				arg * create null
+			<= Name_label $mol_labeler
+				title \Введите название списка
+				content /
+					<= Name $mol_string
+						value? <=> name? \
+			<= Add_block $mol_view
+				sub /
+					<= Search $shm_hitalama_group_search
+						token_str <= token_str
+						name => name_current
+						owner_id => owner_id_current
+						photo_uri => photo_uri_current
+					<= Add $mol_button_major
+						title \Добавить в список
+						click? <=> add? null
+			<= Creating_list $mol_view
+				sub <= groups /
+					<= Group* $mol_view
+						sub /
+							<= Photo* $mol_image
+								uri <= photo_uri* \
+			<= Save $mol_button_major
+				title \Сохранить
+				click? <=> save? null
