@@ -1,6 +1,6 @@
 namespace $.$$ {
 
-	export class $shm_hitalama_group_lists extends $.$shm_hitalama_group_lists {
+	export class $shm_hitalama_lists extends $.$shm_hitalama_lists {
 		
 		@ $mol_mem
 		current_view() {

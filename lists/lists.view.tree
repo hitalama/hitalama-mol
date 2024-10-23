@@ -1,4 +1,4 @@
-$shm_hitalama_group_lists $mol_page
+$shm_hitalama_lists $mol_page
 	title \Списки сообществ
 	token $shm_hitalama_token
 	body /

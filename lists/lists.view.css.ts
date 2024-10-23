@@ -1,6 +1,6 @@
 namespace $.$$ {
 	
-	$mol_style_define( $shm_hitalama_group_lists, {
+	$mol_style_define( $shm_hitalama_lists, {
 		
 		Add_block: {
 			align: {

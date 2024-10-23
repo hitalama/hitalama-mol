@@ -15,7 +15,7 @@ $shm_hitalama_app $mol_book2_catalog
 		analysis <= Analysis $shm_hitalama_analysis
 			head / <= Tokens
 			token <= token
-		lists <= Lists $shm_hitalama_group_lists
+		lists <= Lists $shm_hitalama_lists
 			head / <= Tokens
 			token <= token
 	Placeholder null
