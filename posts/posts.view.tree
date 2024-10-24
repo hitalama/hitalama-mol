@@ -3,6 +3,7 @@ $shm_hitalama_posts $mol_ghost
 	owner_id \
 	posts_data? null
 	collect null
+	pending? false
 	post_id* \
 	post_date* \
 	post_likes* \

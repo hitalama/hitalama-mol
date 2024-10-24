@@ -3,9 +3,9 @@ $shm_hitalama_posts_table $shm_hitalama_posts
 		head /
 			<= Head_id $mol_view sub / \Id
 			<= Head_date $mol_view sub / \Дата и время
-			<= Head_likes $mol_view sub / \Лайки 
+			<= Head_likes $mol_view sub / \Лайки
 			<= Head_reposts $mol_view sub / \Репосты
-			<= Head_comments $mol_view sub / \Комментарии 
+			<= Head_comments $mol_view sub / \Комментарии
 			<= Head_views $mol_view sub / \Просмотры
 		rows <= posts_rows /
 			<= Post_row*0 $mol_view

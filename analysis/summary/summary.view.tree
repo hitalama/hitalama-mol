@@ -1,0 +1,23 @@
+$shm_hitalama_analysis_summary $shm_hitalama_table
+	groups /$shm_hitalama_group
+	posts_data* null
+	head /
+		<= Head_avatar $mol_view sub / \
+		<= Head_name $mol_view sub / \Название
+		<= Head_member_counts $mol_view sub / \Подписчики
+		<= Head_posts_counts $mol_view sub / \Посты
+		<= Head_views $mol_view sub / \Просмотры
+		<= Head_likes $mol_view sub / \Лайки
+		<= Head_reposts $mol_view sub / \Репосты
+		<= Head_comments $mol_view sub / \Комментарии
+	rows /
+		<= Row*0 $mol_view
+			sub /
+				<= Avatar* $mol_paragraph title <= avatar* \
+				<= Name* $mol_paragraph title <= name* \
+				<= Member_counts* $mol_paragraph title <= member_counts* \
+				<= Posts_counts* $mol_paragraph title <= posts_counts* \
+				<= Views* $mol_paragraph title <= views* \
+				<= Likes* $mol_paragraph title <= likes* \
+				<= Reposts* $mol_paragraph title <= reposts* \
+				<= Comments* $mol_paragraph title <= comments* \

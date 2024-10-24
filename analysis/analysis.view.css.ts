@@ -4,6 +4,7 @@ namespace $.$$ {
 
 		Body_content: {
 			transition: 'none',
+			gap: $mol_gap.block,
 		},
 
 		Collect_block: {
@@ -14,6 +15,10 @@ namespace $.$$ {
 
 		Collect: {
 			margin: $mol_gap.text,
+		},
+
+		Posts_table: {
+			padding: $mol_gap.text,
 		},
 		
 	} )

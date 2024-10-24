@@ -13,8 +13,14 @@ namespace $.$$ {
 		}
 
 		@ $mol_mem
-		group_body() {
-			return this.token_str() ? super.group_body() : this.group_body_noauth()
+		body() {
+			return this.token_str() ? super.group_body() : [ this.No_auth_message() ]
+		}
+
+		@ $mol_mem
+		analysis() {
+			return this.pending() ? [ this.Loaders() ]
+				: this.posts_data() ? super.analysis()  : []
 		}
 
 	}

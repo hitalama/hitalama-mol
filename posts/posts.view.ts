@@ -4,7 +4,10 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		posts_data( next?: any ) {
-			return $mol_state_local.value( `${ this }.posts_data()`, next ) || null
+			if( next ) this.pending( false )
+				
+			return next ?? null
+			// return $mol_state_local.value( `${ this }.posts_data()`, next ) || null
 		}
 		
 		@ $mol_mem_key
@@ -39,6 +42,7 @@ namespace $.$$ {
 
 		@ $mol_action
 		collect() {
+			this.pending( true )
 			const owner_id = this.owner_id()
 			
 			$shm_hitalama_jsonp.vk_newFuncWall( 

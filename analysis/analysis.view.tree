@@ -2,6 +2,8 @@ $shm_hitalama_analysis $mol_page
 	title \Сбор и анализ постов
 	token $shm_hitalama_token
 	token_str \
+	No_auth_message $mol_text
+		text \Выберите пользователя
 	body /
 		<= Section $mol_section
 			title <= title
@@ -15,21 +17,29 @@ $shm_hitalama_analysis $mol_page
 							title \Собрать посты
 							click? <=> collect?
 					- <= Collect_date $mol_labeler
-			<= Posts_deck $mol_deck
-				items /
-					<= Posts_table_page $mol_view
-						title \Таблица постов
-						sub /
-							<= Posts $shm_hitalama_posts_table
-								token_str <= token_str
-								owner_id? <= owner_id?
-								collect? => collect?
-								posts_data? => posts_data?
-					<= Plots_page $mol_view
-						title \Графики
-						sub /
-							<= Plots $shm_hitalama_posts_plots
-								posts_data? <= posts_data?
-	group_body_noauth /
-		<= Select_user_message $mol_text
-			text \Выберите пользователя
+			^ analysis /
+				<= Summary_label $mol_labeler
+					title \Сводные показатели
+					content /
+						<= Summary $shm_hitalama_analysis_summary
+				<= Posts_deck $mol_deck
+					items /
+						<= Posts_table $shm_hitalama_posts_table
+							title \Таблица постов
+							posts_data? <= posts_data?
+						<= Plots $shm_hitalama_posts_plots
+							title \Графики
+							posts_data? <= posts_data?
+	Loaders $mol_list
+		sub / <= Loader*0 $mol_list
+			sub /
+				<= Loader_message* $mol_paragraph
+					title <= loader_message* \Идет сбор постов из {name}
+				<= Loader_result* $mol_paragraph
+					title <= loader_result* \Данные собрали за {sec} сек, количество постов: {count}
+	Posts $shm_hitalama_posts
+		token_str <= token_str
+		owner_id? <= owner_id?
+		collect? => collect?
+		posts_data? => posts_data?
+		pending => pending
