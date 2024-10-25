@@ -3,7 +3,7 @@ $shm_hitalama_group_search $mol_view
 	group_id \
 	owner_id \
 	search_result? null
-	dto null
+	dto null $shm_hitalama_group_dto
 	sub /
 		<= Search_label $mol_labeler
 			title \Введите ссылку на сообщество

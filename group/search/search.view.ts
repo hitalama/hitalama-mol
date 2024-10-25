@@ -13,28 +13,28 @@ namespace $.$$ {
 		}
 		
 		@ $mol_mem
-		dto() {
-			return this.search_result()?.response?.[0]
+		dto(): $shm_hitalama_group_dto | null {
+			return this.search_result()?.response?.[0] ?? null
 		}
 
 		@ $mol_mem
 		members_count(): string {
-			return this.dto().members_count ?? ''
+			return String( this.dto()?.members_count ) ?? ''
 		}
 
 		@ $mol_mem
 		name(): string {
-			return this.dto().name ?? ''
+			return this.dto()?.name ?? ''
 		}
 
 		@ $mol_mem
 		group_id(): string {
-			return this.dto().id ?? ''
+			return this.dto()?.id ?? ''
 		}
 
 		@ $mol_mem
 		photo_uri() {
-			return this.dto().photo_50 ?? ''
+			return this.dto()?.photo_50 ?? ''
 		}
 
 		@ $mol_mem

@@ -18,7 +18,7 @@ namespace $ {
 
 		fill( dto: $shm_hitalama_group_dto ) {
 			this.Name(null)?.val( dto?.name )
-			this.Owner_id(null)?.val( dto?.id )
+			this.Owner_id(null)?.val( '-' + dto?.id )
 			this.Photo_url(null)?.val( dto?.photo_50 )
 			this.Members_count(null)?.val( dto?.members_count )
 		}

@@ -19,8 +19,25 @@ namespace $.$$ {
 
 		@ $mol_mem
 		analysis() {
-			return this.pending() ? [ this.Loaders() ]
-				: this.posts_data() ? super.analysis()  : []
+			console.log('this.posts_dto_by_owner( this.search_owner_id() )', this.posts_dto_by_owner( this.search_owner_id() ))
+			return this.posts_pending( this.search_owner_id() ) ? [ this.Loaders() ]
+				: this.posts_dto_by_owner( this.search_owner_id() ) ? super.analysis()  : []
+		}
+
+		owner_id( id: string ) {
+			return id
+		}
+
+		search_collect() {
+			console.log('this.search_owner_id()', this.search_owner_id())
+			this.collect( this.search_owner_id() )
+		}
+
+		@ $mol_mem
+		summary_group() {
+			const group = this.$.$hyoo_crus_glob.land_grab( {} ).Data( $shm_hitalama_group )
+			group.fill( this.search_dto()! )
+			return group
 		}
 
 	}

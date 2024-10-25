@@ -1,1 +1,3 @@
 $shm_hitalama_posts_plots $shm_hitalama_posts
+	dto_by_owner* null $shm_hitalama_posts_dto
+	owner_ids /string

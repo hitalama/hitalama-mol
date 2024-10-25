@@ -2,6 +2,7 @@ $shm_hitalama_posts $mol_ghost
 	token_str \
 	owner_id \
 	posts_data? null
+	dto null $shm_hitalama_posts_dto
 	collect null
 	pending? false
 	post_id* \

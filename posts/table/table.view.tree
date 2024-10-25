@@ -1,18 +1,22 @@
-$shm_hitalama_posts_table $shm_hitalama_posts
-	Sub <= Table $shm_hitalama_table
-		head /
-			<= Head_id $mol_view sub / \Id
-			<= Head_date $mol_view sub / \Дата и время
-			<= Head_likes $mol_view sub / \Лайки
-			<= Head_reposts $mol_view sub / \Репосты
-			<= Head_comments $mol_view sub / \Комментарии
-			<= Head_views $mol_view sub / \Просмотры
-		rows <= posts_rows /
-			<= Post_row*0 $mol_view
-				sub /
-					<= Post_id* $mol_paragraph title <= post_id*
-					<= Post_date* $mol_paragraph title <= post_date*
-					<= Post_likes* $mol_paragraph title <= post_likes*
-					<= Post_reposts* $mol_paragraph title <= post_reposts*
-					<= Post_comments* $mol_paragraph title <= post_comments*
-					<= Post_views* $mol_paragraph title <= post_views*
+$shm_hitalama_posts_table $shm_hitalama_table
+	dto_by_owner* null $shm_hitalama_posts_dto
+	owner_ids /string
+	head /
+		<= Head_id $mol_view sub / \Id
+		<= Head_date $mol_view sub / \Дата и время
+		<= Head_likes $mol_view sub / \Лайки
+		<= Head_reposts $mol_view sub / \Репосты
+		<= Head_comments $mol_view sub / \Комментарии
+		<= Head_views $mol_view sub / \Просмотры
+	rows <= posts_rows /
+		<= Post_row*0 $mol_view
+			sub /
+				<= Post_id* $mol_paragraph title <= post_id*
+				<= Post_date* $mol_paragraph title <= post_date*
+				<= Post_likes* $mol_paragraph title <= post_likes*
+				<= Post_reposts* $mol_paragraph title <= post_reposts*
+				<= Post_comments* $mol_paragraph title <= post_comments*
+				<= Post_views* $mol_paragraph title <= post_views*
+	Group_posts* $shm_hitalama_posts
+		token_str <= token_str
+		dto <= dto_by_owner*
