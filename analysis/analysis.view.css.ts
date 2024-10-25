@@ -22,6 +22,19 @@ namespace $.$$ {
 			},
 		},
 
+		Search_select: {
+			margin: {
+				top: '-0.5rem',
+				bottom: '-0.5rem',
+			},
+			Trigger: {
+				padding: {
+					left: '0.5rem',
+					right: '0.5rem',
+				},
+			},
+		},
+
 		Posts_table: {
 			padding: $mol_gap.text,
 		},

@@ -6,7 +6,8 @@ $shm_hitalama_group_search $mol_view
 	dto null $shm_hitalama_group_dto
 	sub /
 		<= Search_label $mol_labeler
-			title \Введите ссылку на сообщество
+			label <= search_label /$mol_view_content
+				<= search_title \Введите ссылку на сообщество
 			content /
 				<= Group_id $mol_string
 					value? <=> search_value? \smmblog

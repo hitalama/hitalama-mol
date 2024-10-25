@@ -11,6 +11,10 @@ $shm_hitalama_analysis $mol_page
 			<= Collect_block $mol_view
 				sub /
 					<= Search $shm_hitalama_group_search
+						search_label /$mol_view_content
+							<= search_title \Введите ссылку на сообщество
+							<= Search_select $mol_select
+								trigger_content \выберите список
 						token_str <= token_str
 						owner_id => search_owner_id
 						dto => search_dto
