@@ -8,9 +8,10 @@ namespace $.$$ {
 		},
 
 		Collect_block: {
-			// align: {
-			// 	items: 'flex-end',
-			// },
+			flex: {
+				direction: 'column',
+			},
+			width: '30rem',
 		},
 
 		Collect: {
@@ -22,7 +23,17 @@ namespace $.$$ {
 			},
 		},
 
-		Search_select: {
+		List: {
+			padding: $mol_gap.text,
+		},
+
+		List_collect: {
+			margin: {
+				left: 'auto',
+			},
+		},
+
+		List_select: {
 			margin: {
 				top: '-0.5rem',
 				bottom: '-0.5rem',
@@ -42,7 +53,7 @@ namespace $.$$ {
 		Search: {
 			flex: {
 				direction: 'column',
-				basis: '30rem',
+				// basis: '30rem',
 			},
 		},
 		

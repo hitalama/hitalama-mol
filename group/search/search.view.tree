@@ -3,7 +3,9 @@ $shm_hitalama_group_search $mol_view
 	group_id \
 	owner_id \
 	search_result? null
+	reset null
 	dto null $shm_hitalama_group_dto
+	search_click null
 	sub /
 		<= Search_label $mol_labeler
 			label <= search_label /$mol_view_content

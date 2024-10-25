@@ -11,6 +11,11 @@ namespace $.$$ {
 		search_result( next?: any ) {
 			return next ?? null
 		}
+
+		@ $mol_action
+		reset() {
+			this.search_result( null )
+		}
 		
 		@ $mol_mem
 		dto(): $shm_hitalama_group_dto | null {
@@ -53,6 +58,8 @@ namespace $.$$ {
 			
 			const code = 'return API.groups.getById({"group_id":"'+ group_id +'","fields":"members_count"});'
 			$shm_hitalama_jsonp.vk_execute( this.token_str(), code, this.search_result.bind(this) )
+
+			this.search_click()
 		}
 		
 		@ $mol_mem

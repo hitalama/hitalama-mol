@@ -10,6 +10,9 @@ namespace $.$$ {
 			Content: {
 				gap: $mol_gap.block,
 			},
+			flex: {
+				grow: 1,
+			},
 		},
 
 		Group: {

@@ -11,17 +11,28 @@ $shm_hitalama_analysis $mol_page
 			<= Collect_block $mol_view
 				sub /
 					<= Search $shm_hitalama_group_search
+						reset => search_reset
 						search_label /$mol_view_content
 							<= search_title \Введите ссылку на сообщество
-							<= Search_select $mol_select
+							<= List_select $mol_select
 								trigger_content \выберите список
+								dictionary <= lists_dict *
+								value? <=> selected_list_ref? \
+						search_click <= cancel_select_list null
 						token_str <= token_str
 						owner_id => search_owner_id
 						dto => search_dto
 						buttons / <= Collect $mol_button_major
 							title \Собрать посты
-							click? <=> search_collect?
-					- <= Collect_date $mol_labeler
+							click? <=> search_collect? null
+					^ list_view /
+						<= List $mol_view
+							sub / 
+								<= List_name $mol_text
+									text <= selected_list_name \
+								<= List_collect $mol_button_major
+									title \Собрать посты
+									click? <=> list_collect? null
 			^ analysis /
 				<= Summary_label $mol_labeler
 					title \Сводные показатели
