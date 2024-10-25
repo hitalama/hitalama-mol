@@ -38,18 +38,18 @@ $shm_hitalama_analysis $mol_page
 					title \Сводные показатели
 					content /
 						<= Summary $shm_hitalama_analysis_summary
-							groups / <= summary_group $shm_hitalama_group
+							groups <= summary_groups /$shm_hitalama_group
 							posts_dto_by_owner* <= posts_dto_by_owner*
 				<= Posts_deck $mol_deck
 					items /
 						<= Posts_table $shm_hitalama_posts_table
 							title \Таблица постов
 							dto_by_owner* <= posts_dto_by_owner*
-							owner_ids / <= search_owner_id
+							owner_ids <= owner_ids /
 						<= Plots $shm_hitalama_posts_plots
 							title \Графики
 							dto_by_owner* <= posts_dto_by_owner*
-							owner_ids / <= search_owner_id
+							owner_ids <= owner_ids /
 	Loaders $mol_list
 		sub / <= Loader*0 $mol_list
 			sub /

@@ -43,22 +43,22 @@ namespace $.$$ {
 		
 		@ $mol_mem_key
 		post_likes( n: number ) {
-			return String( this.dto()?.[2][n] ) ?? ''
+			return String( this.dto()?.[2][n] ?? 0 )
 		}
 		
 		@ $mol_mem_key
 		post_reposts( n: number ) {
-			return String( this.dto()?.[3][n] ) ?? ''
+			return String( this.dto()?.[3][n] ?? 0 )
 		}
 		
 		@ $mol_mem_key
 		post_comments( n: number ) {
-			return String( this.dto()?.[4][n] ) ?? ''
+			return String( this.dto()?.[4][n] ?? 0 )
 		}
 		
 		@ $mol_mem_key
 		post_views( n: number ) {
-			return String( this.dto()?.[5][n] ) ?? ''
+			return String( this.dto()?.[5][n] ?? 0 )
 		}
 
 		@ $mol_action

@@ -8,7 +8,8 @@ namespace $.$$ {
 		}
 
 		rows() {
-			return this.groups().map( g => this.Row( g.ref() ) )
+			const rows = this.groups().map( g => this.Row( g.ref() ) )
+			return rows.length > 1 ? [ ... rows, this.Sum_row() ] : rows
 		}
 		
 		@ $mol_mem_key
@@ -27,30 +28,75 @@ namespace $.$$ {
 		}
 
 		@ $mol_mem_key
+		posts_dto_by_ref( ref: $hyoo_crus_ref ) {
+			return this.posts_dto_by_owner( this.group( ref ).Owner_id()?.val() )
+		}
+
+		@ $mol_mem_key
 		posts_counts( ref: $hyoo_crus_ref ) {
-			return this.posts_dto_by_owner( this.group( ref ).Owner_id()?.val() )?.[0].length ?? ''
+			return this.posts_dto_by_ref(ref)?.[0].length ?? ''
 		}
 
 		@ $mol_mem_key
 		views( ref: $hyoo_crus_ref ) {
-			return this.posts_dto_by_owner( this.group( ref ).Owner_id()?.val() )?.[5].reduce( (v:number, acc:number) => v+acc, 0 ) ?? ''
+			return String( sum( this.posts_dto_by_ref(ref)?.[5] ) ?? '' )
 		}
 
 		@ $mol_mem_key
 		likes( ref: $hyoo_crus_ref ) {
-			return this.posts_dto_by_owner( this.group( ref ).Owner_id()?.val() )?.[2].reduce( (v:number, acc:number) => v+acc, 0 ) ?? ''
+			return String( sum( this.posts_dto_by_ref(ref)?.[2] ) ?? '' )
 		}
 
 		@ $mol_mem_key
 		reposts( ref: $hyoo_crus_ref ) {
-			return this.posts_dto_by_owner( this.group( ref ).Owner_id()?.val() )?.[3].reduce( (v:number, acc:number) => v+acc, 0 ) ?? ''
+			return String( sum( this.posts_dto_by_ref(ref)?.[3] ) ?? '' )
 		}
 
 		@ $mol_mem_key
 		comments( ref: $hyoo_crus_ref ) {
-			return this.posts_dto_by_owner( this.group( ref ).Owner_id()?.val() )?.[4].reduce( (v:number, acc:number) => v+acc, 0 ) ?? ''
+			return String( sum( this.posts_dto_by_ref(ref)?.[4] ) ?? '' )
 		}
 		
+		@ $mol_mem
+		sum_member_counts() {
+			const arr = this.groups().map( g => Number( this.member_counts( g.ref() ) ) )
+			return String( sum(arr) ?? '' )
+		}
+
+		@ $mol_mem
+		sum_posts_counts() {
+			const arr = this.groups().map( g => Number( this.posts_counts( g.ref() ) ) )
+			return String( sum(arr) ?? '' )
+		}
+
+		@ $mol_mem
+		sum_views() {
+			const arr = this.groups().map( g => Number( this.views( g.ref() ) ) )
+			return String( sum(arr) ?? '' )
+		}
+
+		@ $mol_mem
+		sum_likes() {
+			const arr = this.groups().map( g => Number( this.likes( g.ref() ) ) )
+			return String( sum(arr) ?? '' )
+		}
+
+		@ $mol_mem
+		sum_reposts() {
+			const arr = this.groups().map( g => Number( this.reposts( g.ref() ) ) )
+			return String( sum(arr) ?? '' )
+		}
+
+		@ $mol_mem
+		sum_comments() {
+			const arr = this.groups().map( g => Number( this.comments( g.ref() ) ) )
+			return String( sum(arr) ?? '' )
+		}
+		
+	}
+
+	function sum( arr?: number[] ) {
+		return arr?.reduce( ( acc, v )=> acc + v, 0 )
 	}
 	
 }

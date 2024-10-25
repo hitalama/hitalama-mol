@@ -10,24 +10,23 @@ $shm_hitalama_analysis_summary $shm_hitalama_table
 		<= Head_likes $mol_view sub / \Лайки
 		<= Head_reposts $mol_view sub / \Репосты
 		<= Head_comments $mol_view sub / \Комментарии
-	rows /
-		<= Row*0 $mol_view
-			sub /
-				<= Photo* $mol_image uri <= photo* \
-				<= Name* $mol_paragraph title <= name* \
-				<= Member_counts* $mol_paragraph title <= member_counts* \
-				<= Posts_counts* $mol_paragraph title <= posts_counts* \
-				<= Views* $mol_paragraph title <= views* \
-				<= Likes* $mol_paragraph title <= likes* \
-				<= Reposts* $mol_paragraph title <= reposts* \
-				<= Comments* $mol_paragraph title <= comments* \
-		<= Sum $mol_view
-			sub /
-				<= Sum_photo $mol_paragraph title <= sum_photo \
-				<= Sum_name $mol_paragraph title <= sum_name \
-				<= Sum_member_counts $mol_paragraph title <= sum_member_counts \
-				<= Sum_posts_counts $mol_paragraph title <= sum_posts_counts \
-				<= Sum_views $mol_paragraph title <= sum_views \
-				<= Sum_likes $mol_paragraph title <= sum_likes \
-				<= Sum_reposts $mol_paragraph title <= sum_reposts \
-				<= Sum_comments $mol_paragraph title <= sum_comments \
+	Row* $mol_view
+		sub /
+			<= Photo* $mol_image uri <= photo* \
+			<= Name* $mol_paragraph title <= name* \
+			<= Member_counts* $mol_paragraph title <= member_counts* \
+			<= Posts_counts* $mol_paragraph title <= posts_counts* \
+			<= Views* $mol_paragraph title <= views* \
+			<= Likes* $mol_paragraph title <= likes* \
+			<= Reposts* $mol_paragraph title <= reposts* \
+			<= Comments* $mol_paragraph title <= comments* \
+	Sum_row $mol_view
+		sub /
+			<= Sum_photo $mol_paragraph title <= sum_photo \
+			<= Sum_name $mol_paragraph title <= sum_name \Итого
+			<= Sum_member_counts $mol_paragraph title <= sum_member_counts \
+			<= Sum_posts_counts $mol_paragraph title <= sum_posts_counts \
+			<= Sum_views $mol_paragraph title <= sum_views \
+			<= Sum_likes $mol_paragraph title <= sum_likes \
+			<= Sum_reposts $mol_paragraph title <= sum_reposts \
+			<= Sum_comments $mol_paragraph title <= sum_comments \

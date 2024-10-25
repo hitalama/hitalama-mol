@@ -4,6 +4,9 @@ namespace $.$$ {
 
 		display: 'block',
 		lineHeight: '1.15',
+		background: {
+			color: $mol_theme.back,
+		},
 
 		Head: {
 			position: 'sticky',
@@ -20,6 +23,7 @@ namespace $.$$ {
 			'>': {
 				$mol_view: {
 					display: 'table-cell',
+					// padding: '0.5rem',
 					padding: {
 						bottom: '0.5rem',
 						left: '0.5rem',
@@ -31,9 +35,9 @@ namespace $.$$ {
 
 		Body: {
 			display: 'table-row-group',
-			background: {
-				color: $mol_theme.back,
-			},
+			// background: {
+			// 	color: $mol_theme.back,
+			// },
 			'>': {
 				$mol_view: {
 					display: 'table-row',
@@ -49,6 +53,7 @@ namespace $.$$ {
 					'>': {
 						$mol_view: {
 							display: 'table-cell',
+							// padding: '0.5rem',
 							padding: {
 								top: '0.625rem',
 								left: '0.5rem',

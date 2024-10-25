@@ -23,6 +23,18 @@ namespace $.$$ {
 			},
 		},
 
+		Summary_label: {
+			Label: {
+				padding: $mol_gap.text,
+			},
+			Content: {
+				padding: 0,
+			},
+		},
+		Summary: {
+			padding: $mol_gap.text,
+		},
+
 		List: {
 			padding: $mol_gap.text,
 		},

@@ -6,7 +6,7 @@ namespace $.$$ {
 		posts_rows() {
 			return this.owner_ids().flatMap( owner_id => { 
 				const dto = this.dto_by_owner( owner_id )
-				return dto[0].map( (_: any, i: number)=> this.Post_row( [owner_id, i] ) ) ?? []
+				return dto?.[0].map( (_: any, i: number)=> this.Post_row( [owner_id, i] ) ) ?? []
 			} )
 		}
 		
