@@ -1,5 +1,14 @@
 namespace $.$$ {
 
+	export type $shm_hitalama_posts_dto = [
+		time: number[],
+		id: string[],
+		likes: string[],
+		reposts: string[],
+		comments: string[],
+		view: string[]
+	]
+	
 	export class $shm_hitalama_posts extends $.$shm_hitalama_posts {
 		
 		@ $mol_mem
@@ -9,35 +18,39 @@ namespace $.$$ {
 			return next ?? null
 			// return $mol_state_local.value( `${ this }.posts_data()`, next ) || null
 		}
+
+		dto(): $shm_hitalama_posts_dto | undefined {
+			return this.posts_data().response
+		}
 		
 		@ $mol_mem_key
 		post_id( n: number ) {
-			return this.posts_data().response[1][n] ?? ''
+			return this.dto()?.[1][n] ?? ''
 		}
 		
 		@ $mol_mem_key
 		post_date( n: number ) {
-			return new $mol_time_moment( this.posts_data().response[0][n]*1000 ).toString('DD.MM.YYYY hh:mm')
+			return new $mol_time_moment( this.dto()![0][n]*1000 ).toString('DD.MM.YYYY hh:mm')
 		}
 		
 		@ $mol_mem_key
 		post_likes( n: number ) {
-			return this.posts_data().response[2][n] ?? ''
+			return this.dto()?.[2][n] ?? ''
 		}
 		
 		@ $mol_mem_key
 		post_reposts( n: number ) {
-			return this.posts_data().response[3][n] ?? ''
+			return this.dto()?.[3][n] ?? ''
 		}
 		
 		@ $mol_mem_key
 		post_comments( n: number ) {
-			return this.posts_data().response[4][n] ?? ''
+			return this.dto()?.[4][n] ?? ''
 		}
 		
 		@ $mol_mem_key
 		post_views( n: number ) {
-			return this.posts_data().response[5][n] ?? ''
+			return this.dto()?.[5][n] ?? ''
 		}
 
 		@ $mol_action
