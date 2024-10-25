@@ -19,8 +19,8 @@ namespace $.$$ {
 		groups_map: Map< string, $shm_hitalama_group_dto > = new Map
 		@ $mol_mem
 		add() {
-			const owner_id = this.group_dto_current().id
-			this.groups_map.set( owner_id, this.group_dto_current() )
+			const owner_id = this.group_dto_current()!.id
+			this.groups_map.set( owner_id, this.group_dto_current()! )
 
 			if( this.groups_list().includes( owner_id ) ) return
 			

@@ -8,17 +8,29 @@ namespace $.$$ {
 		},
 
 		Collect_block: {
-			align: {
-				items: 'flex-end',
-			},
+			// align: {
+			// 	items: 'flex-end',
+			// },
 		},
 
 		Collect: {
-			margin: $mol_gap.text,
+			margin: {
+				left: 'auto',
+			},
+			align: {
+				self: 'flex-start',
+			},
 		},
 
 		Posts_table: {
 			padding: $mol_gap.text,
+		},
+
+		Search: {
+			flex: {
+				direction: 'column',
+				basis: '30rem',
+			},
 		},
 		
 	} )

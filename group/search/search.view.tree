@@ -27,6 +27,6 @@ $shm_hitalama_group_search $mol_view
 								sub /
 									<= Members_count_icon $mol_icon_account_group_outline
 									<= members_count? \
-			^ buttons /
+					^ buttons /
 	Search_error $mol_text
 		text <= error_message \

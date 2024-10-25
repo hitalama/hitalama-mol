@@ -2,9 +2,9 @@ namespace $.$$ {
 	
 	$mol_style_define( $shm_hitalama_group_search, {
 
-		align: {
-			items: 'flex-end',
-		},
+		// align: {
+		// 	items: 'flex-end',
+		// },
 		
 		Search_label: {
 			Content: {
