@@ -16,10 +16,7 @@ $shm_hitalama_lists_creating $mol_section
 			sub /
 				<= Search $shm_hitalama_group_search
 					token_str <= token_str
-					name => name_current
-					owner_id => owner_id_current
-					photo_uri => photo_uri_current
-					members_count => members_count_current
+					dto => group_dto_current
 					buttons /
 						<= Add $mol_button_major
 							title \Добавить в список

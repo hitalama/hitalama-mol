@@ -22,6 +22,7 @@ $shm_hitalama_analysis $mol_page
 					title \Сводные показатели
 					content /
 						<= Summary $shm_hitalama_analysis_summary
+							groups /
 				<= Posts_deck $mol_deck
 					items /
 						<= Posts_table $shm_hitalama_posts_table

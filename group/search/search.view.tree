@@ -3,12 +3,13 @@ $shm_hitalama_group_search $mol_view
 	group_id \
 	owner_id \
 	search_result? null
+	dto null
 	sub /
 		<= Search_label $mol_labeler
 			title \Введите ссылку на сообщество
 			content /
 				<= Group_id $mol_string
-					value? <=> group? \smmblog
+					value? <=> search_value? \smmblog
 				<= Search $mol_button_major
 					title \Поиск
 					click? <=> search? null

@@ -3,29 +3,38 @@ namespace $.$$ {
 	export class $shm_hitalama_group_search extends $.$shm_hitalama_group_search {
 		
 		@ $mol_mem
+		profile() {
+			return this.$.$hyoo_crus_glob.home().hall_by( $shm_hitalama_profile, {} )
+		}
+
+		@ $mol_mem
 		search_result( next?: any ) {
 			return next ?? null
-			// return $mol_state_local.value( `${ this }.search_result()`, next )
+		}
+		
+		@ $mol_mem
+		dto() {
+			return this.search_result()?.response?.[0]
 		}
 
 		@ $mol_mem
 		members_count(): string {
-			return this.search_result()?.response?.[0].members_count ?? ''
+			return this.dto().members_count ?? ''
 		}
 
 		@ $mol_mem
 		name(): string {
-			return this.search_result()?.response?.[0].name ?? ''
+			return this.dto().name ?? ''
 		}
 
 		@ $mol_mem
 		group_id(): string {
-			return this.search_result()?.response?.[0].id ?? ''
+			return this.dto().id ?? ''
 		}
 
 		@ $mol_mem
 		photo_uri() {
-			return this.search_result()?.response?.[0].photo_50 ?? ''
+			return this.dto().photo_50 ?? ''
 		}
 
 		@ $mol_mem
@@ -40,7 +49,7 @@ namespace $.$$ {
 
 		@ $mol_action
 		search() {
-			const group_id = this.group().replace( /http\w*:\/\/vk\.(com|ru)\//, '' )
+			const group_id = this.search_value().replace( /http\w*:\/\/vk\.(com|ru)\//, '' )
 			
 			const code = 'return API.groups.getById({"group_id":"'+ group_id +'","fields":"members_count"});'
 			$shm_hitalama_jsonp.vk_execute( this.token_str(), code, this.search_result.bind(this) )

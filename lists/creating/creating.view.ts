@@ -16,16 +16,11 @@ namespace $.$$ {
 			return { [this.param()]: null }
 		}
 
-		groups_map: Map< string, { owner_id: string, name: string, photo_uri: string, members_count: number } > = new Map
+		groups_map: Map< string, $shm_hitalama_group_dto > = new Map
 		@ $mol_mem
 		add() {
-			const owner_id = this.owner_id_current()
-			this.groups_map.set( owner_id, { 
-				owner_id,
-				name: this.name_current(),
-				photo_uri: this.photo_uri_current(),
-				members_count: Number( this.members_count_current() ),
-			} )
+			const owner_id = this.group_dto_current().id
+			this.groups_map.set( owner_id, this.group_dto_current() )
 
 			if( this.groups_list().includes( owner_id ) ) return
 			
@@ -43,7 +38,7 @@ namespace $.$$ {
 
 		@ $mol_mem_key
 		photo_uri( id: string ) {
-			return this.groups_map.get( id )?.photo_uri ?? ''
+			return this.groups_map.get( id )?.photo_50 ?? ''
 		}
 
 		@ $mol_mem
@@ -57,14 +52,8 @@ namespace $.$$ {
 			list?.Name(null)?.val( this.name() )
 
 			this.groups_list().forEach( id => {
-				const data = this.groups_map.get( id )
-
 				const group = list?.Groups(null)?.make( list.land() )!
-
-				group.Name(null)?.val( data?.name )
-				group.Owner_id(null)?.val( data?.owner_id )
-				group.Photo_url(null)?.val( data?.photo_uri )
-				group.Members_count(null)?.val( data?.members_count )
+				group.fill( this.groups_map.get( id )! )
 			} )
 
 			this.$.$mol_state_arg.value( this.param(), null )
