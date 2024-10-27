@@ -3,7 +3,7 @@ $shm_hitalama_token_view $mol_view
 	title <= user_id \
 	sub /
 		<= Logo $mol_image
-			uri \/shm/hitalama/token/logo/logo_vk.svg
+			uri <= logo_uri \/shm/hitalama/token/logo/logo_vk.svg
 		- <= User_id $mol_paragraph
 			title <= user_id \
 		<= Avatar $mol_image

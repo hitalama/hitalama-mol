@@ -18,6 +18,26 @@ namespace $.$$ {
 			Body_content: {
 				gap: '1.5rem',
 			},
+			Foot: {
+				flex: {
+					direction: 'column',
+				},
+				gap: '0.5rem',
+				padding: {
+					left: '1.5rem',
+					right: '1.5rem',
+					bottom: '1rem',
+				}
+			},
+			flex: {
+				basis: '14rem',
+			},
+		},
+
+		Foot_label: {
+			justify: {
+				content: 'center',
+			},
 		},
 
 		Analysis: {

@@ -2,6 +2,10 @@ namespace $.$$ {
 
 	export class $shm_hitalama_token_view extends $.$shm_hitalama_token_view {
 		
+		logo_uri() {
+			return super.logo_uri().replace( 'hitalama.github.io', 'hitalama.github.io/hitalama-mol' )
+		}
+		
 		@ $mol_mem
 		token_str() {
 			return this.token().Token()?.val() || ''

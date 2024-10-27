@@ -11,6 +11,11 @@ $shm_hitalama_app $mol_book2_catalog
 				text \Сбор осуществляется от имени
 			<= Token_switch $shm_hitalama_token_switch
 				current => token
+	menu_foot /
+		<= Foot_label $mol_paragraph
+			title \разработано в
+		<= Foot_logo $mol_image
+			uri <= logo_uri \/shm/hitalama/app/foot/foot_logo.png
 	spreads *
 		\
 			<= Analysis $shm_hitalama_analysis
