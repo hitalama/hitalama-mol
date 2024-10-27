@@ -15513,7 +15513,8 @@ var $;
     (function ($$) {
         class $shm_hitalama_token_view extends $.$shm_hitalama_token_view {
             logo_uri() {
-                return super.logo_uri().replace('hitalama.github.io', 'hitalama.github.io/hitalama-mol');
+                return ($.$mol_dom_context.document?.location.host == 'hitalama.github.io'
+                    ? '/hitalama-mol' : '') + super.logo_uri();
             }
             token_str() {
                 return this.token().Token()?.val() || '';
@@ -21977,7 +21978,8 @@ var $;
     (function ($$) {
         class $shm_hitalama_app extends $.$shm_hitalama_app {
             logo_uri() {
-                return super.logo_uri().replace('hitalama.github.io', 'hitalama.github.io/hitalama-mol');
+                return ($.$mol_dom_context.document?.location.host == 'hitalama.github.io'
+                    ? '/hitalama-mol' : '') + super.logo_uri();
             }
         }
         $$.$shm_hitalama_app = $shm_hitalama_app;
