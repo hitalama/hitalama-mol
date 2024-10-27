@@ -16004,6 +16004,10 @@ var $;
     var $$;
     (function ($$) {
         class $shm_hitalama_token_switch extends $.$shm_hitalama_token_switch {
+            vk_redirect_uri() {
+                const { origin, pathname } = $.$mol_dom_context.document?.location;
+                return origin + pathname;
+            }
             profile() {
                 return this.$.$hyoo_crus_glob.home().hall_by($shm_hitalama_profile, {});
             }
@@ -16051,6 +16055,7 @@ var $;
                 token?.User_id(null)?.val(user_id);
                 this.$.$mol_state_arg.value('access_token', null);
                 this.vk_get_user(token, token_str, user_id);
+                this.current_ref(token.ref().description);
                 return token_str;
             }
             vk_user_id() {
@@ -16064,6 +16069,9 @@ var $;
                     '&scope=groups,wall,offline&response_type=token&v=5.131';
             }
         }
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_token_switch.prototype, "vk_redirect_uri", null);
         __decorate([
             $mol_mem
         ], $shm_hitalama_token_switch.prototype, "profile", null);
@@ -21916,7 +21924,7 @@ var $;
 			return obj;
 		}
 		spreads(){
-			return {"analysis": (this?.Analysis()), "lists": (this?.Lists())};
+			return {"": (this?.Analysis()), "lists": (this?.Lists())};
 		}
 		Placeholder(){
 			return null;
