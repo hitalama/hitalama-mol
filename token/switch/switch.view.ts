@@ -3,6 +3,12 @@ namespace $.$$ {
 	export class $shm_hitalama_token_switch extends $.$shm_hitalama_token_switch {
 
 		@ $mol_mem
+		vk_redirect_uri() {
+			const { origin, pathname } = $.$mol_dom_context.document?.location
+			return origin + pathname
+		}
+
+		@ $mol_mem
 		profile() {
 			return this.$.$hyoo_crus_glob.home().hall_by( $shm_hitalama_profile, {} )
 		}
@@ -73,6 +79,8 @@ namespace $.$$ {
 			this.$.$mol_state_arg.value('access_token', null)
 			
 			this.vk_get_user( token, token_str, user_id )
+
+			this.current_ref( token.ref().description )
 
 			return token_str
 		}

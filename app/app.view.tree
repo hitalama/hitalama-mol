@@ -12,9 +12,10 @@ $shm_hitalama_app $mol_book2_catalog
 			<= Token_switch $shm_hitalama_token_switch
 				current => token
 	spreads *
-		analysis <= Analysis $shm_hitalama_analysis
-			head / <= Tokens
-			token <= token
+		\
+			<= Analysis $shm_hitalama_analysis
+				head / <= Tokens
+				token <= token
 		lists <= Lists $shm_hitalama_lists
 			head / <= Tokens
 			token <= token
