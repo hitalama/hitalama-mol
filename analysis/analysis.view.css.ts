@@ -71,6 +71,10 @@ namespace $.$$ {
 				// basis: '30rem',
 			},
 		},
+
+		Loaders: {
+			padding: $mol_gap.text,
+		},
 		
 	} )
 	

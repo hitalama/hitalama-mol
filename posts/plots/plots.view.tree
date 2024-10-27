@@ -1,3 +1,33 @@
-$shm_hitalama_posts_plots $shm_hitalama_posts
-	dto_by_owner* null $shm_hitalama_posts_dto
-	owner_ids /string
+$shm_hitalama_posts_plots $shm_hitalama_posts_multi
+	Sub <= Charts $mol_list
+		sub /
+			<= Views $shm_hitalama_posts_plots_chart
+				title \Количество просмотров
+				group_ids <= owner_ids
+				group_name* <= group_name* \
+				series_y* <= views* /
+				labels <= labels /string
+			<= Posts $shm_hitalama_posts_plots_chart
+				title \Количество постов
+				group_ids <= owner_ids
+				group_name* <= group_name*
+				series_y* <= posts* /
+				labels <= labels
+			<= Likes $shm_hitalama_posts_plots_chart
+				title \Количество лайков
+				group_ids <= owner_ids
+				group_name* <= group_name*
+				series_y* <= likes* /
+				labels <= labels
+			<= Reposts $shm_hitalama_posts_plots_chart
+				title \Количество репостов
+				group_ids <= owner_ids
+				group_name* <= group_name*
+				series_y* <= reposts* /
+				labels <= labels
+			<= Comments $shm_hitalama_posts_plots_chart
+				title \Количество комментариев
+				group_ids <= owner_ids
+				group_name* <= group_name*
+				series_y* <= comments* /
+				labels <= labels

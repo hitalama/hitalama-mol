@@ -1,0 +1,21 @@
+$shm_hitalama_posts_plots_chart $mol_chart
+	group_ids /string
+	sub /
+		<= Title $mol_paragraph
+			title <= title
+		<= Legend
+		<= Plot
+	graphs /
+		^ groups / <= Group*0 $mol_plot_group
+			title <= group_name* \
+			series_y <= series_y* /
+			graphs /
+				<= Line* $mol_plot_line
+				<= Dot* $mol_plot_dot
+		<= Vert_ruler $mol_plot_ruler_vert
+		<= Marker_hor $mol_plot_mark_hor
+			labels <= labels /string
+		<= Marker_cross $mol_plot_mark_cross
+			labels <= labels
+			graphs /
+				<= Line

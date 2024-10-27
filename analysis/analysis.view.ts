@@ -106,6 +106,14 @@ namespace $.$$ {
 			return list.Groups()?.remote_list() ?? []
 		}
 
+		@ $mol_mem_key
+		group_name( owner_id: string ) {
+			const list = this.selected_list()
+			if( !list ) return ''
+
+			return list.Groups()?.remote_list()?.find( g => g.Owner_id()?.val() == owner_id )?.Name()?.val() || ''
+		}
+
 	}
 
 }
