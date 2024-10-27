@@ -3,7 +3,8 @@ namespace $.$$ {
 	export class $shm_hitalama_token_view extends $.$shm_hitalama_token_view {
 		
 		logo_uri() {
-			return super.logo_uri().replace( 'hitalama.github.io', 'hitalama.github.io/hitalama-mol' )
+			return ( $.$mol_dom_context.document?.location.host == 'hitalama.github.io'
+				? '/hitalama-mol' : '' ) + super.logo_uri()
 		}
 		
 		@ $mol_mem
