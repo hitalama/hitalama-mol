@@ -14,18 +14,16 @@ namespace $.$$ {
 		_posts_data: any = null
 		@ $mol_mem
 		posts_data( next?: any ) {
-			console.log('owne', this.owner_id())
-			console.log('posts_data next', next)
 			if( next ) {
 				this._posts_data = next
 				this.pending( false )
 			}
-			console.log('next ?? this._posts_data', next ?? this._posts_data)
 			return next ?? this._posts_data
 		}
 
 		@ $mol_mem
 		dto(): $shm_hitalama_posts_dto | null {
+			console.log('this.posts_data()?.response', this.posts_data()?.response)
 			return this.posts_data()?.response ?? null
 		}
 		

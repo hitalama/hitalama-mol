@@ -44,12 +44,12 @@ $shm_hitalama_analysis $mol_page
 					items /
 						<= Posts_table $shm_hitalama_posts_table
 							title \Таблица постов
-							dto_by_owner* <= posts_dto_by_owner*
 							owner_ids <= owner_ids /
+							Posts_by_owner* <= Posts_by_owner*
 						<= Plots $shm_hitalama_posts_plots
 							title \Графики
-							dto_by_owner* <= posts_dto_by_owner*
 							owner_ids <= owner_ids /
+							Posts_by_owner* <= Posts_by_owner*
 	Loaders $mol_list
 		sub / <= Loader*0 $mol_list
 			sub /
@@ -57,7 +57,7 @@ $shm_hitalama_analysis $mol_page
 					title <= loader_message* \Идет сбор постов из {name}
 				<= Loader_result* $mol_paragraph
 					title <= loader_result* \Данные собрали за {sec} сек, количество постов: {count}
-	Group_posts* $shm_hitalama_posts
+	Posts_by_owner* $shm_hitalama_posts
 		token_str <= token_str
 		owner_id? <= owner_id*?
 		collect? => collect*?

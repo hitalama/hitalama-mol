@@ -33,6 +33,9 @@ namespace $.$$ {
 		},
 		Summary: {
 			padding: $mol_gap.text,
+			flex: {
+				grow: 1,
+			},
 		},
 
 		List: {

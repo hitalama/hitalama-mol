@@ -3,7 +3,7 @@ $shm_hitalama_app $mol_book2_catalog
 	menu_title \Hitalama
 	plugins /
 		<= Theme $mol_theme_auto
-	tools /
+	menu_tools /
 		<= Lights $mol_lights_toggle
 	Tokens $mol_view
 		sub /
