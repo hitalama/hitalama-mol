@@ -905,7 +905,9 @@ $shm_hitalama_analysis_summary $shm_hitalama_table
 		<= Head_comments $mol_view sub / \Комментарии
 	Row* $mol_view
 		sub /
-			<= Photo* $mol_image uri <= photo* \
+			<= Photo* $mol_image 
+				uri <= photo* \
+				title <= owner_id* \
 			<= Name* $mol_paragraph title <= name* \
 			<= Member_counts* $mol_paragraph title <= member_counts* \
 			<= Posts_counts* $mol_paragraph title <= posts_counts* \
@@ -1469,6 +1471,9 @@ $shm_hitalama_analysis $mol_page
 	token_str \
 	No_auth_message $mol_text
 		text \Выберите пользователя
+	collect_queue? /string
+	auto / <= auto_collect null
+	collect_pending false
 	body /
 		<= Section $mol_section
 			title <= title
@@ -1487,17 +1492,19 @@ $shm_hitalama_analysis $mol_page
 						token_str <= token_str
 						owner_id => search_owner_id
 						dto => search_dto
-						buttons / <= Collect $mol_button_major
-							title \Собрать посты
-							click? <=> search_collect? null
+						buttons / ^ collect_button /
+							<= Collect $mol_button_major
+								title \Собрать посты
+								click? <=> collect? null
+							<= Cancel $mol_button_major
+								title \Отмена
+								click? <=> collect_cancel? null
 					^ list_view /
 						<= List $mol_view
 							sub / 
 								<= List_name $mol_text
 									text <= selected_list_name \
-								<= List_collect $mol_button_major
-									title \Собрать посты
-									click? <=> list_collect? null
+								^ collect_button
 			^ analysis /
 				<= Summary_label $mol_labeler
 					title \Сводные показатели
@@ -1527,7 +1534,7 @@ $shm_hitalama_analysis $mol_page
 	Posts_by_owner* $shm_hitalama_posts
 		token_str <= token_str
 		owner_id? <= owner_id*?
-		collect? => collect*?
+		collect? => collect_by_owner*?
 		dto => posts_dto_by_owner*
 		pending => posts_pending*
 
