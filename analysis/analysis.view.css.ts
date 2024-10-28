@@ -23,6 +23,15 @@ namespace $.$$ {
 			},
 		},
 
+		Cancel: {
+			margin: {
+				left: 'auto',
+			},
+			align: {
+				self: 'flex-start',
+			},
+		},
+
 		Summary_label: {
 			Label: {
 				padding: $mol_gap.text,
@@ -40,12 +49,6 @@ namespace $.$$ {
 
 		List: {
 			padding: $mol_gap.text,
-		},
-
-		List_collect: {
-			margin: {
-				left: 'auto',
-			},
 		},
 
 		List_select: {

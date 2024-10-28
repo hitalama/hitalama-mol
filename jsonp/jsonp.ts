@@ -20,17 +20,15 @@ namespace $ {
 		}
 
 		@ $mol_action
-		static vk_execute( token: string, code: string, cb: any, ...args: any ) {
-			const src = 'https://api.vk.com/method/execute?access_token=' + token +
-				'&code=' + code + '&v=5.131&callback=' + this.make_cb( cb, ...args )
-			$mol_wire_async($mol_import).script(src)
-		}
-
-		@ $mol_action
 		static vk_method( method: string, params: Record< string, string >, cb: any, ...args: any ) {
 			const url_params = new URLSearchParams( params )
 			const src = 'https://api.vk.com/method/' + method + '?' + url_params.toString() + '&callback=' + this.make_cb( cb, ...args )
 			$mol_wire_async($mol_import).script(src)
+		}
+
+		@ $mol_action
+		static vk_execute( access_token: string, code: string, cb: any, ...args: any ) {
+			this.vk_method( 'execute', { access_token, code, v: '5.131' }, cb, ...args )
 		}
 
 		@ $mol_action

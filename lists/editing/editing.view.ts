@@ -14,7 +14,7 @@ namespace $.$$ {
 				return this.list().Groups()?.remote_list()?.map( l => {
 					const owner_id = l.Owner_id()?.val()!
 					this.groups_map.set( owner_id, {
-						id: owner_id,
+						id: owner_id.slice(1),
 						name: l.Name()?.val()!,
 						members_count: l.Members_count()?.val()!,
 						photo_50: l.Photo_url()?.val()!,

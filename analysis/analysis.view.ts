@@ -36,7 +36,7 @@ namespace $.$$ {
 		owner_ids() {
 			const list = this.selected_list()
 			if( !list ) return [ this.search_owner_id() ]
-			return list.Groups()?.remote_list().map( g => g.Owner_id()?.val() ) ?? []
+			return list.Groups()?.remote_list().map( g => g.Owner_id()?.val()! ) ?? []
 		}
 
 		@ $mol_mem
@@ -63,7 +63,6 @@ namespace $.$$ {
 			const dict = Object.fromEntries( lists.map( l => 
 				[ l.ref().description, l.Name()?.val()! ]
 			) )
-			console.log('dict', dict)
 			return dict
 		}
 
@@ -83,18 +82,39 @@ namespace $.$$ {
 			return id
 		}
 
-		search_collect() {
-			this.collect( this.search_owner_id() )
-		}
-
-		list_collect() {
-			const list = this.selected_list()
-			list?.Groups()?.remote_list().forEach( g => {
-				this.collect( g.Owner_id()?.val() )
-			} )
-		}
-
 		@ $mol_mem
+		collect_pending(): boolean {
+			return this.collect_queue().length > 0 || this.owner_ids().some( id => this.posts_pending( id ) )
+		}
+
+		collect_button(): readonly ( any )[] {
+			return this.collect_pending() ? [ this.Cancel() ] : [ this.Collect() ]
+		}
+		
+		collect_interval = 340
+		@ $mol_mem
+		auto_collect() {
+			if( this.collect_queue().length == 0 ) return
+			this.queue_eat()
+			$mol_state_time.now( this.collect_interval )
+		}
+
+		@ $mol_action
+		queue_eat() {
+			const [ owner, ...next ] = this.collect_queue()
+			this.collect_by_owner( owner )
+			this.collect_queue( next )
+		}
+
+		collect() {
+			this.collect_queue( this.owner_ids() )
+			this.queue_eat()
+		}
+
+		collect_cancel() {
+			this.collect_queue( [] )
+		}
+
 		summary_groups() {
 			const list = this.selected_list()
 			if( !list ) {

@@ -12,7 +12,9 @@ $shm_hitalama_analysis_summary $shm_hitalama_table
 		<= Head_comments $mol_view sub / \Комментарии
 	Row* $mol_view
 		sub /
-			<= Photo* $mol_image uri <= photo* \
+			<= Photo* $mol_image 
+				uri <= photo* \
+				title <= owner_id* \
 			<= Name* $mol_paragraph title <= name* \
 			<= Member_counts* $mol_paragraph title <= member_counts* \
 			<= Posts_counts* $mol_paragraph title <= posts_counts* \

@@ -17,19 +17,19 @@ namespace $.$$ {
 			if( next ) {
 				this._posts_data = next
 				this.pending( false )
+				const owner_id = this.owner_id()
+				console.log('owner_id', owner_id, false)
 			}
 			return next ?? this._posts_data
 		}
 
 		@ $mol_mem
 		dto(): $shm_hitalama_posts_dto | null {
-			console.log('this.posts_data()?.response', this.posts_data()?.response)
 			return this.posts_data()?.response ?? null
 		}
 		
 		@ $mol_mem_key
 		post_id( n: number ) {
-			console.log('this.dto()?.[1][n]', this.dto()?.[1][n])
 			return String( this.dto()?.[1][n] ) ?? ''
 		}
 		
@@ -63,6 +63,7 @@ namespace $.$$ {
 		collect() {
 			this.pending( true )
 			const owner_id = this.owner_id()
+			console.log('owner_id', owner_id, true)
 			
 			$shm_hitalama_jsonp.vk_newFuncWall( 
 				{ access_token: this.token_str(), owner_id, offset: '0', count_execute: '0' }, 

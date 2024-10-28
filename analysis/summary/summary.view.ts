@@ -18,6 +18,11 @@ namespace $.$$ {
 		}
 
 		@ $mol_mem_key
+		owner_id( ref: $hyoo_crus_ref ) {
+			return this.group( ref ).Owner_id()?.val() ?? ''
+		}
+
+		@ $mol_mem_key
 		name( ref: $hyoo_crus_ref ) {
 			return this.group( ref ).Name()?.val() ?? ''
 		}
