@@ -1,0 +1,13 @@
+$shm_hitalama_profile_current $mol_view
+	profile null $shm_hitalama_profile
+	sub /
+		<= Login $mol_link
+			title <= login \
+			arg * section \profile
+	buttons /
+		<= Enter_link $mol_link
+			title \Войти
+			arg * section \enter
+		<= Register_link $mol_link
+			title \Регистрация
+			arg * section \register

@@ -58,19 +58,24 @@ namespace $.$$ {
 			},
 		},
 
-		Enter_link: {
+		Profile: {
+
 			margin: {
 				left: 'auto',
 			},
-			align: {
-				items: 'center',
+			
+			Enter_link: {
+				align: {
+					items: 'center',
+				},
 			},
-		},
+	
+			Register_link: {
+				align: {
+					items: 'center',
+				},
+			},
 
-		Register_link: {
-			align: {
-				items: 'center',
-			},
 		},
 		
 	} )
