@@ -349,6 +349,24 @@ $mol_lights_toggle $mol_check_icon
 	hint @ \Toggle lights
 	checked? <=> lights? false
 
+$mol_image $mol_view
+	dom_name \img
+	field *any
+		^
+		src <= uri \
+		alt <= title
+		loading <= loading \eager
+		decoding <= decoding \async
+		crossOrigin <= cors null
+	attr *any
+		^
+		width <= natural_width 0
+		height <= natural_height 0
+	event *any
+		load? <=> load? null
+	minimal_width 16
+	minimal_height 16
+
 $mol_stack $mol_view
 
 $mol_text_code_token $mol_dimmer
@@ -492,24 +510,6 @@ $mol_grid_cell $mol_view
 	minimal_height 40
 
 $mol_grid_number $mol_grid_cell
-
-$mol_image $mol_view
-	dom_name \img
-	field *any
-		^
-		src <= uri \
-		alt <= title
-		loading <= loading \eager
-		decoding <= decoding \async
-		crossOrigin <= cors null
-	attr *any
-		^
-		width <= natural_width 0
-		height <= natural_height 0
-	event *any
-		load? <=> load? null
-	minimal_width 16
-	minimal_height 16
 
 $mol_link_iconed $mol_link
 	sub /
@@ -766,6 +766,26 @@ $shm_hitalama_token_switch $mol_view
 		<= vk_token_url_parse \
 	vk_client_id \7803698
 	vk_redirect_uri \http://localhost:9080/shm/hitalama/app/-/test.html
+
+$shm_hitalama_profile_switch $mol_view
+	profile null $shm_hitalama_profile
+	sub /
+		- <= Login $mol_link
+			title <= login \
+			arg * section \profile
+		<= Current $mol_pop_over
+			Anchor <= Login $mol_button_minor title <= login \
+			bubble_content /
+				<= Exit $mol_button_minor
+					title \Выйти
+					click? <=> exit? null
+	buttons /
+		<= Enter_link $mol_link
+			title \Войти
+			arg * section \enter
+		<= Register_link $mol_link
+			title \Регистрация
+			arg * section \register
 
 $mol_section $mol_list
 	level 1
@@ -1465,7 +1485,7 @@ $mol_deck $mol_list
 			options <= switch_options *
 		<= Content $mol_view
 
-$shm_hitalama_analysis $mol_page
+$shm_hitalama_analysis $mol_list
 	title \Сбор и анализ постов
 	token $shm_hitalama_token
 	token_str \
@@ -1474,7 +1494,7 @@ $shm_hitalama_analysis $mol_page
 	collect_queue? /string
 	auto / <= auto_collect null
 	collect_pending false
-	body /
+	sub /
 		<= Section $mol_section
 			title <= title
 		^ group_body /
@@ -1580,10 +1600,10 @@ $shm_hitalama_lists_editing $shm_hitalama_lists_creating
 	param \edit
 	list $shm_hitalama_list
 
-$shm_hitalama_lists $mol_page
+$shm_hitalama_lists $mol_list
 	title \Списки сообществ
 	token $shm_hitalama_token
-	body /
+	sub /
 		<= current_view <= Main
 	Main $mol_section
 		title <= title
@@ -1616,6 +1636,47 @@ $shm_hitalama_lists $mol_page
 		token <= token
 		list <= list_editing $shm_hitalama_list
 
+$mol_icon_eye $mol_icon path \M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5Z
+
+$mol_password $mol_view
+	type? \password
+	sub <= content /
+		<= Pass $mol_string
+			type <= type
+			hint <= hint \
+			value? <=> value? \
+			submit?event <=> submit?event null
+			enabled <= enabled true
+		<= Show $mol_check_icon
+			checked? <=> checked? true
+			Icon <= Show_icon $mol_icon_eye
+
+$shm_hitalama_profile_register $mol_section
+	title \Регистрация
+	profiles $shm_hitalama_profile_dict
+	- Profile_link $mol_link
+	content /
+		<= Login_label $mol_labeler
+			title \Логин
+			content /
+				<= Login $mol_string
+					value? <=> login? \
+		<= Password_label $mol_labeler
+			title \Пароль
+			content /
+				<= Password $mol_password
+					value? <=> passwond? \
+		<= Submit $mol_button_major
+			title <= submit_title \Зарегистрироваться
+			click? <=> submit? null
+		^ message_view / <= Message $mol_text text <= message? \
+
+$shm_hitalama_profile_enter $shm_hitalama_profile_register
+	title \Вход
+	submit_title \Войти
+	auto / <= pull_pass_keys null
+	message_incorrect_pass \Неверный логин или пароль
+
 $mol_text_list $mol_text
 	auto_scroll null
 	attr *
@@ -1637,23 +1698,32 @@ $shm_hitalama_app $mol_book2_catalog
 		<= Theme $mol_theme_auto
 	menu_tools /
 		<= Lights $mol_lights_toggle
-	Tokens $mol_view
-		sub /
-			<= Tokens_label $mol_text
-				text \Сбор осуществляется от имени
-			<= Token_switch $shm_hitalama_token_switch
-				current => token
 	menu_foot /
 		<= Foot_label $mol_paragraph
 			title \разработано в
 		<= Foot_logo $mol_image
 			uri <= logo_uri \/shm/hitalama/app/foot/foot_logo.png
+	pages /
+		<= Menu
+		<= Main $mol_page
+			head /
+				<= Tokens $mol_view
+					sub /
+						<= Tokens_label $mol_text
+							text \Сбор осуществляется от имени
+						<= Token_switch $shm_hitalama_token_switch
+							current => token
+				<= Profile $shm_hitalama_profile_switch
+			body / <= Spread_current $mol_view
 	spreads *
 		\
 			<= Analysis $shm_hitalama_analysis
-				head / <= Tokens
 				token <= token
 		lists <= Lists $shm_hitalama_lists
-			head / <= Tokens
 			token <= token
+	
+	Enter $shm_hitalama_profile_enter
+		profiles <= profiles $shm_hitalama_profile_dict
+	Register $shm_hitalama_profile_register
+		profiles <= profiles
 	Placeholder null

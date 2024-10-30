@@ -7266,6 +7266,109 @@ var $;
 })($ || ($ = {}));
 
 ;
+	($.$mol_image) = class $mol_image extends ($.$mol_view) {
+		uri(){
+			return "";
+		}
+		loading(){
+			return "eager";
+		}
+		decoding(){
+			return "async";
+		}
+		cors(){
+			return null;
+		}
+		natural_width(){
+			return 0;
+		}
+		natural_height(){
+			return 0;
+		}
+		load(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		dom_name(){
+			return "img";
+		}
+		field(){
+			return {
+				...(super.field()), 
+				"src": (this?.uri()), 
+				"alt": (this?.title()), 
+				"loading": (this?.loading()), 
+				"decoding": (this?.decoding()), 
+				"crossOrigin": (this?.cors())
+			};
+		}
+		attr(){
+			return {
+				...(super.attr()), 
+				"width": (this?.natural_width()), 
+				"height": (this?.natural_height())
+			};
+		}
+		event(){
+			return {"load": (next) => (this?.load(next))};
+		}
+		minimal_width(){
+			return 16;
+		}
+		minimal_height(){
+			return 16;
+		}
+	};
+	($mol_mem(($.$mol_image.prototype), "load"));
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $mol_image extends $.$mol_image {
+            natural_width(next) {
+                const dom = this.dom_node();
+                if (dom.naturalWidth)
+                    return dom.naturalWidth;
+                const found = this.uri().match(/\bwidth=(\d+)/);
+                return found ? Number(found[1]) : null;
+            }
+            natural_height(next) {
+                const dom = this.dom_node();
+                if (dom.naturalHeight)
+                    return dom.naturalHeight;
+                const found = this.uri().match(/\bheight=(\d+)/);
+                return found ? Number(found[1]) : null;
+            }
+            load() {
+                this.natural_width(null);
+                this.natural_height(null);
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $mol_image.prototype, "natural_width", null);
+        __decorate([
+            $mol_mem
+        ], $mol_image.prototype, "natural_height", null);
+        $$.$mol_image = $mol_image;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_style_attach("mol/image/image.view.css", "[mol_image] {\n\tborder-radius: var(--mol_gap_round);\n\toverflow: hidden;\n\tflex: 0 1 auto;\n\tmax-width: 100%;\n\tobject-fit: cover;\n\theight: fit-content;\n}\n");
+})($ || ($ = {}));
+
+;
 	($.$mol_stack) = class $mol_stack extends ($.$mol_view) {};
 
 
@@ -8427,109 +8530,6 @@ var $;
 var $;
 (function ($) {
     $mol_style_attach("mol/grid/grid.view.css", "[mol_grid] {\n\tdisplay: block;\n\tflex: 0 1 auto;\n\tposition: relative;\n\toverflow-x: auto;\n}\n\n[mol_grid_gap] {\n\tposition: absolute;\n\tpadding: .1px;\n\ttop: 0;\n\ttransform: translateZ(0);\n}\n\n[mol_grid_table] {\n\tborder-spacing: 0;\n\tdisplay: table-row-group;\n\tposition: relative;\n}\n\n[mol_grid_table] > * {\n\tdisplay: table-row;\n\ttransition: none;\n}\n\n[mol_grid_head] > *,\n[mol_grid_table] > * > * {\n\tdisplay: table-cell;\n\tpadding: var(--mol_gap_text);\n\twhite-space: nowrap;\n\tvertical-align: middle;\n\tbox-shadow: inset 1px 1px 0 0 var(--mol_theme_line);\n}\n\n[mol_grid_row]:where(:first-child) > * {\n\tbox-shadow: inset 1px 0 0 0 var(--mol_theme_line);\n}\n\n[mol_grid_table] > * > *:where(:first-child) {\n\tbox-shadow: inset 0px 1px 0 0 var(--mol_theme_line);\n}\n\n[mol_grid_head] > * {\n\tbox-shadow: inset 1px -1px 0 0 var(--mol_theme_line);\n}\n\n[mol_grid_head] > *:where(:first-child) {\n\tbox-shadow: inset 0px -1px 0 0 var(--mol_theme_line);\n}\n\n[mol_grid_table] > [mol_grid_row]:where(:first-child) > *:where(:first-child) {\n\tbox-shadow: none;\n}\t\n\n[mol_grid_head] {\n\tdisplay: table-row;\n\ttransform: none !important;\n}\n\n/* [mol_grid_cell_number] {\n\ttext-align: right;\n} */\n\n[mol_grid_col_head] {\n\tfont-weight: inherit;\n\ttext-align: inherit;\n\tdisplay: table-cell;\n\tcolor: var(--mol_theme_shade);\n}\n\n[mol_grid_cell_dimmer] {\n\tdisplay: inline-block;\n\tvertical-align: inherit;\n}\n");
-})($ || ($ = {}));
-
-;
-	($.$mol_image) = class $mol_image extends ($.$mol_view) {
-		uri(){
-			return "";
-		}
-		loading(){
-			return "eager";
-		}
-		decoding(){
-			return "async";
-		}
-		cors(){
-			return null;
-		}
-		natural_width(){
-			return 0;
-		}
-		natural_height(){
-			return 0;
-		}
-		load(next){
-			if(next !== undefined) return next;
-			return null;
-		}
-		dom_name(){
-			return "img";
-		}
-		field(){
-			return {
-				...(super.field()), 
-				"src": (this?.uri()), 
-				"alt": (this?.title()), 
-				"loading": (this?.loading()), 
-				"decoding": (this?.decoding()), 
-				"crossOrigin": (this?.cors())
-			};
-		}
-		attr(){
-			return {
-				...(super.attr()), 
-				"width": (this?.natural_width()), 
-				"height": (this?.natural_height())
-			};
-		}
-		event(){
-			return {"load": (next) => (this?.load(next))};
-		}
-		minimal_width(){
-			return 16;
-		}
-		minimal_height(){
-			return 16;
-		}
-	};
-	($mol_mem(($.$mol_image.prototype), "load"));
-
-
-;
-"use strict";
-
-;
-"use strict";
-var $;
-(function ($) {
-    var $$;
-    (function ($$) {
-        class $mol_image extends $.$mol_image {
-            natural_width(next) {
-                const dom = this.dom_node();
-                if (dom.naturalWidth)
-                    return dom.naturalWidth;
-                const found = this.uri().match(/\bwidth=(\d+)/);
-                return found ? Number(found[1]) : null;
-            }
-            natural_height(next) {
-                const dom = this.dom_node();
-                if (dom.naturalHeight)
-                    return dom.naturalHeight;
-                const found = this.uri().match(/\bheight=(\d+)/);
-                return found ? Number(found[1]) : null;
-            }
-            load() {
-                this.natural_width(null);
-                this.natural_height(null);
-            }
-        }
-        __decorate([
-            $mol_mem
-        ], $mol_image.prototype, "natural_width", null);
-        __decorate([
-            $mol_mem
-        ], $mol_image.prototype, "natural_height", null);
-        $$.$mol_image = $mol_image;
-    })($$ = $.$$ || ($.$$ = {}));
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
-    $mol_style_attach("mol/image/image.view.css", "[mol_image] {\n\tborder-radius: var(--mol_gap_round);\n\toverflow: hidden;\n\tflex: 0 1 auto;\n\tmax-width: 100%;\n\tobject-fit: cover;\n\theight: fit-content;\n}\n");
 })($ || ($ = {}));
 
 ;
@@ -15892,12 +15892,88 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    class $shm_hitalama_profile_key extends $mol_object {
+        static key_size() {
+            return 144;
+        }
+        static async import(serial, password) {
+            const pack = $mol_base64_decode(serial);
+            const closed = pack.slice(0, this.key_size());
+            const salt = $mol_crypto_hash(pack.slice(this.key_size())).slice(0, 16);
+            const secret = $mol_wire_sync(this.$.$mol_crypto_secret).pass(password, salt);
+            const opened = await secret.decrypt(closed, salt).catch(reason => {
+                console.warn(reason);
+                return null;
+            });
+            return opened ? $mol_charset_decode(opened) : null;
+        }
+        static async export(auth, password, login) {
+            const login_encoded = $mol_charset_encode(login);
+            const salt = $mol_crypto_hash(login_encoded).slice(0, 16);
+            const secret = $mol_wire_sync(this.$.$mol_crypto_secret).pass(password, salt);
+            const open = this.$.$mol_charset_encode(auth);
+            const closed = new Uint8Array($mol_wire_sync(secret).encrypt(open, salt));
+            const pack = new Uint8Array(this.key_size() + login_encoded.byteLength);
+            pack.set(closed, 0);
+            pack.set(login_encoded, this.key_size());
+            return this.$.$mol_base64_encode(pack);
+        }
+    }
+    __decorate([
+        $mol_action
+    ], $shm_hitalama_profile_key, "import", null);
+    __decorate([
+        $mol_action
+    ], $shm_hitalama_profile_key, "export", null);
+    $.$shm_hitalama_profile_key = $shm_hitalama_profile_key;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
     class $shm_hitalama_profile extends $hyoo_crus_entity.with({
         Tokens: $hyoo_crus_list_ref_to(() => $shm_hitalama_token),
-        Groups_lists: $hyoo_crus_list_ref_to(() => $shm_hitalama_list)
+        Groups_lists: $hyoo_crus_list_ref_to(() => $shm_hitalama_list),
+        Login: $hyoo_crus_atom_str,
+        Pass_key: $hyoo_crus_atom_str,
     }) {
+        password(password) {
+            const pass_key = $mol_wire_sync(this.$.$shm_hitalama_profile_key).export(this.$.$hyoo_crus_auth.current().toString(), password, this.Login()?.val());
+            this.Pass_key(null).val(pass_key);
+        }
+        auth_key_decrypt(password) {
+            const pass_key = this.Pass_key().val();
+            if (!pass_key)
+                return null;
+            const auth_key = $mol_wire_sync($shm_hitalama_profile_key).import(pass_key, password);
+            if (!auth_key)
+                return null;
+            return auth_key;
+        }
+        enter(password) {
+            const key = this.auth_key_decrypt(password);
+            if (!key)
+                return false;
+            this.$.$hyoo_crus_auth.current(this.$.$hyoo_crus_auth.from(key));
+            const home = this.$.$hyoo_crus_glob.home();
+            home.Hall(null).remote(this);
+            return true;
+        }
     }
+    __decorate([
+        $mol_action
+    ], $shm_hitalama_profile.prototype, "password", null);
+    __decorate([
+        $mol_mem_key
+    ], $shm_hitalama_profile.prototype, "auth_key_decrypt", null);
+    __decorate([
+        $mol_action
+    ], $shm_hitalama_profile.prototype, "enter", null);
     $.$shm_hitalama_profile = $shm_hitalama_profile;
+    class $shm_hitalama_profile_dict extends $hyoo_crus_dict_to($hyoo_crus_atom_ref_to(() => $shm_hitalama_profile)) {
+    }
+    $.$shm_hitalama_profile_dict = $shm_hitalama_profile_dict;
 })($ || ($ = {}));
 
 ;
@@ -16014,7 +16090,7 @@ var $;
                 return origin + pathname;
             }
             profile() {
-                return this.$.$hyoo_crus_glob.home().hall_by($shm_hitalama_profile, {});
+                return this.$.$hyoo_crus_glob.home().Hall(null)?.ensure({ '': $hyoo_crus_rank.get })?.cast($shm_hitalama_profile);
             }
             tokens() {
                 return this.profile()?.Tokens()?.remote_list() ?? [];
@@ -16028,6 +16104,11 @@ var $;
                 return id ? this.token(id) : null;
             }
             current_ref(next) {
+                if (next === undefined) {
+                    const tokens = this.tokens();
+                    const ref = $mol_state_local.value(`${this}.current_ref()`);
+                    return tokens.find(t => t.ref().description == ref) ? ref : '';
+                }
                 return $mol_state_local.value(`${this}.current_ref()`, next) || '';
             }
             token(ref_str) {
@@ -16055,6 +16136,7 @@ var $;
                 if (!token_str)
                     return;
                 const user_id = params.get('user_id');
+                console.log('this.profile()', this.profile());
                 const token = this.profile()?.Tokens(null)?.make({});
                 token?.Token(null)?.val(token_str);
                 token?.User_id(null)?.val(user_id);
@@ -16134,6 +16216,92 @@ var $;
                 },
             },
         });
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+	($.$shm_hitalama_profile_switch) = class $shm_hitalama_profile_switch extends ($.$mol_view) {
+		login(){
+			return "";
+		}
+		Login(){
+			const obj = new this.$.$mol_button_minor();
+			(obj.title) = () => ((this?.login()));
+			return obj;
+		}
+		exit(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Exit(){
+			const obj = new this.$.$mol_button_minor();
+			(obj.title) = () => ("Выйти");
+			(obj.click) = (next) => ((this?.exit(next)));
+			return obj;
+		}
+		Current(){
+			const obj = new this.$.$mol_pop_over();
+			(obj.Anchor) = () => ((this?.Login()));
+			(obj.bubble_content) = () => ([(this?.Exit())]);
+			return obj;
+		}
+		Enter_link(){
+			const obj = new this.$.$mol_link();
+			(obj.title) = () => ("Войти");
+			(obj.arg) = () => ({"section": "enter"});
+			return obj;
+		}
+		Register_link(){
+			const obj = new this.$.$mol_link();
+			(obj.title) = () => ("Регистрация");
+			(obj.arg) = () => ({"section": "register"});
+			return obj;
+		}
+		profile(){
+			return null;
+		}
+		sub(){
+			return [(this?.Current())];
+		}
+		buttons(){
+			return [(this?.Enter_link()), (this?.Register_link())];
+		}
+	};
+	($mol_mem(($.$shm_hitalama_profile_switch.prototype), "Login"));
+	($mol_mem(($.$shm_hitalama_profile_switch.prototype), "exit"));
+	($mol_mem(($.$shm_hitalama_profile_switch.prototype), "Exit"));
+	($mol_mem(($.$shm_hitalama_profile_switch.prototype), "Current"));
+	($mol_mem(($.$shm_hitalama_profile_switch.prototype), "Enter_link"));
+	($mol_mem(($.$shm_hitalama_profile_switch.prototype), "Register_link"));
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $shm_hitalama_profile_switch extends $.$shm_hitalama_profile_switch {
+            login() {
+                return this.profile()?.Login()?.val() ?? '';
+            }
+            sub() {
+                return this.login() ? super.sub() : this.buttons();
+            }
+            profile() {
+                return this.$.$hyoo_crus_glob.home().Hall()?.remote()?.cast($shm_hitalama_profile);
+            }
+            exit() {
+                this.$.$hyoo_crus_auth.current(this.$.$hyoo_crus_auth.grab());
+            }
+        }
+        __decorate([
+            $mol_action
+        ], $shm_hitalama_profile_switch.prototype, "exit", null);
+        $$.$shm_hitalama_profile_switch = $shm_hitalama_profile_switch;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
 
@@ -20852,7 +21020,7 @@ var $;
 })($ || ($ = {}));
 
 ;
-	($.$shm_hitalama_analysis) = class $shm_hitalama_analysis extends ($.$mol_page) {
+	($.$shm_hitalama_analysis) = class $shm_hitalama_analysis extends ($.$mol_list) {
 		auto_collect(){
 			return null;
 		}
@@ -21036,7 +21204,7 @@ var $;
 		collect_pending(){
 			return false;
 		}
-		body(){
+		sub(){
 			return [(this?.Section()), ...(this.group_body())];
 		}
 		Loaders(){
@@ -21636,7 +21804,7 @@ var $;
 })($ || ($ = {}));
 
 ;
-	($.$shm_hitalama_lists) = class $shm_hitalama_lists extends ($.$mol_page) {
+	($.$shm_hitalama_lists) = class $shm_hitalama_lists extends ($.$mol_list) {
 		current_view(){
 			return (this?.Main());
 		}
@@ -21727,7 +21895,7 @@ var $;
 			const obj = new this.$.$shm_hitalama_token();
 			return obj;
 		}
-		body(){
+		sub(){
 			return [(this?.current_view())];
 		}
 		Main(){
@@ -21891,6 +22059,313 @@ var $;
 })($ || ($ = {}));
 
 ;
+	($.$mol_icon_eye) = class $mol_icon_eye extends ($.$mol_icon) {
+		path(){
+			return "M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5Z";
+		}
+	};
+
+
+;
+"use strict";
+
+;
+	($.$mol_password) = class $mol_password extends ($.$mol_view) {
+		hint(){
+			return "";
+		}
+		value(next){
+			if(next !== undefined) return next;
+			return "";
+		}
+		submit(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		enabled(){
+			return true;
+		}
+		Pass(){
+			const obj = new this.$.$mol_string();
+			(obj.type) = () => ((this?.type()));
+			(obj.hint) = () => ((this?.hint()));
+			(obj.value) = (next) => ((this?.value(next)));
+			(obj.submit) = (next) => ((this?.submit(next)));
+			(obj.enabled) = () => ((this?.enabled()));
+			return obj;
+		}
+		checked(next){
+			if(next !== undefined) return next;
+			return true;
+		}
+		Show_icon(){
+			const obj = new this.$.$mol_icon_eye();
+			return obj;
+		}
+		Show(){
+			const obj = new this.$.$mol_check_icon();
+			(obj.checked) = (next) => ((this?.checked(next)));
+			(obj.Icon) = () => ((this?.Show_icon()));
+			return obj;
+		}
+		content(){
+			return [(this?.Pass()), (this?.Show())];
+		}
+		type(next){
+			if(next !== undefined) return next;
+			return "password";
+		}
+		sub(){
+			return (this?.content());
+		}
+	};
+	($mol_mem(($.$mol_password.prototype), "value"));
+	($mol_mem(($.$mol_password.prototype), "submit"));
+	($mol_mem(($.$mol_password.prototype), "Pass"));
+	($mol_mem(($.$mol_password.prototype), "checked"));
+	($mol_mem(($.$mol_password.prototype), "Show_icon"));
+	($mol_mem(($.$mol_password.prototype), "Show"));
+	($mol_mem(($.$mol_password.prototype), "type"));
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $mol_password extends $.$mol_password {
+            checked(next) {
+                this.type(next ? 'text' : 'password');
+                return next ?? false;
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $mol_password.prototype, "checked", null);
+        $$.$mol_password = $mol_password;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+	($.$shm_hitalama_profile_register) = class $shm_hitalama_profile_register extends ($.$mol_section) {
+		login(next){
+			if(next !== undefined) return next;
+			return "";
+		}
+		Login(){
+			const obj = new this.$.$mol_string();
+			(obj.value) = (next) => ((this?.login(next)));
+			return obj;
+		}
+		Login_label(){
+			const obj = new this.$.$mol_labeler();
+			(obj.title) = () => ("Логин");
+			(obj.content) = () => ([(this?.Login())]);
+			return obj;
+		}
+		passwond(next){
+			if(next !== undefined) return next;
+			return "";
+		}
+		Password(){
+			const obj = new this.$.$mol_password();
+			(obj.value) = (next) => ((this?.passwond(next)));
+			return obj;
+		}
+		Password_label(){
+			const obj = new this.$.$mol_labeler();
+			(obj.title) = () => ("Пароль");
+			(obj.content) = () => ([(this?.Password())]);
+			return obj;
+		}
+		submit_title(){
+			return "Зарегистрироваться";
+		}
+		submit(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Submit(){
+			const obj = new this.$.$mol_button_major();
+			(obj.title) = () => ((this?.submit_title()));
+			(obj.click) = (next) => ((this?.submit(next)));
+			return obj;
+		}
+		message(next){
+			if(next !== undefined) return next;
+			return "";
+		}
+		Message(){
+			const obj = new this.$.$mol_text();
+			(obj.text) = () => ((this?.message()));
+			return obj;
+		}
+		message_view(){
+			return [(this?.Message())];
+		}
+		title(){
+			return "Регистрация";
+		}
+		profiles(){
+			const obj = new this.$.$shm_hitalama_profile_dict();
+			return obj;
+		}
+		content(){
+			return [
+				(this?.Login_label()), 
+				(this?.Password_label()), 
+				(this?.Submit()), 
+				...(this.message_view())
+			];
+		}
+	};
+	($mol_mem(($.$shm_hitalama_profile_register.prototype), "login"));
+	($mol_mem(($.$shm_hitalama_profile_register.prototype), "Login"));
+	($mol_mem(($.$shm_hitalama_profile_register.prototype), "Login_label"));
+	($mol_mem(($.$shm_hitalama_profile_register.prototype), "passwond"));
+	($mol_mem(($.$shm_hitalama_profile_register.prototype), "Password"));
+	($mol_mem(($.$shm_hitalama_profile_register.prototype), "Password_label"));
+	($mol_mem(($.$shm_hitalama_profile_register.prototype), "submit"));
+	($mol_mem(($.$shm_hitalama_profile_register.prototype), "Submit"));
+	($mol_mem(($.$shm_hitalama_profile_register.prototype), "message"));
+	($mol_mem(($.$shm_hitalama_profile_register.prototype), "Message"));
+	($mol_mem(($.$shm_hitalama_profile_register.prototype), "profiles"));
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $shm_hitalama_profile_register extends $.$shm_hitalama_profile_register {
+            profile() {
+                return this.$.$hyoo_crus_glob.home().Hall(null)?.ensure({ '': $hyoo_crus_rank.get })?.cast($shm_hitalama_profile);
+            }
+            submit(next) {
+                const profile = this.profiles().key(this.login(), 'auto')?.remote(this.profile());
+                profile?.Login(null).val(this.login());
+                profile?.password(this.passwond());
+                if (profile) {
+                    const home = this.$.$hyoo_crus_glob.home();
+                    home.Hall(null).remote(profile);
+                    this.$.$mol_state_arg.value('section', 'profile');
+                }
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_profile_register.prototype, "profile", null);
+        $$.$shm_hitalama_profile_register = $shm_hitalama_profile_register;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        $mol_style_define($shm_hitalama_profile_register, {
+            align: {
+                items: 'flex-start',
+            },
+            gap: $mol_gap.block,
+            Login_label: {
+                Content: {
+                    align: {
+                        self: 'flex-start',
+                    },
+                },
+            },
+            Submit: {
+                margin: {
+                    top: '2rem',
+                    left: $mol_gap.block,
+                    right: $mol_gap.block,
+                    bottom: $mol_gap.block,
+                },
+            },
+            Message: {
+                color: 'red',
+            },
+        });
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+	($.$shm_hitalama_profile_enter) = class $shm_hitalama_profile_enter extends ($.$shm_hitalama_profile_register) {
+		pull_pass_keys(){
+			return null;
+		}
+		title(){
+			return "Вход";
+		}
+		submit_title(){
+			return "Войти";
+		}
+		auto(){
+			return [(this?.pull_pass_keys())];
+		}
+		message_incorrect_pass(){
+			return "Неверный логин или пароль";
+		}
+	};
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $shm_hitalama_profile_enter extends $.$shm_hitalama_profile_enter {
+            login(next) {
+                this.message('');
+                return next ?? '';
+            }
+            passwond(next) {
+                this.message('');
+                return next ?? '';
+            }
+            pull_pass_keys() {
+                this.profiles()?.keys().forEach(k => {
+                    this.profiles().key(k)?.remote()?.Pass_key()?.val();
+                });
+            }
+            submit(next) {
+                const profile = this.profiles().key(this.login())?.remote();
+                if (profile?.enter(this.passwond())) {
+                    this.$.$mol_state_arg.value('section', 'profile');
+                    return;
+                }
+                this.message(this.message_incorrect_pass());
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_profile_enter.prototype, "login", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_profile_enter.prototype, "passwond", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_profile_enter.prototype, "pull_pass_keys", null);
+        $$.$shm_hitalama_profile_enter = $shm_hitalama_profile_enter;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
 	($.$mol_text_list) = class $mol_text_list extends ($.$mol_text) {
 		type(){
 			return "";
@@ -21939,18 +22414,6 @@ var $;
 			const obj = new this.$.$mol_lights_toggle();
 			return obj;
 		}
-		Tokens_label(){
-			const obj = new this.$.$mol_text();
-			(obj.text) = () => ("Сбор осуществляется от имени");
-			return obj;
-		}
-		token(){
-			return (this?.Token_switch()?.current());
-		}
-		Token_switch(){
-			const obj = new this.$.$shm_hitalama_token_switch();
-			return obj;
-		}
 		Foot_label(){
 			const obj = new this.$.$mol_paragraph();
 			(obj.title) = () => ("разработано в");
@@ -21964,16 +22427,49 @@ var $;
 			(obj.uri) = () => ((this?.logo_uri()));
 			return obj;
 		}
+		Tokens_label(){
+			const obj = new this.$.$mol_text();
+			(obj.text) = () => ("Сбор осуществляется от имени");
+			return obj;
+		}
+		token(){
+			return (this?.Token_switch()?.current());
+		}
+		Token_switch(){
+			const obj = new this.$.$shm_hitalama_token_switch();
+			return obj;
+		}
+		Tokens(){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => ([(this?.Tokens_label()), (this?.Token_switch())]);
+			return obj;
+		}
+		Profile(){
+			const obj = new this.$.$shm_hitalama_profile_switch();
+			return obj;
+		}
+		Spread_current(){
+			const obj = new this.$.$mol_view();
+			return obj;
+		}
+		Main(){
+			const obj = new this.$.$mol_page();
+			(obj.head) = () => ([(this?.Tokens()), (this?.Profile())]);
+			(obj.body) = () => ([(this?.Spread_current())]);
+			return obj;
+		}
 		Analysis(){
 			const obj = new this.$.$shm_hitalama_analysis();
-			(obj.head) = () => ([(this?.Tokens())]);
 			(obj.token) = () => ((this?.token()));
 			return obj;
 		}
 		Lists(){
 			const obj = new this.$.$shm_hitalama_lists();
-			(obj.head) = () => ([(this?.Tokens())]);
 			(obj.token) = () => ((this?.token()));
+			return obj;
+		}
+		profiles(){
+			const obj = new this.$.$shm_hitalama_profile_dict();
 			return obj;
 		}
 		param(){
@@ -21988,16 +22484,24 @@ var $;
 		menu_tools(){
 			return [(this?.Lights())];
 		}
-		Tokens(){
-			const obj = new this.$.$mol_view();
-			(obj.sub) = () => ([(this?.Tokens_label()), (this?.Token_switch())]);
-			return obj;
-		}
 		menu_foot(){
 			return [(this?.Foot_label()), (this?.Foot_logo())];
 		}
+		pages(){
+			return [(this?.Menu()), (this?.Main())];
+		}
 		spreads(){
 			return {"": (this?.Analysis()), "lists": (this?.Lists())};
+		}
+		Enter(){
+			const obj = new this.$.$shm_hitalama_profile_enter();
+			(obj.profiles) = () => ((this?.profiles()));
+			return obj;
+		}
+		Register(){
+			const obj = new this.$.$shm_hitalama_profile_register();
+			(obj.profiles) = () => ((this?.profiles()));
+			return obj;
 		}
 		Placeholder(){
 			return null;
@@ -22005,13 +22509,19 @@ var $;
 	};
 	($mol_mem(($.$shm_hitalama_app.prototype), "Theme"));
 	($mol_mem(($.$shm_hitalama_app.prototype), "Lights"));
-	($mol_mem(($.$shm_hitalama_app.prototype), "Tokens_label"));
-	($mol_mem(($.$shm_hitalama_app.prototype), "Token_switch"));
 	($mol_mem(($.$shm_hitalama_app.prototype), "Foot_label"));
 	($mol_mem(($.$shm_hitalama_app.prototype), "Foot_logo"));
+	($mol_mem(($.$shm_hitalama_app.prototype), "Tokens_label"));
+	($mol_mem(($.$shm_hitalama_app.prototype), "Token_switch"));
+	($mol_mem(($.$shm_hitalama_app.prototype), "Tokens"));
+	($mol_mem(($.$shm_hitalama_app.prototype), "Profile"));
+	($mol_mem(($.$shm_hitalama_app.prototype), "Spread_current"));
+	($mol_mem(($.$shm_hitalama_app.prototype), "Main"));
 	($mol_mem(($.$shm_hitalama_app.prototype), "Analysis"));
 	($mol_mem(($.$shm_hitalama_app.prototype), "Lists"));
-	($mol_mem(($.$shm_hitalama_app.prototype), "Tokens"));
+	($mol_mem(($.$shm_hitalama_app.prototype), "profiles"));
+	($mol_mem(($.$shm_hitalama_app.prototype), "Enter"));
+	($mol_mem(($.$shm_hitalama_app.prototype), "Register"));
 
 
 ;
@@ -22024,11 +22534,29 @@ var $;
     var $$;
     (function ($$) {
         class $shm_hitalama_app extends $.$shm_hitalama_app {
+            static profiles_ref = 'GBn8Du0d_xbxes5Pf';
+            Spread_current() {
+                const spread = this.spread();
+                if (spread == 'enter')
+                    return this.Enter();
+                if (spread == 'register')
+                    return this.Register();
+                return this.Spread(spread);
+            }
             logo_uri() {
                 return ($.$mol_dom_context.document?.location.host == 'hitalama.github.io'
                     ? '/hitalama-mol' : '') + super.logo_uri();
             }
+            profiles() {
+                $mol_wire_solid();
+                const ref = $hyoo_crus_ref(this.$.$shm_hitalama_app.profiles_ref);
+                const profiles = this.$.$hyoo_crus_glob.Node(ref, $shm_hitalama_profile_dict);
+                return profiles;
+            }
         }
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_app.prototype, "profiles", null);
         $$.$shm_hitalama_app = $shm_hitalama_app;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
@@ -22074,13 +22602,16 @@ var $;
                     content: 'center',
                 },
             },
-            Analysis: {
+            Main: {
                 flex: {
                     grow: 1,
                 },
                 Head: {
                     justify: {
                         content: 'flex-start',
+                    },
+                    align: {
+                        content: 'center',
                     },
                     padding: {
                         top: 0,
@@ -22088,17 +22619,18 @@ var $;
                     },
                 },
             },
-            Lists: {
-                flex: {
-                    grow: 1,
+            Profile: {
+                margin: {
+                    left: 'auto',
                 },
-                Head: {
-                    justify: {
-                        content: 'flex-start',
+                Enter_link: {
+                    align: {
+                        items: 'center',
                     },
-                    padding: {
-                        top: 0,
-                        bottom: 0,
+                },
+                Register_link: {
+                    align: {
+                        items: 'center',
                     },
                 },
             },
