@@ -2,7 +2,7 @@ namespace $.$$ {
 
 	export class $shm_hitalama_app extends $.$shm_hitalama_app {
 
-		static profiles_ref = 'GBn8Du0d_xbxes5Pf'
+		static profiles_ref = 'Æmeosfa4_3wKh4sDz'
 
 		Spread_current() {
 			const spread = this.spread()
