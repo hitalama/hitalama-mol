@@ -27,7 +27,7 @@ namespace $ {
 			const pass_key = this.Pass_key()!.val()!
 			if( !pass_key ) return null
 
-			const auth_key = $mol_wire_sync( $mpk_dse_auth ).key_import( pass_key!, password )
+			const auth_key = $mol_wire_sync( $shm_hitalama_profile_key ).import( pass_key!, password )
 			if( !auth_key ) return null
 
 			return auth_key
