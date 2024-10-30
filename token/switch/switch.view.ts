@@ -10,7 +10,7 @@ namespace $.$$ {
 
 		@ $mol_mem
 		profile() {
-			return this.$.$hyoo_crus_glob.home().hall_by( $shm_hitalama_profile, {} )
+			return this.$.$hyoo_crus_glob!.home().Hall(null)?.ensure( { '': $hyoo_crus_rank.get } )?.cast( $shm_hitalama_profile )!
 		}
 
 		@ $mol_mem
@@ -31,6 +31,11 @@ namespace $.$$ {
 
 		@ $mol_mem
 		current_ref( next?: string ): string {
+			if( next === undefined ) {
+				const tokens = this.tokens()
+				const ref = $mol_state_local.value<string>( `${ this }.current_ref()`)!
+				return tokens.find( t => t.ref().description == ref ) ? ref : ''
+			}
 			return $mol_state_local.value( `${ this }.current_ref()` , next ) || ''
 		}
 
@@ -72,6 +77,7 @@ namespace $.$$ {
 
 			const user_id = params.get('user_id')!
 
+			console.log('this.profile()', this.profile())
 			const token = this.profile()?.Tokens(null)?.make( {} )!
 			token?.Token(null)?.val( token_str )
 			token?.User_id(null)?.val( user_id )

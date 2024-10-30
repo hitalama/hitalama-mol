@@ -39,6 +39,8 @@ namespace $ {
 			const key = this.auth_key_decrypt( password )
 			if( !key ) return false
 
+			this.$.$hyoo_crus_auth.current( this.$.$hyoo_crus_auth.from( key ) )
+
 			const home = this.$.$hyoo_crus_glob!.home()
 			home.Hall(null)!.remote( this )
 			return true
@@ -46,6 +48,8 @@ namespace $ {
 		
 	}
 	
-	export const $shm_hitalama_profile_dict = $hyoo_crus_dict_to( $shm_hitalama_profile )
+	export class $shm_hitalama_profile_dict extends $hyoo_crus_dict_to( $hyoo_crus_atom_ref_to( ()=> $shm_hitalama_profile ) ) {
+		
+	}
 
 }

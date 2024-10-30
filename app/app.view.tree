@@ -20,13 +20,7 @@ $shm_hitalama_app $mol_book2_catalog
 							text \Сбор осуществляется от имени
 						<= Token_switch $shm_hitalama_token_switch
 							current => token
-				<= Profile $shm_hitalama_profile_current
-				- <= Enter_link $mol_link
-					title \Войти
-					arg * section \enter
-				- <= Register_link $mol_link
-					title \Регистрация
-					arg * section \register
+				<= Profile $shm_hitalama_profile_switch
 			body / <= Spread_current $mol_view
 	spreads *
 		\
@@ -36,5 +30,7 @@ $shm_hitalama_app $mol_book2_catalog
 			token <= token
 	
 	Enter $shm_hitalama_profile_enter
+		profiles <= profiles $shm_hitalama_profile_dict
 	Register $shm_hitalama_profile_register
+		profiles <= profiles
 	Placeholder null

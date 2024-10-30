@@ -1,9 +1,8 @@
 $shm_hitalama_profile_register $mol_section
 	title \Регистрация
+	profiles $shm_hitalama_profile_dict
+	- Profile_link $mol_link
 	content /
-		- <= Enter_cancel $mol_link
-			title \Назад
-			arg * page null
 		<= Login_label $mol_labeler
 			title \Логин
 			content /
@@ -14,3 +13,7 @@ $shm_hitalama_profile_register $mol_section
 			content /
 				<= Password $mol_password
 					value? <=> passwond? \
+		<= Submit $mol_button_major
+			title <= submit_title \Зарегистрироваться
+			click? <=> submit? null
+		^ message_view / <= Message $mol_text text <= message? \

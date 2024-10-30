@@ -1,9 +1,15 @@
-$shm_hitalama_profile_current $mol_view
+$shm_hitalama_profile_switch $mol_view
 	profile null $shm_hitalama_profile
 	sub /
-		<= Login $mol_link
+		- <= Login $mol_link
 			title <= login \
 			arg * section \profile
+		<= Current $mol_pop_over
+			Anchor <= Login $mol_button_minor title <= login \
+			bubble_content /
+				<= Exit $mol_button_minor
+					title \Выйти
+					click? <=> exit? null
 	buttons /
 		<= Enter_link $mol_link
 			title \Войти

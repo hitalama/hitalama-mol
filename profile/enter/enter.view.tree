@@ -1,13 +1,5 @@
-$shm_hitalama_profile_enter $mol_section
+$shm_hitalama_profile_enter $shm_hitalama_profile_register
 	title \Вход
-	content /
-		<= Login_label $mol_labeler
-			title \Логин
-			content /
-				<= Login $mol_string
-					value? <=> login? \
-		<= Password_label $mol_labeler
-			title \Пароль
-			content /
-				<= Password $mol_password
-					value? <=> passwond? \
+	submit_title \Войти
+	auto / <= pull_pass_keys null
+	message_incorrect_pass \Неверный логин или пароль
