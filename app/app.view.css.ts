@@ -48,10 +48,28 @@ namespace $.$$ {
 				justify: {
 					content: 'flex-start',
 				},
+				align: {
+					content: 'center',
+				},
 				padding: {
 					top: 0,
 					bottom: 0,
 				},
+			},
+		},
+
+		Enter_link: {
+			margin: {
+				left: 'auto',
+			},
+			align: {
+				items: 'center',
+			},
+		},
+
+		Register_link: {
+			align: {
+				items: 'center',
 			},
 		},
 		

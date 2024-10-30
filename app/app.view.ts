@@ -3,7 +3,10 @@ namespace $.$$ {
 	export class $shm_hitalama_app extends $.$shm_hitalama_app {
 
 		Spread_current() {
-			return this.Spread( this.spread() )
+			const spread = this.spread()
+			if( spread == 'enter' ) return this.Enter()
+			if( spread == 'register' ) return this.Register()
+			return this.Spread( spread )
 		}
 
 		logo_uri() {

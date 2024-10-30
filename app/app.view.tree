@@ -5,12 +5,6 @@ $shm_hitalama_app $mol_book2_catalog
 		<= Theme $mol_theme_auto
 	menu_tools /
 		<= Lights $mol_lights_toggle
-	Tokens $mol_view
-		sub /
-			<= Tokens_label $mol_text
-				text \Сбор осуществляется от имени
-			<= Token_switch $shm_hitalama_token_switch
-				current => token
 	menu_foot /
 		<= Foot_label $mol_paragraph
 			title \разработано в
@@ -19,7 +13,19 @@ $shm_hitalama_app $mol_book2_catalog
 	pages /
 		<= Menu
 		<= Main $mol_page
-			head / <= Tokens
+			head /
+				<= Tokens $mol_view
+					sub /
+						<= Tokens_label $mol_text
+							text \Сбор осуществляется от имени
+						<= Token_switch $shm_hitalama_token_switch
+							current => token
+				<= Enter_link $mol_link
+					title \Войти
+					arg * section \enter
+				<= Register_link $mol_link
+					title \Регистрирация
+					arg * section \register
 			body / <= Spread_current $mol_view
 	spreads *
 		\
@@ -27,4 +33,6 @@ $shm_hitalama_app $mol_book2_catalog
 				token <= token
 		lists <= Lists $shm_hitalama_lists
 			token <= token
+	Enter $shm_hitalama_profile_enter
+	Register $shm_hitalama_profile_register
 	Placeholder null

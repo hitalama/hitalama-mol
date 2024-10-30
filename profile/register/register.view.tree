@@ -1,0 +1,16 @@
+$shm_hitalama_profile_register $mol_section
+	title \Регистрация
+	content /
+		- <= Enter_cancel $mol_link
+			title \Назад
+			arg * page null
+		<= Login_label $mol_labeler
+			title \Логин
+			content /
+				<= Login $mol_string
+					value? <=> login? \
+		<= Password_label $mol_labeler
+			title \Пароль
+			content /
+				<= Password $mol_password
+					value? <=> passwond? \
