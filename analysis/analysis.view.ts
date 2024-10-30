@@ -3,11 +3,6 @@ namespace $.$$ {
 	export class $shm_hitalama_analysis extends $.$shm_hitalama_analysis {
 		
 		@ $mol_mem
-		profile() {
-			return this.$.$hyoo_crus_glob.home().hall_by( $shm_hitalama_profile, {} )
-		}
-
-		@ $mol_mem
 		token_str() {
 			return this.token()?.Token()?.val() || ''
 		}
@@ -59,7 +54,7 @@ namespace $.$$ {
 
 		@ $mol_mem
 		lists_dict() {
-			const lists = this.profile()?.Groups_lists()?.remote_list() ?? []
+			const lists = this.$.$shm_hitalama_profile.current()?.Groups_lists()?.remote_list() ?? []
 			const dict = Object.fromEntries( lists.map( l => 
 				[ l.ref().description, l.Name()?.val()! ]
 			) )

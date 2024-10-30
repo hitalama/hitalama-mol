@@ -3,11 +3,6 @@ namespace $.$$ {
 	export class $shm_hitalama_group_search extends $.$shm_hitalama_group_search {
 		
 		@ $mol_mem
-		profile() {
-			return this.$.$hyoo_crus_glob.home().hall_by( $shm_hitalama_profile, {} )
-		}
-
-		@ $mol_mem
 		search_result( next?: any ) {
 			return next ?? null
 		}

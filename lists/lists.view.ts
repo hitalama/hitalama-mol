@@ -10,11 +10,6 @@ namespace $.$$ {
 					? this.Editing()
 					: this.Main()
 		}
-		
-		@ $mol_mem
-		profile() {
-			return this.$.$hyoo_crus_glob.home().hall_by( $shm_hitalama_profile, {} )
-		}
 
 		@ $mol_mem
 		token_str() {
@@ -33,7 +28,7 @@ namespace $.$$ {
 
 		@ $mol_mem
 		lists() {
-			return this.profile()?.Groups_lists()?.remote_list().map( l => this.List( l.ref() ) ) ?? []
+			return this.$.$shm_hitalama_profile.current()?.Groups_lists()?.remote_list().map( l => this.List( l.ref() ) ) ?? []
 		}
 
 		@ $mol_mem_key
@@ -58,7 +53,7 @@ namespace $.$$ {
 		}
 
 		remove_list( ref: $hyoo_crus_ref ) {
-			this.profile()?.Groups_lists()?.cut( ref )
+			this.$.$shm_hitalama_profile.current()?.Groups_lists()?.cut( ref )
 		}
 		
 	}

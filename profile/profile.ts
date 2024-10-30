@@ -10,6 +10,11 @@ namespace $ {
 
 	}){
 
+		@ $mol_mem
+		static current() {
+			return this.$.$hyoo_crus_glob!.home().Hall(null)?.ensure( { '': $hyoo_crus_rank.get } )?.cast( $shm_hitalama_profile )!
+		}
+
 		@ $mol_action
 		password( password: string ) {
 			const pass_key = $mol_wire_sync( this.$.$shm_hitalama_profile_key ).export( 

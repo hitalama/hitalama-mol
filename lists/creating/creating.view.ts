@@ -3,11 +3,6 @@ namespace $.$$ {
 	export class $shm_hitalama_lists_creating extends $.$shm_hitalama_lists_creating {
 		
 		@ $mol_mem
-		profile() {
-			return this.$.$hyoo_crus_glob.home().hall_by( $shm_hitalama_profile, {} )
-		}
-
-		@ $mol_mem
 		token_str() {
 			return this.token()?.Token()?.val() || ''
 		}
@@ -48,7 +43,7 @@ namespace $.$$ {
 
 		@ $mol_action
 		save() {
-			const list = this.profile()?.Groups_lists(null)?.make( {} )
+			const list = this.$.$shm_hitalama_profile.current()?.Groups_lists(null)?.make( {} )
 			list?.Name(null)?.val( this.name() )
 
 			this.groups_list().forEach( id => {
