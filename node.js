@@ -15938,6 +15938,9 @@ var $;
         Login: $hyoo_crus_atom_str,
         Pass_key: $hyoo_crus_atom_str,
     }) {
+        static current() {
+            return this.$.$hyoo_crus_glob.home().Hall(null)?.ensure({ '': $hyoo_crus_rank.get })?.cast($shm_hitalama_profile);
+        }
         password(password) {
             const pass_key = $mol_wire_sync(this.$.$shm_hitalama_profile_key).export(this.$.$hyoo_crus_auth.current().toString(), password, this.Login()?.val());
             this.Pass_key(null).val(pass_key);
@@ -15970,6 +15973,9 @@ var $;
     __decorate([
         $mol_action
     ], $shm_hitalama_profile.prototype, "enter", null);
+    __decorate([
+        $mol_mem
+    ], $shm_hitalama_profile, "current", null);
     $.$shm_hitalama_profile = $shm_hitalama_profile;
     class $shm_hitalama_profile_dict extends $hyoo_crus_dict_to($hyoo_crus_atom_ref_to(() => $shm_hitalama_profile)) {
     }
@@ -16286,13 +16292,10 @@ var $;
     (function ($$) {
         class $shm_hitalama_profile_switch extends $.$shm_hitalama_profile_switch {
             login() {
-                return this.profile()?.Login()?.val() ?? '';
+                return this.$.$shm_hitalama_profile.current()?.Login()?.val() ?? '';
             }
             sub() {
                 return this.login() ? super.sub() : this.buttons();
-            }
-            profile() {
-                return this.$.$hyoo_crus_glob.home().Hall()?.remote()?.cast($shm_hitalama_profile);
             }
             exit() {
                 this.$.$hyoo_crus_auth.current(this.$.$hyoo_crus_auth.grab());
@@ -16924,9 +16927,6 @@ var $;
     var $$;
     (function ($$) {
         class $shm_hitalama_group_search extends $.$shm_hitalama_group_search {
-            profile() {
-                return this.$.$hyoo_crus_glob.home().hall_by($shm_hitalama_profile, {});
-            }
             search_result(next) {
                 return next ?? null;
             }
@@ -16967,9 +16967,6 @@ var $;
                         ? [this.Search_error()] : [];
             }
         }
-        __decorate([
-            $mol_mem
-        ], $shm_hitalama_group_search.prototype, "profile", null);
         __decorate([
             $mol_mem
         ], $shm_hitalama_group_search.prototype, "search_result", null);
@@ -21254,9 +21251,6 @@ var $;
     var $$;
     (function ($$) {
         class $shm_hitalama_analysis extends $.$shm_hitalama_analysis {
-            profile() {
-                return this.$.$hyoo_crus_glob.home().hall_by($shm_hitalama_profile, {});
-            }
             token_str() {
                 return this.token()?.Token()?.val() || '';
             }
@@ -21294,7 +21288,7 @@ var $;
                 return pending ? [this.Loaders()] : super.analysis();
             }
             lists_dict() {
-                const lists = this.profile()?.Groups_lists()?.remote_list() ?? [];
+                const lists = this.$.$shm_hitalama_profile.current()?.Groups_lists()?.remote_list() ?? [];
                 const dict = Object.fromEntries(lists.map(l => [l.ref().description, l.Name()?.val()]));
                 return dict;
             }
@@ -21350,9 +21344,6 @@ var $;
                 return list.Groups()?.remote_list()?.find(g => g.Owner_id()?.val() == owner_id)?.Name()?.val() || '';
             }
         }
-        __decorate([
-            $mol_mem
-        ], $shm_hitalama_analysis.prototype, "profile", null);
         __decorate([
             $mol_mem
         ], $shm_hitalama_analysis.prototype, "token_str", null);
@@ -21626,9 +21617,6 @@ var $;
     var $$;
     (function ($$) {
         class $shm_hitalama_lists_creating extends $.$shm_hitalama_lists_creating {
-            profile() {
-                return this.$.$hyoo_crus_glob.home().hall_by($shm_hitalama_profile, {});
-            }
             token_str() {
                 return this.token()?.Token()?.val() || '';
             }
@@ -21656,7 +21644,7 @@ var $;
                 return this.groups_list().length > 0;
             }
             save() {
-                const list = this.profile()?.Groups_lists(null)?.make({});
+                const list = this.$.$shm_hitalama_profile.current()?.Groups_lists(null)?.make({});
                 list?.Name(null)?.val(this.name());
                 this.groups_list().forEach(id => {
                     const group = list?.Groups(null)?.make(list.land());
@@ -21665,9 +21653,6 @@ var $;
                 this.$.$mol_state_arg.value(this.param(), null);
             }
         }
-        __decorate([
-            $mol_mem
-        ], $shm_hitalama_lists_creating.prototype, "profile", null);
         __decorate([
             $mol_mem
         ], $shm_hitalama_lists_creating.prototype, "token_str", null);
@@ -21951,9 +21936,6 @@ var $;
                         ? this.Editing()
                         : this.Main();
             }
-            profile() {
-                return this.$.$hyoo_crus_glob.home().hall_by($shm_hitalama_profile, {});
-            }
             token_str() {
                 return this.token()?.Token()?.val() || '';
             }
@@ -21964,7 +21946,7 @@ var $;
                 return this.group_list(ref).Name()?.val() || '';
             }
             lists() {
-                return this.profile()?.Groups_lists()?.remote_list().map(l => this.List(l.ref())) ?? [];
+                return this.$.$shm_hitalama_profile.current()?.Groups_lists()?.remote_list().map(l => this.List(l.ref())) ?? [];
             }
             groups(ref) {
                 return this.group_list(ref).Groups()?.remote_list().map(g => this.Group(g.ref())) ?? [];
@@ -21980,15 +21962,12 @@ var $;
                 return this.$.$hyoo_crus_glob.Node($hyoo_crus_ref(ref_str), $shm_hitalama_list);
             }
             remove_list(ref) {
-                this.profile()?.Groups_lists()?.cut(ref);
+                this.$.$shm_hitalama_profile.current()?.Groups_lists()?.cut(ref);
             }
         }
         __decorate([
             $mol_mem
         ], $shm_hitalama_lists.prototype, "current_view", null);
-        __decorate([
-            $mol_mem
-        ], $shm_hitalama_lists.prototype, "profile", null);
         __decorate([
             $mol_mem
         ], $shm_hitalama_lists.prototype, "token_str", null);
@@ -22246,11 +22225,8 @@ var $;
     var $$;
     (function ($$) {
         class $shm_hitalama_profile_register extends $.$shm_hitalama_profile_register {
-            profile() {
-                return this.$.$hyoo_crus_glob.home().Hall(null)?.ensure({ '': $hyoo_crus_rank.get })?.cast($shm_hitalama_profile);
-            }
             submit(next) {
-                const profile = this.profiles().key(this.login(), 'auto')?.remote(this.profile());
+                const profile = this.profiles().key(this.login(), 'auto')?.remote(this.$.$shm_hitalama_profile.current());
                 profile?.Login(null).val(this.login());
                 profile?.password(this.passwond());
                 if (profile) {
@@ -22260,9 +22236,6 @@ var $;
                 }
             }
         }
-        __decorate([
-            $mol_mem
-        ], $shm_hitalama_profile_register.prototype, "profile", null);
         $$.$shm_hitalama_profile_register = $shm_hitalama_profile_register;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
