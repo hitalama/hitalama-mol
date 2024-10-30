@@ -1,4 +1,4 @@
-$shm_hitalama_analysis $mol_page
+$shm_hitalama_analysis $mol_list
 	title \Сбор и анализ постов
 	token $shm_hitalama_token
 	token_str \
@@ -7,7 +7,7 @@ $shm_hitalama_analysis $mol_page
 	collect_queue? /string
 	auto / <= auto_collect null
 	collect_pending false
-	body /
+	sub /
 		<= Section $mol_section
 			title <= title
 		^ group_body /

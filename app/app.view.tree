@@ -16,12 +16,15 @@ $shm_hitalama_app $mol_book2_catalog
 			title \разработано в
 		<= Foot_logo $mol_image
 			uri <= logo_uri \/shm/hitalama/app/foot/foot_logo.png
+	pages /
+		<= Menu
+		<= Main $mol_page
+			head / <= Tokens
+			body / <= Spread_current $mol_view
 	spreads *
 		\
 			<= Analysis $shm_hitalama_analysis
-				head / <= Tokens
 				token <= token
 		lists <= Lists $shm_hitalama_lists
-			head / <= Tokens
 			token <= token
 	Placeholder null

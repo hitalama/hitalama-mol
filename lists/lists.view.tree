@@ -1,7 +1,7 @@
-$shm_hitalama_lists $mol_page
+$shm_hitalama_lists $mol_list
 	title \Списки сообществ
 	token $shm_hitalama_token
-	body /
+	sub /
 		<= current_view <= Main
 	Main $mol_section
 		title <= title

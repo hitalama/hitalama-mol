@@ -40,21 +40,7 @@ namespace $.$$ {
 			},
 		},
 
-		Analysis: {
-			flex: {
-				grow: 1,
-			},
-			Head: {
-				justify: {
-					content: 'flex-start',
-				},
-				padding: {
-					top: 0,
-					bottom: 0,
-				},
-			},
-		},
-		Lists: {
+		Main: {
 			flex: {
 				grow: 1,
 			},
