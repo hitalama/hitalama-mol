@@ -35,6 +35,11 @@ namespace $ {
 		static vk_newFuncWall( params: { access_token: string, owner_id: string, offset: string, count_execute: string }, cb: any, ...args: any ) {
 			this.vk_method( 'execute.newFuncWall', { ... params, hm_version: '24157', v: '5.130', timout: '60e3' }, cb, ...args )
 		}
+
+		@ $mol_action
+		static vk_groups_getById( params: { access_token: string, groups_id: string }, cb: any, ...args: any ) {
+			this.vk_method( 'execute.groups_getById', { ... params, hm_version: '24157', v: '5.130', timout: '60e3' }, cb, ...args )
+		}
 		
 	}
 

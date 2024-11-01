@@ -2,10 +2,8 @@ namespace $.$$ {
 	
 	$mol_style_define( $shm_hitalama_analysis, {
 
-		Body_content: {
-			transition: 'none',
-			gap: $mol_gap.block,
-		},
+		transition: 'none',
+		gap: $mol_gap.block,
 
 		Collect_block: {
 			flex: {
