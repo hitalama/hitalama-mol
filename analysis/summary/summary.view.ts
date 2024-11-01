@@ -2,99 +2,114 @@ namespace $.$$ {
 
 	export class $shm_hitalama_analysis_summary extends $.$shm_hitalama_analysis_summary {
 
-		@ $mol_mem_key
-		group( ref: $hyoo_crus_ref ) {
-			return this.$.$hyoo_crus_glob.Node( ref, $shm_hitalama_group )
+		@ $mol_mem
+		groups_dtos( next?: any ) {
+			if( next === undefined ) {
+				const groups_id = this.owner_ids().map( id => id.slice(1) ).join(',')
+				$mol_wire_async($shm_hitalama_jsonp).vk_groups_getById( { access_token: this.token_str(), groups_id }, this.groups_dtos.bind(this) )
+				return
+			}
+
+			const groups = new Map
+			this.owner_ids().forEach( id => {
+				const match = next?.response.find( (g: any) => g.id == id.slice(1) )
+				if( match ) groups.set( id, match )
+			} )
+
+			return groups
 		}
 
 		rows() {
-			const rows = this.groups().map( g => this.Row( g.ref() ) )
+			const rows = this.owner_ids().map( id => this.Row( id ) )
 			return rows.length > 1 ? [ ... rows, this.Sum_row() ] : rows
 		}
 		
 		@ $mol_mem_key
-		photo( ref: $hyoo_crus_ref ) {
-			return this.group( ref ).Photo_url()?.val() ?? ''
+		photo( owner_id: string ) {
+			const group = this.groups_dtos()?.get( owner_id )
+			return group?.photo_50 ?? ''
 		}
 
 		@ $mol_mem_key
-		owner_id( ref: $hyoo_crus_ref ) {
-			return this.group( ref ).Owner_id()?.val() ?? ''
+		owner_id( owner_id: string ) {
+			return owner_id
 		}
 
 		@ $mol_mem_key
-		name( ref: $hyoo_crus_ref ) {
-			return this.group( ref ).Name()?.val() ?? ''
+		name( owner_id: string ) {
+			const group = this.groups_dtos()?.get( owner_id )
+			return group?.name ?? ''
 		}
 
 		@ $mol_mem_key
-		member_counts( ref: $hyoo_crus_ref ) {
-			return String( this.group( ref ).Members_count()?.val() ) ?? ''
+		members_count( owner_id: string ) {
+			const group = this.groups_dtos()?.get( owner_id )
+			return group?.members_count ?? ''
 		}
 
 		@ $mol_mem_key
-		posts_dto_by_ref( ref: $hyoo_crus_ref ) {
-			return this.posts_dto_by_owner( this.group( ref ).Owner_id()?.val() )
+		posts_counts( owner_id: string ) {
+			return this.posts_dto_by_owner(owner_id)?.[0].length ?? ''
 		}
 
 		@ $mol_mem_key
-		posts_counts( ref: $hyoo_crus_ref ) {
-			return this.posts_dto_by_ref(ref)?.[0].length ?? ''
+		views( owner_id: string ) {
+			return String( sum( this.posts_dto_by_owner(owner_id)?.[5] ) ?? '' )
 		}
 
 		@ $mol_mem_key
-		views( ref: $hyoo_crus_ref ) {
-			return String( sum( this.posts_dto_by_ref(ref)?.[5] ) ?? '' )
+		likes( owner_id: string ) {
+			return String( sum( this.posts_dto_by_owner(owner_id)?.[2] ) ?? '' )
 		}
 
 		@ $mol_mem_key
-		likes( ref: $hyoo_crus_ref ) {
-			return String( sum( this.posts_dto_by_ref(ref)?.[2] ) ?? '' )
+		reposts( owner_id: string ) {
+			return String( sum( this.posts_dto_by_owner(owner_id)?.[3] ) ?? '' )
 		}
 
 		@ $mol_mem_key
-		reposts( ref: $hyoo_crus_ref ) {
-			return String( sum( this.posts_dto_by_ref(ref)?.[3] ) ?? '' )
+		comments( owner_id: string ) {
+			return String( sum( this.posts_dto_by_owner(owner_id)?.[4] ) ?? '' )
 		}
 
 		@ $mol_mem_key
-		comments( ref: $hyoo_crus_ref ) {
-			return String( sum( this.posts_dto_by_ref(ref)?.[4] ) ?? '' )
+		erv( owner_id: string ) {
+			return '1'
 		}
 		
 		@ $mol_mem
-		sum_member_counts() {
-			const arr = this.groups().map( g => Number( this.member_counts( g.ref() ) ) )
+		sum_members_count() {
+			const arr = this.owner_ids().map( id => Number( this.members_count( id ) ) )
 			return String( sum(arr) ?? '' )
 		}
 
 		@ $mol_mem
 		sum_posts_counts() {
-			const arr = this.groups().map( g => Number( this.posts_counts( g.ref() ) ) )
+			const arr = this.owner_ids().map( id => Number( this.posts_counts( id ) ) )
 			return String( sum(arr) ?? '' )
 		}
 
 		@ $mol_mem
 		sum_views() {
-			const arr = this.groups().map( g => Number( this.views( g.ref() ) ) )
+			const arr = this.owner_ids().map( id => Number( this.views( id ) ) )
 			return String( sum(arr) ?? '' )
 		}
 
 		@ $mol_mem
 		sum_likes() {
-			const arr = this.groups().map( g => Number( this.likes( g.ref() ) ) )
+			const arr = this.owner_ids().map( id => Number( this.likes( id ) ) )
 			return String( sum(arr) ?? '' )
 		}
 
 		@ $mol_mem
 		sum_reposts() {
-			const arr = this.groups().map( g => Number( this.reposts( g.ref() ) ) )
+			const arr = this.owner_ids().map( id => Number( this.reposts( id ) ) )
 			return String( sum(arr) ?? '' )
 		}
 
 		@ $mol_mem
 		sum_comments() {
-			const arr = this.groups().map( g => Number( this.comments( g.ref() ) ) )
+			const arr = this.owner_ids().map( id => Number( this.comments( id ) ) )
 			return String( sum(arr) ?? '' )
 		}
 		

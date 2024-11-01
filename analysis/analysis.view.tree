@@ -44,7 +44,7 @@ $shm_hitalama_analysis $mol_list
 					content /
 						<= Summary $shm_hitalama_analysis_summary
 							token_str <= token_str
-							groups <= summary_groups /$shm_hitalama_group
+							owner_ids <= owner_ids /
 							posts_dto_by_owner* <= posts_dto_by_owner*
 				<= Posts_deck $mol_deck
 					items /

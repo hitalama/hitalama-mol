@@ -9,18 +9,13 @@ namespace $.$$ {
 		}
 
 		@ $mol_mem
-		profile() {
-			return this.$.$hyoo_crus_glob!.home().Hall(null)?.ensure( { '': $hyoo_crus_rank.get } )?.cast( $shm_hitalama_profile )!
-		}
-
-		@ $mol_mem
 		tokens() {
-			return this.profile()?.Tokens()?.remote_list() ?? []
+			return this.$.$shm_hitalama_profile.current()?.Tokens()?.remote_list() ?? []
 		}
 
 		clear() {
 			this.current_ref('')
-			this.profile()?.Tokens()?.remote_list( [] )
+			this.$.$shm_hitalama_profile.current()?.Tokens()?.remote_list( [] )
 		}
 
 		@ $mol_mem
@@ -63,8 +58,6 @@ namespace $.$$ {
 		@ $mol_action
 		vk_user_receive( res: any, token: $shm_hitalama_token ){
 			const photo_url = res.response[0].photo_50
-			console.log('token', token)
-			console.log('photo_url', photo_url)
 			token.Avatar_url(null)?.val( photo_url )
 		}
 
@@ -77,8 +70,7 @@ namespace $.$$ {
 
 			const user_id = params.get('user_id')!
 
-			console.log('this.profile()', this.profile())
-			const token = this.profile()?.Tokens(null)?.make( {} )!
+			const token = this.$.$shm_hitalama_profile.current()?.Tokens(null)?.make( {} )!
 			token?.Token(null)?.val( token_str )
 			token?.User_id(null)?.val( user_id )
 

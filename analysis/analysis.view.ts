@@ -36,7 +36,6 @@ namespace $.$$ {
 
 		@ $mol_mem
 		analysis() {
-			// console.log('this.posts_dto_by_owner( this.search_owner_id() )', this.posts_dto_by_owner( this.search_owner_id() ))
 			if( this.search_owner_id() ) {
 				return this.posts_pending( this.search_owner_id() ) ? [ this.Loaders() ]
 					: this.posts_dto_by_owner( this.search_owner_id() ) ? super.analysis()  : []
@@ -108,17 +107,6 @@ namespace $.$$ {
 
 		collect_cancel() {
 			this.collect_queue( [] )
-		}
-
-		summary_groups() {
-			const list = this.selected_list()
-			if( !list ) {
-				const group = this.$.$hyoo_crus_glob.land_grab( {} ).Data( $shm_hitalama_group )
-				group.fill( this.search_dto()! )
-				return [ group ]
-			}
-
-			return list.Groups()?.remote_list() ?? []
 		}
 
 		@ $mol_mem_key
