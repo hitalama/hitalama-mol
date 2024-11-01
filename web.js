@@ -16240,7 +16240,8 @@ var $;
         Pass_key: $hyoo_crus_atom_str,
     }) {
         static current() {
-            return this.$.$hyoo_crus_glob.home().Hall(null)?.ensure({ '': $hyoo_crus_rank.get })?.cast($shm_hitalama_profile);
+            const profile = this.$.$hyoo_crus_glob.home().hall_by($shm_hitalama_profile, { '': $hyoo_crus_rank.get });
+            return profile;
         }
         password(password) {
             const pass_key = $mol_wire_sync(this.$.$shm_hitalama_profile_key).export(this.$.$hyoo_crus_auth.current().toString(), password, this.Login()?.val());
@@ -22705,7 +22706,12 @@ var $;
             }
             pull_pass_keys() {
                 this.profiles()?.keys().forEach(k => {
-                    this.profiles().key(k)?.remote()?.Pass_key()?.val();
+                    try {
+                        this.profiles().key(k)?.remote()?.Pass_key()?.val();
+                    }
+                    catch (error) {
+                        console.log(error);
+                    }
                 });
             }
             submit(next) {
