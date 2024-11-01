@@ -15853,12 +15853,14 @@ var $;
 (function ($) {
     class $shm_hitalama_group extends $hyoo_crus_entity.with({
         Name: $hyoo_crus_atom_str,
+        Group_id: $hyoo_crus_atom_str,
         Owner_id: $hyoo_crus_atom_str,
         Photo_url: $hyoo_crus_atom_str,
         Members_count: $hyoo_crus_atom_real,
     }) {
         fill(dto) {
             this.Name(null)?.val(dto?.name);
+            this.Group_id(null)?.val(dto?.id);
             this.Owner_id(null)?.val('-' + dto?.id);
             this.Photo_url(null)?.val(dto?.photo_50);
             this.Members_count(null)?.val(dto?.members_count);
@@ -16053,6 +16055,9 @@ var $;
         static vk_newFuncWall(params, cb, ...args) {
             this.vk_method('execute.newFuncWall', { ...params, hm_version: '24157', v: '5.130', timout: '60e3' }, cb, ...args);
         }
+        static vk_groups_getById(params, cb, ...args) {
+            this.vk_method('execute.groups_getById', { ...params, hm_version: '24157', v: '5.130', timout: '60e3' }, cb, ...args);
+        }
     }
     __decorate([
         $mol_action
@@ -16069,6 +16074,9 @@ var $;
     __decorate([
         $mol_action
     ], $shm_hitalama_jsonp, "vk_newFuncWall", null);
+    __decorate([
+        $mol_action
+    ], $shm_hitalama_jsonp, "vk_groups_getById", null);
     $.$shm_hitalama_jsonp = $shm_hitalama_jsonp;
 })($ || ($ = {}));
 
@@ -21103,6 +21111,7 @@ var $;
 		}
 		Summary(){
 			const obj = new this.$.$shm_hitalama_analysis_summary();
+			(obj.token_str) = () => ((this?.token_str()));
 			(obj.groups) = () => ((this?.summary_groups()));
 			(obj.posts_dto_by_owner) = (id) => ((this?.posts_dto_by_owner(id)));
 			return obj;
@@ -21385,10 +21394,8 @@ var $;
     var $$;
     (function ($$) {
         $mol_style_define($shm_hitalama_analysis, {
-            Body_content: {
-                transition: 'none',
-                gap: $mol_gap.block,
-            },
+            transition: 'none',
+            gap: $mol_gap.block,
             Collect_block: {
                 flex: {
                     direction: 'column',
@@ -28124,6 +28131,26 @@ var $;
         const profiles = $hyoo_crus_glob.land_grab({ '': $hyoo_crus_rank.mod }).Data($shm_hitalama_profile_dict);
         return $mol_state_session.value('$shm_hitalama_app.prototype.profiles_ref', profiles.land().ref().description);
     };
+    $.$shm_hitalama_app_test_actions = {
+        create_list: async () => {
+            ;
+            $shm_hitalama_app.Root(0).Menu_link_title('lists').dom_node().click();
+            await sleep(50);
+            $shm_hitalama_app.Root(0).Lists().Open_create().dom_node().click();
+            await sleep(50);
+            $shm_hitalama_app.Root(0).Lists().Creating().Search().Search().click();
+            await sleep(100);
+            $shm_hitalama_app.Root(0).Lists().Creating().Add();
+            $shm_hitalama_app.Root(0).Lists().Creating().Search().Group_id().value('smmblogs');
+            await sleep(20);
+            $shm_hitalama_app.Root(0).Lists().Creating().Add();
+            await sleep(20);
+            $shm_hitalama_app.Root(0).Lists().Creating().Save().click();
+        },
+    };
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
 })($ || ($ = {}));
 
 

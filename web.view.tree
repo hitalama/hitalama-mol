@@ -1530,6 +1530,7 @@ $shm_hitalama_analysis $mol_list
 					title \Сводные показатели
 					content /
 						<= Summary $shm_hitalama_analysis_summary
+							token_str <= token_str
 							groups <= summary_groups /$shm_hitalama_group
 							posts_dto_by_owner* <= posts_dto_by_owner*
 				<= Posts_deck $mol_deck
