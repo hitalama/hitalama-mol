@@ -16094,15 +16094,12 @@ var $;
                 const { origin, pathname } = $.$mol_dom_context.document?.location;
                 return origin + pathname;
             }
-            profile() {
-                return this.$.$hyoo_crus_glob.home().Hall(null)?.ensure({ '': $hyoo_crus_rank.get })?.cast($shm_hitalama_profile);
-            }
             tokens() {
-                return this.profile()?.Tokens()?.remote_list() ?? [];
+                return this.$.$shm_hitalama_profile.current()?.Tokens()?.remote_list() ?? [];
             }
             clear() {
                 this.current_ref('');
-                this.profile()?.Tokens()?.remote_list([]);
+                this.$.$shm_hitalama_profile.current()?.Tokens()?.remote_list([]);
             }
             current() {
                 const id = this.current_ref();
@@ -16131,8 +16128,6 @@ var $;
             }
             vk_user_receive(res, token) {
                 const photo_url = res.response[0].photo_50;
-                console.log('token', token);
-                console.log('photo_url', photo_url);
                 token.Avatar_url(null)?.val(photo_url);
             }
             vk_token_url_parse() {
@@ -16141,8 +16136,7 @@ var $;
                 if (!token_str)
                     return;
                 const user_id = params.get('user_id');
-                console.log('this.profile()', this.profile());
-                const token = this.profile()?.Tokens(null)?.make({});
+                const token = this.$.$shm_hitalama_profile.current()?.Tokens(null)?.make({});
                 token?.Token(null)?.val(token_str);
                 token?.User_id(null)?.val(user_id);
                 this.$.$mol_state_arg.value('access_token', null);
@@ -16164,9 +16158,6 @@ var $;
         __decorate([
             $mol_mem
         ], $shm_hitalama_token_switch.prototype, "vk_redirect_uri", null);
-        __decorate([
-            $mol_mem
-        ], $shm_hitalama_token_switch.prototype, "profile", null);
         __decorate([
             $mol_mem
         ], $shm_hitalama_token_switch.prototype, "tokens", null);
@@ -17145,7 +17136,7 @@ var $;
 			(obj.sub) = () => (["Название"]);
 			return obj;
 		}
-		Head_member_counts(){
+		Head_members_count(){
 			const obj = new this.$.$mol_view();
 			(obj.sub) = () => (["Подписчики"]);
 			return obj;
@@ -17175,6 +17166,11 @@ var $;
 			(obj.sub) = () => (["Комментарии"]);
 			return obj;
 		}
+		Head_ERv(){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => (["ER.v, %"]);
+			return obj;
+		}
 		photo(id){
 			return "";
 		}
@@ -17195,12 +17191,12 @@ var $;
 			(obj.title) = () => ((this?.name(id)));
 			return obj;
 		}
-		member_counts(id){
+		members_count(id){
 			return "";
 		}
 		Member_counts(id){
 			const obj = new this.$.$mol_paragraph();
-			(obj.title) = () => ((this?.member_counts(id)));
+			(obj.title) = () => ((this?.members_count(id)));
 			return obj;
 		}
 		posts_counts(id){
@@ -17243,6 +17239,14 @@ var $;
 			(obj.title) = () => ((this?.comments(id)));
 			return obj;
 		}
+		erv(id){
+			return "";
+		}
+		ERv(id){
+			const obj = new this.$.$mol_paragraph();
+			(obj.title) = () => ((this?.erv(id)));
+			return obj;
+		}
 		sum_photo(){
 			return "";
 		}
@@ -17259,12 +17263,12 @@ var $;
 			(obj.title) = () => ((this?.sum_name()));
 			return obj;
 		}
-		sum_member_counts(){
+		sum_members_count(){
 			return "";
 		}
-		Sum_member_counts(){
+		Sum_members_count(){
 			const obj = new this.$.$mol_paragraph();
-			(obj.title) = () => ((this?.sum_member_counts()));
+			(obj.title) = () => ((this?.sum_members_count()));
 			return obj;
 		}
 		sum_posts_counts(){
@@ -17307,8 +17311,20 @@ var $;
 			(obj.title) = () => ((this?.sum_comments()));
 			return obj;
 		}
-		groups(){
+		Sum_ERv(){
+			const obj = new this.$.$mol_paragraph();
+			(obj.title) = () => ("");
+			return obj;
+		}
+		token_str(){
+			return "";
+		}
+		owner_ids(){
 			return [];
+		}
+		groups_dtos(next){
+			if(next !== undefined) return next;
+			return null;
 		}
 		posts_dto_by_owner(id){
 			return null;
@@ -17317,12 +17333,13 @@ var $;
 			return [
 				(this?.Head_photo()), 
 				(this?.Head_name()), 
-				(this?.Head_member_counts()), 
+				(this?.Head_members_count()), 
 				(this?.Head_posts_counts()), 
 				(this?.Head_views()), 
 				(this?.Head_likes()), 
 				(this?.Head_reposts()), 
-				(this?.Head_comments())
+				(this?.Head_comments()), 
+				(this?.Head_ERv())
 			];
 		}
 		Row(id){
@@ -17335,7 +17352,8 @@ var $;
 				(this?.Views(id)), 
 				(this?.Likes(id)), 
 				(this?.Reposts(id)), 
-				(this?.Comments(id))
+				(this?.Comments(id)), 
+				(this?.ERv(id))
 			]);
 			return obj;
 		}
@@ -17344,24 +17362,26 @@ var $;
 			(obj.sub) = () => ([
 				(this?.Sum_photo()), 
 				(this?.Sum_name()), 
-				(this?.Sum_member_counts()), 
+				(this?.Sum_members_count()), 
 				(this?.Sum_posts_counts()), 
 				(this?.Sum_views()), 
 				(this?.Sum_likes()), 
 				(this?.Sum_reposts()), 
-				(this?.Sum_comments())
+				(this?.Sum_comments()), 
+				(this?.Sum_ERv())
 			]);
 			return obj;
 		}
 	};
 	($mol_mem(($.$shm_hitalama_analysis_summary.prototype), "Head_photo"));
 	($mol_mem(($.$shm_hitalama_analysis_summary.prototype), "Head_name"));
-	($mol_mem(($.$shm_hitalama_analysis_summary.prototype), "Head_member_counts"));
+	($mol_mem(($.$shm_hitalama_analysis_summary.prototype), "Head_members_count"));
 	($mol_mem(($.$shm_hitalama_analysis_summary.prototype), "Head_posts_counts"));
 	($mol_mem(($.$shm_hitalama_analysis_summary.prototype), "Head_views"));
 	($mol_mem(($.$shm_hitalama_analysis_summary.prototype), "Head_likes"));
 	($mol_mem(($.$shm_hitalama_analysis_summary.prototype), "Head_reposts"));
 	($mol_mem(($.$shm_hitalama_analysis_summary.prototype), "Head_comments"));
+	($mol_mem(($.$shm_hitalama_analysis_summary.prototype), "Head_ERv"));
 	($mol_mem_key(($.$shm_hitalama_analysis_summary.prototype), "Photo"));
 	($mol_mem_key(($.$shm_hitalama_analysis_summary.prototype), "Name"));
 	($mol_mem_key(($.$shm_hitalama_analysis_summary.prototype), "Member_counts"));
@@ -17370,14 +17390,17 @@ var $;
 	($mol_mem_key(($.$shm_hitalama_analysis_summary.prototype), "Likes"));
 	($mol_mem_key(($.$shm_hitalama_analysis_summary.prototype), "Reposts"));
 	($mol_mem_key(($.$shm_hitalama_analysis_summary.prototype), "Comments"));
+	($mol_mem_key(($.$shm_hitalama_analysis_summary.prototype), "ERv"));
 	($mol_mem(($.$shm_hitalama_analysis_summary.prototype), "Sum_photo"));
 	($mol_mem(($.$shm_hitalama_analysis_summary.prototype), "Sum_name"));
-	($mol_mem(($.$shm_hitalama_analysis_summary.prototype), "Sum_member_counts"));
+	($mol_mem(($.$shm_hitalama_analysis_summary.prototype), "Sum_members_count"));
 	($mol_mem(($.$shm_hitalama_analysis_summary.prototype), "Sum_posts_counts"));
 	($mol_mem(($.$shm_hitalama_analysis_summary.prototype), "Sum_views"));
 	($mol_mem(($.$shm_hitalama_analysis_summary.prototype), "Sum_likes"));
 	($mol_mem(($.$shm_hitalama_analysis_summary.prototype), "Sum_reposts"));
 	($mol_mem(($.$shm_hitalama_analysis_summary.prototype), "Sum_comments"));
+	($mol_mem(($.$shm_hitalama_analysis_summary.prototype), "Sum_ERv"));
+	($mol_mem(($.$shm_hitalama_analysis_summary.prototype), "groups_dtos"));
 	($mol_mem_key(($.$shm_hitalama_analysis_summary.prototype), "Row"));
 	($mol_mem(($.$shm_hitalama_analysis_summary.prototype), "Sum_row"));
 
@@ -17580,71 +17603,85 @@ var $;
     var $$;
     (function ($$) {
         class $shm_hitalama_analysis_summary extends $.$shm_hitalama_analysis_summary {
-            group(ref) {
-                return this.$.$hyoo_crus_glob.Node(ref, $shm_hitalama_group);
+            groups_dtos(next) {
+                if (next === undefined) {
+                    const groups_id = this.owner_ids().map(id => id.slice(1)).join(',');
+                    $mol_wire_async($shm_hitalama_jsonp).vk_groups_getById({ access_token: this.token_str(), groups_id }, this.groups_dtos.bind(this));
+                    return;
+                }
+                const groups = new Map;
+                this.owner_ids().forEach(id => {
+                    const match = next?.response.find((g) => g.id == id.slice(1));
+                    if (match)
+                        groups.set(id, match);
+                });
+                return groups;
             }
             rows() {
-                const rows = this.groups().map(g => this.Row(g.ref()));
+                const rows = this.owner_ids().map(id => this.Row(id));
                 return rows.length > 1 ? [...rows, this.Sum_row()] : rows;
             }
-            photo(ref) {
-                return this.group(ref).Photo_url()?.val() ?? '';
+            photo(owner_id) {
+                const group = this.groups_dtos()?.get(owner_id);
+                return group?.photo_50 ?? '';
             }
-            owner_id(ref) {
-                return this.group(ref).Owner_id()?.val() ?? '';
+            owner_id(owner_id) {
+                return owner_id;
             }
-            name(ref) {
-                return this.group(ref).Name()?.val() ?? '';
+            name(owner_id) {
+                const group = this.groups_dtos()?.get(owner_id);
+                return group?.name ?? '';
             }
-            member_counts(ref) {
-                return String(this.group(ref).Members_count()?.val()) ?? '';
+            members_count(owner_id) {
+                const group = this.groups_dtos()?.get(owner_id);
+                return group?.members_count ?? '';
             }
-            posts_dto_by_ref(ref) {
-                return this.posts_dto_by_owner(this.group(ref).Owner_id()?.val());
+            posts_counts(owner_id) {
+                return this.posts_dto_by_owner(owner_id)?.[0].length ?? '';
             }
-            posts_counts(ref) {
-                return this.posts_dto_by_ref(ref)?.[0].length ?? '';
+            views(owner_id) {
+                return String(sum(this.posts_dto_by_owner(owner_id)?.[5]) ?? '');
             }
-            views(ref) {
-                return String(sum(this.posts_dto_by_ref(ref)?.[5]) ?? '');
+            likes(owner_id) {
+                return String(sum(this.posts_dto_by_owner(owner_id)?.[2]) ?? '');
             }
-            likes(ref) {
-                return String(sum(this.posts_dto_by_ref(ref)?.[2]) ?? '');
+            reposts(owner_id) {
+                return String(sum(this.posts_dto_by_owner(owner_id)?.[3]) ?? '');
             }
-            reposts(ref) {
-                return String(sum(this.posts_dto_by_ref(ref)?.[3]) ?? '');
+            comments(owner_id) {
+                return String(sum(this.posts_dto_by_owner(owner_id)?.[4]) ?? '');
             }
-            comments(ref) {
-                return String(sum(this.posts_dto_by_ref(ref)?.[4]) ?? '');
+            erv(owner_id) {
+                return '1';
             }
-            sum_member_counts() {
-                const arr = this.groups().map(g => Number(this.member_counts(g.ref())));
+            sum_members_count() {
+                const arr = this.owner_ids().map(id => Number(this.members_count(id)));
                 return String(sum(arr) ?? '');
             }
             sum_posts_counts() {
-                const arr = this.groups().map(g => Number(this.posts_counts(g.ref())));
+                const arr = this.owner_ids().map(id => Number(this.posts_counts(id)));
                 return String(sum(arr) ?? '');
             }
             sum_views() {
-                const arr = this.groups().map(g => Number(this.views(g.ref())));
+                const arr = this.owner_ids().map(id => Number(this.views(id)));
                 return String(sum(arr) ?? '');
             }
             sum_likes() {
-                const arr = this.groups().map(g => Number(this.likes(g.ref())));
+                const arr = this.owner_ids().map(id => Number(this.likes(id)));
                 return String(sum(arr) ?? '');
             }
             sum_reposts() {
-                const arr = this.groups().map(g => Number(this.reposts(g.ref())));
+                const arr = this.owner_ids().map(id => Number(this.reposts(id)));
                 return String(sum(arr) ?? '');
             }
             sum_comments() {
-                const arr = this.groups().map(g => Number(this.comments(g.ref())));
+                const arr = this.owner_ids().map(id => Number(this.comments(id)));
                 return String(sum(arr) ?? '');
             }
         }
         __decorate([
-            $mol_mem_key
-        ], $shm_hitalama_analysis_summary.prototype, "group", null);
+            $mol_mem
+        ], $shm_hitalama_analysis_summary.prototype, "groups_dtos", null);
         __decorate([
             $mol_mem_key
         ], $shm_hitalama_analysis_summary.prototype, "photo", null);
@@ -17656,10 +17693,7 @@ var $;
         ], $shm_hitalama_analysis_summary.prototype, "name", null);
         __decorate([
             $mol_mem_key
-        ], $shm_hitalama_analysis_summary.prototype, "member_counts", null);
-        __decorate([
-            $mol_mem_key
-        ], $shm_hitalama_analysis_summary.prototype, "posts_dto_by_ref", null);
+        ], $shm_hitalama_analysis_summary.prototype, "members_count", null);
         __decorate([
             $mol_mem_key
         ], $shm_hitalama_analysis_summary.prototype, "posts_counts", null);
@@ -17676,8 +17710,11 @@ var $;
             $mol_mem_key
         ], $shm_hitalama_analysis_summary.prototype, "comments", null);
         __decorate([
+            $mol_mem_key
+        ], $shm_hitalama_analysis_summary.prototype, "erv", null);
+        __decorate([
             $mol_mem
-        ], $shm_hitalama_analysis_summary.prototype, "sum_member_counts", null);
+        ], $shm_hitalama_analysis_summary.prototype, "sum_members_count", null);
         __decorate([
             $mol_mem
         ], $shm_hitalama_analysis_summary.prototype, "sum_posts_counts", null);
@@ -20886,37 +20923,67 @@ var $;
     var $$;
     (function ($$) {
         class $shm_hitalama_posts_plots extends $.$shm_hitalama_posts_plots {
-            plot_moments() {
-                const dto = this.dto_by_owner(this.owner_ids()[0]);
-                return dto?.[0].map((time) => new $mol_time_moment(time * 1000)) ?? [];
+            traversed() {
+                let min = new $mol_time_moment().valueOf() / 1000;
+                const indexes = new Map;
+                const posts_count = new Map;
+                this.owner_ids().forEach(id => {
+                    const dto = this.dto_by_owner(id);
+                    dto?.[0].forEach((time, index) => {
+                        const time_str = (new $mol_time_moment(time * 1000)).toString('DD.MM.YY');
+                        indexes.set(id + ':' + time_str, index);
+                        posts_count.set(id + ':' + time_str, (posts_count.get(id + ':' + time_str) ?? 0) + 1);
+                        if (time < min) {
+                            min = time;
+                        }
+                    });
+                });
+                const moments = [];
+                let max = (new $mol_time_moment().valueOf() / 1000);
+                for (let time = min; time < max; time += 86400) {
+                    moments.push((new $mol_time_moment(time * 1000)).toString('DD.MM.YY'));
+                }
+                return { indexes, moments, posts_count };
+            }
+            moments() {
+                return this.traversed().moments;
             }
             labels() {
-                return this.plot_moments().map(m => m.toString('DD.MM'));
+                return this.moments();
             }
             likes(owner_id) {
+                const indexes = this.traversed().indexes;
                 const dto = this.dto_by_owner(owner_id);
-                return dto?.[2].map(v => v) ?? [];
+                return this.traversed().moments.map(t => {
+                    return dto?.[2]?.[indexes.get(owner_id + ':' + t)] ?? 0;
+                });
             }
             posts(owner_id) {
-                const dto = this.dto_by_owner(owner_id);
-                return dto?.[0].map(v => 1) ?? [];
+                const posts_count = this.traversed().posts_count;
+                return this.traversed().moments.map(t => posts_count.get(owner_id + ':' + t));
             }
             reposts(owner_id) {
+                const indexes = this.traversed().indexes;
                 const dto = this.dto_by_owner(owner_id);
-                return dto?.[3].map(v => v) ?? [];
+                return this.traversed().moments.map(t => dto?.[3]?.[indexes.get(owner_id + ':' + t)] ?? 0);
             }
             comments(owner_id) {
+                const indexes = this.traversed().indexes;
                 const dto = this.dto_by_owner(owner_id);
-                return dto?.[4].map(v => v) ?? [];
+                return this.traversed().moments.map(t => dto?.[4]?.[indexes.get(owner_id + ':' + t)] ?? 0);
             }
             views(owner_id) {
+                const indexes = this.traversed().indexes;
                 const dto = this.dto_by_owner(owner_id);
-                return dto?.[5].map(v => v) ?? [];
+                return this.traversed().moments.map(t => dto?.[5]?.[indexes.get(owner_id + ':' + t)] ?? 0);
             }
         }
         __decorate([
             $mol_mem
-        ], $shm_hitalama_posts_plots.prototype, "plot_moments", null);
+        ], $shm_hitalama_posts_plots.prototype, "traversed", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_posts_plots.prototype, "moments", null);
         __decorate([
             $mol_mem
         ], $shm_hitalama_posts_plots.prototype, "labels", null);
@@ -21106,13 +21173,13 @@ var $;
 			(obj.sub) = () => ([(this?.Search()), ...(this.list_view())]);
 			return obj;
 		}
-		summary_groups(){
+		owner_ids(){
 			return [];
 		}
 		Summary(){
 			const obj = new this.$.$shm_hitalama_analysis_summary();
 			(obj.token_str) = () => ((this?.token_str()));
-			(obj.groups) = () => ((this?.summary_groups()));
+			(obj.owner_ids) = () => ((this?.owner_ids()));
 			(obj.posts_dto_by_owner) = (id) => ((this?.posts_dto_by_owner(id)));
 			return obj;
 		}
@@ -21121,9 +21188,6 @@ var $;
 			(obj.title) = () => ("Сводные показатели");
 			(obj.content) = () => ([(this?.Summary())]);
 			return obj;
-		}
-		owner_ids(){
-			return [];
 		}
 		Posts_table(){
 			const obj = new this.$.$shm_hitalama_posts_table();
@@ -21327,15 +21391,6 @@ var $;
             }
             collect_cancel() {
                 this.collect_queue([]);
-            }
-            summary_groups() {
-                const list = this.selected_list();
-                if (!list) {
-                    const group = this.$.$hyoo_crus_glob.land_grab({}).Data($shm_hitalama_group);
-                    group.fill(this.search_dto());
-                    return [group];
-                }
-                return list.Groups()?.remote_list() ?? [];
             }
             group_name(owner_id) {
                 const list = this.selected_list();

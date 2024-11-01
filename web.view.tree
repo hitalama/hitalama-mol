@@ -912,39 +912,44 @@ $shm_hitalama_table $mol_view
 			sub <= rows /
 
 $shm_hitalama_analysis_summary $shm_hitalama_table
-	groups /$shm_hitalama_group
+	token_str \
+	owner_ids /string
+	groups_dtos? null
 	posts_dto_by_owner* null $shm_hitalama_posts_dto
 	head /
 		<= Head_photo $mol_view sub / \
 		<= Head_name $mol_view sub / \Название
-		<= Head_member_counts $mol_view sub / \Подписчики
+		<= Head_members_count $mol_view sub / \Подписчики
 		<= Head_posts_counts $mol_view sub / \Посты
 		<= Head_views $mol_view sub / \Просмотры
 		<= Head_likes $mol_view sub / \Лайки
 		<= Head_reposts $mol_view sub / \Репосты
 		<= Head_comments $mol_view sub / \Комментарии
+		<= Head_ERv $mol_view sub / \ER.v, %
 	Row* $mol_view
 		sub /
 			<= Photo* $mol_image 
 				uri <= photo* \
 				title <= owner_id* \
 			<= Name* $mol_paragraph title <= name* \
-			<= Member_counts* $mol_paragraph title <= member_counts* \
+			<= Member_counts* $mol_paragraph title <= members_count* \
 			<= Posts_counts* $mol_paragraph title <= posts_counts* \
 			<= Views* $mol_paragraph title <= views* \
 			<= Likes* $mol_paragraph title <= likes* \
 			<= Reposts* $mol_paragraph title <= reposts* \
 			<= Comments* $mol_paragraph title <= comments* \
+			<= ERv* $mol_paragraph title <= erv* \
 	Sum_row $mol_view
 		sub /
 			<= Sum_photo $mol_paragraph title <= sum_photo \
 			<= Sum_name $mol_paragraph title <= sum_name \Итого
-			<= Sum_member_counts $mol_paragraph title <= sum_member_counts \
+			<= Sum_members_count $mol_paragraph title <= sum_members_count \
 			<= Sum_posts_counts $mol_paragraph title <= sum_posts_counts \
 			<= Sum_views $mol_paragraph title <= sum_views \
 			<= Sum_likes $mol_paragraph title <= sum_likes \
 			<= Sum_reposts $mol_paragraph title <= sum_reposts \
 			<= Sum_comments $mol_paragraph title <= sum_comments \
+			<= Sum_ERv $mol_paragraph title \
 
 $mol_ghost $mol_view
 	Sub $mol_view
@@ -1531,7 +1536,7 @@ $shm_hitalama_analysis $mol_list
 					content /
 						<= Summary $shm_hitalama_analysis_summary
 							token_str <= token_str
-							groups <= summary_groups /$shm_hitalama_group
+							owner_ids <= owner_ids /
 							posts_dto_by_owner* <= posts_dto_by_owner*
 				<= Posts_deck $mol_deck
 					items /
