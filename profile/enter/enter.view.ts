@@ -17,7 +17,11 @@ namespace $.$$ {
 		@ $mol_mem
 		pull_pass_keys( ) {
 			this.profiles()?.keys().forEach( k => {
-				this.profiles().key(k)?.remote()?.Pass_key()?.val() 
+				try {
+					this.profiles().key(k)?.remote()?.Pass_key()?.val() 
+				} catch (error) {
+					console.log( error )
+				}
 			} )
 		}
 		
