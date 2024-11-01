@@ -1654,7 +1654,7 @@ $mol_password $mol_view
 $shm_hitalama_profile_register $mol_section
 	title \Регистрация
 	profiles $shm_hitalama_profile_dict
-	- Profile_link $mol_link
+	account_exist_message \Пользовать "{login}" уже существует
 	content /
 		<= Login_label $mol_labeler
 			title \Логин
@@ -1669,6 +1669,7 @@ $shm_hitalama_profile_register $mol_section
 		<= Submit $mol_button_major
 			title <= submit_title \Зарегистрироваться
 			click? <=> submit? null
+			enabled? <=> submit_enabled? true
 		^ message_view / <= Message $mol_text text <= message? \
 
 $shm_hitalama_profile_enter $shm_hitalama_profile_register

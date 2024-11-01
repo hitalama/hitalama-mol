@@ -22168,10 +22168,15 @@ var $;
 			if(next !== undefined) return next;
 			return null;
 		}
+		submit_enabled(next){
+			if(next !== undefined) return next;
+			return true;
+		}
 		Submit(){
 			const obj = new this.$.$mol_button_major();
 			(obj.title) = () => ((this?.submit_title()));
 			(obj.click) = (next) => ((this?.submit(next)));
+			(obj.enabled) = (next) => ((this?.submit_enabled(next)));
 			return obj;
 		}
 		message(next){
@@ -22193,6 +22198,9 @@ var $;
 			const obj = new this.$.$shm_hitalama_profile_dict();
 			return obj;
 		}
+		account_exist_message(){
+			return "Пользовать \"{login}\" уже существует";
+		}
 		content(){
 			return [
 				(this?.Login_label()), 
@@ -22209,6 +22217,7 @@ var $;
 	($mol_mem(($.$shm_hitalama_profile_register.prototype), "Password"));
 	($mol_mem(($.$shm_hitalama_profile_register.prototype), "Password_label"));
 	($mol_mem(($.$shm_hitalama_profile_register.prototype), "submit"));
+	($mol_mem(($.$shm_hitalama_profile_register.prototype), "submit_enabled"));
 	($mol_mem(($.$shm_hitalama_profile_register.prototype), "Submit"));
 	($mol_mem(($.$shm_hitalama_profile_register.prototype), "message"));
 	($mol_mem(($.$shm_hitalama_profile_register.prototype), "Message"));
@@ -22235,7 +22244,29 @@ var $;
                     this.$.$mol_state_arg.value('section', 'profile');
                 }
             }
+            account_exist() {
+                return this.profiles().has(this.login());
+            }
+            submit_enabled() {
+                if (this.login() == '')
+                    return false;
+                return this.message() ? false : true;
+            }
+            message(next) {
+                return this.account_exist()
+                    ? this.account_exist_message().replace('{login}', this.login())
+                    : next ?? '';
+            }
         }
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_profile_register.prototype, "account_exist", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_profile_register.prototype, "submit_enabled", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_profile_register.prototype, "message", null);
         $$.$shm_hitalama_profile_register = $shm_hitalama_profile_register;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
@@ -22324,6 +22355,9 @@ var $;
                 }
                 this.message(this.message_incorrect_pass());
             }
+            message(next) {
+                return next ?? '';
+            }
         }
         __decorate([
             $mol_mem
@@ -22334,6 +22368,9 @@ var $;
         __decorate([
             $mol_mem
         ], $shm_hitalama_profile_enter.prototype, "pull_pass_keys", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_profile_enter.prototype, "message", null);
         $$.$shm_hitalama_profile_enter = $shm_hitalama_profile_enter;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
@@ -22507,7 +22544,9 @@ var $;
     var $$;
     (function ($$) {
         class $shm_hitalama_app extends $.$shm_hitalama_app {
-            static profiles_ref = 'Æmeosfa4_3wKh4sDz';
+            profiles_ref() {
+                return 'Æmeosfa4_3wKh4sDz';
+            }
             Spread_current() {
                 const spread = this.spread();
                 if (spread == 'enter')
@@ -22522,7 +22561,7 @@ var $;
             }
             profiles() {
                 $mol_wire_solid();
-                const ref = $hyoo_crus_ref(this.$.$shm_hitalama_app.profiles_ref);
+                const ref = $hyoo_crus_ref(this.profiles_ref());
                 const profiles = this.$.$hyoo_crus_glob.Node(ref, $shm_hitalama_profile_dict);
                 return profiles;
             }
