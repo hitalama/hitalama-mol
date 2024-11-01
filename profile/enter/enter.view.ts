@@ -31,6 +31,11 @@ namespace $.$$ {
 
 			this.message( this.message_incorrect_pass() )
 		}
+
+		@ $mol_mem
+		message( next?: string ): string {
+			return next ?? ''
+		}
 		
 	}
 

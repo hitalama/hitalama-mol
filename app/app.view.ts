@@ -2,7 +2,9 @@ namespace $.$$ {
 
 	export class $shm_hitalama_app extends $.$shm_hitalama_app {
 
-		static profiles_ref = 'Æmeosfa4_3wKh4sDz'
+		profiles_ref(){
+			return 'Æmeosfa4_3wKh4sDz'
+		}
 
 		Spread_current() {
 			const spread = this.spread()
@@ -19,7 +21,7 @@ namespace $.$$ {
 		@ $mol_mem
 		profiles() {
 			$mol_wire_solid()
-			const ref = $hyoo_crus_ref( this.$.$shm_hitalama_app.profiles_ref )
+			const ref = $hyoo_crus_ref( this.profiles_ref() )
 			const profiles = this.$.$hyoo_crus_glob.Node( ref, $shm_hitalama_profile_dict )
 			return profiles
 		}

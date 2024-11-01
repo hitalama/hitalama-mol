@@ -14,6 +14,24 @@ namespace $.$$ {
 			}
 
 		}
+
+		@ $mol_mem
+		account_exist() {
+			return this.profiles().has( this.login() )
+		}
+
+		@ $mol_mem
+		submit_enabled() {
+			if( this.login() == '' ) return false
+			return this.message() ? false : true
+		}
+
+		@ $mol_mem
+		message( next?: string ): string {
+			return this.account_exist() 
+				? this.account_exist_message().replace( '{login}', this.login() ) 
+				: next ?? ''
+		}
 		
 	}
 
