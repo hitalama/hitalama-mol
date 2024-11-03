@@ -6161,6 +6161,17 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    $mol_test({
+        'return result without errors'() {
+            $mol_assert_equal($mol_try(() => false), false);
+        },
+    });
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
     $$.$shm_hitalama_app.prototype.profiles_ref = () => {
         const val = $mol_state_session.value('$shm_hitalama_app.prototype.profiles_ref');
         if (val)

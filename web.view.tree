@@ -1642,6 +1642,178 @@ $shm_hitalama_lists $mol_list
 		token <= token
 		list <= list_editing $shm_hitalama_list
 
+$mol_row $mol_view
+
+$mol_icon_upload $mol_icon path \M9,16V10H5L12,3L19,10H15V16H9M5,20V18H19V20H5Z
+
+$mol_button_open $mol_button_minor
+	sub /
+		<= Icon $mol_icon_upload
+		<= Native $mol_button_open_native
+			files?next <=> files?next /
+			accept <= accept \
+			multiple <= multiple true
+
+$mol_button_open_native $mol_view
+	dom_name \input
+	files?next /
+	attr *
+		type \file
+		accept <= accept \
+		multiple <= multiple true
+	event *
+		change?next <=> picked?next null
+
+$mol_attach $mol_view
+	items? /string
+	sub /
+		<= Content $mol_row
+			sub <= content /$mol_view
+	Add $mol_button_open
+		title <= attach_title \
+		files? <=> attach_new? null
+	Item* $mol_button_minor
+		click?event <=> item_drop*?event null
+		sub /
+			<= Image* $mol_image
+				title \
+				uri <= item_uri* \
+
+$mol_textarea $mol_stack
+	attr *
+		^
+		mol_textarea_clickable <= clickable? false
+		mol_textarea_sidebar_showed <= sidebar_showed false
+	event *
+		keydown?event <=> press?event null
+		pointermove?event <=> hover?event null
+	sub /
+		<= Edit $mol_textarea_edit
+			value? <=> value? \
+			hint <= hint \ 
+			enabled <= enabled true
+			spellcheck <= spellcheck true
+			length_max <= length_max +Infinity
+			selection? <=> selection? /number
+			bring => bring
+			submit? <=> submit? null
+			submit_with_ctrl <= submit_with_ctrl true
+		<= View $mol_text_code
+			text <= value
+			render_visible_only false
+			row_numb* <= row_numb* 0
+			sidebar_showed <= sidebar_showed
+			highlight <= highlight \
+	symbols_alt *string
+		comma \<
+		period \>
+		dash \−
+		equals \≈
+		graveAccent \́
+		forwardSlash \÷
+		E \€
+		V \✔
+		X \×
+		C \©
+		P \§
+		H \₽
+		key0 \°
+		key8 \•
+		key2 \@
+		key3 \#
+		key4 \$
+		key6 \^
+		key7 \&
+		bracketOpen \[
+		bracketClose \]
+		slashBack \|
+	symbols_alt_ctrl *string
+		space \ 
+	symbols_alt_shift *string
+		V \✅
+		X \❌
+		O \⭕
+		key1 \❗
+		key4 \💲
+		key7 \❓
+		comma \«
+		period \»
+		semicolon \“
+		quoteSingle \”
+		dash \—
+		equals \≠
+		graveAccent \̱
+		bracketOpen \{
+		bracketClose \}
+
+$mol_textarea_edit $mol_string
+	dom_name \textarea
+	enter \enter
+	field *
+		^
+		scrollTop 0
+
+$mol_dump_list $mol_view
+	values /
+	sub /
+		<= Dump*0 $mol_dump_value
+			value <= dump_value* null
+			expanded? <=> dump_expanded*? false
+			prototypes <= prototypes false
+			preview_show <= preview_show true
+
+$mol_dump_value $mol_view
+	value? null
+	preview_show? true
+	sub /
+		<= Simple $mol_text_code
+			text <= simple \
+		<= Expand $mol_expander
+			expanded? <=> expanded? false
+			Trigger <= Expand_head $mol_check_expand
+				minimal_height 24
+				minimal_width 24
+				expanded? <=> expanded? false
+				expandable <= expandable true
+				clicks? <=> expand_all? null
+				label /
+					<= Expand_title $mol_text_code
+						text <= expand_title \
+			content <= expand_content /
+				<= Preview $mol_view sub /
+					<= Preview_dom $mol_view
+						dom_node <= preview_dom null
+						render <= preview null
+				<= Row*0 $mol_dump_list
+					values <= row_values* /
+					prototypes <= prototypes false
+					preview_show <= preview_show
+
+$shm_hitalama_duckdb_page $mol_list
+	current? *
+		file_name \
+		query \
+	remote_file_urls /
+		<= remote_url \https://hitalama.github.io/hitalama-mol/shm/hitalama/duckdb/parquet/demo.parquet
+	sub /
+		<= File_label $mol_labeler
+			title \Выберите файл для запроса
+			content /
+				<= File $mol_select
+					value? <=> file_id? \demo.parquet
+					dictionary <= file_dict *
+		<= Query_label $mol_labeler
+			title \SQL-запрос
+			content /
+				<= Query $mol_textarea
+					value? <=> query? \
+					hint <= query_default? \
+		<= Run $mol_button_minor
+			title \Выполнить
+			click? <=> run? null
+		<= Duckdb_dump $mol_dump_value
+			value <= duckdb_res? null
+
 $mol_icon_eye $mol_icon path \M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5Z
 
 $mol_password $mol_view
@@ -1728,7 +1900,18 @@ $shm_hitalama_app $mol_book2_catalog
 				token <= token
 		lists <= Lists $shm_hitalama_lists
 			token <= token
-	
+		files_page <= Files $mol_list
+			title \Файлы
+			sub /
+				^ files /
+					<= File*0 $mol_text
+						text <= file_name* \
+				<= Attach $mol_attach
+					attach_new? <=> attach_new? /
+				<= Files_clear $mol_button_minor
+					title \Очистить
+					click? <=> files_clear? null
+		duckdb_page <= Duckdb $shm_hitalama_duckdb_page
 	Enter $shm_hitalama_profile_enter
 		profiles <= profiles $shm_hitalama_profile_dict
 	Register $shm_hitalama_profile_register

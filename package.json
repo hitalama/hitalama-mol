@@ -351,6 +351,18 @@
     "$shm_hitalama_lists",
     "$shm_hitalama_lists_creating",
     "$shm_hitalama_lists_editing",
+    "$mol_attach",
+    "$mol_row",
+    "$mol_button_open",
+    "$mol_icon_upload",
+    "$shm_hitalama_duckdb_page",
+    "$shm_hitalama_duckdb",
+    "$mol_textarea",
+    "$mol_dump_value",
+    "$mol_dump",
+    "$mol_dump_list",
+    "$mol_try",
+    "$mol_fetch",
     "$shm_hitalama_profile_enter",
     "$shm_hitalama_profile_register",
     "$mol_password",
@@ -360,6 +372,7 @@
   "dependencies": {
     "jsdom": "*",
     "chokidar": "*",
-    "pg": "*"
+    "pg": "*",
+    "undici": "*"
   }
 }
