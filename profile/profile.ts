@@ -4,6 +4,7 @@ namespace $ {
 
 		Tokens: $hyoo_crus_list_ref_to( ()=> $shm_hitalama_token ),
 		Groups_lists: $hyoo_crus_list_ref_to( ()=> $shm_hitalama_list ),
+		Files: $hyoo_crus_list_ref_to( ()=> $hyoo_crus_file ),
 
 		Login: $hyoo_crus_atom_str,
 		Pass_key: $hyoo_crus_atom_str,
