@@ -14,6 +14,34 @@ namespace $.$$ {
 				top: '2rem',
 			},
 		},
+
+		Query_page: {
+			flex: {
+				grow: 1,
+			},
+		},
+
+		Logs: {
+			flex: {
+				grow: 0.5,
+			},
+		},
+
+		Project_label: {
+			flex: {
+				grow: 1,
+			},
+		},
+
+		Files_label: {
+			flex: {
+				grow: 1,
+			},
+			align: {
+				// items: 'flex-start',
+				self: 'flex-start',
+			},
+		},
 		
 	} )
 	

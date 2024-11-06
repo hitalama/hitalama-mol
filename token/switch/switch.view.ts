@@ -66,7 +66,7 @@ namespace $.$$ {
 			const params = new URLSearchParams( this.$.$mol_state_arg.value('access_token') || '' )
 
 			const token_str = params.keys().next().value
-			if( !token_str ) return
+			if( !token_str ) return ''
 
 			const user_id = params.get('user_id')!
 

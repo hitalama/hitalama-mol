@@ -3,7 +3,7 @@ namespace $.$$ {
 	$mol_style_define( $shm_hitalama_project_page, {
 		
 		flex: {
-			basis: '18rem',
+			grow: 1,
 		},
 
 		Files: {

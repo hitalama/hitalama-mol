@@ -1,0 +1,30 @@
+$shm_hitalama_duckdb_demo $mol_book2
+	current? *
+		file_name \
+		query \
+	remote_file_urls /
+		<= remote_url \https://hitalama.github.io/hitalama-mol/shm/hitalama/duckdb/parquet/demo.parquet
+	pages /
+		<= Query_page $mol_page
+			title \DuckDB
+			body /
+				<= File_label $mol_labeler
+					title \Выберите файл для запроса
+					content /
+						<= File $mol_select
+							value? <=> file_id? \demo.parquet
+							dictionary <= file_dict *
+				<= Query_label $mol_labeler
+					title \SQL-запрос
+					content /
+						<= Query $mol_textarea
+							value? <=> query? \
+							hint <= query_default? \
+				<= Run $mol_button_minor
+					title \Выполнить
+					click? <=> run? null
+				<= Duckdb_dump $mol_dump_value
+					value <= duckdb_res? null
+		<= Logs $mol_page
+			title \Лог запросов
+			body /

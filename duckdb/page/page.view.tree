@@ -1,24 +1,53 @@
-$shm_hitalama_duckdb_page $mol_list
-	current? *
+$shm_hitalama_duckdb_page $mol_book2
+	- current? *
 		file_name \
 		query \
+	query_current? \
 	remote_file_urls /
 		<= remote_url \https://hitalama.github.io/hitalama-mol/shm/hitalama/duckdb/parquet/demo.parquet
-	sub /
-		<= File_label $mol_labeler
-			title \Выберите файл для запроса
-			content /
-				<= File $mol_select
-					value? <=> file_id? \demo.parquet
-					dictionary <= file_dict *
-		<= Query_label $mol_labeler
-			title \SQL-запрос
-			content /
-				<= Query $mol_textarea
-					value? <=> query? \
-					hint <= query_default? \
-		<= Run $mol_button_minor
-			title \Выполнить
-			click? <=> run? null
-		<= Duckdb_dump $mol_dump_value
-			value <= duckdb_res? null
+	pages /
+		<= Query_page $mol_page
+			title \DuckDB
+			body /
+				<= Project_and_files $mol_view
+					sub /
+						<= Project_label $mol_labeler
+							title \Выберите проект
+							content /
+								<= Project $mol_select
+									value? <=> project_id? \
+									dictionary <= projects_dict *
+						^ files_label / <= Files_label $mol_labeler
+							title \Выберите файлы
+							content /
+								<= Files_scroll $mol_scroll
+									sub /
+										<= Files_list $mol_list
+											sub <= file_views /
+												<= File*0 $mol_view
+													sub /
+														<= File_check* $mol_check_box
+															title <= file_name* \
+															checked? <=> file_checked*? true
+														<= File_name_copy* $mol_button_copy
+															title <= query_default*? \
+															sub / <= Copy_icon* $mol_icon_clipboard_outline
+						- <= Files $mol_pick
+							align \bottom_right
+							trigger_content /
+								\Выберите файлы
+							bubble_content /
+				<= Query_label $mol_labeler
+					title \SQL-запрос
+					content /
+						<= Query $mol_textarea
+							value? <=> query? \
+							hint \
+				<= Run $mol_button_minor
+					title \Выполнить
+					click? <=> run? null
+				<= Duckdb_dump $mol_dump_value
+					value <= duckdb_res? null
+		<= Logs $mol_page
+			title \Лог запросов
+			body /
