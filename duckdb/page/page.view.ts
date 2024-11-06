@@ -14,9 +14,9 @@ namespace $.$$ {
 			return dict
 		}
 
-		@ $mol_mem_key
-		project( id: string ) {
-			return $hyoo_crus_glob.Node( $hyoo_crus_ref( id ), $shm_hitalama_project )
+		@ $mol_mem
+		project() {
+			return $hyoo_crus_glob.Node( $hyoo_crus_ref( this.project_id() ), $shm_hitalama_project )
 		}
 
 		@ $mol_mem
@@ -30,8 +30,7 @@ namespace $.$$ {
 
 		@ $mol_mem
 		files() {
-			const project = this.project( this.project_id() )
-			return project.Files()?.remote_list() ?? []
+			return this.project().Files()?.remote_list() ?? []
 		}
 
 		@ $mol_mem
@@ -57,18 +56,27 @@ namespace $.$$ {
 		@ $mol_mem_key
 		query_default( file_id: string ) {
 			const name = this.file_name( file_id )
-			return name ? `SELECT * FROM parquet_scan('${name}')` : ''
+			return name ? `SELECT * FROM parquet_scan('${name}');` : ''
+		}
+
+		@ $mol_mem
+		query( next?: string ): string {
+			const file_id = this.files()?.[0]?.ref().description
+			return next ?? (file_id ? this.query_default( file_id! ) : '')
 		}
 
 		run( next?: any ) {
 			this.query_current( this.query() )
+			const log = this.project().Query_logs(null)?.local_make()
+			log?.Query(null)!.val( this.query() )
+			log?.Time(null)!.val( (new $mol_time_moment).valueOf() )
 		}
 
 		@ $mol_mem
 		duckdb_res() {
 			if( !this.query_current() ) return null
 			
-			const table_arr = $mol_wire_sync(this).conn_query( this.query_current() ).toArray()
+			const table_arr = $mol_wire_sync(this).conn_query( this.query_current() ).toArray().slice(0,100)
 			const result = table_arr.map( ( row: any ) => row.toJSON() )
 			return result
 		}
@@ -86,6 +94,33 @@ namespace $.$$ {
 		@ $mol_action
 		conn_query( query: string ) {
 			return $mol_wire_sync(this).conn().query( query )
+		}
+
+		@ $mol_mem_key
+		query_log( ref: $hyoo_crus_ref ) {
+			return $hyoo_crus_glob.Node( ref, $shm_hitalama_project_query_log )
+		}
+
+		@ $mol_mem_key
+		query_time( ref: $hyoo_crus_ref ) {
+			const val = this.query_log( ref ).Time()?.val()!
+			const moment = new $mol_time_moment( val )
+			return moment.toString( 'YYYY-MM-DD hh:mm:ss' )
+		}
+
+		@ $mol_mem_key
+		query_sql( ref: $hyoo_crus_ref ) {
+			return this.query_log( ref ).Query()?.val() ?? ''
+		}
+
+		@ $mol_mem
+		logs() {
+			return this.project().Query_logs()?.remote_list().map( l => this.Query_log( l.ref() ) ) ?? []
+		}
+
+		@ $mol_action
+		logs_clear() {
+			this.project().Query_logs()?.remote_list( [] )
 		}
 
 	}

@@ -21,12 +21,6 @@ namespace $.$$ {
 			},
 		},
 
-		Logs: {
-			flex: {
-				grow: 0.5,
-			},
-		},
-
 		Project_label: {
 			flex: {
 				grow: 1,
@@ -40,6 +34,31 @@ namespace $.$$ {
 			align: {
 				// items: 'flex-start',
 				self: 'flex-start',
+			},
+		},
+
+		Query_log: {
+			background: {
+				color: $mol_theme.card,
+			},
+		},
+
+		Query_time: {
+			// align: {
+			// 	items: 'center',
+			// },
+			padding: $mol_gap.text,
+			margin: {
+				left: 'auto',
+			},
+		},
+
+		Logs: {
+			flex: {
+				grow: 0.5,
+			},
+			Body_content: {
+				gap: $mol_gap.space,
 			},
 		},
 		
