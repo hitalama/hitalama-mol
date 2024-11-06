@@ -1642,6 +1642,8 @@ $shm_hitalama_lists $mol_list
 		token <= token
 		list <= list_editing $shm_hitalama_list
 
+$mol_icon_plus $mol_icon path \M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z
+
 $mol_row $mol_view
 
 $mol_icon_upload $mol_icon path \M9,16V10H5L12,3L19,10H15V16H9M5,20V18H19V20H5Z
@@ -1678,6 +1680,51 @@ $mol_attach $mol_view
 			<= Image* $mol_image
 				title \
 				uri <= item_uri* \
+
+$shm_hitalama_project_page $mol_page
+	title <= name \
+	project $shm_hitalama_project
+	body /
+		<= Name_label $mol_labeler
+			title \Название проекта
+			content /
+				<= Name $mol_string
+					value? <=> name? \
+		<= Files $mol_list
+			sub / ^ files /
+				<= File*0 $mol_view
+					sub /
+						<= File_name* $mol_paragraph
+							title <= file_name* \
+						<= File_size* $mol_paragraph
+							title <= file_size* \0 KB
+		<= Attach $mol_attach
+			attach_new? <=> attach_new? /
+		<= Files_clear $mol_button_minor
+			title \Очистить
+			click? <=> files_clear? null
+		<= Cut $mol_button_minor
+			title \Удалить проект
+			click? <=> project_cut? null
+
+$shm_hitalama_project_list $mol_book2_catalog
+	menu_title \Проекты
+	param \project
+	menu_tools /
+		<= Add $mol_button_minor
+			hint @ \Add new
+			click? <=> add? null
+			sub /
+				<= Add_icon $mol_icon_plus
+	name_default \Новый проект
+	projects /$shm_hitalama_project
+	Project_page* $shm_hitalama_project_page
+		project <= project* $shm_hitalama_project
+
+$mol_icon_tick $mol_icon path \M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z
+
+$mol_check_box $mol_check
+	Icon $mol_icon_tick
 
 $mol_textarea $mol_stack
 	attr *
@@ -1789,30 +1836,74 @@ $mol_dump_value $mol_view
 					prototypes <= prototypes false
 					preview_show <= preview_show
 
-$shm_hitalama_duckdb_page $mol_list
-	current? *
+$shm_hitalama_duckdb_page $mol_book2
+	- current? *
 		file_name \
 		query \
+	query_current? \
 	remote_file_urls /
 		<= remote_url \https://hitalama.github.io/hitalama-mol/shm/hitalama/duckdb/parquet/demo.parquet
-	sub /
-		<= File_label $mol_labeler
-			title \Выберите файл для запроса
-			content /
-				<= File $mol_select
-					value? <=> file_id? \demo.parquet
-					dictionary <= file_dict *
-		<= Query_label $mol_labeler
-			title \SQL-запрос
-			content /
-				<= Query $mol_textarea
-					value? <=> query? \
-					hint <= query_default? \
-		<= Run $mol_button_minor
-			title \Выполнить
-			click? <=> run? null
-		<= Duckdb_dump $mol_dump_value
-			value <= duckdb_res? null
+	pages /
+		<= Query_page $mol_page
+			title \DuckDB
+			body /
+				<= Project_and_files $mol_view
+					sub /
+						<= Project_label $mol_labeler
+							title \Выберите проект
+							content /
+								<= Project $mol_select
+									value? <=> project_id? \
+									dictionary <= projects_dict *
+						^ files_label / <= Files_label $mol_labeler
+							title \Выберите файлы
+							content /
+								<= Files_scroll $mol_scroll
+									sub /
+										<= Files_list $mol_list
+											sub <= file_views /
+												<= File*0 $mol_view
+													sub /
+														<= File_check* $mol_check_box
+															title <= file_name* \
+															checked? <=> file_checked*? true
+														<= File_name_copy* $mol_button_copy
+															title <= query_default*? \
+															sub / <= Copy_icon* $mol_icon_clipboard_outline
+						- <= Files $mol_pick
+							align \bottom_right
+							trigger_content /
+								\Выберите файлы
+							bubble_content /
+				<= Query_label $mol_labeler
+					title \SQL-запрос
+					content /
+						<= Query $mol_textarea
+							value? <=> query? \
+							hint \
+				<= Run $mol_button_minor
+					title \Выполнить
+					click? <=> run? null
+				<= Duckdb_dump $mol_dump_value
+					value <= duckdb_res? null
+		<= Logs $mol_page
+			title \Лог запросов
+			tools /
+				<= Logs_clear $mol_button_minor
+					title \Очистить
+					click? <=> logs_clear? null
+			body <= logs /
+				<= Query_log*0 $mol_list
+					sub /
+						<= Query_head* $mol_view
+							sub /
+								<= Query_copy* $mol_button_copy
+									title <= query_sql* \
+									sub / \Копировать
+								<= Query_time* $mol_paragraph
+									title <= query_time* \
+						<= Log_sql* $mol_text_code
+							text <= query_sql* \
 
 $mol_icon_eye $mol_icon path \M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5Z
 
@@ -1900,17 +1991,7 @@ $shm_hitalama_app $mol_book2_catalog
 				token <= token
 		lists <= Lists $shm_hitalama_lists
 			token <= token
-		files_page <= Files $mol_list
-			title \Файлы
-			sub /
-				^ files /
-					<= File*0 $mol_text
-						text <= file_name* \
-				<= Attach $mol_attach
-					attach_new? <=> attach_new? /
-				<= Files_clear $mol_button_minor
-					title \Очистить
-					click? <=> files_clear? null
+		projects <= Projects $shm_hitalama_project_list
 		duckdb_page <= Duckdb $shm_hitalama_duckdb_page
 	Enter $shm_hitalama_profile_enter
 		profiles <= profiles $shm_hitalama_profile_dict

@@ -80,8 +80,8 @@
 	include \/mol/offline/install
 \/shm/hitalama/token/view
 	deploy \/shm/hitalama/token/logo/logo_vk.svg
-\/shm/hitalama/duckdb
-	require \/shm/hitalama/duckdb/lib/index.js
+\/shm/hitalama/duckdb/lib
+	require \/shm/hitalama/duckdb/lib/_index.js
 \/shm/hitalama/duckdb/page
 	deploy \/shm/hitalama/duckdb/parquet/demo.parquet
 \/shm/hitalama/app
