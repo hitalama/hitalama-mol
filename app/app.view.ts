@@ -18,6 +18,8 @@ namespace $.$$ {
 			switch( this.spread() ) {
 				case '':
 				case 'lists':
+				case 'enter':
+				case 'register':
 					return super.pages()
 			}
 			// if( this.spread() != 'projects' ) return super.pages()
