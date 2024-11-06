@@ -1,0 +1,13 @@
+$shm_hitalama_project_list $mol_book2_catalog
+	menu_title \Проекты
+	param \project
+	menu_tools /
+		<= Add $mol_button_minor
+			hint @ \Add new
+			click? <=> add? null
+			sub /
+				<= Add_icon $mol_icon_plus
+	name_default \Новый проект
+	projects /$shm_hitalama_project
+	Project_page* $shm_hitalama_project_page
+		project <= project* $shm_hitalama_project

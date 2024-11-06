@@ -28,6 +28,7 @@ $shm_hitalama_app $mol_book2_catalog
 				token <= token
 		lists <= Lists $shm_hitalama_lists
 			token <= token
+		projects <= Projects $shm_hitalama_project_list
 		files_page <= Files $mol_list
 			title \Файлы
 			sub /

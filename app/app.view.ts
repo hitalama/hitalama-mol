@@ -13,6 +13,27 @@ namespace $.$$ {
 			return this.Spread( spread )
 		}
 
+		@ $mol_mem
+		pages() {
+			// switch( this.spread() ) {
+			// 	case '':
+			// 		return super.pages()
+			// 	case 'lists':
+			// 		return super.pages()
+			// }
+			if( this.spread() != 'projects' ) return super.pages()
+
+			const spread = this.spread() === '' ? this.Spread_default() : this.Spread(this.spread())
+			return [
+				this.Menu(),
+				... spread
+					? spread instanceof $mol_book2
+						? spread.pages()
+						: [ spread ]
+					: [],
+			]
+		}
+
 		logo_uri() {
 			return ( $.$mol_dom_context.document?.location.host == 'hitalama.github.io'
 				? '/hitalama-mol' : '' ) + super.logo_uri()

@@ -1,0 +1,17 @@
+$shm_hitalama_project_page $mol_page
+	title <= name \
+	project $shm_hitalama_project
+	body /
+		<= Name_label $mol_labeler
+			title \Название проекта
+			content /
+				<= Name $mol_string
+					value? <=> name? \
+		^ files /
+			<= File*0 $mol_text
+				text <= file_name* \
+		<= Attach $mol_attach
+			attach_new? <=> attach_new? /
+		<= Files_clear $mol_button_minor
+			title \Очистить
+			click? <=> files_clear? null
