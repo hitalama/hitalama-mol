@@ -24360,6 +24360,8 @@ var $;
                 switch (this.spread()) {
                     case '':
                     case 'lists':
+                    case 'enter':
+                    case 'register':
                         return super.pages();
                 }
                 const spread = this.spread() === '' ? this.Spread_default() : this.Spread(this.spread());
