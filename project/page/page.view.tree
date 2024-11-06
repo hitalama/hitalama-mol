@@ -7,11 +7,19 @@ $shm_hitalama_project_page $mol_page
 			content /
 				<= Name $mol_string
 					value? <=> name? \
-		^ files /
-			<= File*0 $mol_text
-				text <= file_name* \
+		<= Files $mol_list
+			sub / ^ files /
+				<= File*0 $mol_view
+					sub /
+						<= File_name* $mol_paragraph
+							title <= file_name* \
+						<= File_size* $mol_paragraph
+							title <= file_size* \0 KB
 		<= Attach $mol_attach
 			attach_new? <=> attach_new? /
 		<= Files_clear $mol_button_minor
 			title \Очистить
 			click? <=> files_clear? null
+		<= Cut $mol_button_minor
+			title \Удалить проект
+			click? <=> project_cut? null

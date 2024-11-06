@@ -15,13 +15,12 @@ namespace $.$$ {
 
 		@ $mol_mem
 		pages() {
-			// switch( this.spread() ) {
-			// 	case '':
-			// 		return super.pages()
-			// 	case 'lists':
-			// 		return super.pages()
-			// }
-			if( this.spread() != 'projects' ) return super.pages()
+			switch( this.spread() ) {
+				case '':
+				case 'lists':
+					return super.pages()
+			}
+			// if( this.spread() != 'projects' ) return super.pages()
 
 			const spread = this.spread() === '' ? this.Spread_default() : this.Spread(this.spread())
 			return [
@@ -45,32 +44,6 @@ namespace $.$$ {
 			const ref = $hyoo_crus_ref( this.profiles_ref() )
 			const profiles = this.$.$hyoo_crus_glob.Node( ref, $shm_hitalama_profile_dict )
 			return profiles
-		}
-
-		attach_new( files: File[] ) {
-			const file = $shm_hitalama_profile.current()?.Files(null)?.make( {'': $hyoo_crus_rank.get} )
-			file?.blob( files[0] )
-			return files
-		}
-
-		@ $mol_mem_key
-		file( ref: $hyoo_crus_ref ) {
-			return $hyoo_crus_glob.Node( ref, $hyoo_crus_file )
-		}
-
-		@ $mol_mem_key
-		file_name( ref: $hyoo_crus_ref ) {
-			return this.file( ref )?.name() ?? ''
-		}
-
-		@ $mol_mem
-		files() {
-			return $shm_hitalama_profile.current()?.Files()?.remote_list().map( f => this.File( f.ref() ) ) ?? []
-		}
-
-		@ $mol_mem
-		files_clear() {
-			this.$.$shm_hitalama_profile.current()?.Files()?.remote_list( [] )
 		}
 
 	}
