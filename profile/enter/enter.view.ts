@@ -29,7 +29,7 @@ namespace $.$$ {
 			const profile = this.profiles().key( this.login() )?.remote()
 
 			if( profile?.enter( this.passwond() ) ) {
-				this.$.$mol_state_arg.value( 'section', 'profile' )
+				this.$.$mol_state_arg.value( 'section', null )
 				return
 			}
 
