@@ -1982,27 +1982,19 @@ var $node = new Proxy({ require }, {
             return target.require(name);
         if (name[0] === '.')
             return target.require(name);
-        const path = target.require('path');
-        const fs = target.require('fs');
-        let dir = path.resolve('.');
-        const suffix = `./node_modules/${name}`;
-        const $$ = $;
-        while (!fs.existsSync(path.join(dir, suffix))) {
-            const parent = path.resolve(dir, '..');
-            if (parent === dir) {
-                $$.$mol_exec('.', 'npm', 'install', '--omit=dev', name);
-                try {
-                    $$.$mol_exec('.', 'npm', 'install', '--omit=dev', '@types/' + name);
-                }
-                catch (e) {
-                    if ($$.$mol_fail_catch(e)) {
-                        $$.$mol_fail_log(e);
-                    }
-                }
-                break;
+        try {
+            target.require.resolve(name);
+        }
+        catch {
+            const $$ = $;
+            $$.$mol_exec('.', 'npm', 'install', '--omit=dev', name);
+            try {
+                $$.$mol_exec('.', 'npm', 'install', '--omit=dev', '@types/' + name);
             }
-            else {
-                dir = parent;
+            catch (e) {
+                if ($$.$mol_fail_catch(e)) {
+                    $$.$mol_fail_log(e);
+                }
             }
         }
         try {
@@ -2136,7 +2128,10 @@ var $;
                 command: args_raw.join(' '),
                 dir: $node.path.relative('', dir),
             });
-            return this.$mol_run_spawn_sync(app, args, { shell: true, cwd: dir, env });
+            const res = this.$mol_run_spawn_sync(app, args, { shell: true, cwd: dir, env });
+            if (res.status)
+                $mol_fail(new Error(res.stderr.toString() || 'Exit(' + res.status + ')'));
+            return res;
         }
         const sub = this.$mol_run_spawn(app, args, {
             shell: true,
@@ -15898,7 +15893,6 @@ var $;
 var $;
 (function ($) {
     class $shm_hitalama_file extends $hyoo_crus_entity.with({
-        Name: $hyoo_crus_atom_str,
         Size: $hyoo_crus_atom_real,
         File: $hyoo_crus_atom_ref_to(() => $hyoo_crus_file),
     }) {
@@ -15911,7 +15905,6 @@ var $;
 var $;
 (function ($) {
     class $shm_hitalama_project extends $hyoo_crus_entity.with({
-        Name: $hyoo_crus_atom_str,
         Files: $hyoo_crus_list_ref_to(() => $shm_hitalama_file),
         Query_logs: $hyoo_crus_list_ref_to(() => $shm_hitalama_project_query_log),
     }) {
@@ -15923,6 +15916,17 @@ var $;
     }) {
     }
     $.$shm_hitalama_project_query_log = $shm_hitalama_project_query_log;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    class $shm_hitalama_dashboard extends $hyoo_crus_entity.with({
+        Blocks: $hyoo_crus_list_ref_to(() => $shm_hitalama_file),
+    }) {
+    }
+    $.$shm_hitalama_dashboard = $shm_hitalama_dashboard;
 })($ || ($ = {}));
 
 ;
@@ -15973,7 +15977,7 @@ var $;
         Tokens: $hyoo_crus_list_ref_to(() => $shm_hitalama_token),
         Groups_lists: $hyoo_crus_list_ref_to(() => $shm_hitalama_list),
         Projects: $hyoo_crus_list_ref_to(() => $shm_hitalama_project),
-        Files: $hyoo_crus_list_ref_to(() => $hyoo_crus_file),
+        Dashboards: $hyoo_crus_list_ref_to(() => $shm_hitalama_dashboard),
         Login: $hyoo_crus_atom_str,
         Pass_key: $hyoo_crus_atom_str,
     }) {
@@ -22149,6 +22153,225 @@ var $;
 "use strict";
 
 ;
+	($.$mol_string_button) = class $mol_string_button extends ($.$mol_string) {};
+
+
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_style_attach("mol/string/button/button.view.css", "[mol_string_button]:not(:placeholder-shown):not(:focus):not(:hover):not(:disabled) {\n\tcolor: var(--mol_theme_control);\n\tbackground: transparent;\n\tbox-shadow: none;\n}\n");
+})($ || ($ = {}));
+
+;
+"use strict";
+
+;
+	($.$shm_hitalama_entity_page) = class $shm_hitalama_entity_page extends ($.$mol_page) {
+		title(next){
+			if(next !== undefined) return next;
+			return "";
+		}
+		Title(){
+			const obj = new this.$.$mol_string_button();
+			(obj.value) = (next) => ((this?.title(next)));
+			return obj;
+		}
+		cut_title(){
+			return "Удалить";
+		}
+		cut(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Cut(){
+			const obj = new this.$.$mol_button_minor();
+			(obj.title) = () => ((this?.cut_title()));
+			(obj.click) = (next) => ((this?.cut(next)));
+			return obj;
+		}
+		entity(){
+			const obj = new this.$.$hyoo_crus_entity();
+			return obj;
+		}
+		head(){
+			return [(this?.Title()), (this?.Tools())];
+		}
+		tools(){
+			return [(this?.Cut())];
+		}
+	};
+	($mol_mem(($.$shm_hitalama_entity_page.prototype), "title"));
+	($mol_mem(($.$shm_hitalama_entity_page.prototype), "Title"));
+	($mol_mem(($.$shm_hitalama_entity_page.prototype), "cut"));
+	($mol_mem(($.$shm_hitalama_entity_page.prototype), "Cut"));
+	($mol_mem(($.$shm_hitalama_entity_page.prototype), "entity"));
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $shm_hitalama_entity_page extends $.$shm_hitalama_entity_page {
+            title(next) {
+                return this.entity().title(next) ?? '';
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_entity_page.prototype, "title", null);
+        $$.$shm_hitalama_entity_page = $shm_hitalama_entity_page;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        $mol_style_define($shm_hitalama_entity_page, {
+            flex: {
+                grow: 1,
+            },
+        });
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+	($.$shm_hitalama_entity_catalog) = class $shm_hitalama_entity_catalog extends ($.$mol_book2_catalog) {
+		add(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Add_icon(){
+			const obj = new this.$.$mol_icon_plus();
+			return obj;
+		}
+		Add(){
+			const obj = new this.$.$mol_button_minor();
+			(obj.hint) = () => ("Добавить");
+			(obj.click) = (next) => ((this?.add(next)));
+			(obj.sub) = () => ([(this?.Add_icon())]);
+			return obj;
+		}
+		entity(id){
+			const obj = new this.$.$hyoo_crus_entity();
+			return obj;
+		}
+		cut(id){
+			return null;
+		}
+		menu_title(){
+			return "";
+		}
+		param(){
+			return "";
+		}
+		list(){
+			return null;
+		}
+		menu_tools(){
+			return [(this?.Add())];
+		}
+		title_default(){
+			return "Новый";
+		}
+		entities(){
+			return [];
+		}
+		Page(id){
+			const obj = new this.$.$shm_hitalama_entity_page();
+			(obj.entity) = () => ((this?.entity(id)));
+			(obj.cut) = () => ((this?.cut(id)));
+			return obj;
+		}
+	};
+	($mol_mem(($.$shm_hitalama_entity_catalog.prototype), "add"));
+	($mol_mem(($.$shm_hitalama_entity_catalog.prototype), "Add_icon"));
+	($mol_mem(($.$shm_hitalama_entity_catalog.prototype), "Add"));
+	($mol_mem_key(($.$shm_hitalama_entity_catalog.prototype), "entity"));
+	($mol_mem_key(($.$shm_hitalama_entity_catalog.prototype), "Page"));
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $shm_hitalama_entity_catalog extends $.$shm_hitalama_entity_catalog {
+            list() {
+                return null;
+            }
+            add() {
+                const entity = this.list()?.make({ '': $hyoo_crus_rank.get });
+                entity?.title(this.title_default());
+                return entity;
+            }
+            cut(id) {
+                this.list()?.cut($hyoo_crus_ref(id));
+            }
+            entity(id) {
+                return $hyoo_crus_glob.Node($hyoo_crus_ref(id), $hyoo_crus_entity);
+            }
+            entities() {
+                return this.list().remote_list();
+            }
+            spreads() {
+                return Object.fromEntries(this.entities().map(entity => [
+                    entity.ref().description,
+                    this.Page(entity.ref().description),
+                ]));
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_entity_catalog.prototype, "list", null);
+        __decorate([
+            $mol_action
+        ], $shm_hitalama_entity_catalog.prototype, "add", null);
+        __decorate([
+            $mol_action
+        ], $shm_hitalama_entity_catalog.prototype, "cut", null);
+        __decorate([
+            $mol_mem_key
+        ], $shm_hitalama_entity_catalog.prototype, "entity", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_entity_catalog.prototype, "entities", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_entity_catalog.prototype, "spreads", null);
+        $$.$shm_hitalama_entity_catalog = $shm_hitalama_entity_catalog;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        $mol_style_define($shm_hitalama_entity_catalog, {
+            Menu: {
+                flex: {
+                    basis: '18rem',
+                },
+            },
+        });
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
 	($.$mol_row) = class $mol_row extends ($.$mol_view) {};
 
 
@@ -22371,22 +22594,7 @@ var $;
 })($ || ($ = {}));
 
 ;
-	($.$shm_hitalama_project_page) = class $shm_hitalama_project_page extends ($.$mol_page) {
-		name(next){
-			if(next !== undefined) return next;
-			return "";
-		}
-		Name(){
-			const obj = new this.$.$mol_string();
-			(obj.value) = (next) => ((this?.name(next)));
-			return obj;
-		}
-		Name_label(){
-			const obj = new this.$.$mol_labeler();
-			(obj.title) = () => ("Название проекта");
-			(obj.content) = () => ([(this?.Name())]);
-			return obj;
-		}
+	($.$shm_hitalama_project_page) = class $shm_hitalama_project_page extends ($.$shm_hitalama_entity_page) {
 		file_name(id){
 			return "";
 		}
@@ -22435,36 +22643,21 @@ var $;
 			(obj.click) = (next) => ((this?.files_clear(next)));
 			return obj;
 		}
-		project_cut(next){
-			if(next !== undefined) return next;
-			return null;
-		}
-		Cut(){
-			const obj = new this.$.$mol_button_minor();
-			(obj.title) = () => ("Удалить проект");
-			(obj.click) = (next) => ((this?.project_cut(next)));
-			return obj;
-		}
-		title(){
-			return (this?.name());
-		}
 		project(){
 			const obj = new this.$.$shm_hitalama_project();
 			return obj;
 		}
+		cut_title(){
+			return "Удалить проект";
+		}
 		body(){
 			return [
-				(this?.Name_label()), 
 				(this?.Files()), 
 				(this?.Attach()), 
-				(this?.Files_clear()), 
-				(this?.Cut())
+				(this?.Files_clear())
 			];
 		}
 	};
-	($mol_mem(($.$shm_hitalama_project_page.prototype), "name"));
-	($mol_mem(($.$shm_hitalama_project_page.prototype), "Name"));
-	($mol_mem(($.$shm_hitalama_project_page.prototype), "Name_label"));
 	($mol_mem_key(($.$shm_hitalama_project_page.prototype), "File_name"));
 	($mol_mem_key(($.$shm_hitalama_project_page.prototype), "File_size"));
 	($mol_mem_key(($.$shm_hitalama_project_page.prototype), "File"));
@@ -22473,8 +22666,6 @@ var $;
 	($mol_mem(($.$shm_hitalama_project_page.prototype), "Attach"));
 	($mol_mem(($.$shm_hitalama_project_page.prototype), "files_clear"));
 	($mol_mem(($.$shm_hitalama_project_page.prototype), "Files_clear"));
-	($mol_mem(($.$shm_hitalama_project_page.prototype), "project_cut"));
-	($mol_mem(($.$shm_hitalama_project_page.prototype), "Cut"));
 	($mol_mem(($.$shm_hitalama_project_page.prototype), "project"));
 
 
@@ -22541,25 +22732,21 @@ var $;
     var $$;
     (function ($$) {
         class $shm_hitalama_project_page extends $.$shm_hitalama_project_page {
-            project_cut() {
-                console.log('this.project().ref()', this.project().ref());
-                $shm_hitalama_profile.current()?.Projects()?.cut(this.project().ref());
+            project() {
+                return this.entity().cast($shm_hitalama_project);
             }
             attach_new(files) {
                 const file = this.project().Files(null)?.make({ '': $hyoo_crus_rank.get });
-                file?.Name(null)?.val(files[0].name);
+                file?.title(files[0].name);
                 file?.Size(null)?.val(files[0].size);
                 file?.File(null)?.ensure({ '': $hyoo_crus_rank.get })?.blob(files[0]);
                 return files;
-            }
-            name(next) {
-                return this.project().Name(next)?.val(next) ?? '';
             }
             file(ref) {
                 return $hyoo_crus_glob.Node(ref, $shm_hitalama_file);
             }
             file_name(ref) {
-                return this.file(ref)?.Name()?.val() ?? '';
+                return this.file(ref)?.title() ?? '';
             }
             file_size(ref) {
                 return $mol_si_short(this.file(ref)?.Size()?.val() ?? 0, 'B');
@@ -22572,11 +22759,8 @@ var $;
             }
         }
         __decorate([
-            $mol_action
-        ], $shm_hitalama_project_page.prototype, "project_cut", null);
-        __decorate([
             $mol_mem
-        ], $shm_hitalama_project_page.prototype, "name", null);
+        ], $shm_hitalama_project_page.prototype, "project", null);
         __decorate([
             $mol_mem_key
         ], $shm_hitalama_project_page.prototype, "file", null);
@@ -22603,9 +22787,6 @@ var $;
     var $$;
     (function ($$) {
         $mol_style_define($shm_hitalama_project_page, {
-            flex: {
-                grow: 1,
-            },
             Files: {
                 padding: $mol_gap.block,
             },
@@ -22620,52 +22801,24 @@ var $;
 })($ || ($ = {}));
 
 ;
-	($.$shm_hitalama_project_list) = class $shm_hitalama_project_list extends ($.$mol_book2_catalog) {
-		add(next){
-			if(next !== undefined) return next;
-			return null;
-		}
-		Add_icon(){
-			const obj = new this.$.$mol_icon_plus();
-			return obj;
-		}
-		Add(){
-			const obj = new this.$.$mol_button_minor();
-			(obj.hint) = () => ((this.$.$mol_locale.text("$shm_hitalama_project_list_Add_hint")));
-			(obj.click) = (next) => ((this?.add(next)));
-			(obj.sub) = () => ([(this?.Add_icon())]);
-			return obj;
-		}
-		project(id){
-			const obj = new this.$.$shm_hitalama_project();
-			return obj;
-		}
+	($.$shm_hitalama_project_catalog) = class $shm_hitalama_project_catalog extends ($.$shm_hitalama_entity_catalog) {
 		menu_title(){
 			return "Проекты";
 		}
 		param(){
 			return "project";
 		}
-		menu_tools(){
-			return [(this?.Add())];
+		title_default(){
+			return "Проект";
 		}
-		name_default(){
-			return "Новый проект";
-		}
-		projects(){
-			return [];
-		}
-		Project_page(id){
+		Page(id){
 			const obj = new this.$.$shm_hitalama_project_page();
-			(obj.project) = () => ((this?.project(id)));
+			(obj.entity) = () => ((this?.entity(id)));
+			(obj.cut) = () => ((this?.cut(id)));
 			return obj;
 		}
 	};
-	($mol_mem(($.$shm_hitalama_project_list.prototype), "add"));
-	($mol_mem(($.$shm_hitalama_project_list.prototype), "Add_icon"));
-	($mol_mem(($.$shm_hitalama_project_list.prototype), "Add"));
-	($mol_mem_key(($.$shm_hitalama_project_list.prototype), "project"));
-	($mol_mem_key(($.$shm_hitalama_project_list.prototype), "Project_page"));
+	($mol_mem_key(($.$shm_hitalama_project_catalog.prototype), "Page"));
 
 
 ;
@@ -22677,38 +22830,15 @@ var $;
 (function ($) {
     var $$;
     (function ($$) {
-        class $shm_hitalama_project_list extends $.$shm_hitalama_project_list {
-            add() {
-                const project = $shm_hitalama_profile.current()?.Projects(null)?.make({ '': $hyoo_crus_rank.get });
-                project?.Name(null)?.val(this.name_default());
-                return project;
-            }
-            project(id) {
-                return $hyoo_crus_glob.Node($hyoo_crus_ref(id), $shm_hitalama_project);
-            }
-            projects() {
-                return $shm_hitalama_profile.current()?.Projects()?.remote_list() ?? [];
-            }
-            spreads() {
-                return Object.fromEntries(this.projects().map(p => [
-                    p.ref().description,
-                    this.Project_page(p.ref().description),
-                ]));
+        class $shm_hitalama_project_catalog extends $.$shm_hitalama_project_catalog {
+            list() {
+                return $shm_hitalama_profile.current()?.Projects(null);
             }
         }
         __decorate([
-            $mol_action
-        ], $shm_hitalama_project_list.prototype, "add", null);
-        __decorate([
-            $mol_mem_key
-        ], $shm_hitalama_project_list.prototype, "project", null);
-        __decorate([
             $mol_mem
-        ], $shm_hitalama_project_list.prototype, "projects", null);
-        __decorate([
-            $mol_mem
-        ], $shm_hitalama_project_list.prototype, "spreads", null);
-        $$.$shm_hitalama_project_list = $shm_hitalama_project_list;
+        ], $shm_hitalama_project_catalog.prototype, "list", null);
+        $$.$shm_hitalama_project_catalog = $shm_hitalama_project_catalog;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
 
@@ -22718,7 +22848,7 @@ var $;
 (function ($) {
     var $$;
     (function ($$) {
-        $mol_style_define($shm_hitalama_project_list, {
+        $mol_style_define($shm_hitalama_project_catalog, {
             Menu: {
                 flex: {
                     basis: '18rem',
@@ -23505,6 +23635,16 @@ var $;
 			]);
 			return obj;
 		}
+		logs_project_id(next){
+			if(next !== undefined) return next;
+			return "";
+		}
+		Logs_project(){
+			const obj = new this.$.$mol_select();
+			(obj.value) = (next) => ((this?.logs_project_id(next)));
+			(obj.dictionary) = () => ((this?.projects_dict()));
+			return obj;
+		}
 		logs_clear(next){
 			if(next !== undefined) return next;
 			return null;
@@ -23515,15 +23655,6 @@ var $;
 			(obj.click) = (next) => ((this?.logs_clear(next)));
 			return obj;
 		}
-		query_sql(id){
-			return "";
-		}
-		Query_copy(id){
-			const obj = new this.$.$mol_button_copy();
-			(obj.title) = () => ((this?.query_sql(id)));
-			(obj.sub) = () => (["Копировать"]);
-			return obj;
-		}
 		query_time(id){
 			return "";
 		}
@@ -23532,9 +23663,19 @@ var $;
 			(obj.title) = () => ((this?.query_time(id)));
 			return obj;
 		}
+		query_sql(id){
+			return "";
+		}
+		Query_copy(id){
+			const obj = new this.$.$mol_button_copy();
+			(obj.minimal_height) = () => (24);
+			(obj.title) = () => ((this?.query_sql(id)));
+			(obj.sub) = () => (["Копировать"]);
+			return obj;
+		}
 		Query_head(id){
 			const obj = new this.$.$mol_view();
-			(obj.sub) = () => ([(this?.Query_copy(id)), (this?.Query_time(id))]);
+			(obj.sub) = () => ([(this?.Query_time(id)), (this?.Query_copy(id))]);
 			return obj;
 		}
 		Log_sql(id){
@@ -23543,7 +23684,7 @@ var $;
 			return obj;
 		}
 		Query_log(id){
-			const obj = new this.$.$mol_list();
+			const obj = new this.$.$mol_view();
 			(obj.sub) = () => ([(this?.Query_head(id)), (this?.Log_sql(id))]);
 			return obj;
 		}
@@ -23553,7 +23694,7 @@ var $;
 		Logs(){
 			const obj = new this.$.$mol_page();
 			(obj.title) = () => ("Лог запросов");
-			(obj.tools) = () => ([(this?.Logs_clear())]);
+			(obj.tools) = () => ([(this?.Logs_project()), (this?.Logs_clear())]);
 			(obj.body) = () => ((this?.logs()));
 			return obj;
 		}
@@ -23589,10 +23730,12 @@ var $;
 	($mol_mem(($.$shm_hitalama_duckdb_page.prototype), "duckdb_res"));
 	($mol_mem(($.$shm_hitalama_duckdb_page.prototype), "Duckdb_dump"));
 	($mol_mem(($.$shm_hitalama_duckdb_page.prototype), "Query_page"));
+	($mol_mem(($.$shm_hitalama_duckdb_page.prototype), "logs_project_id"));
+	($mol_mem(($.$shm_hitalama_duckdb_page.prototype), "Logs_project"));
 	($mol_mem(($.$shm_hitalama_duckdb_page.prototype), "logs_clear"));
 	($mol_mem(($.$shm_hitalama_duckdb_page.prototype), "Logs_clear"));
-	($mol_mem_key(($.$shm_hitalama_duckdb_page.prototype), "Query_copy"));
 	($mol_mem_key(($.$shm_hitalama_duckdb_page.prototype), "Query_time"));
+	($mol_mem_key(($.$shm_hitalama_duckdb_page.prototype), "Query_copy"));
 	($mol_mem_key(($.$shm_hitalama_duckdb_page.prototype), "Query_head"));
 	($mol_mem_key(($.$shm_hitalama_duckdb_page.prototype), "Log_sql"));
 	($mol_mem_key(($.$shm_hitalama_duckdb_page.prototype), "Query_log"));
@@ -23602,153 +23745,6 @@ var $;
 
 ;
 "use strict";
-
-;
-"use strict";
-var $;
-(function ($) {
-    var $$;
-    (function ($$) {
-        class $shm_hitalama_duckdb_page extends $.$shm_hitalama_duckdb_page {
-            project_id(next) {
-                return next ?? (this.projects().at(0)?.ref().description ?? '');
-            }
-            projects_dict() {
-                const dict = {
-                    ...Object.fromEntries(this.projects().map(p => [p.ref().description, p.Name()?.val()])),
-                };
-                return dict;
-            }
-            project() {
-                return $hyoo_crus_glob.Node($hyoo_crus_ref(this.project_id()), $shm_hitalama_project);
-            }
-            projects() {
-                return $shm_hitalama_profile.current()?.Projects()?.remote_list() ?? [];
-            }
-            files_label() {
-                return this.project_id() ? super.files_label() : [];
-            }
-            files() {
-                return this.project().Files()?.remote_list() ?? [];
-            }
-            file_views() {
-                return this.files().map(f => this.File(f.ref().description)) ?? [];
-            }
-            files_checked() {
-                return this.files().filter(f => this.file_checked(f.ref().description)) ?? [];
-            }
-            file(ref) {
-                return $hyoo_crus_glob.Node(ref, $hyoo_crus_file);
-            }
-            file_name(id) {
-                return this.file($hyoo_crus_ref(id))?.name() ?? '';
-            }
-            query_default(file_id) {
-                const name = this.file_name(file_id);
-                return name ? `SELECT * FROM parquet_scan('${name}');` : '';
-            }
-            query(next) {
-                const file_id = this.files()?.[0]?.ref().description;
-                return next ?? (file_id ? this.query_default(file_id) : '');
-            }
-            run(next) {
-                this.query_current(this.query());
-                const log = this.project().Query_logs(null)?.local_make();
-                log?.Query(null).val(this.query());
-                log?.Time(null).val((new $mol_time_moment).valueOf());
-            }
-            duckdb_res() {
-                if (!this.query_current())
-                    return null;
-                const table_arr = $mol_wire_sync(this).conn_query(this.query_current()).toArray().slice(0, 100);
-                const result = table_arr.map((row) => row.toJSON());
-                return result;
-            }
-            conn() {
-                const files = this.files_checked().map(f => ({
-                    name: f.Name()?.val(),
-                    buffer: f.File()?.remote()?.buffer()
-                }));
-                return $shm_hitalama_duckdb.connection(files);
-            }
-            conn_query(query) {
-                return $mol_wire_sync(this).conn().query(query);
-            }
-            query_log(ref) {
-                return $hyoo_crus_glob.Node(ref, $shm_hitalama_project_query_log);
-            }
-            query_time(ref) {
-                const val = this.query_log(ref).Time()?.val();
-                const moment = new $mol_time_moment(val);
-                return moment.toString('YYYY-MM-DD hh:mm:ss');
-            }
-            query_sql(ref) {
-                return this.query_log(ref).Query()?.val() ?? '';
-            }
-            logs() {
-                return this.project().Query_logs()?.remote_list().map(l => this.Query_log(l.ref())) ?? [];
-            }
-            logs_clear() {
-                this.project().Query_logs()?.remote_list([]);
-            }
-        }
-        __decorate([
-            $mol_mem
-        ], $shm_hitalama_duckdb_page.prototype, "project_id", null);
-        __decorate([
-            $mol_mem
-        ], $shm_hitalama_duckdb_page.prototype, "project", null);
-        __decorate([
-            $mol_mem
-        ], $shm_hitalama_duckdb_page.prototype, "projects", null);
-        __decorate([
-            $mol_mem
-        ], $shm_hitalama_duckdb_page.prototype, "files", null);
-        __decorate([
-            $mol_mem
-        ], $shm_hitalama_duckdb_page.prototype, "file_views", null);
-        __decorate([
-            $mol_mem
-        ], $shm_hitalama_duckdb_page.prototype, "files_checked", null);
-        __decorate([
-            $mol_mem_key
-        ], $shm_hitalama_duckdb_page.prototype, "file", null);
-        __decorate([
-            $mol_mem_key
-        ], $shm_hitalama_duckdb_page.prototype, "file_name", null);
-        __decorate([
-            $mol_mem_key
-        ], $shm_hitalama_duckdb_page.prototype, "query_default", null);
-        __decorate([
-            $mol_mem
-        ], $shm_hitalama_duckdb_page.prototype, "query", null);
-        __decorate([
-            $mol_mem
-        ], $shm_hitalama_duckdb_page.prototype, "duckdb_res", null);
-        __decorate([
-            $mol_mem
-        ], $shm_hitalama_duckdb_page.prototype, "conn", null);
-        __decorate([
-            $mol_action
-        ], $shm_hitalama_duckdb_page.prototype, "conn_query", null);
-        __decorate([
-            $mol_mem_key
-        ], $shm_hitalama_duckdb_page.prototype, "query_log", null);
-        __decorate([
-            $mol_mem_key
-        ], $shm_hitalama_duckdb_page.prototype, "query_time", null);
-        __decorate([
-            $mol_mem_key
-        ], $shm_hitalama_duckdb_page.prototype, "query_sql", null);
-        __decorate([
-            $mol_mem
-        ], $shm_hitalama_duckdb_page.prototype, "logs", null);
-        __decorate([
-            $mol_action
-        ], $shm_hitalama_duckdb_page.prototype, "logs_clear", null);
-        $$.$shm_hitalama_duckdb_page = $shm_hitalama_duckdb_page;
-    })($$ = $.$$ || ($.$$ = {}));
-})($ || ($ = {}));
 
 ;
 "use strict";
@@ -23790,22 +23786,1257 @@ var $;
                 background: {
                     color: $mol_theme.card,
                 },
+                flex: {
+                    direction: 'row',
+                },
+                lineHeight: '1.15',
+                font: {
+                    size: '12px',
+                },
             },
             Query_time: {
+                color: $mol_theme.shade,
                 padding: $mol_gap.text,
-                margin: {
-                    left: 'auto',
+                margin: {},
+            },
+            Query_head: {
+                flex: {
+                    direction: 'column',
                 },
             },
             Logs: {
+                width: '30rem',
                 flex: {
                     grow: 0.5,
                 },
                 Body_content: {
                     gap: $mol_gap.space,
                 },
+                Tools: {
+                    justify: {
+                        content: 'flex-start',
+                    },
+                },
+            },
+            Logs_clear: {
+                margin: {
+                    left: 'auto',
+                },
+            },
+            Log_sql: {
+                flex: {
+                    shrink: 1,
+                },
             },
         });
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    class $shm_hitalama_dashboard_block extends $hyoo_crus_entity.with({
+        Body_x: $hyoo_crus_atom_real,
+        Body_y: $hyoo_crus_atom_real,
+        Bottom_edge_y: $hyoo_crus_atom_real,
+        Right_edge_x: $hyoo_crus_atom_real,
+        Top_edge_y: $hyoo_crus_atom_real,
+        Left_edge_x: $hyoo_crus_atom_real,
+        Opacity: $hyoo_crus_atom_real,
+    }) {
+    }
+    $.$shm_hitalama_dashboard_block = $shm_hitalama_dashboard_block;
+})($ || ($ = {}));
+
+;
+	($.$shm_hitalama_drag) = class $shm_hitalama_drag extends ($.$mol_plugin) {
+		pointerdown(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		dragged(next){
+			if(next !== undefined) return next;
+			return false;
+		}
+		x(next){
+			if(next !== undefined) return next;
+			return 0;
+		}
+		y(next){
+			if(next !== undefined) return next;
+			return 0;
+		}
+		repos_x(id){
+			return 1;
+		}
+		repos_y(id){
+			return 1;
+		}
+		drag(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		drag_start(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		drag_end(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		event(){
+			return {...(super.event()), "pointerdown": (next) => (this?.pointerdown(next))};
+		}
+		attr(){
+			return {...(super.attr()), "shm_hitalama_dragged": (this?.dragged())};
+		}
+	};
+	($mol_mem(($.$shm_hitalama_drag.prototype), "pointerdown"));
+	($mol_mem(($.$shm_hitalama_drag.prototype), "dragged"));
+	($mol_mem(($.$shm_hitalama_drag.prototype), "x"));
+	($mol_mem(($.$shm_hitalama_drag.prototype), "y"));
+	($mol_mem(($.$shm_hitalama_drag.prototype), "drag"));
+	($mol_mem(($.$shm_hitalama_drag.prototype), "drag_start"));
+	($mol_mem(($.$shm_hitalama_drag.prototype), "drag_end"));
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $shm_hitalama_drag extends $.$shm_hitalama_drag {
+            repos_x(val) {
+                return val;
+            }
+            repos_y(val) {
+                return val;
+            }
+            start_event;
+            start_pos;
+            pointerdown(event) {
+                this.start_event = event;
+                this.start_pos = { x: this.x(), y: this.y() };
+                this.dragged(true);
+                this.drag_start(event);
+                const mousemove = new $mol_dom_listener(this.$.$mol_dom_context.document, 'mousemove', $mol_wire_async(event => {
+                    this.drag(event);
+                    this.x(this.start_pos.x + this.repos_x(event.x - this.start_event.x));
+                    this.y(this.start_pos.y + this.repos_y(event.y - this.start_event.y));
+                }));
+                const mouseup = new $mol_dom_listener(this.$.$mol_dom_context.document, 'mouseup', $mol_wire_async(event => {
+                    this.dragged(false);
+                    this.drag_end(event);
+                    mouseup?.destructor();
+                    mousemove?.destructor();
+                }));
+            }
+        }
+        $$.$shm_hitalama_drag = $shm_hitalama_drag;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+	($.$shm_hitalama_drag_view) = class $shm_hitalama_drag_view extends ($.$mol_view) {
+		drag(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		drag_start(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		drag_end(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		y(next){
+			if(next !== undefined) return next;
+			return 0;
+		}
+		x(next){
+			if(next !== undefined) return next;
+			return 0;
+		}
+		Drag(){
+			const obj = new this.$.$shm_hitalama_drag();
+			(obj.drag) = (next) => ((this?.drag(next)));
+			(obj.drag_start) = (next) => ((this?.drag_start(next)));
+			(obj.drag_end) = (next) => ((this?.drag_end(next)));
+			(obj.y) = (next) => ((this?.y(next)));
+			(obj.x) = (next) => ((this?.x(next)));
+			return obj;
+		}
+		plugins(){
+			return [...(super.plugins()), (this?.Drag())];
+		}
+		style(){
+			return {...(super.style()), "userSelect": "none"};
+		}
+	};
+	($mol_mem(($.$shm_hitalama_drag_view.prototype), "drag"));
+	($mol_mem(($.$shm_hitalama_drag_view.prototype), "drag_start"));
+	($mol_mem(($.$shm_hitalama_drag_view.prototype), "drag_end"));
+	($mol_mem(($.$shm_hitalama_drag_view.prototype), "y"));
+	($mol_mem(($.$shm_hitalama_drag_view.prototype), "x"));
+	($mol_mem(($.$shm_hitalama_drag_view.prototype), "Drag"));
+
+
+;
+"use strict";
+
+;
+	($.$shm_hitalama_resize) = class $shm_hitalama_resize extends ($.$mol_view) {
+		drag_body(){
+			return [];
+		}
+		body_x(next){
+			if(next !== undefined) return next;
+			return 0;
+		}
+		body_y(next){
+			if(next !== undefined) return next;
+			return 0;
+		}
+		drag_end(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Drag(){
+			const obj = new this.$.$shm_hitalama_drag_view();
+			(obj.sub) = () => ((this?.drag_body()));
+			(obj.x) = (next) => ((this?.body_x(next)));
+			(obj.y) = (next) => ((this?.body_y(next)));
+			(obj.drag_end) = (next) => ((this?.drag_end(next)));
+			return obj;
+		}
+		top_edge_y(next){
+			if(next !== undefined) return next;
+			return 0;
+		}
+		Top_edge(){
+			const obj = new this.$.$shm_hitalama_resize_edge();
+			(obj.y) = (next) => ((this?.top_edge_y(next)));
+			(obj.drag_end) = (next) => ((this?.drag_end(next)));
+			return obj;
+		}
+		left_edge_x(next){
+			if(next !== undefined) return next;
+			return 0;
+		}
+		Left_edge(){
+			const obj = new this.$.$shm_hitalama_resize_edge();
+			(obj.drag_end) = (next) => ((this?.drag_end(next)));
+			(obj.x) = (next) => ((this?.left_edge_x(next)));
+			return obj;
+		}
+		bottom_edge_y(next){
+			if(next !== undefined) return next;
+			return 0;
+		}
+		Bottom_edge(){
+			const obj = new this.$.$shm_hitalama_resize_edge();
+			(obj.drag_end) = (next) => ((this?.drag_end(next)));
+			(obj.y) = (next) => ((this?.bottom_edge_y(next)));
+			return obj;
+		}
+		right_edge_x(next){
+			if(next !== undefined) return next;
+			return 0;
+		}
+		Right_edge(){
+			const obj = new this.$.$shm_hitalama_resize_edge();
+			(obj.drag_end) = (next) => ((this?.drag_end(next)));
+			(obj.x) = (next) => ((this?.right_edge_x(next)));
+			return obj;
+		}
+		Top_left_edge(){
+			const obj = new this.$.$shm_hitalama_resize_edge();
+			(obj.drag_end) = (next) => ((this?.drag_end(next)));
+			(obj.y) = (next) => ((this?.top_edge_y(next)));
+			(obj.x) = (next) => ((this?.left_edge_x(next)));
+			return obj;
+		}
+		Top_right_edge(){
+			const obj = new this.$.$shm_hitalama_resize_edge();
+			(obj.drag_end) = (next) => ((this?.drag_end(next)));
+			(obj.y) = (next) => ((this?.top_edge_y(next)));
+			(obj.x) = (next) => ((this?.right_edge_x(next)));
+			return obj;
+		}
+		Bottom_left_edge(){
+			const obj = new this.$.$shm_hitalama_resize_edge();
+			(obj.drag_end) = (next) => ((this?.drag_end(next)));
+			(obj.y) = (next) => ((this?.bottom_edge_y(next)));
+			(obj.x) = (next) => ((this?.left_edge_x(next)));
+			return obj;
+		}
+		Bottom_right_edge(){
+			const obj = new this.$.$shm_hitalama_resize_edge();
+			(obj.drag_end) = (next) => ((this?.drag_end(next)));
+			(obj.y) = (next) => ((this?.bottom_edge_y(next)));
+			(obj.x) = (next) => ((this?.right_edge_x(next)));
+			return obj;
+		}
+		edges(){
+			return [
+				(this?.Top_edge()), 
+				(this?.Left_edge()), 
+				(this?.Bottom_edge()), 
+				(this?.Right_edge()), 
+				(this?.Top_left_edge()), 
+				(this?.Top_right_edge()), 
+				(this?.Bottom_left_edge()), 
+				(this?.Bottom_right_edge())
+			];
+		}
+		body(){
+			return [(this?.Drag()), ...(this.edges())];
+		}
+		Body(){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => ((this?.body()));
+			return obj;
+		}
+		vals_to_sticks(){
+			return null;
+		}
+		top_px(){
+			return "0px";
+		}
+		left_px(){
+			return "0px";
+		}
+		height_px(){
+			return "300px";
+		}
+		width_px(){
+			return "500px";
+		}
+		sub(){
+			return [(this?.Body())];
+		}
+		height_base(){
+			return 300;
+		}
+		width_base(){
+			return 500;
+		}
+		height(){
+			return 0;
+		}
+		width(){
+			return 0;
+		}
+		top(){
+			return 0;
+		}
+		left(){
+			return 0;
+		}
+		stick_threshold(){
+			return 10;
+		}
+		body_x_stick(next){
+			if(next !== undefined) return next;
+			return 0;
+		}
+		body_y_stick(next){
+			if(next !== undefined) return next;
+			return 0;
+		}
+		bottom_edge_y_stick(next){
+			if(next !== undefined) return next;
+			return 0;
+		}
+		right_edge_x_stick(next){
+			if(next !== undefined) return next;
+			return 0;
+		}
+		top_edge_y_stick(next){
+			if(next !== undefined) return next;
+			return 0;
+		}
+		left_edge_x_stick(next){
+			if(next !== undefined) return next;
+			return 0;
+		}
+		sticks_y(){
+			return [];
+		}
+		sticks_x(){
+			return [];
+		}
+		auto(){
+			return [(this?.vals_to_sticks())];
+		}
+		style(){
+			return {
+				...(super.style()), 
+				"top": (this?.top_px()), 
+				"left": (this?.left_px()), 
+				"height": (this?.height_px()), 
+				"width": (this?.width_px())
+			};
+		}
+	};
+	($mol_mem(($.$shm_hitalama_resize.prototype), "body_x"));
+	($mol_mem(($.$shm_hitalama_resize.prototype), "body_y"));
+	($mol_mem(($.$shm_hitalama_resize.prototype), "drag_end"));
+	($mol_mem(($.$shm_hitalama_resize.prototype), "Drag"));
+	($mol_mem(($.$shm_hitalama_resize.prototype), "top_edge_y"));
+	($mol_mem(($.$shm_hitalama_resize.prototype), "Top_edge"));
+	($mol_mem(($.$shm_hitalama_resize.prototype), "left_edge_x"));
+	($mol_mem(($.$shm_hitalama_resize.prototype), "Left_edge"));
+	($mol_mem(($.$shm_hitalama_resize.prototype), "bottom_edge_y"));
+	($mol_mem(($.$shm_hitalama_resize.prototype), "Bottom_edge"));
+	($mol_mem(($.$shm_hitalama_resize.prototype), "right_edge_x"));
+	($mol_mem(($.$shm_hitalama_resize.prototype), "Right_edge"));
+	($mol_mem(($.$shm_hitalama_resize.prototype), "Top_left_edge"));
+	($mol_mem(($.$shm_hitalama_resize.prototype), "Top_right_edge"));
+	($mol_mem(($.$shm_hitalama_resize.prototype), "Bottom_left_edge"));
+	($mol_mem(($.$shm_hitalama_resize.prototype), "Bottom_right_edge"));
+	($mol_mem(($.$shm_hitalama_resize.prototype), "Body"));
+	($mol_mem(($.$shm_hitalama_resize.prototype), "body_x_stick"));
+	($mol_mem(($.$shm_hitalama_resize.prototype), "body_y_stick"));
+	($mol_mem(($.$shm_hitalama_resize.prototype), "bottom_edge_y_stick"));
+	($mol_mem(($.$shm_hitalama_resize.prototype), "right_edge_x_stick"));
+	($mol_mem(($.$shm_hitalama_resize.prototype), "top_edge_y_stick"));
+	($mol_mem(($.$shm_hitalama_resize.prototype), "left_edge_x_stick"));
+	($.$shm_hitalama_resize_edge) = class $shm_hitalama_resize_edge extends ($.$shm_hitalama_drag_view) {};
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $shm_hitalama_resize extends $.$shm_hitalama_resize {
+            to_stick(sticks, val, shift) {
+                for (const stick of sticks) {
+                    const to_stick = stick - (val + shift);
+                    if (Math.abs(to_stick) < this.stick_threshold()) {
+                        return val + to_stick;
+                    }
+                }
+                return val;
+            }
+            to_stick_x(val, shift) {
+                return this.to_stick(this.sticks_x(), val, shift);
+            }
+            to_stick_y(val, shift) {
+                return this.to_stick(this.sticks_y(), val, shift);
+            }
+            body_y(next) {
+                if (next === undefined)
+                    return 0;
+                const top_stick = this.to_stick_y(next, this.top_edge_y_stick());
+                if (top_stick == next) {
+                    const bottom_stick = this.to_stick_y(next, this.top_edge_y_stick() + this.height());
+                    this.body_y_stick(bottom_stick);
+                }
+                else {
+                    this.body_y_stick(top_stick);
+                }
+                return next;
+            }
+            top_edge_y(next) {
+                if (next === undefined)
+                    return 0;
+                const top_edge_y_stick = this.to_stick_y(next, this.body_y_stick());
+                this.top_edge_y_stick(top_edge_y_stick);
+                return next;
+            }
+            bottom_edge_y(next) {
+                if (next === undefined)
+                    return 0;
+                const bottom_edge_y_stick = this.to_stick_y(next, this.top() + this.height_base() - this.top_edge_y_stick());
+                this.bottom_edge_y_stick(bottom_edge_y_stick);
+                return next;
+            }
+            body_x(next) {
+                if (next === undefined)
+                    return 0;
+                const left_stick = this.to_stick_x(next, this.left_edge_x_stick());
+                if (left_stick == next) {
+                    const right_stick = this.to_stick_x(next, this.left_edge_x_stick() + this.width());
+                    this.body_x_stick(right_stick);
+                }
+                else {
+                    this.body_x_stick(left_stick);
+                }
+                return next;
+            }
+            left_edge_x(next) {
+                if (next === undefined)
+                    return 0;
+                const left_edge_x_stick = this.to_stick_x(next, this.body_x_stick());
+                this.left_edge_x_stick(left_edge_x_stick);
+                return next;
+            }
+            right_edge_x(next) {
+                if (next === undefined)
+                    return 0;
+                const right_edge_x_stick = this.to_stick_x(next, this.left() + this.width_base() - this.left_edge_x_stick());
+                this.right_edge_x_stick(right_edge_x_stick);
+                return next;
+            }
+            top() {
+                return this.body_y_stick() + this.top_edge_y_stick();
+            }
+            left() {
+                return this.body_x_stick() + this.left_edge_x_stick();
+            }
+            width() {
+                return this.width_base() + this.right_edge_x_stick() - this.left_edge_x_stick();
+            }
+            height() {
+                return this.height_base() + this.bottom_edge_y_stick() - this.top_edge_y_stick();
+            }
+            height_px() {
+                return this.height() + 'px';
+            }
+            width_px() {
+                return this.width() + 'px';
+            }
+            top_px() {
+                return this.top() + 'px';
+            }
+            left_px() {
+                return this.left() + 'px';
+            }
+            drag_end() {
+                this.vals_to_sticks();
+            }
+            shrink_to_body() {
+                const body_rect = this.Body().dom_node().getBoundingClientRect();
+                const prev_bottom = this.bottom_edge_y_stick();
+                const next_bottom = body_rect.height - this.height_base() + this.top_edge_y_stick();
+                const prev_right = this.right_edge_x_stick();
+                const next_right = body_rect.width - this.width_base() + this.left_edge_x_stick();
+                if (Math.abs(prev_right - next_right) < 0.1) {
+                    this.bottom_edge_y_stick(next_bottom);
+                }
+                else {
+                    this.bottom_edge_y_stick(Math.min(next_bottom, prev_bottom));
+                }
+                this.right_edge_x_stick(next_right);
+            }
+            vals_to_sticks() {
+                this.body_x(this.body_x_stick());
+                this.body_y(this.body_y_stick());
+                this.bottom_edge_y(this.bottom_edge_y_stick());
+                this.right_edge_x(this.right_edge_x_stick());
+                this.top_edge_y(this.top_edge_y_stick());
+                this.left_edge_x(this.left_edge_x_stick());
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_resize.prototype, "body_y", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_resize.prototype, "top_edge_y", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_resize.prototype, "bottom_edge_y", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_resize.prototype, "body_x", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_resize.prototype, "left_edge_x", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_resize.prototype, "right_edge_x", null);
+        $$.$shm_hitalama_resize = $shm_hitalama_resize;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        $mol_style_define($shm_hitalama_resize, {
+            position: 'absolute',
+            transition: 'none',
+            backgroundColor: 'color-mix(in srgb, var(--mol_theme_line) 50%, transparent)',
+            Drag: {
+                flex: {
+                    grow: 1,
+                },
+            },
+            Top_edge: {
+                cursor: 'ns-resize',
+                left: 0,
+                top: '-5px',
+                width: '100%',
+                height: '10px',
+            },
+            Top_left_edge: {
+                cursor: 'nwse-resize',
+                left: '-5px',
+                top: '-5px',
+                width: '10px',
+                height: '10px',
+            },
+            Top_right_edge: {
+                cursor: 'nesw-resize',
+                right: '-5px',
+                top: '-5px',
+                width: '10px',
+                height: '10px',
+            },
+            Left_edge: {
+                cursor: 'ew-resize',
+                left: '-5px',
+                height: '100%',
+                width: '10px',
+            },
+            Bottom_edge: {
+                cursor: 'ns-resize',
+                bottom: '-5px',
+                width: '100%',
+                height: '10px',
+            },
+            Bottom_left_edge: {
+                cursor: 'nesw-resize',
+                left: '-5px',
+                bottom: '-5px',
+                width: '10px',
+                height: '10px',
+            },
+            Bottom_right_edge: {
+                cursor: 'nwse-resize',
+                right: '-5px',
+                bottom: '-5px',
+                width: '10px',
+                height: '10px',
+            },
+            Right_edge: {
+                cursor: 'ew-resize',
+                right: '-5px',
+                height: '100%',
+                width: '10px',
+            },
+        });
+        $mol_style_define($shm_hitalama_resize_edge, {
+            position: 'absolute',
+            zIndex: $mol_layer.float,
+            userSelect: 'none',
+            opacity: 0.1,
+            background: {},
+            ":hover": {
+                background: {
+                    color: $mol_theme.shade,
+                },
+            },
+            '[shm_hitalama_dragged]': {
+                'true': {
+                    background: {
+                        color: $mol_theme.line,
+                    },
+                    ":hover": {
+                        background: {
+                            color: $mol_theme.line,
+                        },
+                    },
+                },
+            },
+        });
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+	($.$mol_icon_minus) = class $mol_icon_minus extends ($.$mol_icon) {
+		path(){
+			return "M19,13H5V11H19V13Z";
+		}
+	};
+
+
+;
+"use strict";
+
+;
+	($.$mol_number) = class $mol_number extends ($.$mol_view) {
+		precision(){
+			return 1;
+		}
+		type(){
+			return "tel";
+		}
+		value_string(next){
+			if(next !== undefined) return next;
+			return "";
+		}
+		hint(){
+			return " ";
+		}
+		string_enabled(){
+			return (this?.enabled());
+		}
+		submit(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		String(){
+			const obj = new this.$.$mol_string();
+			(obj.type) = () => ((this?.type()));
+			(obj.value) = (next) => ((this?.value_string(next)));
+			(obj.hint) = () => ((this?.hint()));
+			(obj.enabled) = () => ((this?.string_enabled()));
+			(obj.submit) = (next) => ((this?.submit(next)));
+			return obj;
+		}
+		event_dec(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		dec_enabled(){
+			return (this?.enabled());
+		}
+		dec_icon(){
+			const obj = new this.$.$mol_icon_minus();
+			return obj;
+		}
+		Dec(){
+			const obj = new this.$.$mol_button_minor();
+			(obj.event_click) = (next) => ((this?.event_dec(next)));
+			(obj.enabled) = () => ((this?.dec_enabled()));
+			(obj.sub) = () => ([(this?.dec_icon())]);
+			return obj;
+		}
+		event_inc(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		inc_enabled(){
+			return (this?.enabled());
+		}
+		inc_icon(){
+			const obj = new this.$.$mol_icon_plus();
+			return obj;
+		}
+		Inc(){
+			const obj = new this.$.$mol_button_minor();
+			(obj.event_click) = (next) => ((this?.event_inc(next)));
+			(obj.enabled) = () => ((this?.inc_enabled()));
+			(obj.sub) = () => ([(this?.inc_icon())]);
+			return obj;
+		}
+		precision_view(){
+			return (this?.precision());
+		}
+		precision_change(){
+			return (this?.precision());
+		}
+		value_min(){
+			return -Infinity;
+		}
+		value_max(){
+			return +Infinity;
+		}
+		value(next){
+			if(next !== undefined) return next;
+			return +NaN;
+		}
+		enabled(){
+			return true;
+		}
+		sub(){
+			return [
+				(this?.String()), 
+				(this?.Dec()), 
+				(this?.Inc())
+			];
+		}
+	};
+	($mol_mem(($.$mol_number.prototype), "value_string"));
+	($mol_mem(($.$mol_number.prototype), "submit"));
+	($mol_mem(($.$mol_number.prototype), "String"));
+	($mol_mem(($.$mol_number.prototype), "event_dec"));
+	($mol_mem(($.$mol_number.prototype), "dec_icon"));
+	($mol_mem(($.$mol_number.prototype), "Dec"));
+	($mol_mem(($.$mol_number.prototype), "event_inc"));
+	($mol_mem(($.$mol_number.prototype), "inc_icon"));
+	($mol_mem(($.$mol_number.prototype), "Inc"));
+	($mol_mem(($.$mol_number.prototype), "value"));
+
+
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_style_attach("mol/number/number.css", "[mol_number] {\n\tdisplay: flex;\n\tflex: 0 1 auto;\n\tposition: relative;\n\talign-items: stretch;\n\tmax-width: 100%;\n}\n\n[mol_number_string] {\n\tappearance: textfield;\n\tflex: 1 1 7rem;\n\twidth: 7rem;\n}\n\n[mol_number_string]::-webkit-inner-spin-button {\n\tdisplay: none;\n}\n");
+})($ || ($ = {}));
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $mol_number extends $.$mol_number {
+            value_limited(next) {
+                if (next === undefined)
+                    return this.value();
+                if (next === '')
+                    return this.value(Number.NaN);
+                const min = this.value_min();
+                const max = this.value_max();
+                const val = Number(next);
+                if (val < min)
+                    return this.value(min);
+                if (val > max)
+                    return this.value(max);
+                return this.value(val);
+            }
+            event_dec(next) {
+                this.value_limited((this.value_limited() || 0) - this.precision_change());
+            }
+            event_inc(next) {
+                this.value_limited((this.value_limited() || 0) + this.precision_change());
+            }
+            value_string(next) {
+                const next_num = this.value_limited(next);
+                const precisionView = this.precision_view();
+                if (next_num === 0)
+                    return '0';
+                if (!next_num)
+                    return '';
+                if (precisionView >= 1) {
+                    return (next_num / precisionView).toFixed();
+                }
+                else {
+                    const fixedNumber = Math.log10(1 / precisionView);
+                    return next_num.toFixed(Math.ceil(fixedNumber));
+                }
+            }
+            dec_enabled() {
+                return this.enabled() && (!((this.value() || 0) <= this.value_min()));
+            }
+            inc_enabled() {
+                return this.enabled() && (!((this.value() || 0) >= this.value_max()));
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $mol_number.prototype, "dec_enabled", null);
+        __decorate([
+            $mol_mem
+        ], $mol_number.prototype, "inc_enabled", null);
+        $$.$mol_number = $mol_number;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+	($.$shm_hitalama_dashboard_block_float) = class $shm_hitalama_dashboard_block_float extends ($.$shm_hitalama_resize) {
+		opacity(next){
+			if(next !== undefined) return next;
+			return 1;
+		}
+		Opacity(){
+			const obj = new this.$.$mol_number();
+			(obj.precision) = () => (0.1);
+			(obj.value_min) = () => (0.1);
+			(obj.value_max) = () => (1.0);
+			(obj.value) = (next) => ((this?.opacity(next)));
+			return obj;
+		}
+		cut(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Cut_icon(){
+			const obj = new this.$.$mol_icon_close();
+			return obj;
+		}
+		Cut(){
+			const obj = new this.$.$mol_button_minor();
+			(obj.click) = (next) => ((this?.cut(next)));
+			(obj.sub) = () => ([(this?.Cut_icon())]);
+			return obj;
+		}
+		Head(){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => ([(this?.Opacity()), (this?.Cut())]);
+			return obj;
+		}
+		content(){
+			return "";
+		}
+		Content(){
+			const obj = new this.$.$mol_text();
+			(obj.text) = () => ((this?.content()));
+			return obj;
+		}
+		opacity_str(){
+			return "1";
+		}
+		block(){
+			const obj = new this.$.$shm_hitalama_dashboard_block();
+			return obj;
+		}
+		sub(){
+			return [
+				(this?.Head()), 
+				(this?.Drag()), 
+				...(this.edges())
+			];
+		}
+		drag_body(){
+			return [(this?.Content())];
+		}
+		style(){
+			return {...(super.style()), "opacity": (this?.opacity_str())};
+		}
+	};
+	($mol_mem(($.$shm_hitalama_dashboard_block_float.prototype), "opacity"));
+	($mol_mem(($.$shm_hitalama_dashboard_block_float.prototype), "Opacity"));
+	($mol_mem(($.$shm_hitalama_dashboard_block_float.prototype), "cut"));
+	($mol_mem(($.$shm_hitalama_dashboard_block_float.prototype), "Cut_icon"));
+	($mol_mem(($.$shm_hitalama_dashboard_block_float.prototype), "Cut"));
+	($mol_mem(($.$shm_hitalama_dashboard_block_float.prototype), "Head"));
+	($mol_mem(($.$shm_hitalama_dashboard_block_float.prototype), "Content"));
+	($mol_mem(($.$shm_hitalama_dashboard_block_float.prototype), "block"));
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $shm_hitalama_dashboard_block_float extends $.$shm_hitalama_dashboard_block_float {
+            body_x_stick(next) {
+                return this.block().Body_x(next)?.val(next) ?? 0;
+            }
+            body_y_stick(next) {
+                return this.block().Body_y(next)?.val(next) ?? 0;
+            }
+            bottom_edge_y_stick(next) {
+                return this.block().Bottom_edge_y(next)?.val(next) ?? 0;
+            }
+            right_edge_x_stick(next) {
+                return this.block().Right_edge_x(next)?.val(next) ?? 0;
+            }
+            top_edge_y_stick(next) {
+                return this.block().Top_edge_y(next)?.val(next) ?? 0;
+            }
+            left_edge_x_stick(next) {
+                return this.block().Left_edge_x(next)?.val(next) ?? 0;
+            }
+            opacity(next) {
+                return this.block().Opacity(next)?.val(next) ?? 1;
+            }
+            content() {
+                return '' +
+                    '! height\n  ! ' + this.height() + '\n' +
+                    '! width\n  ! ' + this.width() + '\n' +
+                    '! top\n  ! ' + this.top() + '\n' +
+                    '! left\n  ! ' + this.left() + '\n' +
+                    '';
+            }
+            opacity_str() {
+                return this.opacity().toString();
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_dashboard_block_float.prototype, "body_x_stick", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_dashboard_block_float.prototype, "body_y_stick", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_dashboard_block_float.prototype, "bottom_edge_y_stick", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_dashboard_block_float.prototype, "right_edge_x_stick", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_dashboard_block_float.prototype, "top_edge_y_stick", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_dashboard_block_float.prototype, "left_edge_x_stick", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_dashboard_block_float.prototype, "opacity", null);
+        $$.$shm_hitalama_dashboard_block_float = $shm_hitalama_dashboard_block_float;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        $mol_style_define($shm_hitalama_dashboard_block_float, {
+            outline: '1px solid black',
+            userSelect: 'none',
+            flex: {
+                direction: 'column'
+            },
+            background: {
+                color: $mol_theme.back,
+            },
+            Opacity: {
+                flex: {
+                    grow: 1,
+                },
+            },
+            Cut: {
+                color: 'red',
+            },
+            Head: {
+                padding: $mol_gap.space,
+            },
+        });
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+	($.$shm_hitalama_dashboard_page) = class $shm_hitalama_dashboard_page extends ($.$shm_hitalama_entity_page) {
+		block_add(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Block_add(){
+			const obj = new this.$.$mol_button_minor();
+			(obj.hint) = () => ("Добавить");
+			(obj.title) = () => ("Добавить блок");
+			(obj.click) = (next) => ((this?.block_add(next)));
+			return obj;
+		}
+		block(id){
+			const obj = new this.$.$shm_hitalama_dashboard_block();
+			return obj;
+		}
+		block_cut(id){
+			return null;
+		}
+		block_height(id){
+			return (this?.Block(id)?.height());
+		}
+		block_width(id){
+			return (this?.Block(id)?.width());
+		}
+		block_top(id){
+			return (this?.Block(id)?.top());
+		}
+		block_left(id){
+			return (this?.Block(id)?.left());
+		}
+		sticks_y(id){
+			return [0];
+		}
+		sticks_x(id){
+			return [0];
+		}
+		Block(id){
+			const obj = new this.$.$shm_hitalama_dashboard_block_float();
+			(obj.block) = () => ((this?.block(id)));
+			(obj.cut) = () => ((this?.block_cut(id)));
+			(obj.sticks_y) = () => ((this?.sticks_y(id)));
+			(obj.sticks_x) = () => ((this?.sticks_x(id)));
+			return obj;
+		}
+		blocks(){
+			return [(this?.Block(id))];
+		}
+		dashboard(){
+			const obj = new this.$.$shm_hitalama_dashboard();
+			return obj;
+		}
+		cut_title(){
+			return "Удалить дашборд";
+		}
+		tools(){
+			return [(this?.Block_add()), ...(super.tools())];
+		}
+		body_content(){
+			return [...(this.blocks())];
+		}
+	};
+	($mol_mem(($.$shm_hitalama_dashboard_page.prototype), "block_add"));
+	($mol_mem(($.$shm_hitalama_dashboard_page.prototype), "Block_add"));
+	($mol_mem_key(($.$shm_hitalama_dashboard_page.prototype), "block"));
+	($mol_mem_key(($.$shm_hitalama_dashboard_page.prototype), "Block"));
+	($mol_mem(($.$shm_hitalama_dashboard_page.prototype), "dashboard"));
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $shm_hitalama_dashboard_page extends $.$shm_hitalama_dashboard_page {
+            dashboard() {
+                return this.entity().cast($shm_hitalama_dashboard);
+            }
+            dashboard_cut() {
+                $shm_hitalama_profile.current()?.Dashboards()?.cut(this.dashboard().ref());
+            }
+            block_add() {
+                const block = this.dashboard().Blocks(null)?.make({ '': $hyoo_crus_rank.get });
+                return block;
+            }
+            block_cut(ref) {
+                this.dashboard().Blocks(null)?.cut(ref);
+            }
+            block(ref) {
+                return $hyoo_crus_glob.Node(ref, $shm_hitalama_dashboard_block);
+            }
+            blocks() {
+                return this.dashboard().Blocks()?.remote_list().map(f => this.Block(f.ref())) ?? [];
+            }
+            blocks_clear() {
+                this.dashboard().Blocks()?.remote_list([]);
+            }
+            sticks_y_by_block(ref) {
+                const height = this.block_height(ref);
+                const top = this.block_top(ref);
+                return [top, top + height];
+            }
+            sticks_x_by_block(ref) {
+                const width = this.block_width(ref);
+                const left = this.block_left(ref);
+                return [left, left + width];
+            }
+            sticks_x(ref) {
+                const blocks = this.dashboard().Blocks()?.remote_list() ?? [];
+                const sticks = [...super.sticks_x(ref)];
+                blocks.forEach(b => {
+                    if (b.ref() != ref)
+                        sticks.push(...this.sticks_x_by_block(b.ref()));
+                });
+                return sticks;
+            }
+            sticks_y(ref) {
+                const blocks = this.dashboard().Blocks()?.remote_list() ?? [];
+                const sticks = [...super.sticks_y(ref)];
+                blocks.forEach(b => {
+                    if (b.ref() != ref)
+                        sticks.push(...this.sticks_y_by_block(b.ref()));
+                });
+                return sticks;
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_dashboard_page.prototype, "dashboard", null);
+        __decorate([
+            $mol_action
+        ], $shm_hitalama_dashboard_page.prototype, "dashboard_cut", null);
+        __decorate([
+            $mol_action
+        ], $shm_hitalama_dashboard_page.prototype, "block_add", null);
+        __decorate([
+            $mol_action
+        ], $shm_hitalama_dashboard_page.prototype, "block_cut", null);
+        __decorate([
+            $mol_mem_key
+        ], $shm_hitalama_dashboard_page.prototype, "block", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_dashboard_page.prototype, "blocks", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_dashboard_page.prototype, "blocks_clear", null);
+        __decorate([
+            $mol_mem_key
+        ], $shm_hitalama_dashboard_page.prototype, "sticks_y_by_block", null);
+        __decorate([
+            $mol_mem_key
+        ], $shm_hitalama_dashboard_page.prototype, "sticks_x_by_block", null);
+        __decorate([
+            $mol_mem_key
+        ], $shm_hitalama_dashboard_page.prototype, "sticks_x", null);
+        __decorate([
+            $mol_mem_key
+        ], $shm_hitalama_dashboard_page.prototype, "sticks_y", null);
+        $$.$shm_hitalama_dashboard_page = $shm_hitalama_dashboard_page;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        $mol_style_define($shm_hitalama_dashboard_page, {
+            Tools: {
+                justify: {
+                    content: 'flex-start',
+                },
+            },
+        });
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+	($.$shm_hitalama_dashboard_catalog) = class $shm_hitalama_dashboard_catalog extends ($.$shm_hitalama_entity_catalog) {
+		menu_title(){
+			return "Дашборды";
+		}
+		param(){
+			return "dashboard";
+		}
+		title_default(){
+			return "Дашборд";
+		}
+		Page(id){
+			const obj = new this.$.$shm_hitalama_dashboard_page();
+			(obj.entity) = () => ((this?.entity(id)));
+			(obj.cut) = () => ((this?.cut(id)));
+			return obj;
+		}
+	};
+	($mol_mem_key(($.$shm_hitalama_dashboard_catalog.prototype), "Page"));
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $shm_hitalama_dashboard_catalog extends $.$shm_hitalama_dashboard_catalog {
+            list() {
+                return $shm_hitalama_profile.current()?.Dashboards(null);
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_dashboard_catalog.prototype, "list", null);
+        $$.$shm_hitalama_dashboard_catalog = $shm_hitalama_dashboard_catalog;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
 
@@ -24256,11 +25487,15 @@ var $;
 			return obj;
 		}
 		Projects(){
-			const obj = new this.$.$shm_hitalama_project_list();
+			const obj = new this.$.$shm_hitalama_project_catalog();
 			return obj;
 		}
 		Duckdb(){
 			const obj = new this.$.$shm_hitalama_duckdb_page();
+			return obj;
+		}
+		Dashboards(){
+			const obj = new this.$.$shm_hitalama_dashboard_catalog();
 			return obj;
 		}
 		profiles(){
@@ -24290,7 +25525,8 @@ var $;
 				"": (this?.Analysis()), 
 				"lists": (this?.Lists()), 
 				"projects": (this?.Projects()), 
-				"duckdb_page": (this?.Duckdb())
+				"duckdb_page": (this?.Duckdb()), 
+				"dashboards": (this?.Dashboards())
 			};
 		}
 		Enter(){
@@ -24321,6 +25557,7 @@ var $;
 	($mol_mem(($.$shm_hitalama_app.prototype), "Lists"));
 	($mol_mem(($.$shm_hitalama_app.prototype), "Projects"));
 	($mol_mem(($.$shm_hitalama_app.prototype), "Duckdb"));
+	($mol_mem(($.$shm_hitalama_app.prototype), "Dashboards"));
 	($mol_mem(($.$shm_hitalama_app.prototype), "profiles"));
 	($mol_mem(($.$shm_hitalama_app.prototype), "Enter"));
 	($mol_mem(($.$shm_hitalama_app.prototype), "Register"));
@@ -24569,12 +25806,154 @@ var $;
 
 ;
 "use strict";
+var $;
+(function ($_1) {
+    $mol_test({
+        'FQN of anon function'($) {
+            const $$ = Object.assign($, { $mol_func_name_test: (() => () => { })() });
+            $mol_assert_equal($$.$mol_func_name_test.name, '');
+            $mol_assert_equal($$.$mol_func_name($$.$mol_func_name_test), '$mol_func_name_test');
+            $mol_assert_equal($$.$mol_func_name_test.name, '$mol_func_name_test');
+        },
+    });
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_test({
+        'auto name'() {
+            class Invalid extends $mol_error_mix {
+            }
+            const mix = new Invalid('foo');
+            $mol_assert_equal(mix.name, 'Invalid_Error');
+        },
+        'simpe mix'() {
+            const mix = new $mol_error_mix('foo', {}, new Error('bar'), new Error('lol'));
+            $mol_assert_equal(mix.message, 'foo');
+            $mol_assert_equal(mix.errors.map(e => e.message), ['bar', 'lol']);
+        },
+        'provide additional info'() {
+            class Invalid extends $mol_error_mix {
+            }
+            const mix = new $mol_error_mix('Wrong password', {}, new Invalid('Too short', { value: 'p@ssw0rd', hint: '> 8 letters' }), new Invalid('Too simple', { value: 'p@ssw0rd', hint: 'need capital letter' }));
+            const hints = [];
+            if (mix instanceof $mol_error_mix) {
+                for (const er of mix.errors) {
+                    if (er instanceof Invalid) {
+                        hints.push(er.cause?.hint ?? '');
+                    }
+                }
+            }
+            $mol_assert_equal(hints, ['> 8 letters', 'need capital letter']);
+        },
+    });
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($_1) {
+    $mol_test_mocks.push($ => {
+        $.$mol_log3_come = () => { };
+        $.$mol_log3_done = () => { };
+        $.$mol_log3_fail = () => { };
+        $.$mol_log3_warn = () => { };
+        $.$mol_log3_rise = () => { };
+        $.$mol_log3_area = () => () => { };
+    });
+})($ || ($ = {}));
 
 ;
 "use strict";
 
 ;
 "use strict";
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($_1) {
+    $mol_test({
+        'test types'($) {
+            class A {
+                static a() {
+                    return Promise.resolve('');
+                }
+                static b() {
+                    return $mol_wire_sync(this).a();
+                }
+            }
+        },
+        async 'test method from host'($) {
+            let count = 0;
+            class A {
+                static a() {
+                    return $mol_wire_sync(this).b();
+                }
+                static b() { return Promise.resolve(++count); }
+            }
+            $mol_assert_equal(await $mol_wire_async(A).a(), 1, count);
+        },
+        async 'test function'($) {
+            let count = 0;
+            class A {
+                static a() {
+                    return $mol_wire_sync(this.b)();
+                }
+                static b() { return Promise.resolve(++count); }
+            }
+            $mol_assert_equal(await $mol_wire_async(A).a(), 1, count);
+        },
+        async 'test construct itself'($) {
+            class A {
+                static instances = [];
+                static a() {
+                    const a = new ($mol_wire_sync(A))();
+                    this.instances.push(a);
+                    $mol_wire_sync(this).b();
+                }
+                static b() { return Promise.resolve(); }
+            }
+            await $mol_wire_async(A).a();
+            $mol_assert_equal(A.instances.length, 2);
+            $mol_assert_equal(A.instances[0] instanceof A);
+            $mol_assert_equal(A.instances[0], A.instances[1]);
+        }
+    });
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($_1) {
+    $mol_test({
+        async 'exec timeout auto kill child process'($) {
+            let close_mock = () => { };
+            const context_mock = $.$mol_ambient({
+                $mol_run_spawn: () => ({
+                    on(name, cb) {
+                        if (name === 'exit')
+                            close_mock = cb;
+                    },
+                    kill() { close_mock(); }
+                })
+            });
+            let message = '';
+            try {
+                const res = await $mol_wire_async(context_mock).$mol_run({ command: 'sleep 10', dir: '.', timeout: 10, env: { 'MOL_RUN_ASYNC': '1' } });
+            }
+            catch (e) {
+                message = e.message;
+            }
+            $mol_assert_equal(message, 'Run error, timeout');
+        }
+    });
+})($ || ($ = {}));
 
 ;
 "use strict";
@@ -25208,34 +26587,6 @@ var $;
 ;
 "use strict";
 var $;
-(function ($_1) {
-    $mol_test_mocks.push($ => {
-        $.$mol_log3_come = () => { };
-        $.$mol_log3_done = () => { };
-        $.$mol_log3_fail = () => { };
-        $.$mol_log3_warn = () => { };
-        $.$mol_log3_rise = () => { };
-        $.$mol_log3_area = () => () => { };
-    });
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($_1) {
-    $mol_test({
-        'FQN of anon function'($) {
-            const $$ = Object.assign($, { $mol_func_name_test: (() => () => { })() });
-            $mol_assert_equal($$.$mol_func_name_test.name, '');
-            $mol_assert_equal($$.$mol_func_name($$.$mol_func_name_test), '$mol_func_name_test');
-            $mol_assert_equal($$.$mol_func_name_test.name, '$mol_func_name_test');
-        },
-    });
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
 (function ($) {
     $mol_test({
         'get'() {
@@ -25483,39 +26834,6 @@ var $;
 ;
 "use strict";
 var $;
-(function ($) {
-    $mol_test({
-        'auto name'() {
-            class Invalid extends $mol_error_mix {
-            }
-            const mix = new Invalid('foo');
-            $mol_assert_equal(mix.name, 'Invalid_Error');
-        },
-        'simpe mix'() {
-            const mix = new $mol_error_mix('foo', {}, new Error('bar'), new Error('lol'));
-            $mol_assert_equal(mix.message, 'foo');
-            $mol_assert_equal(mix.errors.map(e => e.message), ['bar', 'lol']);
-        },
-        'provide additional info'() {
-            class Invalid extends $mol_error_mix {
-            }
-            const mix = new $mol_error_mix('Wrong password', {}, new Invalid('Too short', { value: 'p@ssw0rd', hint: '> 8 letters' }), new Invalid('Too simple', { value: 'p@ssw0rd', hint: 'need capital letter' }));
-            const hints = [];
-            if (mix instanceof $mol_error_mix) {
-                for (const er of mix.errors) {
-                    if (er instanceof Invalid) {
-                        hints.push(er.cause?.hint ?? '');
-                    }
-                }
-            }
-            $mol_assert_equal(hints, ['> 8 letters', 'need capital letter']);
-        },
-    });
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
 (function ($_1) {
     $mol_test({
         'Collect deps'() {
@@ -25704,6 +27022,15 @@ var $;
 "use strict";
 var $;
 (function ($_1) {
+    $mol_test_mocks.push($ => {
+        $.$mol_after_timeout = $mol_after_mock_timeout;
+    });
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($_1) {
     $mol_test({
         'test types'($) {
             class A {
@@ -25750,96 +27077,6 @@ var $;
             $mol_assert_like(first, ['john', 'jin']);
             $mol_assert_like(last, ['jin']);
         },
-    });
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($_1) {
-    $mol_test({
-        'test types'($) {
-            class A {
-                static a() {
-                    return Promise.resolve('');
-                }
-                static b() {
-                    return $mol_wire_sync(this).a();
-                }
-            }
-        },
-        async 'test method from host'($) {
-            let count = 0;
-            class A {
-                static a() {
-                    return $mol_wire_sync(this).b();
-                }
-                static b() { return Promise.resolve(++count); }
-            }
-            $mol_assert_equal(await $mol_wire_async(A).a(), 1, count);
-        },
-        async 'test function'($) {
-            let count = 0;
-            class A {
-                static a() {
-                    return $mol_wire_sync(this.b)();
-                }
-                static b() { return Promise.resolve(++count); }
-            }
-            $mol_assert_equal(await $mol_wire_async(A).a(), 1, count);
-        },
-        async 'test construct itself'($) {
-            class A {
-                static instances = [];
-                static a() {
-                    const a = new ($mol_wire_sync(A))();
-                    this.instances.push(a);
-                    $mol_wire_sync(this).b();
-                }
-                static b() { return Promise.resolve(); }
-            }
-            await $mol_wire_async(A).a();
-            $mol_assert_equal(A.instances.length, 2);
-            $mol_assert_equal(A.instances[0] instanceof A);
-            $mol_assert_equal(A.instances[0], A.instances[1]);
-        }
-    });
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($_1) {
-    $mol_test_mocks.push($ => {
-        $.$mol_after_timeout = $mol_after_mock_timeout;
-    });
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($_1) {
-    $mol_test({
-        async 'exec timeout auto kill child process'($) {
-            let close_mock = () => { };
-            const context_mock = $.$mol_ambient({
-                $mol_run_spawn: () => ({
-                    on(name, cb) {
-                        if (name === 'exit')
-                            close_mock = cb;
-                    },
-                    kill() { close_mock(); }
-                })
-            });
-            let message = '';
-            try {
-                const res = await $mol_wire_async(context_mock).$mol_run({ command: 'sleep 10', dir: '.', timeout: 10, env: { 'MOL_RUN_ASYNC': '1' } });
-            }
-            catch (e) {
-                message = e.message;
-            }
-            $mol_assert_equal(message, 'Run error, timeout');
-        }
     });
 })($ || ($ = {}));
 

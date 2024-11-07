@@ -1644,6 +1644,36 @@ $shm_hitalama_lists $mol_list
 
 $mol_icon_plus $mol_icon path \M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z
 
+$mol_string_button $mol_string
+
+$shm_hitalama_entity_page $mol_page
+	entity $hyoo_crus_entity
+	head /
+		<= Title $mol_string_button
+			value? <=> title? \
+		<= Tools
+	tools /
+		<= Cut $mol_button_minor
+			title <= cut_title \Удалить
+			click? <=> cut? null
+	- tools /
+
+$shm_hitalama_entity_catalog $mol_book2_catalog
+	menu_title \
+	param \
+	list null
+	menu_tools /
+		<= Add $mol_button_minor
+			hint \Добавить
+			click? <=> add? null
+			sub /
+				<= Add_icon $mol_icon_plus
+	title_default \Новый
+	entities /$hyoo_crus_entity
+	Page* $shm_hitalama_entity_page
+		entity <= entity* $hyoo_crus_entity
+		cut <= cut* null
+
 $mol_row $mol_view
 
 $mol_icon_upload $mol_icon path \M9,16V10H5L12,3L19,10H15V16H9M5,20V18H19V20H5Z
@@ -1681,11 +1711,11 @@ $mol_attach $mol_view
 				title \
 				uri <= item_uri* \
 
-$shm_hitalama_project_page $mol_page
-	title <= name \
+$shm_hitalama_project_page $shm_hitalama_entity_page
 	project $shm_hitalama_project
+	cut_title \Удалить проект
 	body /
-		<= Name_label $mol_labeler
+		- <= Name_label $mol_labeler
 			title \Название проекта
 			content /
 				<= Name $mol_string
@@ -1703,23 +1733,14 @@ $shm_hitalama_project_page $mol_page
 		<= Files_clear $mol_button_minor
 			title \Очистить
 			click? <=> files_clear? null
-		<= Cut $mol_button_minor
-			title \Удалить проект
-			click? <=> project_cut? null
 
-$shm_hitalama_project_list $mol_book2_catalog
+$shm_hitalama_project_catalog $shm_hitalama_entity_catalog
 	menu_title \Проекты
 	param \project
-	menu_tools /
-		<= Add $mol_button_minor
-			hint @ \Add new
-			click? <=> add? null
-			sub /
-				<= Add_icon $mol_icon_plus
-	name_default \Новый проект
-	projects /$shm_hitalama_project
-	Project_page* $shm_hitalama_project_page
-		project <= project* $shm_hitalama_project
+	title_default \Проект
+	Page* $shm_hitalama_project_page
+		entity <= entity*
+		cut <= cut*
 
 $mol_icon_tick $mol_icon path \M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z
 
@@ -1889,21 +1910,202 @@ $shm_hitalama_duckdb_page $mol_book2
 		<= Logs $mol_page
 			title \Лог запросов
 			tools /
+				<= Logs_project $mol_select
+					value? <=> logs_project_id? \
+					dictionary <= projects_dict
 				<= Logs_clear $mol_button_minor
 					title \Очистить
 					click? <=> logs_clear? null
 			body <= logs /
-				<= Query_log*0 $mol_list
+				<= Query_log*0 $mol_view
 					sub /
 						<= Query_head* $mol_view
 							sub /
-								<= Query_copy* $mol_button_copy
-									title <= query_sql* \
-									sub / \Копировать
 								<= Query_time* $mol_paragraph
 									title <= query_time* \
+								<= Query_copy* $mol_button_copy
+									minimal_height 24
+									title <= query_sql* \
+									sub / \Копировать
 						<= Log_sql* $mol_text_code
 							text <= query_sql* \
+
+$shm_hitalama_drag $mol_plugin
+	x? 0
+	y? 0
+	repos_x* 1
+	repos_y* 1
+	-
+	drag? null
+	drag_start? null
+	drag_end? null
+	-
+	event *
+		^
+		pointerdown? <=> pointerdown? null
+	attr *
+		^
+		shm_hitalama_dragged <= dragged? false
+
+$shm_hitalama_drag_view $mol_view
+	plugins /
+		^
+		<= Drag $shm_hitalama_drag
+			drag? <=> drag? null
+			drag_start? <=> drag_start? null
+			drag_end? <=> drag_end? null
+			y? <=> y? 0
+			x? <=> x? 0
+	style *
+		^
+		userSelect \none
+
+$shm_hitalama_resize $mol_view
+	sub /
+		<= Body $mol_view
+			sub <= body /
+				<= Drag $shm_hitalama_drag_view
+					sub <= drag_body /
+					x? <=> body_x? 0
+					y? <=> body_y? 0
+					drag_end? <=> drag_end? null
+				^ edges /
+					<= Top_edge $shm_hitalama_resize_edge
+						y? <=> top_edge_y? 0
+						drag_end? <=> drag_end? null
+					<= Left_edge $shm_hitalama_resize_edge
+						drag_end? <=> drag_end? null
+						x? <=> left_edge_x? 0
+					<= Bottom_edge $shm_hitalama_resize_edge
+						drag_end? <=> drag_end? null
+						y? <=> bottom_edge_y? 0
+					<= Right_edge $shm_hitalama_resize_edge
+						drag_end? <=> drag_end? null
+						x? <=> right_edge_x? 0
+					<= Top_left_edge $shm_hitalama_resize_edge
+						drag_end? <=> drag_end? null
+						y? <=> top_edge_y? 0
+						x? <=> left_edge_x? 0
+					<= Top_right_edge $shm_hitalama_resize_edge
+						drag_end? <=> drag_end? null
+						y? <=> top_edge_y? 0
+						x? <=> right_edge_x? 0
+					<= Bottom_left_edge $shm_hitalama_resize_edge
+						drag_end? <=> drag_end? null
+						y? <=> bottom_edge_y? 0
+						x? <=> left_edge_x? 0
+					<= Bottom_right_edge $shm_hitalama_resize_edge
+						drag_end? <=> drag_end? null
+						y? <=> bottom_edge_y? 0
+						x? <=> right_edge_x? 0
+	-
+	height_base 300
+	width_base 500
+	height 0
+	width 0
+	top 0
+	left 0
+	-
+	stick_threshold 10
+	-
+	body_x_stick? 0
+	body_y_stick? 0
+	bottom_edge_y_stick? 0
+	right_edge_x_stick? 0
+	top_edge_y_stick? 0
+	left_edge_x_stick? 0
+	-
+	sticks_y /number
+	sticks_x /number
+	auto / <= vals_to_sticks null
+	-
+	style *
+		^
+		top <= top_px \0px
+		left <= left_px \0px
+		height <= height_px \300px
+		width <= width_px \500px
+
+$shm_hitalama_resize_edge $shm_hitalama_drag_view
+
+$mol_icon_minus $mol_icon path \M19,13H5V11H19V13Z
+
+$mol_number $mol_view
+	precision_view <= precision 1
+	precision_change <= precision 1
+	value_min -Infinity
+	value_max +Infinity
+	value? +NaN
+	enabled true
+	sub /
+		<= String $mol_string
+			- \ we don't want native number controls in mobile devices
+			- \ https://stackoverflow.com/questions/3790935/can-i-hide-the-html5-number-input-s-spin-box
+			type <= type \tel
+			value? <=> value_string? \
+			hint <= hint \ 
+			enabled <= string_enabled <= enabled
+			submit? <=> submit? null
+		<= Dec $mol_button_minor
+			event_click? <=> event_dec? null
+			enabled <= dec_enabled <= enabled
+			sub / <= dec_icon $mol_icon_minus
+		<= Inc $mol_button_minor
+			event_click? <=> event_inc? null
+			enabled <= inc_enabled <= enabled
+			sub / <= inc_icon $mol_icon_plus
+
+$shm_hitalama_dashboard_block_float $shm_hitalama_resize
+	block $shm_hitalama_dashboard_block
+	sub /
+		<= Head $mol_view
+			sub /
+				<= Opacity $mol_number
+					precision 0.1
+					value_min 0.1
+					value_max 1.0
+					value? <=> opacity? 1
+				<= Cut $mol_button_minor
+					click? <=> cut? null
+					sub /
+						<= Cut_icon $mol_icon_close
+		<= Drag
+		^ edges
+	drag_body /
+		<= Content $mol_text
+			text <= content \
+	style *
+		^
+		opacity <= opacity_str \1
+
+$shm_hitalama_dashboard_page $shm_hitalama_entity_page
+	dashboard $shm_hitalama_dashboard
+	cut_title \Удалить дашборд
+	tools /
+		<= Block_add $mol_button_minor
+			hint \Добавить
+			title \Добавить блок
+			click? <=> block_add? null
+		^
+	body_content /
+		^ blocks /
+			<= Block* $shm_hitalama_dashboard_block_float
+				block <= block* $shm_hitalama_dashboard_block
+				cut <= block_cut* null
+				height => block_height*
+				width => block_width*
+				top => block_top*
+				left => block_left*
+				sticks_y <= sticks_y* / 0
+				sticks_x <= sticks_x* / 0
+
+$shm_hitalama_dashboard_catalog $shm_hitalama_entity_catalog
+	menu_title \Дашборды
+	param \dashboard
+	title_default \Дашборд
+	Page* $shm_hitalama_dashboard_page
+		entity <= entity*
+		cut <= cut*
 
 $mol_icon_eye $mol_icon path \M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5Z
 
@@ -1991,8 +2193,9 @@ $shm_hitalama_app $mol_book2_catalog
 				token <= token
 		lists <= Lists $shm_hitalama_lists
 			token <= token
-		projects <= Projects $shm_hitalama_project_list
+		projects <= Projects $shm_hitalama_project_catalog
 		duckdb_page <= Duckdb $shm_hitalama_duckdb_page
+		dashboards <= Dashboards $shm_hitalama_dashboard_catalog
 	Enter $shm_hitalama_profile_enter
 		profiles <= profiles $shm_hitalama_profile_dict
 	Register $shm_hitalama_profile_register
