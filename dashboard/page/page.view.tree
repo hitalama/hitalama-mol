@@ -1,0 +1,20 @@
+$shm_hitalama_dashboard_page $shm_hitalama_entity_page
+	dashboard $shm_hitalama_dashboard
+	cut_title \Удалить дашборд
+	tools /
+		<= Block_add $mol_button_minor
+			hint \Добавить
+			title \Добавить блок
+			click? <=> block_add? null
+		^
+	body_content /
+		^ blocks /
+			<= Block* $shm_hitalama_dashboard_block_float
+				block <= block* $shm_hitalama_dashboard_block
+				cut <= block_cut* null
+				height => block_height*
+				width => block_width*
+				top => block_top*
+				left => block_left*
+				sticks_y <= sticks_y* / 0
+				sticks_x <= sticks_x* / 0

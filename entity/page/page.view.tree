@@ -1,0 +1,11 @@
+$shm_hitalama_entity_page $mol_page
+	entity $hyoo_crus_entity
+	head /
+		<= Title $mol_string_button
+			value? <=> title? \
+		<= Tools
+	tools /
+		<= Cut $mol_button_minor
+			title <= cut_title \Удалить
+			click? <=> cut? null
+	- tools /

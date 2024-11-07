@@ -1,0 +1,15 @@
+$shm_hitalama_entity_catalog $mol_book2_catalog
+	menu_title \
+	param \
+	list null
+	menu_tools /
+		<= Add $mol_button_minor
+			hint \Добавить
+			click? <=> add? null
+			sub /
+				<= Add_icon $mol_icon_plus
+	title_default \Новый
+	entities /$hyoo_crus_entity
+	Page* $shm_hitalama_entity_page
+		entity <= entity* $hyoo_crus_entity
+		cut <= cut* null

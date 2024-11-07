@@ -1,38 +1,41 @@
 $shm_hitalama_resize $mol_view
 	sub /
-		<= Body $shm_hitalama_drag_view
+		<= Body $mol_view
 			sub <= body /
-			x? <=> body_x? 0
-			y? <=> body_y? 0
-			drag_end? <=> drag_end? null
-		<= Top_edge $shm_hitalama_resize_edge
-			y? <=> top_edge_y? 0
-			drag_end? <=> drag_end? null
-		<= Left_edge $shm_hitalama_resize_edge
-			drag_end? <=> drag_end? null
-			x? <=> left_edge_x? 0
-		<= Bottom_edge $shm_hitalama_resize_edge
-			drag_end? <=> drag_end? null
-			y? <=> bottom_edge_y? 0
-		<= Right_edge $shm_hitalama_resize_edge
-			drag_end? <=> drag_end? null
-			x? <=> right_edge_x? 0
-		<= Top_left_edge $shm_hitalama_resize_edge
-			drag_end? <=> drag_end? null
-			y? <=> top_edge_y? 0
-			x? <=> left_edge_x? 0
-		<= Top_right_edge $shm_hitalama_resize_edge
-			drag_end? <=> drag_end? null
-			y? <=> top_edge_y? 0
-			x? <=> right_edge_x? 0
-		<= Bottom_left_edge $shm_hitalama_resize_edge
-			drag_end? <=> drag_end? null
-			y? <=> bottom_edge_y? 0
-			x? <=> left_edge_x? 0
-		<= Bottom_right_edge $shm_hitalama_resize_edge
-			drag_end? <=> drag_end? null
-			y? <=> bottom_edge_y? 0
-			x? <=> right_edge_x? 0
+				<= Drag $shm_hitalama_drag_view
+					sub <= drag_body /
+					x? <=> body_x? 0
+					y? <=> body_y? 0
+					drag_end? <=> drag_end? null
+				^ edges /
+					<= Top_edge $shm_hitalama_resize_edge
+						y? <=> top_edge_y? 0
+						drag_end? <=> drag_end? null
+					<= Left_edge $shm_hitalama_resize_edge
+						drag_end? <=> drag_end? null
+						x? <=> left_edge_x? 0
+					<= Bottom_edge $shm_hitalama_resize_edge
+						drag_end? <=> drag_end? null
+						y? <=> bottom_edge_y? 0
+					<= Right_edge $shm_hitalama_resize_edge
+						drag_end? <=> drag_end? null
+						x? <=> right_edge_x? 0
+					<= Top_left_edge $shm_hitalama_resize_edge
+						drag_end? <=> drag_end? null
+						y? <=> top_edge_y? 0
+						x? <=> left_edge_x? 0
+					<= Top_right_edge $shm_hitalama_resize_edge
+						drag_end? <=> drag_end? null
+						y? <=> top_edge_y? 0
+						x? <=> right_edge_x? 0
+					<= Bottom_left_edge $shm_hitalama_resize_edge
+						drag_end? <=> drag_end? null
+						y? <=> bottom_edge_y? 0
+						x? <=> left_edge_x? 0
+					<= Bottom_right_edge $shm_hitalama_resize_edge
+						drag_end? <=> drag_end? null
+						y? <=> bottom_edge_y? 0
+						x? <=> right_edge_x? 0
 	-
 	height_base 300
 	width_base 500
@@ -41,7 +44,7 @@ $shm_hitalama_resize $mol_view
 	top 0
 	left 0
 	-
-	stick_threshold 20
+	stick_threshold 10
 	-
 	body_x_stick? 0
 	body_y_stick? 0

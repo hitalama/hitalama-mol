@@ -1,6 +1,6 @@
 namespace $.$$ {
 	
-	$mol_style_define( $shm_hitalama_project_list, {
+	$mol_style_define( $shm_hitalama_entity_catalog, {
 		
 		Menu: {
 			flex: {

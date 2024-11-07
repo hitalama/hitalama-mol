@@ -1,4 +1,4 @@
-$shm_hitalama_project_list $mol_book2_catalog
+$shm_hitalama_project_catalog $mol_book2_catalog
 	menu_title \Проекты
 	param \project
 	menu_tools /

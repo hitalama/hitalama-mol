@@ -7,9 +7,13 @@ namespace $.$$ {
 		backgroundColor: 'color-mix(in srgb, var(--mol_theme_line) 50%, transparent)',
 		// margin: '5px',
 
-		Body: {
-			width: '100%',
-			height: '100%',
+		// width: '100%',
+		// height: '100%',
+		
+		Drag: {
+			flex: {
+				grow: 1,
+			},
 		},
 		
 		Top_edge: {

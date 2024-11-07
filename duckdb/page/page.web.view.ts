@@ -14,7 +14,7 @@ namespace $.$$ {
 
 		projects_dict() {
 			const dict = {
-				...Object.fromEntries( this.projects().map( p => [ p.ref().description, p.Name()?.val() ] ) ),
+				...Object.fromEntries( this.projects().map( p => [ p.ref().description, p.title() ] ) ),
 			}
 			return dict
 		}
@@ -49,13 +49,9 @@ namespace $.$$ {
 		}
 
 		@ $mol_mem_key
-		file( ref: $hyoo_crus_ref ) {
-			return $hyoo_crus_glob.Node( ref, $hyoo_crus_file )
-		}
-
-		@ $mol_mem_key
 		file_name( id: string ) {
-			return this.file( $hyoo_crus_ref( id ) )?.name() ?? ''
+			const file = $hyoo_crus_glob.Node( $hyoo_crus_ref( id ), $shm_hitalama_file )
+			return file.title() ?? ''
 		}
 
 		@ $mol_mem_key
@@ -64,10 +60,21 @@ namespace $.$$ {
 			return name ? `SELECT * FROM parquet_scan('${name}');` : ''
 		}
 
+		@ $mol_action
+		get_last_query() {
+			const project = $hyoo_crus_glob.Node( $hyoo_crus_ref( this.project_id() ), $shm_hitalama_project )
+			return project.Query_logs()?.remote_list()?.at(-1)?.Query()?.val()
+		}
+
 		@ $mol_mem
 		query( next?: string ): string {
+			if( next !== undefined ) return next
+
+			const last_query = this.get_last_query()
+			if( last_query ) return last_query
+
 			const file_id = this.files()?.[0]?.ref().description
-			return next ?? (file_id ? this.query_default( file_id! ) : '')
+			return file_id ? this.query_default( file_id! ) : ''
 		}
 
 		run( next?: any ) {
@@ -89,7 +96,7 @@ namespace $.$$ {
 		@ $mol_mem
 		conn() {
 			const files = this.files_checked().map( f => ({
-				name: f.Name()?.val()!,
+				name: f.title()!,
 				buffer: f.File()?.remote()?.buffer()!
 			}) )
 

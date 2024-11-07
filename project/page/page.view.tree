@@ -1,8 +1,8 @@
-$shm_hitalama_project_page $mol_page
-	title <= name \
+$shm_hitalama_project_page $shm_hitalama_entity_page
 	project $shm_hitalama_project
+	cut_title \Удалить проект
 	body /
-		<= Name_label $mol_labeler
+		- <= Name_label $mol_labeler
 			title \Название проекта
 			content /
 				<= Name $mol_string
@@ -20,6 +20,3 @@ $shm_hitalama_project_page $mol_page
 		<= Files_clear $mol_button_minor
 			title \Очистить
 			click? <=> files_clear? null
-		<= Cut $mol_button_minor
-			title \Удалить проект
-			click? <=> project_cut? null

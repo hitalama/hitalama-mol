@@ -1,0 +1,7 @@
+$shm_hitalama_dashboard_catalog $shm_hitalama_entity_catalog
+	menu_title \Дашборды
+	param \dashboard
+	title_default \Дашборд
+	Page* $shm_hitalama_dashboard_page
+		entity <= entity*
+		cut <= cut*

@@ -6,7 +6,7 @@ namespace $ {
 		Groups_lists: $hyoo_crus_list_ref_to( ()=> $shm_hitalama_list ),
 
 		Projects: $hyoo_crus_list_ref_to( ()=> $shm_hitalama_project ),
-		Files: $hyoo_crus_list_ref_to( ()=> $hyoo_crus_file ),
+		Dashboards: $hyoo_crus_list_ref_to( ()=> $shm_hitalama_dashboard ),
 
 		Login: $hyoo_crus_atom_str,
 		Pass_key: $hyoo_crus_atom_str,
