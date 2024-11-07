@@ -35331,8 +35331,8 @@ var $;
     var $$;
     (function ($$) {
         class $shm_hitalama_duckdb_page extends $.$shm_hitalama_duckdb_page {
-            project_id() {
-                return this.projects().at(0)?.ref().description ?? '';
+            project_id(next) {
+                return next ?? (this.projects().at(0)?.ref().description ?? '');
             }
             projects_dict() {
                 const dict = {
