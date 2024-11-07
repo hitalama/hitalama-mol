@@ -15999,7 +15999,7 @@ var $;
             this.Pass_key(null).val(pass_key);
         }
         auth_key_decrypt(password) {
-            const pass_key = this.Pass_key().val();
+            const pass_key = this.Pass_key()?.val();
             if (!pass_key)
                 return null;
             const auth_key = $mol_wire_sync($shm_hitalama_profile_key).import(pass_key, password);
@@ -25253,7 +25253,7 @@ var $;
                 if (profile) {
                     const home = this.$.$hyoo_crus_glob.home();
                     home.Hall(null).remote(profile);
-                    this.$.$mol_state_arg.value('section', 'profile');
+                    this.$.$mol_state_arg.value('section', null);
                 }
             }
             account_exist() {
