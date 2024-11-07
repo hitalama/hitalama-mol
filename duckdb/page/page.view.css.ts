@@ -41,24 +41,42 @@ namespace $.$$ {
 			background: {
 				color: $mol_theme.card,
 			},
+			flex: {
+				direction: 'row',
+			},
+			lineHeight: '1.15',
+			font: {
+				size: '12px',
+			},
 		},
 
 		Query_time: {
-			// align: {
-			// 	items: 'center',
-			// },
+			color: $mol_theme.shade,
 			padding: $mol_gap.text,
 			margin: {
-				left: 'auto',
+				// left: 'auto',
+			},
+		},
+
+		Query_head: {
+			flex: {
+				direction: 'column',
 			},
 		},
 
 		Logs: {
+			width: '30rem',
 			flex: {
 				grow: 0.5,
 			},
 			Body_content: {
 				gap: $mol_gap.space,
+			},
+		},
+
+		Log_sql: {
+			flex: {
+				shrink: 1,
 			},
 		},
 		

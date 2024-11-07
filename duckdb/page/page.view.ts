@@ -115,7 +115,7 @@ namespace $.$$ {
 
 		@ $mol_mem
 		logs() {
-			return this.project().Query_logs()?.remote_list().map( l => this.Query_log( l.ref() ) ) ?? []
+			return this.project().Query_logs()?.remote_list().map( l => this.Query_log( l.ref() ) ).reverse() ?? []
 		}
 
 		@ $mol_action

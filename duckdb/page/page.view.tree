@@ -51,18 +51,22 @@ $shm_hitalama_duckdb_page $mol_book2
 		<= Logs $mol_page
 			title \Лог запросов
 			tools /
+				<= Logs_project $mol_select
+					value? <=> logs_project_id? \
+					dictionary <= projects_dict
 				<= Logs_clear $mol_button_minor
 					title \Очистить
 					click? <=> logs_clear? null
 			body <= logs /
-				<= Query_log*0 $mol_list
+				<= Query_log*0 $mol_view
 					sub /
 						<= Query_head* $mol_view
 							sub /
-								<= Query_copy* $mol_button_copy
-									title <= query_sql* \
-									sub / \Копировать
 								<= Query_time* $mol_paragraph
 									title <= query_time* \
+								<= Query_copy* $mol_button_copy
+									minimal_height 24
+									title <= query_sql* \
+									sub / \Копировать
 						<= Log_sql* $mol_text_code
 							text <= query_sql* \
