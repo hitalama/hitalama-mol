@@ -72,6 +72,17 @@ namespace $.$$ {
 			Body_content: {
 				gap: $mol_gap.space,
 			},
+			Tools: {
+				justify: {
+					content: 'flex-start',
+				},
+			},
+		},
+
+		Logs_clear: {
+			margin: {
+				left: 'auto',
+			},
 		},
 
 		Log_sql: {

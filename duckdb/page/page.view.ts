@@ -7,6 +7,11 @@ namespace $.$$ {
 			return next ?? (this.projects().at(0)?.ref().description ?? '')
 		}
 
+		@ $mol_mem
+		logs_project_id( next?: string ): string {
+			return next ?? (this.project_id() ?? '')
+		}
+
 		projects_dict() {
 			const dict = {
 				...Object.fromEntries( this.projects().map( p => [ p.ref().description, p.Name()?.val() ] ) ),
@@ -115,7 +120,8 @@ namespace $.$$ {
 
 		@ $mol_mem
 		logs() {
-			return this.project().Query_logs()?.remote_list().map( l => this.Query_log( l.ref() ) ).reverse() ?? []
+			const project = $hyoo_crus_glob.Node( $hyoo_crus_ref( this.logs_project_id() ), $shm_hitalama_project )
+			return project.Query_logs()?.remote_list().map( l => this.Query_log( l.ref() ) ).reverse() ?? []
 		}
 
 		@ $mol_action
