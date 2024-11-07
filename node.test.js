@@ -25358,7 +25358,7 @@ var $;
             submit(next) {
                 const profile = this.profiles().key(this.login())?.remote();
                 if (profile?.enter(this.passwond())) {
-                    this.$.$mol_state_arg.value('section', 'profile');
+                    this.$.$mol_state_arg.value('section', null);
                     return;
                 }
                 this.message(this.message_incorrect_pass());
@@ -25574,7 +25574,7 @@ var $;
     (function ($$) {
         class $shm_hitalama_app extends $.$shm_hitalama_app {
             profiles_ref() {
-                return 'Æmeosfa4_3wKh4sDz';
+                return 'bnsKLjnH_3pDkf98m';
             }
             Spread_current() {
                 const spread = this.spread();
