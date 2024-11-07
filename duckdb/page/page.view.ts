@@ -3,8 +3,8 @@ namespace $.$$ {
 	export class $shm_hitalama_duckdb_page extends $.$shm_hitalama_duckdb_page {
 
 		@ $mol_mem
-		project_id() {
-			return this.projects().at(0)?.ref().description ?? ''
+		project_id( next?: string ) {
+			return next ?? (this.projects().at(0)?.ref().description ?? '')
 		}
 
 		projects_dict() {
