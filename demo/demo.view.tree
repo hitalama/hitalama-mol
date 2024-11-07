@@ -1,0 +1,3 @@
+$shm_hitalama_demo $mol_app_demo
+	menu_title \$shm_hitalama_demo
+	meta_bundle_base \http://localhost:9080/shm/hitalama/demo/-/
