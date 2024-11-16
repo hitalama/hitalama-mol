@@ -41,22 +41,34 @@ namespace $.$$ {
 			return this.opacity().toString()
 		}
 
+		edges(): readonly ( any )[] {
+			return this.block_selected() ? super.edges() : []
+		}
+
 		_pointerdown?: $mol_dom_listener
-		pointerdown( next?: any ) {
-			console.log('next', this.block().ref(), next)
+		@ $mol_action
+		select( by_event?: PointerEvent ) {
 			this._pointerdown?.destructor()
-			this.selected( true )
+			this.block_selected( true )
 			this._pointerdown = new $mol_dom_listener(
 				this.$.$mol_dom_context.document,
 				'pointerdown',
 				$mol_wire_async( event => {
-					if( next == event ) return
-					console.log('event', event)
-					console.log('even', this.block().ref(), next)
-					this.selected( false )
+					if( by_event == event ) return
+					this.block_selected( false )
 					this._pointerdown?.destructor()
 				} ),
 			)
+		}
+
+		@ $mol_action
+		resize_start( event: any ) {
+			this.select( event )
+		}
+
+		drag_end() {
+			super.drag_end()
+			this.select()
 		}
 		
 	}

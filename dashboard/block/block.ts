@@ -12,6 +12,9 @@ namespace $ {
 		Opacity: $hyoo_crus_atom_real,
 		// Time: $hyoo_crus_atom_real,
 
+		Type: $hyoo_crus_atom_str,
+		Text: $hyoo_crus_text,
+
 	}){
 		
 	}

@@ -1,12 +1,11 @@
 $shm_hitalama_dashboard_block_float $shm_hitalama_resize
 	block $shm_hitalama_dashboard_block
-	selected? false
 	style *
 		^
 		opacity <= opacity_str \1
-	event *
+	- event *
 		^
 		pointerdown? <=> pointerdown? null
 	attr *
 		^
-		shm_hitalama_dashboard_block_float_selected <= selected?
+		shm_hitalama_dashboard_block_float_selected <= block_selected? false

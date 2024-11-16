@@ -1,0 +1,14 @@
+$shm_hitalama_dashboard_block_text $shm_hitalama_dashboard_block_float
+	sub /
+		<= Text $mol_textarea
+			value? <=> text? \
+			selection? <=> selection? /number
+			- enabled? <= selected?
+		<= Drag
+		^ edges
+	drag_body /
+		^ blocker / <= Blocker $mol_view
+			event *
+				pointerdown? <=> pointerdown? null
+				pointerup? <=> pointerup? null
+	editable? false

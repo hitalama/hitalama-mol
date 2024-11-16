@@ -2,145 +2,126 @@ namespace $.$$ {
 
 	export class $shm_hitalama_resize extends $.$shm_hitalama_resize {
 
-			to_stick( sticks: readonly number[], val: number, shift: number ) {
-				for( const stick of sticks ) {
-					const to_stick = stick - (val + shift)
-					if( Math.abs( to_stick ) < this.stick_threshold() ) {
-						return val + to_stick
-					}
+		to_stick( sticks: readonly number[], val: number, shift: number ) {
+			for( const stick of sticks ) {
+				const to_stick = stick - (val + shift)
+				if( Math.abs( to_stick ) < this.stick_threshold() ) {
+					return val + to_stick
 				}
-				return val
 			}
+			return val
+		}
 
-			to_stick_x( val: number, shift: number ) {
-				return this.to_stick( this.sticks_x(), val, shift )
+		to_stick_x( val: number, shift: number ) {
+			return this.to_stick( this.sticks_x(), val, shift )
+		}
+
+		to_stick_y( val: number, shift: number ) {
+			return this.to_stick( this.sticks_y(), val, shift )
+		}
+
+		@ $mol_mem
+		body_y( next?: number ): number {
+			if( next === undefined ) return 0
+			const top_stick = this.to_stick_y( next, this.top_edge_y_stick() )
+			if( top_stick == next ) {
+				const bottom_stick = this.to_stick_y( next, this.top_edge_y_stick() + this.height() )
+				this.body_y_stick( bottom_stick )
+			} else {
+				this.body_y_stick( top_stick )
 			}
+			return next
+		}
 
-			to_stick_y( val: number, shift: number ) {
-				return this.to_stick( this.sticks_y(), val, shift )
+		@ $mol_mem
+		top_edge_y( next?: number ): number {
+			if( next === undefined ) return 0
+			const top_edge_y_stick = this.to_stick_y( next, this.body_y_stick() )
+			this.top_edge_y_stick( top_edge_y_stick )
+			return next
+		}
+
+		@ $mol_mem
+		bottom_edge_y( next?: number ): number {
+			if( next === undefined ) return 0
+			const bottom_edge_y_stick = this.to_stick_y( next, this.top() + this.height_base() - this.top_edge_y_stick() )
+			this.bottom_edge_y_stick( bottom_edge_y_stick )
+			return next
+		}
+
+		@ $mol_mem
+		body_x( next?: number ): number {
+			if( next === undefined ) return 0
+			const left_stick = this.to_stick_x( next, this.left_edge_x_stick() )
+			if( left_stick == next ) {
+				const right_stick = this.to_stick_x( next, this.left_edge_x_stick() + this.width() )
+				this.body_x_stick( right_stick )
+			} else {
+				this.body_x_stick( left_stick )
 			}
+			return next
+		}
 
-			@ $mol_mem
-			body_y( next?: number ): number {
-				if( next === undefined ) return 0
-				const top_stick = this.to_stick_y( next, this.top_edge_y_stick() )
-				if( top_stick == next ) {
-					const bottom_stick = this.to_stick_y( next, this.top_edge_y_stick() + this.height() )
-					this.body_y_stick( bottom_stick )
-				} else {
-					this.body_y_stick( top_stick )
-				}
-				return next
-			}
+		@ $mol_mem
+		left_edge_x( next?: number ): number {
+			if( next === undefined ) return 0
+			const left_edge_x_stick = this.to_stick_x( next, this.body_x_stick() )
+			this.left_edge_x_stick( left_edge_x_stick )
+			return next
+		}
 
-			@ $mol_mem
-			top_edge_y( next?: number ): number {
-				if( next === undefined ) return 0
-				const top_edge_y_stick = this.to_stick_y( next, this.body_y_stick() )
-				this.top_edge_y_stick( top_edge_y_stick )
-				return next
-			}
+		@ $mol_mem
+		right_edge_x( next?: number ): number {
+			if( next === undefined ) return 0
+			const right_edge_x_stick = this.to_stick_x( next, this.left() + this.width_base() - this.left_edge_x_stick() )
+			this.right_edge_x_stick( right_edge_x_stick )
+			return next
+		}
 
-			@ $mol_mem
-			bottom_edge_y( next?: number ): number {
-				if( next === undefined ) return 0
-				const bottom_edge_y_stick = this.to_stick_y( next, this.top() + this.height_base() - this.top_edge_y_stick() )
-				this.bottom_edge_y_stick( bottom_edge_y_stick )
-				return next
-			}
+		top(): number {
+			return this.body_y_stick() + this.top_edge_y_stick()
+		}
 
-			@ $mol_mem
-			body_x( next?: number ): number {
-				if( next === undefined ) return 0
-				const left_stick = this.to_stick_x( next, this.left_edge_x_stick() )
-				if( left_stick == next ) {
-					const right_stick = this.to_stick_x( next, this.left_edge_x_stick() + this.width() )
-					this.body_x_stick( right_stick )
-				} else {
-					this.body_x_stick( left_stick )
-				}
-				return next
-			}
+		left(): number {
+			return this.body_x_stick() + this.left_edge_x_stick()
+		}
 
-			@ $mol_mem
-			left_edge_x( next?: number ): number {
-				if( next === undefined ) return 0
-				const left_edge_x_stick = this.to_stick_x( next, this.body_x_stick() )
-				this.left_edge_x_stick( left_edge_x_stick )
-				return next
-			}
+		width(): number {
+			return this.width_base() + this.right_edge_x_stick() - this.left_edge_x_stick()
+		}
 
-			@ $mol_mem
-			right_edge_x( next?: number ): number {
-				if( next === undefined ) return 0
-				const right_edge_x_stick = this.to_stick_x( next, this.left() + this.width_base() - this.left_edge_x_stick() )
-				this.right_edge_x_stick( right_edge_x_stick )
-				return next
-			}
+		height(): number {
+			return this.height_base() + this.bottom_edge_y_stick() - this.top_edge_y_stick()
+		}
 
-			top(): number {
-				return this.body_y_stick() + this.top_edge_y_stick()
-			}
-	
-			left(): number {
-				return this.body_x_stick() + this.left_edge_x_stick()
-			}
+		height_px(): string {
+			return this.height() + 'px'
+		}
 
-			width(): number {
-				return this.width_base() + this.right_edge_x_stick() - this.left_edge_x_stick()
-			}
+		width_px(): string {
+			return this.width() + 'px'
+		}
 
-			height(): number {
-				return this.height_base() + this.bottom_edge_y_stick() - this.top_edge_y_stick()
-			}
+		top_px(): string {
+			return this.top() + 'px'
+		}
 
-			height_px(): string {
-				return this.height() + 'px'
-			}
+		left_px(): string {
+			return this.left() + 'px'
+		}
 
-			width_px(): string {
-				return this.width() + 'px'
-			}
+		drag_end() {
+			this.vals_to_sticks()
+		}
 
-			top_px(): string {
-				return this.top() + 'px'
-			}
-	
-			left_px(): string {
-				return this.left() + 'px'
-			}
-
-			drag_end() {
-				// this.shrink_to_body()
-				this.vals_to_sticks()
-			}
-
-			shrink_to_body() {
-				const body_rect = this.Body().dom_node().getBoundingClientRect()
-
-				const prev_bottom = this.bottom_edge_y_stick()
-				const next_bottom = body_rect.height - this.height_base() + this.top_edge_y_stick()
-				
-				const prev_right = this.right_edge_x_stick()
-				const next_right = body_rect.width - this.width_base() + this.left_edge_x_stick()
-
-				if( Math.abs(prev_right - next_right) < 0.1 ) {
-					this.bottom_edge_y_stick( next_bottom )
-				} else {
-					this.bottom_edge_y_stick( Math.min( next_bottom, prev_bottom ) )
-				}
-
-				this.right_edge_x_stick( next_right )
-			}
-
-			vals_to_sticks() {
-				this.body_x( this.body_x_stick() )
-				this.body_y( this.body_y_stick() )
-				this.bottom_edge_y( this.bottom_edge_y_stick() )
-				this.right_edge_x( this.right_edge_x_stick() )
-				this.top_edge_y( this.top_edge_y_stick() )
-				this.left_edge_x( this.left_edge_x_stick() )
-			}
+		vals_to_sticks() {
+			this.body_x( this.body_x_stick() )
+			this.body_y( this.body_y_stick() )
+			this.bottom_edge_y( this.bottom_edge_y_stick() )
+			this.right_edge_x( this.right_edge_x_stick() )
+			this.top_edge_y( this.top_edge_y_stick() )
+			this.left_edge_x( this.left_edge_x_stick() )
+		}
 
 	}
 

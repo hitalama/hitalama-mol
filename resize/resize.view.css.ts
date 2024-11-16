@@ -4,7 +4,9 @@ namespace $.$$ {
 
 		position: 'absolute',
 		transition: 'none',
-		backgroundColor: 'color-mix(in srgb, var(--mol_theme_line) 50%, transparent)',
+
+		// backgroundColor: 'color-mix(in srgb, var(--mol_theme_line) 50%, transparent)',
+
 		// margin: '5px',
 
 		// width: '100%',

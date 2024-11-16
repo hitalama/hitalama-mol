@@ -9,7 +9,7 @@ $shm_hitalama_dashboard_page $shm_hitalama_entity_page
 		^
 	body_content /
 		^ blocks /
-			<= Block* $shm_hitalama_dashboard_block_demo
+			<= Block* $shm_hitalama_dashboard_block_text
 				block <= block* $shm_hitalama_dashboard_block
 				cut <= block_cut* null
 				height => block_height*

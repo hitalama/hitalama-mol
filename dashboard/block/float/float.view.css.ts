@@ -14,13 +14,27 @@ namespace $.$$ {
 			},
 		},
 
+		Drag: {
+			":hover": {
+				outline: '1px solid var(--mol_theme_line)',
+			},
+			'[shm_hitalama_dragged]': {
+				true: {
+					outline: '1px solid var(--mol_theme_control)',
+					":hover": {
+						outline: '1px solid var(--mol_theme_control)',
+					},
+				},
+			},
+		},
+
 		flex: {
 			direction: 'column'
 		},
 
-		background: {
-			color: $mol_theme.back,
-		},
+		// background: {
+		// 	color: $mol_theme.back,
+		// },
 		
 	} )
 	
