@@ -7,6 +7,12 @@ namespace $.$$ {
 				content: 'flex-start',
 			},
 		},
+
+		Back: {
+			position: 'absolute',
+			height: '100%',
+			width: '100%',
+		},
 		
 	} )
 	

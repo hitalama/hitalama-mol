@@ -75,14 +75,15 @@ namespace $.$$ {
 
 		@ $mol_mem_key
 		selected( ref: $hyoo_crus_ref, next?: boolean ): boolean {
-			return next ?? false
+			if( next === undefined ) return this.selected_ref() == ref
+			this.selected_ref( ref )
+			return next
 		}
 
-		// click( id: any, next?: any ) {
-		// 	const current = this.selected_ref()
-		// 	if( current ) this.selected( current, false )
-		// 	this.selected_ref( id )
-		// }
+		deselect_all() {
+			const blocks = this.dashboard().Blocks()?.remote_list() ?? []
+			blocks.forEach( b => this.selected( b.ref(), false ) )
+		}
 
 	}
 

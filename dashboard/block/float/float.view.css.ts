@@ -28,6 +28,12 @@ namespace $.$$ {
 			},
 		},
 
+		Toolbar: {
+			position: 'absolute',
+			top: 0,
+			transform: 'translateY(-100%)',
+		},
+
 		flex: {
 			direction: 'column'
 		},

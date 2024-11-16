@@ -42,23 +42,18 @@ namespace $.$$ {
 		}
 
 		edges(): readonly ( any )[] {
-			return this.block_selected() ? super.edges() : []
+			return this.selected() ? super.edges() : []
+		}
+
+		toolbar(): readonly ( any )[] {
+			return this.selected() ? super.toolbar() : []
 		}
 
 		_pointerdown?: $mol_dom_listener
 		@ $mol_action
 		select( by_event?: PointerEvent ) {
 			this._pointerdown?.destructor()
-			this.block_selected( true )
-			this._pointerdown = new $mol_dom_listener(
-				this.$.$mol_dom_context.document,
-				'pointerdown',
-				$mol_wire_async( event => {
-					if( by_event == event ) return
-					this.block_selected( false )
-					this._pointerdown?.destructor()
-				} ),
-			)
+			this.selected( true )
 		}
 
 		@ $mol_action

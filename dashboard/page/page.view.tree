@@ -8,6 +8,9 @@ $shm_hitalama_dashboard_page $shm_hitalama_entity_page
 			click? <=> block_add? null
 		^
 	body_content /
+		<= Back $mol_view
+			event *
+				click? <=> deselect_all? null
 		^ blocks /
 			<= Block* $shm_hitalama_dashboard_block_text
 				block <= block* $shm_hitalama_dashboard_block
@@ -18,6 +21,5 @@ $shm_hitalama_dashboard_page $shm_hitalama_entity_page
 				left => block_left*
 				sticks_y <= sticks_y* / 0
 				sticks_x <= sticks_x* / 0
-				- click? <=> click*? null
 				selected? <=> selected*? false
 	selected_ref? null

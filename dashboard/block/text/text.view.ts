@@ -4,15 +4,12 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		text( next?: string ): string {
-			console.log('this.block().Text( next )?.text( next )', this.block().Text( next )?.text( next ))
 			return this.block().Text( next )?.text( next ) ?? 'text'
 		}
 
 		pointerdown_event?: PointerEvent
 		pointerdown( next?: any ) {
-				// this.selection([ 0, 0 ])
-				// ;(this.Content().Edit().dom_node() as any).focus()
-				this.pointerdown_event = this.block_selected() ? next : undefined
+			this.pointerdown_event = this.selected() ? next : undefined
 		}
 		pointerup( next?: any ) {
 			if( !this.pointerdown_event ) return
@@ -22,15 +19,14 @@ namespace $.$$ {
 				this.editable( true )
 				// this.selection([ 1, 1 ])
 				this.Text().Edit().focused(true)
-				;(this.Text().Edit().dom_node_actual()as any).select()
-				// ;(this.Content().Edit().dom_node() as any).focus()
+				;( this.Text().Edit().dom_node_actual() as HTMLTextAreaElement ).select()
 			}
 		}
 
 		@ $mol_mem
-		block_selected( next?: boolean ): boolean {
-			if( next === false ) this.editable( false )
-			return super.block_selected( next )
+		editable( next?: boolean ): boolean {
+			if( this.selected() === false ) return false
+			return next ?? false
 		}
 
 		blocker(): readonly ( any )[] {

@@ -1,11 +1,19 @@
 $shm_hitalama_dashboard_block_float $shm_hitalama_resize
 	block $shm_hitalama_dashboard_block
+	toolbar /
+		<= Toolbar $mol_toolbar
+			items /
+				<= Copy $mol_button_minor sub /
+					<= Copy_icon $mol_icon_content_copy
+				<= Cut $mol_button_minor sub /
+					<= Cut_icon $mol_icon_content_cut
+				<= Paste $mol_button_minor sub /
+					<= Paste_icon $mol_icon_content_paste
+				<= Delete $mol_button_minor sub /
+					<= Delete_icon $mol_icon_delete
 	style *
 		^
 		opacity <= opacity_str \1
-	- event *
-		^
-		pointerdown? <=> pointerdown? null
 	attr *
 		^
-		shm_hitalama_dashboard_block_float_selected <= block_selected? false
+		shm_hitalama_dashboard_block_float_selected <= selected? false
