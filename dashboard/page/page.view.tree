@@ -9,7 +9,7 @@ $shm_hitalama_dashboard_page $shm_hitalama_entity_page
 		^
 	body_content /
 		^ blocks /
-			<= Block* $shm_hitalama_dashboard_block_float
+			<= Block* $shm_hitalama_dashboard_block_demo
 				block <= block* $shm_hitalama_dashboard_block
 				cut <= block_cut* null
 				height => block_height*
@@ -18,3 +18,6 @@ $shm_hitalama_dashboard_page $shm_hitalama_entity_page
 				left => block_left*
 				sticks_y <= sticks_y* / 0
 				sticks_x <= sticks_x* / 0
+				- click? <=> click*? null
+				selected? <=> selected*? false
+	selected_ref? null

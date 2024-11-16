@@ -73,6 +73,17 @@ namespace $.$$ {
 			return sticks
 		}
 
+		@ $mol_mem_key
+		selected( ref: $hyoo_crus_ref, next?: boolean ): boolean {
+			return next ?? false
+		}
+
+		// click( id: any, next?: any ) {
+		// 	const current = this.selected_ref()
+		// 	if( current ) this.selected( current, false )
+		// 	this.selected_ref( id )
+		// }
+
 	}
 
 }

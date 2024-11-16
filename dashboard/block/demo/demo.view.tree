@@ -1,0 +1,18 @@
+$shm_hitalama_dashboard_block_demo $shm_hitalama_dashboard_block_float
+	sub /
+		<= Head $mol_view
+			sub /
+				<= Opacity $mol_number
+					precision 0.1
+					value_min 0.1
+					value_max 1.0
+					value? <=> opacity? 1
+				<= Cut $mol_button_minor
+					click? <=> cut? null
+					sub /
+						<= Cut_icon $mol_icon_close
+		<= Drag
+		^ edges
+	drag_body /
+		<= Content $mol_text
+			text <= content \

@@ -36,24 +36,27 @@ namespace $.$$ {
 		opacity( next?: number ) {
 			return this.block().Opacity(next)?.val(next) ?? 1
 		}
-		
-		content(): string {
-			return ''+
-				'! height\n  ! ' + this.height() + '\n' + //+ '\n    ! ' + this.height_stick() + '\n' +
-				'! width\n  ! ' + this.width() + '\n' + //+ '\n    ! ' + this.width_stick() + '\n' +
-				'! top\n  ! ' + this.top() + '\n' + //+ '\n    ! ' + this.top_stick() + '\n' +
-				'! left\n  ! ' + this.left() + '\n' + //+ '\n    ! ' + this.left_stick() + '\n' +
-				''
-				// '! body_x\n  ! ' + this.body_x() + '\n    ! ' + this.body_x_stick() + '\n' +
-				// '! right_edge_x\n  ! ' + this.right_edge_x() + '\n    ! ' + this.right_edge_x_stick() + '\n' +
-				// '! left_edge_x\n  ! ' + this.left_edge_x() + '\n    ! ' + this.left_edge_x_stick() + '\n' +
-				// '! body_y\n  ! ' + this.body_y() + '\n    ! ' + this.body_y_stick() + '\n' +
-				// '! bottom_edge_y\n  ! ' + this.bottom_edge_y() + '\n    ! ' + this.bottom_edge_y_stick() + '\n' +
-				// '! top_edge_y\n  ! ' + this.top_edge_y() + '\n    ! ' + this.top_edge_y_stick() + '\n'
-		}
 
 		opacity_str(): string {
 			return this.opacity().toString()
+		}
+
+		_pointerdown?: $mol_dom_listener
+		pointerdown( next?: any ) {
+			console.log('next', this.block().ref(), next)
+			this._pointerdown?.destructor()
+			this.selected( true )
+			this._pointerdown = new $mol_dom_listener(
+				this.$.$mol_dom_context.document,
+				'pointerdown',
+				$mol_wire_async( event => {
+					if( next == event ) return
+					console.log('event', event)
+					console.log('even', this.block().ref(), next)
+					this.selected( false )
+					this._pointerdown?.destructor()
+				} ),
+			)
 		}
 		
 	}
