@@ -310,9 +310,10 @@ $mol_book2_catalog $mol_book2
 				<= Menu_filter $mol_search
 					query? <=> menu_filter? \
 				<= Menu_links $mol_list
+					Empty <= Menu_links_empty $mol_view
 					rows <= menu_links /
 						<= Menu_link*0 $mol_link
-							arg <= arg* *
+							arg <= menu_link_arg* <= arg* *
 							sub <= menu_link_content* /
 								<= Menu_link_title* $mol_dimmer
 									needle <= menu_filter
@@ -1930,6 +1931,8 @@ $shm_hitalama_duckdb_page $mol_book2
 						<= Log_sql* $mol_text_code
 							text <= query_sql* \
 
+$mol_icon_open_in_new $mol_icon path \M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z
+
 $shm_hitalama_drag $mol_plugin
 	x? 0
 	y? 0
@@ -1962,45 +1965,52 @@ $shm_hitalama_drag_view $mol_view
 
 $shm_hitalama_resize $mol_view
 	sub /
-		<= Body $mol_view
-			sub <= body /
-				<= Drag $shm_hitalama_drag_view
-					sub <= drag_body /
-					x? <=> body_x? 0
-					y? <=> body_y? 0
-					drag_end? <=> drag_end? null
-				^ edges /
-					<= Top_edge $shm_hitalama_resize_edge
-						y? <=> top_edge_y? 0
-						drag_end? <=> drag_end? null
-					<= Left_edge $shm_hitalama_resize_edge
-						drag_end? <=> drag_end? null
-						x? <=> left_edge_x? 0
-					<= Bottom_edge $shm_hitalama_resize_edge
-						drag_end? <=> drag_end? null
-						y? <=> bottom_edge_y? 0
-					<= Right_edge $shm_hitalama_resize_edge
-						drag_end? <=> drag_end? null
-						x? <=> right_edge_x? 0
-					<= Top_left_edge $shm_hitalama_resize_edge
-						drag_end? <=> drag_end? null
-						y? <=> top_edge_y? 0
-						x? <=> left_edge_x? 0
-					<= Top_right_edge $shm_hitalama_resize_edge
-						drag_end? <=> drag_end? null
-						y? <=> top_edge_y? 0
-						x? <=> right_edge_x? 0
-					<= Bottom_left_edge $shm_hitalama_resize_edge
-						drag_end? <=> drag_end? null
-						y? <=> bottom_edge_y? 0
-						x? <=> left_edge_x? 0
-					<= Bottom_right_edge $shm_hitalama_resize_edge
-						drag_end? <=> drag_end? null
-						y? <=> bottom_edge_y? 0
-						x? <=> right_edge_x? 0
+		<= Drag $shm_hitalama_drag_view
+			sub <= drag_body /
+			x? <=> body_x? 0
+			y? <=> body_y? 0
+			drag_start? <=> drag_start? null
+			drag_end? <=> drag_end? null
+		^ edges /
+			<= Top_edge $shm_hitalama_resize_edge
+				drag_start? <=> resize_start? null
+				drag_end? <=> drag_end? null
+				y? <=> top_edge_y? 0
+			<= Left_edge $shm_hitalama_resize_edge
+				drag_start? <=> resize_start? null
+				drag_end? <=> drag_end? null
+				x? <=> left_edge_x? 0
+			<= Bottom_edge $shm_hitalama_resize_edge
+				drag_start? <=> resize_start? null
+				drag_end? <=> drag_end? null
+				y? <=> bottom_edge_y? 0
+			<= Right_edge $shm_hitalama_resize_edge
+				drag_start? <=> resize_start? null
+				drag_end? <=> drag_end? null
+				x? <=> right_edge_x? 0
+			<= Top_left_edge $shm_hitalama_resize_edge
+				drag_start? <=> resize_start? null
+				drag_end? <=> drag_end? null
+				y? <=> top_edge_y? 0
+				x? <=> left_edge_x? 0
+			<= Top_right_edge $shm_hitalama_resize_edge
+				drag_start? <=> resize_start? null
+				drag_end? <=> drag_end? null
+				y? <=> top_edge_y? 0
+				x? <=> right_edge_x? 0
+			<= Bottom_left_edge $shm_hitalama_resize_edge
+				drag_start? <=> resize_start? null
+				drag_end? <=> drag_end? null
+				y? <=> bottom_edge_y? 0
+				x? <=> left_edge_x? 0
+			<= Bottom_right_edge $shm_hitalama_resize_edge
+				drag_start? <=> resize_start? null
+				drag_end? <=> drag_end? null
+				y? <=> bottom_edge_y? 0
+				x? <=> right_edge_x? 0
 	-
-	height_base 300
-	width_base 500
+	height_base 100
+	width_base 200
 	height 0
 	width 0
 	top 0
@@ -2027,6 +2037,80 @@ $shm_hitalama_resize $mol_view
 		width <= width_px \500px
 
 $shm_hitalama_resize_edge $shm_hitalama_drag_view
+
+$shm_hitalama_color_dot $mol_view
+	style *
+		backgroundColor <= color \
+
+$shm_hitalama_color_switch $mol_switch
+	Option* $mol_check
+		checked? <=> option_checked*?
+		sub / - <= Color $mol_view
+		enabled <= option_enabled* <= enabled
+		hint <= option_hint*
+		minimal_height 24
+		style *
+			backgroundColor <= color*
+	colors /
+		\var(--mol_theme_text)
+		\rgb(254, 244, 69)
+		\rgb(250, 199, 16)
+		\rgb(242, 71, 38)
+		\rgb(255, 255, 255)
+		\rgb(206, 231, 65)
+		\rgb(143, 209, 79)
+		\rgb(218, 0, 99)
+		\rgb(128, 128, 128)
+		\rgb(18, 205, 212)
+		\rgb(12, 167, 137)
+		\rgb(149, 16, 172)
+		\rgb(26, 26, 26)
+		\rgb(45, 155, 240)
+		\rgb(65, 75, 178)
+		\rgb(101, 44, 179)
+	-
+		\aria-label="White"
+		\rgb(255, 255, 255); border-color: rgb(148, 148, 148)
+		\aria-label="Light Yellow"
+		\rgb(254, 244, 69); border-color: rgb(194, 139, 0)
+		\aria-label="Yellow"
+		\rgb(250, 199, 16); border-color: rgb(194, 139, 0)
+		\aria-label="Red"
+		\rgb(242, 71, 38); border-color: rgb(200, 53, 25)
+		\aria-label="Light Gray"
+		\rgb(230, 230, 230); border-color: rgb(148, 148, 148)
+		\aria-label="Light Green"
+		\rgb(206, 231, 65); border-color: rgb(108, 156, 13)
+		\aria-label="Green"
+		\rgb(143, 209, 79); border-color: rgb(108, 156, 13)
+		\aria-label="Magenta"
+		\rgb(218, 0, 99); border-color: rgb(166, 30, 81)
+		\aria-label="Gray"
+		\rgb(128, 128, 128); border-color: rgb(112, 112, 112)
+		\aria-label="Cyan"
+		\rgb(18, 205, 212); border-color: rgb(37, 160, 202)
+		\aria-label="Dark Green"
+		\rgb(12, 167, 137); border-color: rgb(37, 133, 111)
+		\aria-label="Violet"
+		\rgb(149, 16, 172); border-color: rgb(104, 27, 120)
+		\aria-label="Black"
+		\rgb(26, 26, 26); color: rgb(255, 255, 255)
+		\aria-label="Blue"
+		\rgb(45, 155, 240); border-color: rgb(23, 128, 221)
+		\aria-label="Dark Blue"
+		\rgb(65, 75, 178); border-color: rgb(54, 63, 131)
+		\aria-label="Purple"
+		\rgb(101, 44, 179); border-color: rgb(74, 39, 131)
+
+$shm_hitalama_color_pick $mol_pick
+	trigger_content /
+		<= Current $shm_hitalama_color_dot
+			color <= color?
+	bubble_content /
+		<= Colors $shm_hitalama_color_switch
+			value? <=> color? \var(--mol_theme_text)
+			event *
+				click? <=> click? null
 
 $mol_icon_minus $mol_icon path \M19,13H5V11H19V13Z
 
@@ -2055,49 +2139,140 @@ $mol_number $mol_view
 			enabled <= inc_enabled <= enabled
 			sub / <= inc_icon $mol_icon_plus
 
+$mol_icon_chevron_up $mol_icon path \M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z
+
+$mol_icon_chevron_down $mol_icon path \M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z
+
+$mol_icon_arrow_collapse $mol_icon path \M19.5,3.09L15,7.59V4H13V11H20V9H16.41L20.91,4.5L19.5,3.09M4,13V15H7.59L3.09,19.5L4.5,20.91L9,16.41V20H11V13H4Z
+
+$mol_icon_arrow_collapse_up $mol_icon path \M4.08,11.92L12,4L19.92,11.92L18.5,13.33L13,7.83V22H11V7.83L5.5,13.33L4.08,11.92M12,4H22V2H2V4H12Z
+
+$mol_icon_arrow_collapse_down $mol_icon path \M19.92,12.08L12,20L4.08,12.08L5.5,10.67L11,16.17V2H13V16.17L18.5,10.66L19.92,12.08M12,20H2V22H22V20H12Z
+
+$mol_icon_delete $mol_icon path \M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z
+
 $shm_hitalama_dashboard_block_float $shm_hitalama_resize
 	block $shm_hitalama_dashboard_block
-	sub /
-		<= Head $mol_view
+	- plugins /
+		<= Keyboard $mol_keyboard_state
+			- key *
+				delete <= delete
+	toolbar /
+		<= Toolbar $mol_view
 			sub /
-				<= Opacity $mol_number
-					precision 0.1
-					value_min 0.1
-					value_max 1.0
-					value? <=> opacity? 1
-				<= Cut $mol_button_minor
-					click? <=> cut? null
+				- <= Copy $mol_button_minor sub /
+					<= Copy_icon $mol_icon_content_copy
+				- <= Cut $mol_button_minor sub /
+					<= Cut_icon $mol_icon_content_cut
+				- <= Paste $mol_button_minor sub /
+					<= Paste_icon $mol_icon_content_paste
+				^ font_tools / 
+					<= Color $shm_hitalama_color_pick
+						color? <=> color? \var(--mol_theme_text)
+					<= Font_size $mol_number
+						value? <=> font_size? 10
+						event_dec? => font_size_dec?
+						event_inc? => font_size_inc?
+						Dec null
+						Inc null
+					<= Inc_dec $mol_view
+						sub /
+							<= Inc $mol_button_minor
+								minimal_height 20
+								minimal_width 20
+								event_click? <=> font_size_inc?
+								sub / <= inc_icon $mol_icon_chevron_up
+							<= Dec $mol_button_minor
+								minimal_height 20
+								minimal_width 20
+								event_click? <=> font_size_dec?
+								sub / <= dec_icon $mol_icon_chevron_down
+				<= Top $mol_button_minor 
 					sub /
-						<= Cut_icon $mol_icon_close
-		<= Drag
-		^ edges
-	drag_body /
-		<= Content $mol_text
-			text <= content \
+						<= Top_icon $mol_icon_arrow_collapse_up
+					click? <=> to_top? null
+				<= Bottom $mol_button_minor 
+					sub /
+						<= Bottom_icon $mol_icon_arrow_collapse_down
+					click? <=> to_bottom? null
+				<= Delete $mol_button_minor 
+					sub /
+						<= Delete_icon $mol_icon_delete
+					click? <=> delete? null
 	style *
 		^
 		opacity <= opacity_str \1
+	font_size_px \
+	event *
+		^
+		keydown? <=> down? null
+	attr *
+		^
+		shm_hitalama_dashboard_block_float_selected <= selected? false
+	editable? false
+
+$shm_hitalama_dashboard_block_text $shm_hitalama_dashboard_block_float
+	sub /
+		^ image / <= Image $mol_image
+			uri <= image_uri \
+		<= Text $mol_textarea
+			value? <=> text? \
+			selection? <=> selection? /number
+			spellcheck false
+			style *
+				color <= color
+				fontSize <= font_size_px
+		<= Drag
+		^ edges
+		^ toolbar
+	drag_body /
+		^ blocker / <= Blocker $mol_view
+			event *
+				pointerdown? <=> pointerdown? null
+				pointerup? <=> pointerup? null
 
 $shm_hitalama_dashboard_page $shm_hitalama_entity_page
 	dashboard $shm_hitalama_dashboard
 	cut_title \Удалить дашборд
+	head /
+		<= Open_in_new $mol_link_iconed 
+			sub /
+				<= Open_in_new_icon $mol_icon_open_in_new
+			arg *
+				section \dashboard
+				dashboard <= dashboard_id
+			external true
+		<= Title
+		<= Tools
 	tools /
 		<= Block_add $mol_button_minor
 			hint \Добавить
-			title \Добавить блок
+			title \Добавить текст
 			click? <=> block_add? null
 		^
+	auto /
+		<= keydown_listener null
+		<= paste_listener null
 	body_content /
+		<= Back $mol_view
+			event *
+				click? <=> deselect_all? null
 		^ blocks /
-			<= Block* $shm_hitalama_dashboard_block_float
+			<= Block* $shm_hitalama_dashboard_block_text
 				block <= block* $shm_hitalama_dashboard_block
-				cut <= block_cut* null
+				delete <= block_delete* null
+				to_top <= block_to_top* null
+				to_bottom <= block_to_bottom* null
 				height => block_height*
 				width => block_width*
 				top => block_top*
 				left => block_left*
 				sticks_y <= sticks_y* / 0
 				sticks_x <= sticks_x* / 0
+				selected? <=> selected*? false
+				editable? => editable*? false
+	selected_ref? null
+	selected_ref? null
 
 $shm_hitalama_dashboard_catalog $shm_hitalama_entity_catalog
 	menu_title \Дашборды
@@ -2201,3 +2376,8 @@ $shm_hitalama_app $mol_book2_catalog
 	Register $shm_hitalama_profile_register
 		profiles <= profiles
 	Placeholder null
+	-
+	Dashboard $shm_hitalama_dashboard_page
+		entity <= dashboard $shm_hitalama_dashboard
+		Open_in_new null
+		Cut null
