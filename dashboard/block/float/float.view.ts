@@ -73,6 +73,11 @@ namespace $.$$ {
 			return this.selected() ? super.toolbar() : []
 		}
 
+		@ $mol_mem
+		transition() {
+			return this.dragged() ? 'none' : this.transition_smooth()
+		}
+
 		drag_end() {
 			super.drag_end()
 			this.selected( true )

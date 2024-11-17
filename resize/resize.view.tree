@@ -6,6 +6,7 @@ $shm_hitalama_resize $mol_view
 			y? <=> body_y? 0
 			drag_start? <=> drag_start? null
 			drag_end? <=> drag_end? null
+			dragged => dragged
 		^ edges /
 			<= Top_edge $shm_hitalama_resize_edge
 				drag_start? <=> resize_start? null

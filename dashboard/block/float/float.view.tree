@@ -49,6 +49,7 @@ $shm_hitalama_dashboard_block_float $shm_hitalama_resize
 	style *
 		^
 		opacity <= opacity_str \1
+		transition <= transition <= transition_smooth \all 0.2s
 	font_size_px \
 	event *
 		^
