@@ -12834,6 +12834,7 @@ declare namespace $ {
 		drag( next?: any ): any
 		drag_start( next?: any ): any
 		drag_end( next?: any ): any
+		dragged( ): ReturnType< ReturnType< $shm_hitalama_drag_view['Drag'] >['dragged'] >
 		y( next?: number ): number
 		x( next?: number ): number
 		Drag( ): $shm_hitalama_drag
@@ -13019,6 +13020,7 @@ declare namespace $ {
 		body_y( next?: number ): number
 		drag_start( next?: any ): any
 		drag_end( next?: any ): any
+		dragged( ): ReturnType< ReturnType< $shm_hitalama_resize['Drag'] >['dragged'] >
 		Drag( ): $shm_hitalama_drag_view
 		resize_start( next?: any ): any
 		top_edge_y( next?: number ): number
@@ -13503,12 +13505,15 @@ declare namespace $ {
 		Delete( ): $mol_button_minor
 		Toolbar( ): $mol_view
 		opacity_str( ): string
+		transition_smooth( ): string
+		transition( ): ReturnType< $shm_hitalama_dashboard_block_float['transition_smooth'] >
 		down( next?: any ): any
 		selected( next?: boolean ): boolean
 		block( ): $shm_hitalama_dashboard_block
 		toolbar( ): readonly(any)[]
 		style( ): ({ 
 			'opacity': ReturnType< $shm_hitalama_dashboard_block_float['opacity_str'] >,
+			'transition': ReturnType< $shm_hitalama_dashboard_block_float['transition'] >,
 		})  & ReturnType< $shm_hitalama_resize['style'] >
 		font_size_px( ): string
 		event( ): ({ 
@@ -13539,6 +13544,7 @@ declare namespace $.$$ {
         opacity_str(): string;
         edges(): readonly (any)[];
         toolbar(): readonly (any)[];
+        transition(): string;
         drag_end(): void;
         drag_start(): void;
     }

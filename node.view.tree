@@ -1983,6 +1983,7 @@ $shm_hitalama_drag_view $mol_view
 			drag? <=> drag? null
 			drag_start? <=> drag_start? null
 			drag_end? <=> drag_end? null
+			dragged => dragged
 			y? <=> y? 0
 			x? <=> x? 0
 	style *
@@ -1997,6 +1998,7 @@ $shm_hitalama_resize $mol_view
 			y? <=> body_y? 0
 			drag_start? <=> drag_start? null
 			drag_end? <=> drag_end? null
+			dragged => dragged
 		^ edges /
 			<= Top_edge $shm_hitalama_resize_edge
 				drag_start? <=> resize_start? null
@@ -2228,6 +2230,7 @@ $shm_hitalama_dashboard_block_float $shm_hitalama_resize
 	style *
 		^
 		opacity <= opacity_str \1
+		transition <= transition <= transition_smooth \all 0.2s
 	font_size_px \
 	event *
 		^
