@@ -75,7 +75,7 @@ namespace $.$$ {
 
 		@ $mol_mem
 		transition() {
-			return this.dragged() ? 'none' : this.transition_smooth()
+			return ( this.dragged() || this.resizing() ) ? 'none' : this.transition_smooth()
 		}
 
 		drag_end() {

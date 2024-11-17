@@ -114,6 +114,15 @@ namespace $.$$ {
 			this.vals_to_sticks()
 		}
 
+		resize_start( next?: any ) {
+			this.resizing( true )
+		}
+
+		resize_end() {
+			this.drag_end()
+			this.resizing( false )
+		}
+
 		vals_to_sticks() {
 			this.body_x( this.body_x_stick() )
 			this.body_y( this.body_y_stick() )
