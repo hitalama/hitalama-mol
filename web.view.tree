@@ -2002,40 +2002,42 @@ $shm_hitalama_resize $mol_view
 		^ edges /
 			<= Top_edge $shm_hitalama_resize_edge
 				drag_start? <=> resize_start? null
-				drag_end? <=> drag_end? null
+				drag_end? <=> resize_end? null
 				y? <=> top_edge_y? 0
 			<= Left_edge $shm_hitalama_resize_edge
 				drag_start? <=> resize_start? null
-				drag_end? <=> drag_end? null
+				drag_end? <=> resize_end? null
 				x? <=> left_edge_x? 0
 			<= Bottom_edge $shm_hitalama_resize_edge
 				drag_start? <=> resize_start? null
-				drag_end? <=> drag_end? null
+				drag_end? <=> resize_end? null
 				y? <=> bottom_edge_y? 0
 			<= Right_edge $shm_hitalama_resize_edge
 				drag_start? <=> resize_start? null
-				drag_end? <=> drag_end? null
+				drag_end? <=> resize_end? null
 				x? <=> right_edge_x? 0
 			<= Top_left_edge $shm_hitalama_resize_edge
 				drag_start? <=> resize_start? null
-				drag_end? <=> drag_end? null
+				drag_end? <=> resize_end? null
 				y? <=> top_edge_y? 0
 				x? <=> left_edge_x? 0
 			<= Top_right_edge $shm_hitalama_resize_edge
 				drag_start? <=> resize_start? null
-				drag_end? <=> drag_end? null
+				drag_end? <=> resize_end? null
 				y? <=> top_edge_y? 0
 				x? <=> right_edge_x? 0
 			<= Bottom_left_edge $shm_hitalama_resize_edge
 				drag_start? <=> resize_start? null
-				drag_end? <=> drag_end? null
+				drag_end? <=> resize_end? null
 				y? <=> bottom_edge_y? 0
 				x? <=> left_edge_x? 0
 			<= Bottom_right_edge $shm_hitalama_resize_edge
 				drag_start? <=> resize_start? null
-				drag_end? <=> drag_end? null
+				drag_end? <=> resize_end? null
 				y? <=> bottom_edge_y? 0
 				x? <=> right_edge_x? 0
+	-
+	resizing? false
 	-
 	height_base 100
 	width_base 200

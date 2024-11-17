@@ -12880,7 +12880,7 @@ declare namespace $ {
 		ReturnType< $shm_hitalama_resize_edge['drag_start'] >
 	>
 	type $shm_hitalama_resize_edge__drag_end_shm_hitalama_resize_7 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_resize['drag_end'] >
+		ReturnType< $shm_hitalama_resize['resize_end'] >
 		,
 		ReturnType< $shm_hitalama_resize_edge['drag_end'] >
 	>
@@ -12895,7 +12895,7 @@ declare namespace $ {
 		ReturnType< $shm_hitalama_resize_edge['drag_start'] >
 	>
 	type $shm_hitalama_resize_edge__drag_end_shm_hitalama_resize_10 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_resize['drag_end'] >
+		ReturnType< $shm_hitalama_resize['resize_end'] >
 		,
 		ReturnType< $shm_hitalama_resize_edge['drag_end'] >
 	>
@@ -12910,7 +12910,7 @@ declare namespace $ {
 		ReturnType< $shm_hitalama_resize_edge['drag_start'] >
 	>
 	type $shm_hitalama_resize_edge__drag_end_shm_hitalama_resize_13 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_resize['drag_end'] >
+		ReturnType< $shm_hitalama_resize['resize_end'] >
 		,
 		ReturnType< $shm_hitalama_resize_edge['drag_end'] >
 	>
@@ -12925,7 +12925,7 @@ declare namespace $ {
 		ReturnType< $shm_hitalama_resize_edge['drag_start'] >
 	>
 	type $shm_hitalama_resize_edge__drag_end_shm_hitalama_resize_16 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_resize['drag_end'] >
+		ReturnType< $shm_hitalama_resize['resize_end'] >
 		,
 		ReturnType< $shm_hitalama_resize_edge['drag_end'] >
 	>
@@ -12940,7 +12940,7 @@ declare namespace $ {
 		ReturnType< $shm_hitalama_resize_edge['drag_start'] >
 	>
 	type $shm_hitalama_resize_edge__drag_end_shm_hitalama_resize_19 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_resize['drag_end'] >
+		ReturnType< $shm_hitalama_resize['resize_end'] >
 		,
 		ReturnType< $shm_hitalama_resize_edge['drag_end'] >
 	>
@@ -12960,7 +12960,7 @@ declare namespace $ {
 		ReturnType< $shm_hitalama_resize_edge['drag_start'] >
 	>
 	type $shm_hitalama_resize_edge__drag_end_shm_hitalama_resize_23 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_resize['drag_end'] >
+		ReturnType< $shm_hitalama_resize['resize_end'] >
 		,
 		ReturnType< $shm_hitalama_resize_edge['drag_end'] >
 	>
@@ -12980,7 +12980,7 @@ declare namespace $ {
 		ReturnType< $shm_hitalama_resize_edge['drag_start'] >
 	>
 	type $shm_hitalama_resize_edge__drag_end_shm_hitalama_resize_27 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_resize['drag_end'] >
+		ReturnType< $shm_hitalama_resize['resize_end'] >
 		,
 		ReturnType< $shm_hitalama_resize_edge['drag_end'] >
 	>
@@ -13000,7 +13000,7 @@ declare namespace $ {
 		ReturnType< $shm_hitalama_resize_edge['drag_start'] >
 	>
 	type $shm_hitalama_resize_edge__drag_end_shm_hitalama_resize_31 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_resize['drag_end'] >
+		ReturnType< $shm_hitalama_resize['resize_end'] >
 		,
 		ReturnType< $shm_hitalama_resize_edge['drag_end'] >
 	>
@@ -13023,6 +13023,7 @@ declare namespace $ {
 		dragged( ): ReturnType< ReturnType< $shm_hitalama_resize['Drag'] >['dragged'] >
 		Drag( ): $shm_hitalama_drag_view
 		resize_start( next?: any ): any
+		resize_end( next?: any ): any
 		top_edge_y( next?: number ): number
 		Top_edge( ): $shm_hitalama_resize_edge
 		left_edge_x( next?: number ): number
@@ -13042,6 +13043,7 @@ declare namespace $ {
 		height_px( ): string
 		width_px( ): string
 		sub( ): readonly(any)[]
+		resizing( next?: boolean ): boolean
 		height_base( ): number
 		width_base( ): number
 		height( ): number
@@ -13092,6 +13094,8 @@ declare namespace $.$$ {
         top_px(): string;
         left_px(): string;
         drag_end(): void;
+        resize_start(next?: any): void;
+        resize_end(): void;
         vals_to_sticks(): void;
     }
 }

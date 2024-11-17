@@ -36492,6 +36492,10 @@ var $;
 			if(next !== undefined) return next;
 			return null;
 		}
+		resize_end(next){
+			if(next !== undefined) return next;
+			return null;
+		}
 		top_edge_y(next){
 			if(next !== undefined) return next;
 			return 0;
@@ -36499,7 +36503,7 @@ var $;
 		Top_edge(){
 			const obj = new this.$.$shm_hitalama_resize_edge();
 			(obj.drag_start) = (next) => ((this.resize_start(next)));
-			(obj.drag_end) = (next) => ((this.drag_end(next)));
+			(obj.drag_end) = (next) => ((this.resize_end(next)));
 			(obj.y) = (next) => ((this.top_edge_y(next)));
 			return obj;
 		}
@@ -36510,7 +36514,7 @@ var $;
 		Left_edge(){
 			const obj = new this.$.$shm_hitalama_resize_edge();
 			(obj.drag_start) = (next) => ((this.resize_start(next)));
-			(obj.drag_end) = (next) => ((this.drag_end(next)));
+			(obj.drag_end) = (next) => ((this.resize_end(next)));
 			(obj.x) = (next) => ((this.left_edge_x(next)));
 			return obj;
 		}
@@ -36521,7 +36525,7 @@ var $;
 		Bottom_edge(){
 			const obj = new this.$.$shm_hitalama_resize_edge();
 			(obj.drag_start) = (next) => ((this.resize_start(next)));
-			(obj.drag_end) = (next) => ((this.drag_end(next)));
+			(obj.drag_end) = (next) => ((this.resize_end(next)));
 			(obj.y) = (next) => ((this.bottom_edge_y(next)));
 			return obj;
 		}
@@ -36532,14 +36536,14 @@ var $;
 		Right_edge(){
 			const obj = new this.$.$shm_hitalama_resize_edge();
 			(obj.drag_start) = (next) => ((this.resize_start(next)));
-			(obj.drag_end) = (next) => ((this.drag_end(next)));
+			(obj.drag_end) = (next) => ((this.resize_end(next)));
 			(obj.x) = (next) => ((this.right_edge_x(next)));
 			return obj;
 		}
 		Top_left_edge(){
 			const obj = new this.$.$shm_hitalama_resize_edge();
 			(obj.drag_start) = (next) => ((this.resize_start(next)));
-			(obj.drag_end) = (next) => ((this.drag_end(next)));
+			(obj.drag_end) = (next) => ((this.resize_end(next)));
 			(obj.y) = (next) => ((this.top_edge_y(next)));
 			(obj.x) = (next) => ((this.left_edge_x(next)));
 			return obj;
@@ -36547,7 +36551,7 @@ var $;
 		Top_right_edge(){
 			const obj = new this.$.$shm_hitalama_resize_edge();
 			(obj.drag_start) = (next) => ((this.resize_start(next)));
-			(obj.drag_end) = (next) => ((this.drag_end(next)));
+			(obj.drag_end) = (next) => ((this.resize_end(next)));
 			(obj.y) = (next) => ((this.top_edge_y(next)));
 			(obj.x) = (next) => ((this.right_edge_x(next)));
 			return obj;
@@ -36555,7 +36559,7 @@ var $;
 		Bottom_left_edge(){
 			const obj = new this.$.$shm_hitalama_resize_edge();
 			(obj.drag_start) = (next) => ((this.resize_start(next)));
-			(obj.drag_end) = (next) => ((this.drag_end(next)));
+			(obj.drag_end) = (next) => ((this.resize_end(next)));
 			(obj.y) = (next) => ((this.bottom_edge_y(next)));
 			(obj.x) = (next) => ((this.left_edge_x(next)));
 			return obj;
@@ -36563,7 +36567,7 @@ var $;
 		Bottom_right_edge(){
 			const obj = new this.$.$shm_hitalama_resize_edge();
 			(obj.drag_start) = (next) => ((this.resize_start(next)));
-			(obj.drag_end) = (next) => ((this.drag_end(next)));
+			(obj.drag_end) = (next) => ((this.resize_end(next)));
 			(obj.y) = (next) => ((this.bottom_edge_y(next)));
 			(obj.x) = (next) => ((this.right_edge_x(next)));
 			return obj;
@@ -36597,6 +36601,10 @@ var $;
 		}
 		sub(){
 			return [(this.Drag()), ...(this.edges())];
+		}
+		resizing(next){
+			if(next !== undefined) return next;
+			return false;
 		}
 		height_base(){
 			return 100;
@@ -36668,6 +36676,7 @@ var $;
 	($mol_mem(($.$shm_hitalama_resize.prototype), "drag_end"));
 	($mol_mem(($.$shm_hitalama_resize.prototype), "Drag"));
 	($mol_mem(($.$shm_hitalama_resize.prototype), "resize_start"));
+	($mol_mem(($.$shm_hitalama_resize.prototype), "resize_end"));
 	($mol_mem(($.$shm_hitalama_resize.prototype), "top_edge_y"));
 	($mol_mem(($.$shm_hitalama_resize.prototype), "Top_edge"));
 	($mol_mem(($.$shm_hitalama_resize.prototype), "left_edge_x"));
@@ -36680,6 +36689,7 @@ var $;
 	($mol_mem(($.$shm_hitalama_resize.prototype), "Top_right_edge"));
 	($mol_mem(($.$shm_hitalama_resize.prototype), "Bottom_left_edge"));
 	($mol_mem(($.$shm_hitalama_resize.prototype), "Bottom_right_edge"));
+	($mol_mem(($.$shm_hitalama_resize.prototype), "resizing"));
 	($mol_mem(($.$shm_hitalama_resize.prototype), "body_x_stick"));
 	($mol_mem(($.$shm_hitalama_resize.prototype), "body_y_stick"));
 	($mol_mem(($.$shm_hitalama_resize.prototype), "bottom_edge_y_stick"));
@@ -36794,6 +36804,13 @@ var $;
             }
             drag_end() {
                 this.vals_to_sticks();
+            }
+            resize_start(next) {
+                this.resizing(true);
+            }
+            resize_end() {
+                this.drag_end();
+                this.resizing(false);
             }
             vals_to_sticks() {
                 this.body_x(this.body_x_stick());
@@ -37589,7 +37606,7 @@ var $;
                 return this.selected() ? super.toolbar() : [];
             }
             transition() {
-                return this.dragged() ? 'none' : this.transition_smooth();
+                return (this.dragged() || this.resizing()) ? 'none' : this.transition_smooth();
             }
             drag_end() {
                 super.drag_end();
