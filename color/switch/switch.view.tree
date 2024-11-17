@@ -1,0 +1,59 @@
+$shm_hitalama_color_switch $mol_switch
+	Option* $mol_check
+		checked? <=> option_checked*?
+		sub / - <= Color $mol_view
+		enabled <= option_enabled* <= enabled
+		hint <= option_hint*
+		minimal_height 24
+		style *
+			backgroundColor <= color*
+	colors /
+		\var(--mol_theme_text)
+		\rgb(254, 244, 69)
+		\rgb(250, 199, 16)
+		\rgb(242, 71, 38)
+		\rgb(255, 255, 255)
+		\rgb(206, 231, 65)
+		\rgb(143, 209, 79)
+		\rgb(218, 0, 99)
+		\rgb(128, 128, 128)
+		\rgb(18, 205, 212)
+		\rgb(12, 167, 137)
+		\rgb(149, 16, 172)
+		\rgb(26, 26, 26)
+		\rgb(45, 155, 240)
+		\rgb(65, 75, 178)
+		\rgb(101, 44, 179)
+	-
+		\aria-label="White"
+		\rgb(255, 255, 255); border-color: rgb(148, 148, 148)
+		\aria-label="Light Yellow"
+		\rgb(254, 244, 69); border-color: rgb(194, 139, 0)
+		\aria-label="Yellow"
+		\rgb(250, 199, 16); border-color: rgb(194, 139, 0)
+		\aria-label="Red"
+		\rgb(242, 71, 38); border-color: rgb(200, 53, 25)
+		\aria-label="Light Gray"
+		\rgb(230, 230, 230); border-color: rgb(148, 148, 148)
+		\aria-label="Light Green"
+		\rgb(206, 231, 65); border-color: rgb(108, 156, 13)
+		\aria-label="Green"
+		\rgb(143, 209, 79); border-color: rgb(108, 156, 13)
+		\aria-label="Magenta"
+		\rgb(218, 0, 99); border-color: rgb(166, 30, 81)
+		\aria-label="Gray"
+		\rgb(128, 128, 128); border-color: rgb(112, 112, 112)
+		\aria-label="Cyan"
+		\rgb(18, 205, 212); border-color: rgb(37, 160, 202)
+		\aria-label="Dark Green"
+		\rgb(12, 167, 137); border-color: rgb(37, 133, 111)
+		\aria-label="Violet"
+		\rgb(149, 16, 172); border-color: rgb(104, 27, 120)
+		\aria-label="Black"
+		\rgb(26, 26, 26); color: rgb(255, 255, 255)
+		\aria-label="Blue"
+		\rgb(45, 155, 240); border-color: rgb(23, 128, 221)
+		\aria-label="Dark Blue"
+		\rgb(65, 75, 178); border-color: rgb(54, 63, 131)
+		\aria-label="Purple"
+		\rgb(101, 44, 179); border-color: rgb(74, 39, 131)

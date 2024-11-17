@@ -32,6 +32,36 @@ namespace $.$$ {
 			position: 'absolute',
 			top: 0,
 			transform: 'translateY(-100%)',
+			overflow: 'visible',
+			zIndex: $mol_layer.popup,
+			padding: {
+				bottom: $mol_gap.space,
+			},
+		},
+
+		Font_size: {
+			width: '4rem',
+		},
+		Inc_dec: {
+			flex: {
+				direction: 'column',
+			},
+		},
+		Inc: {
+			padding: {
+				top: 0,
+				bottom: 0,
+				left: $mol_gap.space,
+				right: $mol_gap.block,
+			},
+		},
+		Dec: {
+			padding: {
+				top: 0,
+				bottom: 0,
+				left: $mol_gap.space,
+				right: $mol_gap.block,
+			},
 		},
 
 		flex: {

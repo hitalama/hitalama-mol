@@ -1,8 +1,14 @@
 $shm_hitalama_dashboard_block_text $shm_hitalama_dashboard_block_float
 	sub /
+		^ image / <= Image $mol_image
+			uri <= image_uri \
 		<= Text $mol_textarea
 			value? <=> text? \
 			selection? <=> selection? /number
+			spellcheck false
+			style *
+				color <= color
+				fontSize <= font_size_px
 		<= Drag
 		^ edges
 		^ toolbar
@@ -11,4 +17,3 @@ $shm_hitalama_dashboard_block_text $shm_hitalama_dashboard_block_float
 			event *
 				pointerdown? <=> pointerdown? null
 				pointerup? <=> pointerup? null
-	editable? false

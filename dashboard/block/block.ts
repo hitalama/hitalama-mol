@@ -10,10 +10,14 @@ namespace $ {
 		Left_edge_x: $hyoo_crus_atom_real,
 
 		Opacity: $hyoo_crus_atom_real,
-		// Time: $hyoo_crus_atom_real,
 
 		Type: $hyoo_crus_atom_str,
+
+		Image: $hyoo_crus_file,
+
 		Text: $hyoo_crus_text,
+		Color: $hyoo_crus_atom_str,
+		Font_size: $hyoo_crus_atom_real,
 
 	}){
 		

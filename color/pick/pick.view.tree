@@ -1,0 +1,9 @@
+$shm_hitalama_color_pick $mol_pick
+	trigger_content /
+		<= Current $shm_hitalama_color_dot
+			color <= color?
+	bubble_content /
+		<= Colors $shm_hitalama_color_switch
+			value? <=> color? \var(--mol_theme_text)
+			event *
+				click? <=> click? null

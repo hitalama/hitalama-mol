@@ -1,0 +1,3 @@
+$shm_hitalama_color_dot $mol_view
+	style *
+		backgroundColor <= color \

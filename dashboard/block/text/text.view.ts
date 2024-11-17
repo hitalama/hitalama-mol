@@ -4,7 +4,7 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		text( next?: string ): string {
-			return this.block().Text( next )?.text( next ) ?? 'text'
+			return this.block().Text( next )?.text( next ) ?? ''
 		}
 
 		pointerdown_event?: PointerEvent
@@ -17,7 +17,6 @@ namespace $.$$ {
 
 			if( Math.abs( x - next.x ) < 5 && Math.abs( x - next.x ) < 5 ) {
 				this.editable( true )
-				// this.selection([ 1, 1 ])
 				this.Text().Edit().focused(true)
 				;( this.Text().Edit().dom_node_actual() as HTMLTextAreaElement ).select()
 			}
@@ -29,8 +28,28 @@ namespace $.$$ {
 			return next ?? false
 		}
 
+		@ $mol_mem
 		blocker(): readonly ( any )[] {
 			return this.editable() ? [] : super.blocker()
+		}
+
+		@ $mol_mem
+		blob_uri() {
+			const blob = this.block().Image()?.blob()
+			if( !blob ) return null
+			return this.$.$mol_blob_uri( blob )
+		}
+
+		@ $mol_mem
+		image_uri(): string {
+			const uri = $mol_wire_sync(this).blob_uri()
+			return uri ?? ''
+		}
+
+		@ $mol_mem
+		image() {
+			const uri = this.image_uri()
+			return uri ? super.image() : []
 		}
 		
 	}

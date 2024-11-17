@@ -37,6 +37,30 @@ namespace $.$$ {
 			return this.block().Opacity(next)?.val(next) ?? 1
 		}
 
+		@ $mol_mem
+		font_size( next?: number ) {
+			return this.block().Font_size(next)?.val(next) ?? 16
+		}
+
+		@ $mol_mem
+		font_tools() {
+			const text = this.block().Text()?.value() || ''
+			return text === '' ? [] : super.font_tools()
+		}
+
+		@ $mol_mem
+		font_size_px() {
+			return this.font_size() + 'px'
+		}
+
+		@ $mol_mem
+		color( next?: string ) {
+			console.log('next', next)
+			if( next === undefined ) return this.block().Color()?.val() || 'var(--mol_theme_text)'
+			const color = next || 'var(--mol_theme_text)'
+			return this.block().Color(null)?.val(color)!
+		}
+
 		opacity_str(): string {
 			return this.opacity().toString()
 		}
@@ -49,21 +73,14 @@ namespace $.$$ {
 			return this.selected() ? super.toolbar() : []
 		}
 
-		_pointerdown?: $mol_dom_listener
-		@ $mol_action
-		select( by_event?: PointerEvent ) {
-			this._pointerdown?.destructor()
+		drag_end() {
+			super.drag_end()
 			this.selected( true )
 		}
 
-		@ $mol_action
-		resize_start( event: any ) {
-			this.select( event )
-		}
-
-		drag_end() {
-			super.drag_end()
-			this.select()
+		drag_start() {
+			super.drag_start()
+			this.selected( false )
 		}
 		
 	}

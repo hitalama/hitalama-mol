@@ -4,9 +4,12 @@ $shm_hitalama_dashboard_page $shm_hitalama_entity_page
 	tools /
 		<= Block_add $mol_button_minor
 			hint \Добавить
-			title \Добавить блок
+			title \Добавить текст
 			click? <=> block_add? null
 		^
+	auto /
+		<= keydown_listener null
+		<= paste_listener null
 	body_content /
 		<= Back $mol_view
 			event *
@@ -14,7 +17,9 @@ $shm_hitalama_dashboard_page $shm_hitalama_entity_page
 		^ blocks /
 			<= Block* $shm_hitalama_dashboard_block_text
 				block <= block* $shm_hitalama_dashboard_block
-				cut <= block_cut* null
+				delete <= block_delete* null
+				to_top <= block_to_top* null
+				to_bottom <= block_to_bottom* null
 				height => block_height*
 				width => block_width*
 				top => block_top*
@@ -22,4 +27,6 @@ $shm_hitalama_dashboard_page $shm_hitalama_entity_page
 				sticks_y <= sticks_y* / 0
 				sticks_x <= sticks_x* / 0
 				selected? <=> selected*? false
+				editable? => editable*? false
+	selected_ref? null
 	selected_ref? null

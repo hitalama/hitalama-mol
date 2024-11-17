@@ -24,6 +24,15 @@ namespace $.$$ {
 			width: '100%',
 		},
 
+		Image: {
+			position: 'absolute',
+			objectFit: 'contain',
+			height: 'inherit',
+			width: 'inherit',
+			transition: 'none',
+			// width: '100%',
+		},
+
 		Text: {
 			position: 'absolute',
 			height: '100%',
@@ -36,6 +45,14 @@ namespace $.$$ {
 					color: 'transparent',
 				},
 				boxShadow: 'none',
+			},
+			lineHeight: '1.5',
+			['View' as '$mol_view']: {
+				['Row' as '$mol_view']: {
+					':empty': {
+						height: '1.5em',
+					},
+				},
 			},
 			// Edit: {
 			// 	background: {
