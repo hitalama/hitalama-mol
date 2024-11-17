@@ -8,6 +8,11 @@ namespace $.$$ {
 		dashboard(): $shm_hitalama_dashboard {
 			return this.entity().cast( $shm_hitalama_dashboard )
 		}
+
+		@ $mol_mem
+		dashboard_id() {
+			return this.dashboard().ref().description
+		}
 		
 		@ $mol_action
 		dashboard_cut() {

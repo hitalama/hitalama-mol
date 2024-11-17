@@ -36,3 +36,8 @@ $shm_hitalama_app $mol_book2_catalog
 	Register $shm_hitalama_profile_register
 		profiles <= profiles
 	Placeholder null
+	-
+	Dashboard $shm_hitalama_dashboard_page
+		entity <= dashboard $shm_hitalama_dashboard
+		Open_in_new null
+		Cut null
