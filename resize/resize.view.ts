@@ -124,6 +124,7 @@ namespace $.$$ {
 		}
 
 		vals_to_sticks() {
+			console.log('vals_to_sticks')
 			this.body_x( this.body_x_stick() )
 			this.body_y( this.body_y_stick() )
 			this.bottom_edge_y( this.bottom_edge_y_stick() )

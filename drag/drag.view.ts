@@ -19,6 +19,7 @@ namespace $.$$ {
 
 			this.dragged( true )
 			this.drag_start( event )
+			// console.log('drag_start', event)
 			
 			const mousemove =  new $mol_dom_listener(
 				this.$.$mol_dom_context.document,
@@ -37,6 +38,7 @@ namespace $.$$ {
 				$mol_wire_async( event => {
 					this.dragged( false )
 					this.drag_end( event )
+					// console.log('drag_end', event)
 
 					mouseup?.destructor()
 					mousemove?.destructor()

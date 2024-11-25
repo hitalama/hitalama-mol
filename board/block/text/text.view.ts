@@ -1,6 +1,6 @@
 namespace $.$$ {
 
-	export class $shm_hitalama_dashboard_block_text extends $.$shm_hitalama_dashboard_block_text {
+	export class $shm_hitalama_board_block_text extends $.$shm_hitalama_board_block_text {
 		
 		@ $mol_mem
 		text( next?: string ): string {
@@ -24,12 +24,16 @@ namespace $.$$ {
 
 		@ $mol_mem
 		editable( next?: boolean ): boolean {
+			// console.trace()
+			console.log('editable next', next)
+			console.log('this.selected()', this.selected())
 			if( this.selected() === false ) return false
 			return next ?? false
 		}
 
 		@ $mol_mem
 		blocker(): readonly ( any )[] {
+			console.log('this.editable()', this.editable())
 			return this.editable() ? [] : super.blocker()
 		}
 

@@ -5,6 +5,13 @@ namespace $.$$ {
 		position: 'relative',
 		height: '100%',
 
+		Resize: {
+			background: {
+				color: $mol_theme.card,
+			},
+			overflow: 'hidden',
+		},
+
 		Stick_x: {
 			position: 'absolute',
 			height: '100%',

@@ -31,14 +31,14 @@ $shm_hitalama_app $mol_book2_catalog
 			token <= token
 		projects <= Projects $shm_hitalama_project_catalog
 		duckdb_page <= Duckdb $shm_hitalama_duckdb_page
-		dashboards <= Dashboards $shm_hitalama_dashboard_catalog
+		boards <= Boards $shm_hitalama_board_catalog
 	Enter $shm_hitalama_profile_enter
 		profiles <= profiles $shm_hitalama_profile_dict
 	Register $shm_hitalama_profile_register
 		profiles <= profiles
 	Placeholder null
 	-
-	Dashboard $shm_hitalama_dashboard_page
-		entity <= dashboard $shm_hitalama_dashboard
+	Board $shm_hitalama_board_page
+		entity <= board $shm_hitalama_board
 		Open_in_new null
 		Cut null

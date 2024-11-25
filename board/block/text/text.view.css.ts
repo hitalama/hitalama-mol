@@ -1,10 +1,10 @@
 namespace $.$$ {
 	
-	$mol_style_define( $shm_hitalama_dashboard_block_text, {
+	$mol_style_define( $shm_hitalama_board_block_text, {
 		
 		userSelect: 'none',
 
-		'[shm_hitalama_dashboard_block_float_selected]': {
+		'[shm_hitalama_board_block_float_selected]': {
 			true: {
 				outline: '1px solid var(--mol_theme_current)',
 			},

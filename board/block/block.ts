@@ -1,6 +1,6 @@
 namespace $ {
 
-	export class $shm_hitalama_dashboard_block extends $hyoo_crus_entity.with({
+	export class $shm_hitalama_board_block extends $hyoo_crus_entity.with({
 
 		Body_x: $hyoo_crus_atom_real,
 		Body_y: $hyoo_crus_atom_real,

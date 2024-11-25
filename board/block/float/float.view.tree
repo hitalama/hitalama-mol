@@ -1,9 +1,12 @@
-$shm_hitalama_dashboard_block_float $shm_hitalama_resize
-	block $shm_hitalama_dashboard_block
+$shm_hitalama_board_block_float $shm_hitalama_resize
+	block $shm_hitalama_board_block
 	- plugins /
 		<= Keyboard $mol_keyboard_state
 			- key *
 				delete <= delete
+	auto /
+		^
+		<= editable?
 	toolbar /
 		<= Toolbar $mol_view
 			sub /
@@ -56,5 +59,5 @@ $shm_hitalama_dashboard_block_float $shm_hitalama_resize
 		keydown? <=> down? null
 	attr *
 		^
-		shm_hitalama_dashboard_block_float_selected <= selected? false
+		shm_hitalama_board_block_float_selected <= selected? false
 	editable? false

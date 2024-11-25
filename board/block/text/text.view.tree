@@ -1,4 +1,4 @@
-$shm_hitalama_dashboard_block_text $shm_hitalama_dashboard_block_float
+$shm_hitalama_board_block_text $shm_hitalama_board_block_float
 	sub /
 		^ image / <= Image $mol_image
 			uri <= image_uri \

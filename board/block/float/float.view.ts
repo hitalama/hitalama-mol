@@ -1,6 +1,6 @@
 namespace $.$$ {
 
-	export class $shm_hitalama_dashboard_block_float extends $.$shm_hitalama_dashboard_block_float {
+	export class $shm_hitalama_board_block_float extends $.$shm_hitalama_board_block_float {
 
 		@ $mol_mem
 		body_x_stick( next?: number ) {

@@ -16,8 +16,8 @@ namespace $.$$ {
 		@ $mol_mem
 		pages() {
 			switch( this.spread() ) {
-				case 'dashboard':
-					return [ this.Dashboard() ]
+				case 'board':
+					return [ this.Board() ]
 				case '':
 				case 'lists':
 				case 'enter':
@@ -51,9 +51,9 @@ namespace $.$$ {
 		}
 
 		@ $mol_mem
-		dashboard() {
-			const id = this.$.$mol_state_arg.value( 'dashboard' )!
-			return $hyoo_crus_glob.Node( $hyoo_crus_ref( id ), $shm_hitalama_dashboard )
+		board() {
+			const id = this.$.$mol_state_arg.value( 'board' )!
+			return $hyoo_crus_glob.Node( $hyoo_crus_ref( id ), $shm_hitalama_board )
 		}
 
 	}

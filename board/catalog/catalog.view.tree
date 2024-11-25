@@ -1,0 +1,7 @@
+$shm_hitalama_board_catalog $shm_hitalama_entity_catalog
+	menu_title \Доски
+	param \board
+	title_default \Новая доска
+	Page* $shm_hitalama_board_page
+		entity <= entity*
+		cut <= cut*
