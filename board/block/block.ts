@@ -1,5 +1,12 @@
 namespace $ {
 
+	export const $shm_hitalama_board_block_types = [
+		'text',
+		'input',
+	] as const
+
+	class $shm_hitalama_board_block_type extends $hyoo_crus_atom_enum( $shm_hitalama_board_block_types ){}
+
 	export class $shm_hitalama_board_block extends $hyoo_crus_entity.with({
 
 		Body_x: $hyoo_crus_atom_real,
@@ -11,7 +18,7 @@ namespace $ {
 
 		Opacity: $hyoo_crus_atom_real,
 
-		Type: $hyoo_crus_atom_str,
+		Type: $shm_hitalama_board_block_type,
 
 		Image: $hyoo_crus_file,
 

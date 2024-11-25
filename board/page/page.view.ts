@@ -23,7 +23,6 @@ namespace $.$$ {
 		block_add() {
 			const block = this.board().Blocks(null)?.make( {'': $hyoo_crus_rank.get} )
 			block?.Text(null)?.value( 'text' )
-			console.log('parseFloat( this.context_menu_left() )', parseFloat( this.context_menu_left() ))
 			block?.Body_x(null)?.val( parseFloat( this.context_menu_left() ) )
 			block?.Body_y(null)?.val( parseFloat( this.context_menu_top() ) )
 			this.context_menu_visible( false )
@@ -149,7 +148,11 @@ namespace $.$$ {
 		@ $mol_action
 		input_add() {
 			const block = this.board().Blocks(null)?.make( {'': $hyoo_crus_rank.get} )
-			block?.Text(null)?.value( 'text' )
+			block?.Text(null)?.value( 'Hello' )
+			block?.Type(null)?.val( 'input' )
+			block?.Body_x(null)?.val( parseFloat( this.context_menu_left() ) )
+			block?.Body_y(null)?.val( parseFloat( this.context_menu_top() ) )
+			this.context_menu_visible( false )
 			return block
 		}
 

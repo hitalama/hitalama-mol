@@ -41,7 +41,7 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 					pointerenter? <=> context_menu_pointerenter? null
 					pointerleave? <=> context_menu_pointerleave? null
 		^ blocks /
-			<= Block* $shm_hitalama_board_block_text
+			<= Block* $shm_hitalama_board_block_any
 				block <= block* $shm_hitalama_board_block
 				delete <= block_delete* null
 				to_top <= block_to_top* null

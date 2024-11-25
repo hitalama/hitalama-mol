@@ -49,10 +49,11 @@ $shm_hitalama_board_block_float $shm_hitalama_resize
 					sub /
 						<= Delete_icon $mol_icon_delete
 					click? <=> delete? null
+	opacity? 1
 	style *
 		^
 		opacity <= opacity_str \1
-		transition <= transition <= transition_smooth \all 0.2s
+		transition <= transition <= transition_smooth \top 0.2s, left 0.2s, right 0.2s, bottom 0.2s, width 0.2s, height 0.2s
 	font_size_px \
 	event *
 		^
@@ -60,4 +61,5 @@ $shm_hitalama_board_block_float $shm_hitalama_resize
 	attr *
 		^
 		shm_hitalama_board_block_float_selected <= selected? false
+		shm_hitalama_board_block_float_dragged <= dragged?
 	editable? false

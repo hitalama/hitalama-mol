@@ -8,22 +8,25 @@ namespace $.$$ {
 
 		userSelect: 'none',
 
+
+		":hover": {
+			outline: '1px solid var(--mol_theme_line)',
+		},
+
 		'[shm_hitalama_board_block_float_selected]': {
 			true: {
 				outline: '1px solid var(--mol_theme_current)',
+				":hover": {
+					outline: '1px solid var(--mol_theme_current)',
+				},
 			},
 		},
 
-		Drag: {
-			":hover": {
-				outline: '1px solid var(--mol_theme_line)',
-			},
-			'[shm_hitalama_dragged]': {
-				true: {
+		'[shm_hitalama_board_block_float_dragged]': {
+			true: {
+				outline: '1px solid var(--mol_theme_control)',
+				":hover": {
 					outline: '1px solid var(--mol_theme_control)',
-					":hover": {
-						outline: '1px solid var(--mol_theme_control)',
-					},
 				},
 			},
 		},

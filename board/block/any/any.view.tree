@@ -1,0 +1,15 @@
+$shm_hitalama_board_block_any $mol_ghost
+	Sub $shm_hitalama_board_block_float
+		height => height
+		width => width
+		top => top
+		left => left
+	Text $shm_hitalama_board_block_text
+		block <= block $shm_hitalama_board_block
+		delete <= delete null
+		to_top <= to_top null
+		to_bottom <= to_bottom null
+		sticks_y <= sticks_y / 0
+		sticks_x <= sticks_x / 0
+		selected? <=> selected? false
+		editable? => editable? false
