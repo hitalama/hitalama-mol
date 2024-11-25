@@ -9,14 +9,14 @@ $shm_hitalama_board_block_float $shm_hitalama_resize
 		<= editable?
 	toolbar /
 		<= Toolbar $mol_view
-			sub /
+			sub <= tools /
 				- <= Copy $mol_button_minor sub /
 					<= Copy_icon $mol_icon_content_copy
 				- <= Cut $mol_button_minor sub /
 					<= Cut_icon $mol_icon_content_cut
 				- <= Paste $mol_button_minor sub /
 					<= Paste_icon $mol_icon_content_paste
-				^ font_tools / 
+				^ font_tools /
 					<= Color $shm_hitalama_color_pick
 						color? <=> color? \var(--mol_theme_text)
 					<= Font_size $mol_number

@@ -7,9 +7,12 @@ namespace $.$$ {
 			
 			let obj: $shm_hitalama_board_block_float
 
-			console.log('this.block().Type()?.val()', this.block().Type()?.val())
-			if( this.block().Type()?.val() == 'input' ) obj = new this.$.$shm_hitalama_board_block_input()
-			else obj = new this.$.$shm_hitalama_board_block_text()
+			const type = this.block().Type()?.val()
+			switch (type) {
+				case 'input': obj = this.Input(); break;
+				case 'iframe': obj = this.Iframe(); break;
+				default: obj = this.Text()
+			}
 
 			obj.block = () => this.block()
 			obj.delete = () => this.delete()

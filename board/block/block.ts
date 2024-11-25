@@ -3,6 +3,7 @@ namespace $ {
 	export const $shm_hitalama_board_block_types = [
 		'text',
 		'input',
+		'iframe',
 	] as const
 
 	class $shm_hitalama_board_block_type extends $hyoo_crus_atom_enum( $shm_hitalama_board_block_types ){}
@@ -21,6 +22,8 @@ namespace $ {
 		Type: $shm_hitalama_board_block_type,
 
 		Image: $hyoo_crus_file,
+
+		Src: $hyoo_crus_atom_str,
 
 		Text: $hyoo_crus_text,
 		Color: $hyoo_crus_atom_str,

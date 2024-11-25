@@ -4,7 +4,6 @@ $shm_hitalama_board_block_any $mol_ghost
 		width => width
 		top => top
 		left => left
-	Text $shm_hitalama_board_block_text
 		block <= block $shm_hitalama_board_block
 		delete <= delete null
 		to_top <= to_top null
@@ -12,4 +11,7 @@ $shm_hitalama_board_block_any $mol_ghost
 		sticks_y <= sticks_y / 0
 		sticks_x <= sticks_x / 0
 		selected? <=> selected? false
+	Input $shm_hitalama_board_block_input
+	Iframe $shm_hitalama_board_block_iframe
+	Text $shm_hitalama_board_block_text
 		editable? => editable? false

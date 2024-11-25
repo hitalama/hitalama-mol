@@ -1,0 +1,16 @@
+$shm_hitalama_board_block_iframe $shm_hitalama_board_block_float
+	sub /
+		<= Drag
+		<= Iframe $mol_frame
+			uri <= src
+		^ blocker / <= Blocker $mol_view
+		^ edges
+		^ toolbar
+	font_tools /
+	tools /
+		<= Src $mol_string
+			value? <=> src? \
+		^
+	drag_body /
+		<= Title $mol_paragraph
+			title <= src

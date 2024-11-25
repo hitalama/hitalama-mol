@@ -159,7 +159,11 @@ namespace $.$$ {
 		@ $mol_action
 		iframe_add() {
 			const block = this.board().Blocks(null)?.make( {'': $hyoo_crus_rank.get} )
-			block?.Text(null)?.value( 'text' )
+			block?.Src(null)?.val( 'https://www.google.com/search?igu=1' )
+			block?.Type(null)?.val( 'iframe' )
+			block?.Body_x(null)?.val( parseFloat( this.context_menu_left() ) )
+			block?.Body_y(null)?.val( parseFloat( this.context_menu_top() ) )
+			this.context_menu_visible( false )
 			return block
 		}
 
@@ -205,6 +209,11 @@ namespace $.$$ {
 				this.$.$mol_dom_context.document,
 				'paste',
 				$mol_wire_async( event => {
+
+					console.log('this.selected_ref()', this.selected_ref())
+					console.log('this.editable( this.selected_ref() )', this.editable( this.selected_ref() ))
+					if( this.editable( this.selected_ref() ) ) return
+
 					// event.preventDefault()
 					const items = ( event.clipboardData || event.originalEvent.clipboardData ).items
 					for( let index in items ) {
