@@ -6,6 +6,11 @@ namespace $.$$ {
 		text( next?: string ): string {
 			return this.block().Text( next )?.text( next ) ?? ''
 		}
+
+		@ $mol_mem
+		editing(): boolean {
+			return this.input_focused()
+		}
 		
 	}
 

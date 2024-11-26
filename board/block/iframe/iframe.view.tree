@@ -10,6 +10,7 @@ $shm_hitalama_board_block_iframe $shm_hitalama_board_block_float
 	tools /
 		<= Src $mol_string
 			value? <=> src? \
+			focused => src_focused
 		^
 	drag_body /
 		<= Title $mol_paragraph

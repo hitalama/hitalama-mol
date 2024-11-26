@@ -16,25 +16,21 @@ namespace $.$$ {
 			const { x, y } = this.pointerdown_event
 
 			if( Math.abs( x - next.x ) < 5 && Math.abs( x - next.x ) < 5 ) {
-				this.editable( true )
+				this.editing( true )
 				this.Text().Edit().focused(true)
 				;( this.Text().Edit().dom_node_actual() as HTMLTextAreaElement ).select()
 			}
 		}
 
 		@ $mol_mem
-		editable( next?: boolean ): boolean {
-			// console.trace()
-			console.log('editable next', next)
-			console.log('this.selected()', this.selected())
-			if( this.selected() === false ) return false
+		editing( next?: boolean ): boolean {
+			if( this.selected_or_dragged() === false ) return false
 			return next ?? false
 		}
 
 		@ $mol_mem
 		blocker(): readonly ( any )[] {
-			console.log('this.editable()', this.editable())
-			return this.editable() ? [] : super.blocker()
+			return this.editing() ? [] : super.blocker()
 		}
 
 		@ $mol_mem

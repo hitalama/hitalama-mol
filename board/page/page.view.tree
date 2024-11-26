@@ -53,5 +53,5 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 				sticks_y <= sticks_y* / 0
 				sticks_x <= sticks_x* / 0
 				selected? <=> selected*? false
-				editable? => editable*? false
+				editing? => editing*? false
 	selected_ref? null

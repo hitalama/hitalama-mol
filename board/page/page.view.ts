@@ -101,8 +101,6 @@ namespace $.$$ {
 
 		@ $mol_mem_key
 		selected( ref: $hyoo_crus_ref, next?: boolean ): boolean {
-			// console.trace()
-			// console.log('selected', ref, next)
 			if( next === undefined ) return this.selected_ref() == ref
 			this.selected_ref( ref )
 			return next
@@ -110,7 +108,6 @@ namespace $.$$ {
 
 		back_pointerdown( e: PointerEvent ) {
 			this.deselect_all()
-			// this.context_menu_visible( false )
 		}
 
 		deselect_all() {
@@ -119,7 +116,6 @@ namespace $.$$ {
 		}
 
 		back_contextmenu( e: PointerEvent ) {
-			console.log('e', e)
 			e.preventDefault()
 			this.context_menu_left( e.offsetX+'px' )
 			this.context_menu_top( e.offsetY+'px' )
@@ -193,10 +189,7 @@ namespace $.$$ {
 				$mol_wire_async( event => {
 					if( event.key == 'Delete' ) {
 						const ref = this.selected_ref()
-						console.log('this.editable( ref )', this.editable( ref ))
-						console.log('ref', ref)
-						console.log('this.selected( ref )', this.selected( ref ))
-						if( !ref || this.editable( ref ) ) return
+						if( !ref || this.editing( ref ) ) return
 						this.block_delete( ref )
 					}
 				} ),
@@ -210,9 +203,7 @@ namespace $.$$ {
 				'paste',
 				$mol_wire_async( event => {
 
-					console.log('this.selected_ref()', this.selected_ref())
-					console.log('this.editable( this.selected_ref() )', this.editable( this.selected_ref() ))
-					if( this.editable( this.selected_ref() ) ) return
+					if( this.editing( this.selected_ref() ) ) return
 
 					// event.preventDefault()
 					const items = ( event.clipboardData || event.originalEvent.clipboardData ).items

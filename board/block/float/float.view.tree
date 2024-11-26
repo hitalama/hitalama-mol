@@ -6,7 +6,8 @@ $shm_hitalama_board_block_float $shm_hitalama_resize
 				delete <= delete
 	auto /
 		^
-		<= editable?
+		<= editing? false
+	selected_or_dragged false
 	toolbar /
 		<= Toolbar $mol_view
 			sub <= tools /
@@ -62,4 +63,3 @@ $shm_hitalama_board_block_float $shm_hitalama_resize
 		^
 		shm_hitalama_board_block_float_selected <= selected? false
 		shm_hitalama_board_block_float_dragged <= dragged?
-	editable? false

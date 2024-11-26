@@ -87,6 +87,11 @@ namespace $.$$ {
 			super.drag_start()
 			this.selected( false )
 		}
+
+		@ $mol_mem
+		selected_or_dragged() {
+			return this.selected() || this.dragged()
+		}
 		
 	}
 
