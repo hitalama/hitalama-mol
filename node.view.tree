@@ -259,7 +259,7 @@ $mol_link $mol_view
 
 $mol_page $mol_view
 	dom_name \article
-	field *
+	attr *
 		^
 		tabIndex <= tabindex -1
 	sub /
@@ -2181,22 +2181,26 @@ $mol_icon_arrow_collapse_down $mol_icon path \M19.92,12.08L12,20L4.08,12.08L5.5,
 
 $mol_icon_delete $mol_icon path \M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z
 
-$shm_hitalama_dashboard_block_float $shm_hitalama_resize
-	block $shm_hitalama_dashboard_block
+$shm_hitalama_board_block_float $shm_hitalama_resize
+	block $shm_hitalama_board_block
 	- plugins /
 		<= Keyboard $mol_keyboard_state
 			- key *
 				delete <= delete
+	auto /
+		^
+		<= editing? false
+	selected_or_dragged false
 	toolbar /
 		<= Toolbar $mol_view
-			sub /
+			sub <= tools /
 				- <= Copy $mol_button_minor sub /
 					<= Copy_icon $mol_icon_content_copy
 				- <= Cut $mol_button_minor sub /
 					<= Cut_icon $mol_icon_content_cut
 				- <= Paste $mol_button_minor sub /
 					<= Paste_icon $mol_icon_content_paste
-				^ font_tools / 
+				^ font_tools /
 					<= Color $shm_hitalama_color_pick
 						color? <=> color? \var(--mol_theme_text)
 					<= Font_size $mol_number
@@ -2229,20 +2233,55 @@ $shm_hitalama_dashboard_block_float $shm_hitalama_resize
 					sub /
 						<= Delete_icon $mol_icon_delete
 					click? <=> delete? null
+	opacity? 1
 	style *
 		^
 		opacity <= opacity_str \1
-		transition <= transition <= transition_smooth \all 0.2s
+		transition <= transition <= transition_smooth \top 0.2s, left 0.2s, right 0.2s, bottom 0.2s, width 0.2s, height 0.2s
 	font_size_px \
 	event *
 		^
 		keydown? <=> down? null
 	attr *
 		^
-		shm_hitalama_dashboard_block_float_selected <= selected? false
-	editable? false
+		shm_hitalama_board_block_float_selected <= selected? false
+		shm_hitalama_board_block_float_dragged <= dragged?
 
-$shm_hitalama_dashboard_block_text $shm_hitalama_dashboard_block_float
+$shm_hitalama_board_block_input $shm_hitalama_board_block_float
+	sub /
+		<= Head $mol_view
+			sub /
+				<= Input $mol_string
+					value? <=> text? \
+					focused => input_focused
+		<= Drag
+		^ edges
+		^ toolbar
+	font_tools /
+	drag_body /
+		<= Title $mol_paragraph
+			dom_name <= title_dom_name \h1
+			title <= text
+
+$shm_hitalama_board_block_iframe $shm_hitalama_board_block_float
+	sub /
+		<= Drag
+		<= Iframe $mol_frame
+			uri <= src
+		^ blocker / <= Blocker $mol_view
+		^ edges
+		^ toolbar
+	font_tools /
+	tools /
+		<= Src $mol_string
+			value? <=> src? \
+			focused => src_focused
+		^
+	drag_body /
+		<= Title $mol_paragraph
+			title <= src
+
+$shm_hitalama_board_block_text $shm_hitalama_board_block_float
 	sub /
 		^ image / <= Image $mol_image
 			uri <= image_uri \
@@ -2262,35 +2301,69 @@ $shm_hitalama_dashboard_block_text $shm_hitalama_dashboard_block_float
 				pointerdown? <=> pointerdown? null
 				pointerup? <=> pointerup? null
 
-$shm_hitalama_dashboard_page $shm_hitalama_entity_page
-	dashboard $shm_hitalama_dashboard
-	cut_title \Удалить дашборд
+$shm_hitalama_board_block_any $mol_ghost
+	Sub $shm_hitalama_board_block_float
+		height => height
+		width => width
+		top => top
+		left => left
+		block <= block $shm_hitalama_board_block
+		delete <= delete null
+		to_top <= to_top null
+		to_bottom <= to_bottom null
+		sticks_y <= sticks_y / 0
+		sticks_x <= sticks_x / 0
+		selected? <=> selected? false
+		editing? => editing? false
+	Input $shm_hitalama_board_block_input
+	Iframe $shm_hitalama_board_block_iframe
+	Text $shm_hitalama_board_block_text
+
+$shm_hitalama_board_page $shm_hitalama_entity_page
+	board $shm_hitalama_board
+	cut_title \Удалить доску
 	head /
 		<= Open_in_new $mol_link_iconed 
 			sub /
 				<= Open_in_new_icon $mol_icon_open_in_new
 			arg *
-				section \dashboard
-				dashboard <= dashboard_id
+				section \board
+				board <= board_id
 			external true
 		<= Title
 		<= Tools
-	tools /
-		<= Block_add $mol_button_minor
-			hint \Добавить
-			title \Добавить текст
-			click? <=> block_add? null
-		^
 	auto /
 		<= keydown_listener null
 		<= paste_listener null
+		<= pointerdown_listener null
+	context_menu_hovered? false
+	context_menu_visible? false
 	body_content /
 		<= Back $mol_view
 			event *
-				click? <=> deselect_all? null
+				pointerdown? <=> back_pointerdown? null
+				contextmenu? <=> back_contextmenu? null
+		^ context_menu /
+			<= Context_menu $mol_list
+				sub /
+					<= Text_add $mol_button_minor
+						title \Добавить текст
+						click? <=> block_add? null
+					<= Input_add $mol_button_minor
+						title \Добавить input
+						click? <=> input_add? null
+					<= Iframe_add $mol_button_minor
+						title \Добавить iframe
+						click? <=> iframe_add? null
+				style *
+					left <= context_menu_left? \0px
+					top <= context_menu_top? \0px
+				event *
+					pointerenter? <=> context_menu_pointerenter? null
+					pointerleave? <=> context_menu_pointerleave? null
 		^ blocks /
-			<= Block* $shm_hitalama_dashboard_block_text
-				block <= block* $shm_hitalama_dashboard_block
+			<= Block* $shm_hitalama_board_block_any
+				block <= block* $shm_hitalama_board_block
 				delete <= block_delete* null
 				to_top <= block_to_top* null
 				to_bottom <= block_to_bottom* null
@@ -2301,15 +2374,14 @@ $shm_hitalama_dashboard_page $shm_hitalama_entity_page
 				sticks_y <= sticks_y* / 0
 				sticks_x <= sticks_x* / 0
 				selected? <=> selected*? false
-				editable? => editable*? false
-	selected_ref? null
+				editing? => editing*? false
 	selected_ref? null
 
-$shm_hitalama_dashboard_catalog $shm_hitalama_entity_catalog
-	menu_title \Дашборды
-	param \dashboard
-	title_default \Дашборд
-	Page* $shm_hitalama_dashboard_page
+$shm_hitalama_board_catalog $shm_hitalama_entity_catalog
+	menu_title \Доски
+	param \board
+	title_default \Новая доска
+	Page* $shm_hitalama_board_page
 		entity <= entity*
 		cut <= cut*
 
@@ -2402,14 +2474,14 @@ $shm_hitalama_app $mol_book2_catalog
 			token <= token
 		projects <= Projects $shm_hitalama_project_catalog
 		duckdb_page <= Duckdb $shm_hitalama_duckdb_page
-		dashboards <= Dashboards $shm_hitalama_dashboard_catalog
+		boards <= Boards $shm_hitalama_board_catalog
 	Enter $shm_hitalama_profile_enter
 		profiles <= profiles $shm_hitalama_profile_dict
 	Register $shm_hitalama_profile_register
 		profiles <= profiles
 	Placeholder null
 	-
-	Dashboard $shm_hitalama_dashboard_page
-		entity <= dashboard $shm_hitalama_dashboard
+	Board $shm_hitalama_board_page
+		entity <= board $shm_hitalama_board
 		Open_in_new null
 		Cut null
