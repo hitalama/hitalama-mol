@@ -1,0 +1,15 @@
+$shm_hitalama_board_block_form $shm_hitalama_board_block_float
+	sub /
+		<= Head $mol_view
+			sub /
+				<= Input $mol_string
+					value? <=> text? \
+					focused => input_focused
+		<= Drag
+		^ edges
+		^ toolbar
+	font_tools /
+	drag_body /
+		<= Title $mol_paragraph
+			dom_name <= title_dom_name \h1
+			title <= text

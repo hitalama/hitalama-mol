@@ -5,14 +5,8 @@ namespace $.$$ {
 		@ $mol_mem
 		Sub() {
 			
-			let obj: $shm_hitalama_board_block_float
-
-			const type = this.block().Type()?.val()
-			switch (type) {
-				case 'input': obj = this.Input(); break;
-				case 'iframe': obj = this.Iframe(); break;
-				default: obj = this.Text()
-			}
+			const type = this.block().Type()?.val()!
+			const obj = this.blocks()[ type ] ?? super.Sub()
 
 			obj.block = () => this.block()
 			obj.delete = () => this.delete()

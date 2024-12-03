@@ -1,6 +1,6 @@
 $shm_hitalama_board_page $shm_hitalama_entity_page
 	board $shm_hitalama_board
-	cut_title \Удалить доску
+	cut_title \Удалить карту
 	head /
 		<= Open_in_new $mol_link_iconed 
 			sub /
@@ -34,6 +34,9 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 					<= Iframe_add $mol_button_minor
 						title \Добавить iframe
 						click? <=> iframe_add? null
+					<= Form_add $mol_button_minor
+						title \Добавить форму
+						click? <=> form_add? null
 				style *
 					left <= context_menu_left? \0px
 					top <= context_menu_top? \0px

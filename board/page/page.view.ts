@@ -164,6 +164,16 @@ namespace $.$$ {
 		}
 
 		@ $mol_action
+		form_add() {
+			const block = this.board().Blocks(null)?.make( {'': $hyoo_crus_rank.get} )
+			block?.Type(null)?.val( 'form' )
+			block?.Body_x(null)?.val( parseFloat( this.context_menu_left() ) )
+			block?.Body_y(null)?.val( parseFloat( this.context_menu_top() ) )
+			this.context_menu_visible( false )
+			return block
+		}
+
+		@ $mol_action
 		image_add( blob: Blob ) {
 			const block = this.board().Blocks(null)?.make( {'': $hyoo_crus_rank.get} )
 			block?.Image(null)?.blob( blob )

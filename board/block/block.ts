@@ -4,6 +4,7 @@ namespace $ {
 		'text',
 		'input',
 		'iframe',
+		'form',
 	] as const
 
 	class $shm_hitalama_board_block_type extends $hyoo_crus_atom_enum( $shm_hitalama_board_block_types ){}
