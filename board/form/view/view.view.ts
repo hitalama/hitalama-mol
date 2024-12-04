@@ -92,13 +92,6 @@ namespace $.$$ {
 			const form = this.form()
 			form.query( '' )
 			form.excluded_words( '' )
-			form.date_from( '' )
-			form.date_to( '' )
-			form.country( '' )
-			form.language( '' )
-			form.type( '' )
-			form.tags( '' )
-			form.category( '' )
 			form?.File_mass_media(null)?.remote( null )
 			form?.File_social_media(null)?.remote( null )
 		}
