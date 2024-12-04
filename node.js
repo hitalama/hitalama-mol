@@ -10727,9 +10727,9 @@ var $;
                     message: error,
                     hint: 'Send it to developer',
                 });
+            area.bus();
             area.sync_mine();
             area.sync_yard();
-            area.bus();
             return area;
         }
         Data(Node) {
@@ -10771,7 +10771,7 @@ var $;
                 return $hyoo_crus_rank.law;
             const prev = this.gift.get(lord)?.rank()
                 ?? this.gift.get($hyoo_crus_ref(''))?.rank()
-                ?? $hyoo_crus_rank.get;
+                ?? (this.encrypted() ? $hyoo_crus_rank.nil : $hyoo_crus_rank.get);
             if (next === undefined)
                 return prev;
             if (next === prev)
@@ -11035,7 +11035,6 @@ var $;
         }
         sand_ordered({ head, peer }) {
             this.sync();
-            this.secret();
             const queue = peer
                 ? [...this.sand.get(head)?.get(peer)?.values() ?? []]
                 : [...this.sand.get(head)?.values() ?? []].flatMap(units => [...units.values()]);
@@ -11245,9 +11244,9 @@ var $;
         }
         sync() {
             this.loading();
+            this.bus();
             this.sync_mine();
             this.sync_yard();
-            this.bus();
             return this;
         }
         destructor() {
@@ -11318,8 +11317,8 @@ var $;
             $mol_wire_race(...encoding.map(unit => () => this.sand_encode(unit)));
             $mol_wire_race(...signing.map(unit => () => this.unit_sign(unit)));
             if (persisting.length) {
-                mine.units(this.ref(), persisting);
                 this.bus().send(persisting.map(unit => unit.buffer));
+                mine.units(this.ref(), persisting);
                 $mol_wire_sync(this.$).$mol_log3_done({
                     place: this,
                     message: 'Saved Units',
@@ -12107,8 +12106,8 @@ var $;
                 this.add(item.ref());
             }
             make(config) {
-                if (config === null) {
-                    const self = this.land().self_make();
+                if (config === null || typeof config === 'number') {
+                    const self = this.land().self_make(config || undefined);
                     const node = this.land().Node(Value()).Item(self);
                     this.splice([node.ref()]);
                     return node;
@@ -13800,8 +13799,8 @@ var $;
         'code-docs': /\/\/\/.*?$/,
         'code-comment-block': /(?:\/\*[^]*?\*\/|\/\+[^]*?\+\/|<![^]*?>)/,
         'code-link': /(?:\w+:\/\/|#)\S+?(?=\s|\\\\|""|$)/,
-        'code-comment-inline': /\/\/.*?(?:$|\/\/)/,
-        'code-string': /(?:".*?"|'.*?'|`.*?`|\/.+?\/[dygimsu]*(?!\p{Letter})|(?:^|[ \t])\\[^\n]*\n)/u,
+        'code-comment-inline': /\/\/.*?(?:$|\/\/)|- \\.*|#!? .*/,
+        'code-string': /(?:".*?"|'.*?'|`.*?`| ?\\\\.+?\\\\|\/.+?\/[dygimsu]*(?!\p{Letter})|[ \t]*\\[^\n]*)/u,
         'code-number': /[+-]?(?:\d*\.)?\d+\w*/,
         'code-call': /\.?\w+ *(?=\()/,
         'code-sexpr': /\((\w+ )/,
@@ -13809,7 +13808,7 @@ var $;
         'code-keyword': /\b(throw|readonly|unknown|keyof|typeof|never|from|class|struct|interface|type|function|extends|implements|module|namespace|import|export|include|require|var|val|let|const|for|do|while|until|in|out|of|new|if|then|else|switch|case|this|return|async|await|yield|try|catch|break|continue|get|set|public|private|protected|string|boolean|number|null|undefined|true|false|void|int|float|ref)\b/,
         'code-global': /[$]+\w*|\b[A-Z][a-z0-9]+[A-Z]\w*/,
         'code-word': /\w+/,
-        'code-decorator': /@\s*\S+/,
+        'code-decorator': /@.+/,
         'code-tag': /<\/?[\w-]+\/?>?|&\w+;/,
         'code-punctuation': /[\-\[\]\{\}\(\)<=>~!\?@#%&\*_\+\\\/\|;:\.,\^]+?/,
     });
@@ -16816,10 +16815,60 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    class $shm_hitalama_board_form extends $hyoo_crus_entity.with({
+        Query: $hyoo_crus_atom_str,
+        Excluded_words: $hyoo_crus_atom_str,
+        Date_from: $hyoo_crus_atom_str,
+        Date_to: $hyoo_crus_atom_str,
+        Country: $hyoo_crus_atom_str,
+        Language: $hyoo_crus_atom_str,
+        File_social_media: $hyoo_crus_atom_ref_to(() => $shm_hitalama_file),
+        File_mass_media: $hyoo_crus_atom_ref_to(() => $shm_hitalama_file),
+        Type: $hyoo_crus_atom_str,
+        Tags: $hyoo_crus_atom_str,
+        Category: $hyoo_crus_atom_str,
+    }) {
+        query(next) {
+            return this.Query(next)?.val(next) ?? '';
+        }
+        excluded_words(next) {
+            return this.Excluded_words(next)?.val(next) ?? '';
+        }
+        date_from(next) {
+            return this.Date_from(next)?.val(next) ?? '';
+        }
+        date_to(next) {
+            return this.Date_to(next)?.val(next) ?? '';
+        }
+        country(next) {
+            return this.Country(next)?.val(next) ?? '';
+        }
+        language(next) {
+            return this.Language(next)?.val(next) ?? '';
+        }
+        type(next) {
+            return this.Type(next)?.val(next) ?? '';
+        }
+        tags(next) {
+            return this.Tags(next)?.val(next) ?? '';
+        }
+        category(next) {
+            return this.Category(next)?.val(next) ?? '';
+        }
+    }
+    $.$shm_hitalama_board_form = $shm_hitalama_board_form;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
     $.$shm_hitalama_board_block_types = [
         'text',
         'input',
         'iframe',
+        'form',
+        'table',
     ];
     class $shm_hitalama_board_block_type extends $hyoo_crus_atom_enum($.$shm_hitalama_board_block_types) {
     }
@@ -16837,6 +16886,7 @@ var $;
         Text: $hyoo_crus_text,
         Color: $hyoo_crus_atom_str,
         Font_size: $hyoo_crus_atom_real,
+        Form: $shm_hitalama_board_form,
     }) {
     }
     $.$shm_hitalama_board_block = $shm_hitalama_board_block;
@@ -16848,6 +16898,8 @@ var $;
 (function ($) {
     class $shm_hitalama_board extends $hyoo_crus_entity.with({
         Blocks: $hyoo_crus_list_ref_to(() => $shm_hitalama_board_block),
+        Search_queries: $hyoo_crus_list_ref_to(() => $shm_hitalama_board_form),
+        Files: $hyoo_crus_list_ref_to(() => $shm_hitalama_file),
     }) {
     }
     $.$shm_hitalama_board = $shm_hitalama_board;
@@ -24630,6 +24682,23 @@ var $;
 			(obj.drag_end) = (next) => ((this.drag_end(next)));
 			return obj;
 		}
+		content(){
+			return [(this.Drag())];
+		}
+		Fullsize_wrapper(){
+			const obj = new this.$.$mol_view();
+			(obj.style) = () => ({"minHeight": "100%", "minWidth": "100%"});
+			(obj.sub) = () => ((this.content()));
+			return obj;
+		}
+		content_wrapper(){
+			return [(this.Fullsize_wrapper())];
+		}
+		Content(){
+			const obj = new this.$.$mol_scroll();
+			(obj.sub) = () => ((this.content_wrapper()));
+			return obj;
+		}
 		resize_start(next){
 			if(next !== undefined) return next;
 			return null;
@@ -24742,7 +24811,7 @@ var $;
 			return "500px";
 		}
 		sub(){
-			return [(this.Drag()), ...(this.edges())];
+			return [(this.Content()), ...(this.edges())];
 		}
 		resizing(next){
 			if(next !== undefined) return next;
@@ -24752,7 +24821,7 @@ var $;
 			return 100;
 		}
 		width_base(){
-			return 200;
+			return 100;
 		}
 		height(){
 			return 0;
@@ -24817,6 +24886,8 @@ var $;
 	($mol_mem(($.$shm_hitalama_resize.prototype), "drag_start"));
 	($mol_mem(($.$shm_hitalama_resize.prototype), "drag_end"));
 	($mol_mem(($.$shm_hitalama_resize.prototype), "Drag"));
+	($mol_mem(($.$shm_hitalama_resize.prototype), "Fullsize_wrapper"));
+	($mol_mem(($.$shm_hitalama_resize.prototype), "Content"));
 	($mol_mem(($.$shm_hitalama_resize.prototype), "resize_start"));
 	($mol_mem(($.$shm_hitalama_resize.prototype), "resize_end"));
 	($mol_mem(($.$shm_hitalama_resize.prototype), "top_edge_y"));
@@ -24955,7 +25026,6 @@ var $;
                 this.resizing(false);
             }
             vals_to_sticks() {
-                console.log('vals_to_sticks');
                 this.body_x(this.body_x_stick());
                 this.body_y(this.body_y_stick());
                 this.bottom_edge_y(this.bottom_edge_y_stick());
@@ -24995,6 +25065,11 @@ var $;
         $mol_style_define($shm_hitalama_resize, {
             position: 'absolute',
             transition: 'none',
+            Fullsize_wrapper: {
+                position: 'relative',
+                height: 'auto',
+                width: 'auto',
+            },
             Drag: {
                 flex: {
                     grow: 1,
@@ -25681,6 +25756,17 @@ var $;
 			const obj = new this.$.$shm_hitalama_board_block();
 			return obj;
 		}
+		board(){
+			const obj = new this.$.$shm_hitalama_board();
+			return obj;
+		}
+		sub(){
+			return [
+				(this.Content()), 
+				...(this.edges()), 
+				...(this.toolbar())
+			];
+		}
 		auto(){
 			return [...(super.auto()), (this.editing())];
 		}
@@ -25738,6 +25824,7 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "down"));
 	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "selected"));
 	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "block"));
+	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "board"));
 	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "opacity"));
 
 
@@ -26358,6 +26445,1901 @@ var $;
 })($ || ($ = {}));
 
 ;
+	($.$mol_form) = class $mol_form extends ($.$mol_list) {
+		keydown(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		form_fields(){
+			return [];
+		}
+		body(){
+			return (this.form_fields());
+		}
+		Body(){
+			const obj = new this.$.$mol_list();
+			(obj.sub) = () => ((this.body()));
+			return obj;
+		}
+		buttons(){
+			return [];
+		}
+		foot(){
+			return (this.buttons());
+		}
+		Foot(){
+			const obj = new this.$.$mol_row();
+			(obj.sub) = () => ((this.foot()));
+			return obj;
+		}
+		submit_allowed(){
+			return true;
+		}
+		submit_blocked(){
+			return false;
+		}
+		event(){
+			return {...(super.event()), "keydown": (next) => (this.keydown(next))};
+		}
+		submit(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		rows(){
+			return [(this.Body()), (this.Foot())];
+		}
+	};
+	($mol_mem(($.$mol_form.prototype), "keydown"));
+	($mol_mem(($.$mol_form.prototype), "Body"));
+	($mol_mem(($.$mol_form.prototype), "Foot"));
+	($mol_mem(($.$mol_form.prototype), "submit"));
+
+
+;
+	($.$mol_form_field) = class $mol_form_field extends ($.$mol_labeler) {
+		name(){
+			return "";
+		}
+		bid(){
+			return "";
+		}
+		Bid(){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => ([(this.bid())]);
+			return obj;
+		}
+		control(){
+			return null;
+		}
+		bids(){
+			return [];
+		}
+		label(){
+			return [(this.name()), (this.Bid())];
+		}
+		content(){
+			return [(this.control())];
+		}
+	};
+	($mol_mem(($.$mol_form_field.prototype), "Bid"));
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $mol_form_field extends $.$mol_form_field {
+            bid() {
+                return this.bids().filter(Boolean)[0] ?? '';
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $mol_form_field.prototype, "bid", null);
+        $$.$mol_form_field = $mol_form_field;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_style_attach("mol/form/field/field.view.css", "[mol_form_field] {\n\talign-items: stretch;\n}\n\n[mol_form_field_bid] {\n\tcolor: var(--mol_theme_focus);\n\tdisplay: inline-block;\n\ttext-shadow: 0 0;\n}\n\n[mol_form_field_content] {\n\tborder-radius: var(--mol_gap_round);\n}\n");
+})($ || ($ = {}));
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $mol_form extends $.$mol_form {
+            form_fields() {
+                return [...this.view_find(view => view instanceof $mol_form_field)]
+                    .map(path => path[path.length - 1]);
+            }
+            submit_allowed() {
+                return this.form_fields().every(field => !field.bid());
+            }
+            submit_blocked() {
+                return !this.submit_allowed();
+            }
+            keydown(next) {
+                if (next.ctrlKey && next.keyCode === $mol_keyboard_code.enter && !this.submit_blocked())
+                    this.submit(event);
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $mol_form.prototype, "form_fields", null);
+        __decorate([
+            $mol_mem
+        ], $mol_form.prototype, "submit_allowed", null);
+        $$.$mol_form = $mol_form;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_style_attach("mol/form/form.view.css", "[mol_form] {\r\n\tgap: var(--mol_gap_block);\r\n}\r\n\r\n[mol_form_body] {\r\n\tgap: var(--mol_gap_block);\r\n}");
+})($ || ($ = {}));
+
+;
+	($.$mol_icon_calendar) = class $mol_icon_calendar extends ($.$mol_icon) {
+		path(){
+			return "M19,19H5V8H19M16,1V3H8V1H6V3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3H18V1M17,12H12V17H17V12Z";
+		}
+	};
+
+
+;
+"use strict";
+
+;
+	($.$mol_icon_calendar_today) = class $mol_icon_calendar_today extends ($.$mol_icon) {
+		path(){
+			return "M7,10H12V15H7M19,19H5V8H19M19,3H18V1H16V3H8V1H6V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3Z";
+		}
+	};
+
+
+;
+"use strict";
+
+;
+	($.$mol_format) = class $mol_format extends ($.$mol_string) {
+		mask(id){
+			return "";
+		}
+		allow(){
+			return "0123456789";
+		}
+		hint(){
+			return (this.mask("0"));
+		}
+		keyboard(){
+			return "numeric";
+		}
+	};
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $mol_format extends $.$mol_format {
+            selection([from, to] = [0, 0]) {
+                const prev = $mol_wire_probe(() => this.selection());
+                if (!prev)
+                    return [0, 100];
+                if (from !== to)
+                    return [from, to];
+                const allow = this.allow();
+                const value = this.value_changed();
+                const filtered = [...value].filter(letter => allow.includes(letter)).join('');
+                const mask = this.mask(filtered);
+                if ((prev?.[0] ?? 0) >= from)
+                    return [from, to];
+                const lastAllow = (value.length - [...value].reverse().findIndex(letter => allow.includes(letter))) % (value.length + 1);
+                if (lastAllow < from) {
+                    from = to = lastAllow;
+                }
+                while (mask[from] && mask[from] !== '_') {
+                    ++from;
+                    ++to;
+                }
+                return [from, to];
+            }
+            value_changed(next) {
+                const allow = this.allow();
+                const normalize = (val) => {
+                    val = [...val].filter(letter => allow.includes(letter)).join('');
+                    const letters = [...val].reverse();
+                    return this.mask(val).replace(/_/gu, () => letters.pop() ?? '_') + letters.reverse().join('');
+                };
+                if (next !== undefined) {
+                    next = normalize(next);
+                    if ([...next].filter(letter => allow.includes(letter)).join('')) {
+                        if (next.includes('_'))
+                            return next;
+                    }
+                    else {
+                        next = '';
+                    }
+                }
+                return normalize(this.value(next));
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $mol_format.prototype, "selection", null);
+        __decorate([
+            $mol_mem
+        ], $mol_format.prototype, "value_changed", null);
+        $$.$mol_format = $mol_format;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_style_attach("mol/format/format.view.css", "[mol_format] {\n\tfont-family: monospace;\n}\n");
+})($ || ($ = {}));
+
+;
+	($.$mol_icon_trash_can) = class $mol_icon_trash_can extends ($.$mol_icon) {
+		path(){
+			return "M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M9,8H11V17H9V8M13,8H15V17H13V8Z";
+		}
+	};
+
+
+;
+"use strict";
+
+;
+	($.$mol_icon_trash_can_outline) = class $mol_icon_trash_can_outline extends ($.$mol_icon) {
+		path(){
+			return "M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z";
+		}
+	};
+
+
+;
+"use strict";
+
+;
+	($.$mol_icon_chevron_left) = class $mol_icon_chevron_left extends ($.$mol_icon) {
+		path(){
+			return "M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z";
+		}
+	};
+
+
+;
+"use strict";
+
+;
+	($.$mol_icon_chevron_right) = class $mol_icon_chevron_right extends ($.$mol_icon) {
+		path(){
+			return "M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z";
+		}
+	};
+
+
+;
+"use strict";
+
+;
+	($.$mol_hor) = class $mol_hor extends ($.$mol_view) {};
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $mol_hor extends $.$mol_hor {
+            minimal_width() {
+                let min = 0;
+                for (const view of this.sub()) {
+                    if (!(view instanceof $mol_view))
+                        continue;
+                    min += view.minimal_width();
+                }
+                return min;
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $mol_hor.prototype, "minimal_width", null);
+        $$.$mol_hor = $mol_hor;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_style_define($mol_hor, {
+        display: 'flex',
+        alignItems: 'flex-start',
+        alignContent: 'flex-start',
+        justifyContent: 'flex-start',
+        flex: {
+            grow: 1,
+            shrink: 0,
+            basis: 'auto',
+        },
+    });
+})($ || ($ = {}));
+
+;
+	($.$mol_calendar) = class $mol_calendar extends ($.$mol_list) {
+		title(){
+			return "";
+		}
+		Title(){
+			const obj = new this.$.$mol_view();
+			(obj.minimal_height) = () => (24);
+			(obj.sub) = () => ([(this.title())]);
+			return obj;
+		}
+		head(){
+			return [(this.Title())];
+		}
+		Head(){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => ((this.head()));
+			return obj;
+		}
+		weekdays(){
+			return [];
+		}
+		Weekdays(){
+			const obj = new this.$.$mol_hor();
+			(obj.sub) = () => ((this.weekdays()));
+			return obj;
+		}
+		weekend(id){
+			return false;
+		}
+		weekday(id){
+			return "";
+		}
+		week_days(id){
+			return [];
+		}
+		day_ghost(id){
+			return false;
+		}
+		day_holiday(id){
+			return false;
+		}
+		day_selected(id){
+			return false;
+		}
+		day_today(id){
+			return false;
+		}
+		day_theme(id){
+			return null;
+		}
+		day_text(id){
+			return "";
+		}
+		day_content(id){
+			return [(this.day_text(id))];
+		}
+		sub(){
+			return [(this.Head()), (this.Weekdays())];
+		}
+		weeks(){
+			return [];
+		}
+		weeks_count(){
+			return 6;
+		}
+		Weekday(id){
+			const obj = new this.$.$mol_calendar_day();
+			(obj.holiday) = () => ((this.weekend(id)));
+			(obj.sub) = () => ([(this.weekday(id))]);
+			return obj;
+		}
+		Week(id){
+			const obj = new this.$.$mol_hor();
+			(obj.sub) = () => ((this.week_days(id)));
+			return obj;
+		}
+		Day(id){
+			const obj = new this.$.$mol_calendar_day();
+			(obj.ghost) = () => ((this.day_ghost(id)));
+			(obj.holiday) = () => ((this.day_holiday(id)));
+			(obj.selected) = () => ((this.day_selected(id)));
+			(obj.today) = () => ((this.day_today(id)));
+			(obj.theme) = () => ((this.day_theme(id)));
+			(obj.sub) = () => ((this.day_content(id)));
+			return obj;
+		}
+		month_string(){
+			return "";
+		}
+		month_moment(){
+			const obj = new this.$.$mol_time_moment();
+			return obj;
+		}
+	};
+	($mol_mem(($.$mol_calendar.prototype), "Title"));
+	($mol_mem(($.$mol_calendar.prototype), "Head"));
+	($mol_mem(($.$mol_calendar.prototype), "Weekdays"));
+	($mol_mem_key(($.$mol_calendar.prototype), "Weekday"));
+	($mol_mem_key(($.$mol_calendar.prototype), "Week"));
+	($mol_mem_key(($.$mol_calendar.prototype), "Day"));
+	($mol_mem(($.$mol_calendar.prototype), "month_moment"));
+	($.$mol_calendar_day) = class $mol_calendar_day extends ($.$mol_view) {
+		holiday(){
+			return false;
+		}
+		ghost(){
+			return false;
+		}
+		selected(){
+			return false;
+		}
+		today(){
+			return false;
+		}
+		theme(){
+			return null;
+		}
+		minimal_height(){
+			return 24;
+		}
+		minimal_width(){
+			return 36;
+		}
+		attr(){
+			return {
+				"mol_calendar_holiday": (this.holiday()), 
+				"mol_calendar_ghost": (this.ghost()), 
+				"mol_calendar_selected": (this.selected()), 
+				"mol_calendar_today": (this.today()), 
+				"mol_theme": (this.theme())
+			};
+		}
+	};
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $mol_calendar extends $.$mol_calendar {
+            month_moment() {
+                const moment = new $mol_time_moment(this.month_string() || undefined);
+                return new $mol_time_moment({ year: moment.year, month: moment.month });
+            }
+            title() {
+                return this.month_moment().toString('Month YYYY');
+            }
+            day_first() {
+                return this.month_moment().merge({ day: 0 });
+            }
+            day_last() {
+                return this.day_first().shift('P1M');
+            }
+            day_draw_from() {
+                let weekday = this.day_first().weekday;
+                return this.day_first().shift({ day: -weekday });
+            }
+            weekdays() {
+                const next = [];
+                for (let index = 0; index < 7; ++index) {
+                    next.push(this.Weekday(index));
+                }
+                return next;
+            }
+            weekday(index) {
+                return this.day_draw_from().shift({ day: index }).toString('WD');
+            }
+            weekend(index) {
+                return [5, 6].indexOf(index) >= 0;
+            }
+            sub() {
+                return [
+                    ...super.sub(),
+                    ...this.weeks(),
+                ];
+            }
+            weeks() {
+                const weeks = [];
+                let count = this.weeks_count();
+                for (let i = 0; i < count; ++i) {
+                    weeks.push(this.Week(i));
+                }
+                return weeks;
+            }
+            week_days(index) {
+                const days = [];
+                let start = this.day_draw_from().shift({ day: index * 7 });
+                for (let i = 0; i < 7; ++i) {
+                    days.push(this.Day(start.shift({ day: i }).toString('YYYY-MM-DD')));
+                }
+                return days;
+            }
+            day_text(day) {
+                return new $mol_time_moment(day).toString("D");
+            }
+            day_holiday(day) {
+                return this.weekend(new $mol_time_moment(day).weekday);
+            }
+            today() {
+                return new $mol_time_moment();
+            }
+            day_today(day) {
+                return this.today().toString('YYYY-MM-DD') === day;
+            }
+            day_ghost(day) {
+                return new $mol_time_moment(day).toString('YYYY-MM') !== this.day_first().toString('YYYY-MM');
+            }
+            day_theme(day) {
+                return this.day_selected(day) ? '$mol_theme_current' : super.day_theme(day);
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $mol_calendar.prototype, "month_moment", null);
+        __decorate([
+            $mol_mem
+        ], $mol_calendar.prototype, "day_first", null);
+        __decorate([
+            $mol_mem
+        ], $mol_calendar.prototype, "day_last", null);
+        __decorate([
+            $mol_mem
+        ], $mol_calendar.prototype, "day_draw_from", null);
+        __decorate([
+            $mol_mem
+        ], $mol_calendar.prototype, "weekdays", null);
+        __decorate([
+            $mol_mem_key
+        ], $mol_calendar.prototype, "weekday", null);
+        __decorate([
+            $mol_mem
+        ], $mol_calendar.prototype, "sub", null);
+        __decorate([
+            $mol_mem
+        ], $mol_calendar.prototype, "weeks", null);
+        __decorate([
+            $mol_mem_key
+        ], $mol_calendar.prototype, "week_days", null);
+        __decorate([
+            $mol_mem_key
+        ], $mol_calendar.prototype, "day_text", null);
+        __decorate([
+            $mol_mem_key
+        ], $mol_calendar.prototype, "day_holiday", null);
+        __decorate([
+            $mol_mem
+        ], $mol_calendar.prototype, "today", null);
+        __decorate([
+            $mol_mem_key
+        ], $mol_calendar.prototype, "day_today", null);
+        __decorate([
+            $mol_mem_key
+        ], $mol_calendar.prototype, "day_ghost", null);
+        $$.$mol_calendar = $mol_calendar;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_style_attach("mol/calendar/calendar.view.css", "[mol_calendar] {\n\tdisplay: table;\n\tfont-family: monospace;\n}\n\n[mol_calendar_head] {\n\tdisplay: table-caption;\n\tbackground: inherit;\n}\n\n[mol_calendar_title] {\n\tjustify-content: center;\n}\n\n[mol_calendar_weekdays] ,\n[mol_calendar_week] {\n\tdisplay: table-row;\n\tpadding: 0;\n}\n\n[mol_calendar_day] {\n\tdisplay: table-cell;\n\tpadding: .25rem .5rem;\n\ttext-align: center;\n\tword-break: normal;\n\tbox-shadow: none;\n\tborder-radius: var(--mol_gap_round);\n}\n\n[mol_calendar_weekday] {\n\tcolor: var(--mol_theme_shade);\n\tborder-bottom: 1px solid var(--mol_theme_line);\n}\n\n[mol_calendar_holiday] {\n\tcolor: var(--mol_theme_special);\n}\n\n[mol_calendar_today] {\n\tfont-weight: bolder;\n}\n\n[mol_calendar_ghost] {\n\topacity: .2;\n}\n");
+})($ || ($ = {}));
+
+;
+	($.$mol_date) = class $mol_date extends ($.$mol_pick) {
+		enabled(){
+			return true;
+		}
+		today_click(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Today_icon(){
+			const obj = new this.$.$mol_icon_calendar_today();
+			return obj;
+		}
+		Today(){
+			const obj = new this.$.$mol_button_minor();
+			(obj.hint) = () => ((this.$.$mol_locale.text("$mol_date_Today_hint")));
+			(obj.enabled) = () => ((this.enabled()));
+			(obj.click) = (next) => ((this.today_click(next)));
+			(obj.sub) = () => ([(this.Today_icon())]);
+			return obj;
+		}
+		value(next){
+			if(next !== undefined) return next;
+			return "";
+		}
+		value_changed(next){
+			return (this.Input().value_changed(next));
+		}
+		input_mask(id){
+			return "";
+		}
+		Input(){
+			const obj = new this.$.$mol_format();
+			(obj.value) = (next) => ((this.value(next)));
+			(obj.mask) = (id) => ((this.input_mask(id)));
+			(obj.enabled) = () => ((this.enabled()));
+			return obj;
+		}
+		clear(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Clear_icon(){
+			const obj = new this.$.$mol_icon_trash_can_outline();
+			return obj;
+		}
+		Clear(){
+			const obj = new this.$.$mol_button_minor();
+			(obj.hint) = () => ((this.$.$mol_locale.text("$mol_date_Clear_hint")));
+			(obj.enabled) = () => ((this.enabled()));
+			(obj.click) = (next) => ((this.clear(next)));
+			(obj.sub) = () => ([(this.Clear_icon())]);
+			return obj;
+		}
+		input_content(){
+			return [
+				(this.Today()), 
+				(this.Input()), 
+				(this.Clear())
+			];
+		}
+		Input_row(){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => ((this.input_content()));
+			return obj;
+		}
+		month_moment(){
+			return (this.value_moment());
+		}
+		day_selected(id){
+			return false;
+		}
+		day_click(id, next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Calendar_title(){
+			return (this.Calendar().Title());
+		}
+		prev_hint(){
+			return (this.$.$mol_locale.text("$mol_date_prev_hint"));
+		}
+		prev(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Prev_icon(){
+			const obj = new this.$.$mol_icon_chevron_left();
+			return obj;
+		}
+		Prev(){
+			const obj = new this.$.$mol_button_minor();
+			(obj.hint) = () => ((this.prev_hint()));
+			(obj.click) = (next) => ((this.prev(next)));
+			(obj.sub) = () => ([(this.Prev_icon())]);
+			return obj;
+		}
+		next_hint(){
+			return (this.$.$mol_locale.text("$mol_date_next_hint"));
+		}
+		next(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Next_icon(){
+			const obj = new this.$.$mol_icon_chevron_right();
+			return obj;
+		}
+		Next(){
+			const obj = new this.$.$mol_button_minor();
+			(obj.hint) = () => ((this.next_hint()));
+			(obj.click) = (next) => ((this.next(next)));
+			(obj.sub) = () => ([(this.Next_icon())]);
+			return obj;
+		}
+		Calendar_tools(){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => ([
+				(this.Prev()), 
+				(this.Calendar_title()), 
+				(this.Next())
+			]);
+			return obj;
+		}
+		Calendar(){
+			const obj = new this.$.$mol_date_calendar();
+			(obj.enabled) = () => ((this.enabled()));
+			(obj.month_moment) = () => ((this.month_moment()));
+			(obj.day_selected) = (id) => ((this.day_selected(id)));
+			(obj.day_click) = (id, next) => ((this.day_click(id, next)));
+			(obj.head) = () => ([(this.Calendar_tools())]);
+			return obj;
+		}
+		Icon(){
+			const obj = new this.$.$mol_icon_calendar();
+			return obj;
+		}
+		bubble_content(){
+			return [(this.Input_row()), (this.Calendar())];
+		}
+		value_number(next){
+			if(next !== undefined) return next;
+			return +NaN;
+		}
+		value_moment(next){
+			if(next !== undefined) return next;
+			const obj = new this.$.$mol_time_moment();
+			return obj;
+		}
+	};
+	($mol_mem(($.$mol_date.prototype), "today_click"));
+	($mol_mem(($.$mol_date.prototype), "Today_icon"));
+	($mol_mem(($.$mol_date.prototype), "Today"));
+	($mol_mem(($.$mol_date.prototype), "value"));
+	($mol_mem(($.$mol_date.prototype), "Input"));
+	($mol_mem(($.$mol_date.prototype), "clear"));
+	($mol_mem(($.$mol_date.prototype), "Clear_icon"));
+	($mol_mem(($.$mol_date.prototype), "Clear"));
+	($mol_mem(($.$mol_date.prototype), "Input_row"));
+	($mol_mem_key(($.$mol_date.prototype), "day_click"));
+	($mol_mem(($.$mol_date.prototype), "prev"));
+	($mol_mem(($.$mol_date.prototype), "Prev_icon"));
+	($mol_mem(($.$mol_date.prototype), "Prev"));
+	($mol_mem(($.$mol_date.prototype), "next"));
+	($mol_mem(($.$mol_date.prototype), "Next_icon"));
+	($mol_mem(($.$mol_date.prototype), "Next"));
+	($mol_mem(($.$mol_date.prototype), "Calendar_tools"));
+	($mol_mem(($.$mol_date.prototype), "Calendar"));
+	($mol_mem(($.$mol_date.prototype), "Icon"));
+	($mol_mem(($.$mol_date.prototype), "value_number"));
+	($mol_mem(($.$mol_date.prototype), "value_moment"));
+	($.$mol_date_calendar) = class $mol_date_calendar extends ($.$mol_calendar) {
+		day_click(id, next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		enabled(){
+			return true;
+		}
+		Day_button(id){
+			const obj = new this.$.$mol_button_minor();
+			(obj.title) = () => ((this.day_text(id)));
+			(obj.event_click) = (next) => ((this.day_click(id, next)));
+			(obj.minimal_height) = () => (24);
+			(obj.enabled) = () => ((this.enabled()));
+			return obj;
+		}
+		day_content(id){
+			return [(this.Day_button(id))];
+		}
+	};
+	($mol_mem_key(($.$mol_date_calendar.prototype), "day_click"));
+	($mol_mem_key(($.$mol_date_calendar.prototype), "Day_button"));
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $mol_date extends $.$mol_date {
+            trigger_content() {
+                return [this.value() || this.Icon()];
+            }
+            input_mask(val) {
+                return val.length > 8 ? '____-__-__ __:__' : '____-__-__ ';
+            }
+            input_content() {
+                return [
+                    this.Today(),
+                    this.Input(),
+                    ...this.value() ? [this.Clear()] : [],
+                ];
+            }
+            value(val) {
+                const moment = this.value_moment();
+                if (val === undefined)
+                    return moment?.toString('YYYY-MM-DD hh:mm') ?? '';
+                const moment2 = $mol_try(() => val && new $mol_time_moment(val).merge({ offset: new $mol_time_moment().offset })) || null;
+                if (moment2 instanceof Error)
+                    return val;
+                this.value_moment(moment2);
+                return val;
+            }
+            value_moment(next) {
+                const stamp = this.value_number();
+                if (next === undefined) {
+                    return isNaN(stamp) ? null : new $mol_time_moment(stamp);
+                }
+                this.value_number(next?.valueOf() ?? NaN);
+                return next;
+            }
+            value_number(next) {
+                const value = this.value();
+                if (next === undefined) {
+                    if (!value)
+                        return NaN;
+                    const moment = $mol_try(() => new $mol_time_moment(value));
+                    if (moment instanceof Error)
+                        return NaN;
+                    return moment.valueOf() ?? NaN;
+                }
+                const moment = $mol_try(() => new $mol_time_moment(next));
+                this.value(moment.toString(value.length > 12 ? 'YYYY-MM-DD hh:mm' : 'YYYY-MM-DD'));
+                return next;
+            }
+            value_moment_today() {
+                return this.value()
+                    ? new $mol_time_moment().mask(this.value())
+                    : new $mol_time_moment();
+            }
+            clear() {
+                this.value('');
+                this.Input().focused(true);
+                this.Input().selection([0, 0]);
+            }
+            month_moment(next) {
+                if (next)
+                    return next;
+                let moment = $mol_try(() => new $mol_time_moment(this.value_changed().replace(/\D+$/, '')).mask('0000-00'));
+                if (moment instanceof Error || !moment.year)
+                    return new $mol_time_moment().mask('0000-00');
+                if (moment.month === undefined) {
+                    moment = moment.merge({ month: 0 });
+                }
+                return moment;
+            }
+            day_selected(day) {
+                return this.value_moment()?.toString('YYYY-MM-DD') === day;
+            }
+            day_click(day) {
+                const moment = new $mol_time_moment(day);
+                this.value_moment(this.value_moment()?.merge(moment) ?? moment);
+                this.showed(false);
+            }
+            prev() {
+                this.month_moment(this.month_moment().shift({ month: -1 }));
+            }
+            next() {
+                this.month_moment(this.month_moment().shift({ month: +1 }));
+            }
+            today_click() {
+                this.value_moment(this.value_moment_today());
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $mol_date.prototype, "value", null);
+        __decorate([
+            $mol_mem
+        ], $mol_date.prototype, "value_moment", null);
+        __decorate([
+            $mol_mem
+        ], $mol_date.prototype, "value_number", null);
+        __decorate([
+            $mol_mem
+        ], $mol_date.prototype, "value_moment_today", null);
+        __decorate([
+            $mol_mem
+        ], $mol_date.prototype, "month_moment", null);
+        $$.$mol_date = $mol_date;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_style_attach("mol/date/date.view.css", "/* [mol_date_bubble] {\n\tpadding: .5rem;\n} */\n\n[mol_date_input] {\n\tflex-shrink: 0;\n}\n\n[mol_date_prev] ,\n[mol_date_next] {\n\tflex-grow: 1;\n}\n[mol_date_prev] {\n\tjustify-content: flex-end;\n}\n\n[mol_date_calendar_title] {\n\tpadding: var(--mol_gap_text);\n}\n\n[mol_date_calendar_day] {\n\tpadding: 0;\n}\n\n[mol_date_calendar_day_button] {\n\twidth: 100%;\n\t/* padding: .25rem .5rem; */\n\tjustify-content: center;\n\tcursor: pointer;\n\tcolor: inherit;\n}\n");
+})($ || ($ = {}));
+
+;
+	($.$mol_form_group) = class $mol_form_group extends ($.$mol_view) {};
+
+
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_style_attach("mol/form/group/group.view.css", "[mol_form_group] {\n\tflex-wrap: wrap;\n\tgap: var(--mol_gap_block);\n}\n\n[mol_form_group] > * {\n\tflex: 1 1 18rem;\n}\n");
+})($ || ($ = {}));
+
+;
+"use strict";
+
+;
+	($.$mol_status) = class $mol_status extends ($.$mol_view) {
+		message(){
+			return "";
+		}
+		status(){
+			return (this.title());
+		}
+		minimal_height(){
+			return 24;
+		}
+		minimal_width(){
+			return 0;
+		}
+		sub(){
+			return [(this.message())];
+		}
+	};
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $mol_status extends $.$mol_status {
+            message() {
+                try {
+                    return this.status() ?? null;
+                }
+                catch (error) {
+                    if (error instanceof Promise)
+                        $mol_fail_hidden(error);
+                    return error.message;
+                }
+            }
+        }
+        $$.$mol_status = $mol_status;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_style_attach("mol/status/status.view.css", "[mol_status] {\n\tpadding: var(--mol_gap_text);\n\tborder-radius: var(--mol_gap_round);\n\tdisplay: block;\n}\n\n[mol_status]:not([mol_view_error=\"Promise\"]) {\n\tcolor: var(--mol_theme_focus);\n}\n\n[mol_status]:not([mol_view_error=\"Promise\"]):empty {\n\tdisplay: none;\n}\n");
+})($ || ($ = {}));
+
+;
+	($.$shm_hitalama_board_form_view) = class $shm_hitalama_board_form_view extends ($.$mol_form) {
+		form(){
+			const obj = new this.$.$shm_hitalama_board_form();
+			return obj;
+		}
+		query(next){
+			if(next !== undefined) return next;
+			return "";
+		}
+		Query(){
+			const obj = new this.$.$mol_string();
+			(obj.value) = (next) => ((this.query(next)));
+			return obj;
+		}
+		Query_field(){
+			const obj = new this.$.$mol_form_field();
+			(obj.name) = () => ("Поисковой запрос");
+			(obj.Content) = () => ((this.Query()));
+			return obj;
+		}
+		excluded_words(next){
+			if(next !== undefined) return next;
+			return "";
+		}
+		Excluded_words(){
+			const obj = new this.$.$mol_textarea();
+			(obj.value) = (next) => ((this.excluded_words(next)));
+			return obj;
+		}
+		Excluded_words_field(){
+			const obj = new this.$.$mol_form_field();
+			(obj.name) = () => ("Минус-слова");
+			(obj.Content) = () => ((this.Excluded_words()));
+			return obj;
+		}
+		date_from(next){
+			if(next !== undefined) return next;
+			return "";
+		}
+		Date_from(){
+			const obj = new this.$.$mol_date();
+			(obj.value) = (next) => ((this.date_from(next)));
+			return obj;
+		}
+		date_to(next){
+			if(next !== undefined) return next;
+			return "";
+		}
+		Date_to(){
+			const obj = new this.$.$mol_date();
+			(obj.value) = (next) => ((this.date_to(next)));
+			return obj;
+		}
+		Period_field(){
+			const obj = new this.$.$mol_form_field();
+			(obj.name) = () => ("Период");
+			(obj.content) = () => ([
+				(this.Date_from()), 
+				"–", 
+				(this.Date_to())
+			]);
+			return obj;
+		}
+		country(next){
+			if(next !== undefined) return next;
+			return "";
+		}
+		Country(){
+			const obj = new this.$.$mol_string();
+			(obj.value) = (next) => ((this.country(next)));
+			return obj;
+		}
+		Country_field(){
+			const obj = new this.$.$mol_form_field();
+			(obj.name) = () => ("Страны");
+			(obj.Content) = () => ((this.Country()));
+			return obj;
+		}
+		language(next){
+			if(next !== undefined) return next;
+			return "";
+		}
+		Language(){
+			const obj = new this.$.$mol_string();
+			(obj.value) = (next) => ((this.language(next)));
+			return obj;
+		}
+		Language_field(){
+			const obj = new this.$.$mol_form_field();
+			(obj.name) = () => ("Языки");
+			(obj.Content) = () => ((this.Language()));
+			return obj;
+		}
+		social_media_attach(next){
+			if(next !== undefined) return next;
+			return [];
+		}
+		Social_media_file(){
+			const obj = new this.$.$mol_attach();
+			(obj.attach_new) = (next) => ((this.social_media_attach(next)));
+			return obj;
+		}
+		social_media_title(){
+			return "";
+		}
+		Social_media_name(){
+			const obj = new this.$.$mol_paragraph();
+			(obj.title) = () => ((this.social_media_title()));
+			return obj;
+		}
+		content_social_media(){
+			return [(this.Social_media_file()), (this.Social_media_name())];
+		}
+		Social_media_field(){
+			const obj = new this.$.$mol_form_field();
+			(obj.name) = () => ("Соц.медиа");
+			(obj.content) = () => ((this.content_social_media()));
+			return obj;
+		}
+		mass_media_attach(next){
+			if(next !== undefined) return next;
+			return [];
+		}
+		Mass_media_file(){
+			const obj = new this.$.$mol_attach();
+			(obj.attach_new) = (next) => ((this.mass_media_attach(next)));
+			return obj;
+		}
+		mass_media_title(){
+			return "";
+		}
+		Mass_media_name(){
+			const obj = new this.$.$mol_paragraph();
+			(obj.title) = () => ((this.mass_media_title()));
+			return obj;
+		}
+		content_mass_media(){
+			return [(this.Mass_media_file()), (this.Mass_media_name())];
+		}
+		Mass_media_field(){
+			const obj = new this.$.$mol_form_field();
+			(obj.name) = () => ("СМИ");
+			(obj.content) = () => ((this.content_mass_media()));
+			return obj;
+		}
+		type(next){
+			if(next !== undefined) return next;
+			return "";
+		}
+		Type(){
+			const obj = new this.$.$mol_string();
+			(obj.value) = (next) => ((this.type(next)));
+			return obj;
+		}
+		Type_field(){
+			const obj = new this.$.$mol_form_field();
+			(obj.name) = () => ("Type");
+			(obj.Content) = () => ((this.Type()));
+			return obj;
+		}
+		tags(next){
+			if(next !== undefined) return next;
+			return "";
+		}
+		Tags(){
+			const obj = new this.$.$mol_string();
+			(obj.value) = (next) => ((this.tags(next)));
+			return obj;
+		}
+		Tags_field(){
+			const obj = new this.$.$mol_form_field();
+			(obj.name) = () => ("Tags");
+			(obj.Content) = () => ((this.Tags()));
+			return obj;
+		}
+		category(next){
+			if(next !== undefined) return next;
+			return "";
+		}
+		Category(){
+			const obj = new this.$.$mol_string();
+			(obj.value) = (next) => ((this.category(next)));
+			return obj;
+		}
+		Category_field(){
+			const obj = new this.$.$mol_form_field();
+			(obj.name) = () => ("Category");
+			(obj.Content) = () => ((this.Category()));
+			return obj;
+		}
+		Query_group(){
+			const obj = new this.$.$mol_form_group();
+			(obj.sub) = () => ([(this.Query_field()), (this.Excluded_words_field())]);
+			return obj;
+		}
+		Group(){
+			const obj = new this.$.$mol_form_group();
+			(obj.sub) = () => ([(this.Country_field()), (this.Language_field())]);
+			return obj;
+		}
+		Files(){
+			const obj = new this.$.$mol_form_group();
+			(obj.sub) = () => ([(this.Social_media_field()), (this.Mass_media_field())]);
+			return obj;
+		}
+		Tags_group(){
+			const obj = new this.$.$mol_form_group();
+			(obj.sub) = () => ([
+				(this.Type_field()), 
+				(this.Tags_field()), 
+				(this.Category_field())
+			]);
+			return obj;
+		}
+		form_body(){
+			return [
+				(this.Query_group()), 
+				(this.Period_field()), 
+				(this.Group()), 
+				(this.Files()), 
+				(this.Tags_group())
+			];
+		}
+		submit(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		submit_allowed(){
+			return true;
+		}
+		Publish(){
+			const obj = new this.$.$mol_button_major();
+			(obj.title) = () => ("Отправить");
+			(obj.click) = (next) => ((this.submit(next)));
+			(obj.enabled) = () => ((this.submit_allowed()));
+			return obj;
+		}
+		result(next){
+			if(next !== undefined) return next;
+			return "";
+		}
+		Result(){
+			const obj = new this.$.$mol_status();
+			(obj.message) = () => ((this.result()));
+			return obj;
+		}
+		clear(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Clear(){
+			const obj = new this.$.$mol_button_minor();
+			(obj.title) = () => ("Очистить");
+			(obj.click) = (next) => ((this.clear(next)));
+			return obj;
+		}
+		board(){
+			const obj = new this.$.$shm_hitalama_board();
+			return obj;
+		}
+		model(){
+			return (this.form());
+		}
+		form_fields(){
+			return [
+				(this.Query_field()), 
+				(this.Excluded_words_field()), 
+				(this.Period_field()), 
+				(this.Country_field()), 
+				(this.Language_field()), 
+				(this.Social_media_field()), 
+				(this.Mass_media_field()), 
+				(this.Type_field()), 
+				(this.Tags_field()), 
+				(this.Category_field())
+			];
+		}
+		body(){
+			return (this.form_body());
+		}
+		buttons(){
+			return [
+				(this.Publish()), 
+				(this.Result()), 
+				(this.Clear())
+			];
+		}
+	};
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "form"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "query"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Query"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Query_field"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "excluded_words"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Excluded_words"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Excluded_words_field"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "date_from"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Date_from"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "date_to"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Date_to"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Period_field"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "country"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Country"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Country_field"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "language"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Language"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Language_field"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "social_media_attach"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Social_media_file"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Social_media_name"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Social_media_field"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "mass_media_attach"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Mass_media_file"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Mass_media_name"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Mass_media_field"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "type"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Type"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Type_field"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "tags"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Tags"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Tags_field"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "category"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Category"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Category_field"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Query_group"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Group"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Files"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Tags_group"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "submit"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Publish"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "result"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Result"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "clear"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Clear"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "board"));
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $shm_hitalama_board_form_view extends $.$shm_hitalama_board_form_view {
+            query(next) {
+                return this.form().Query(next)?.val(next) ?? '';
+            }
+            excluded_words(next) {
+                return this.form().Excluded_words(next)?.val(next) ?? '';
+            }
+            date_from(next) {
+                return this.form().Date_from(next)?.val(next) ?? '';
+            }
+            date_to(next) {
+                return this.form().Date_to(next)?.val(next) ?? '';
+            }
+            country(next) {
+                return this.form().Country(next)?.val(next) ?? '';
+            }
+            language(next) {
+                return this.form().Language(next)?.val(next) ?? '';
+            }
+            type(next) {
+                return this.form().Type(next)?.val(next) ?? '';
+            }
+            tags(next) {
+                return this.form().Tags(next)?.val(next) ?? '';
+            }
+            category(next) {
+                return this.form().Category(next)?.val(next) ?? '';
+            }
+            social_media_attach(files) {
+                const file = this.board().Files(null)?.make({ '': $hyoo_crus_rank.get });
+                file?.title(files[0].name);
+                file?.Size(null)?.val(files[0].size);
+                file?.File(null)?.ensure({ '': $hyoo_crus_rank.get })?.blob(files[0]);
+                this.form().File_social_media(null)?.remote(file);
+                return files;
+            }
+            mass_media_attach(files) {
+                const file = this.board().Files(null)?.make({ '': $hyoo_crus_rank.get });
+                file?.title(files[0].name);
+                file?.Size(null)?.val(files[0].size);
+                file?.File(null)?.ensure({ '': $hyoo_crus_rank.get })?.blob(files[0]);
+                this.form().File_mass_media(null)?.remote(file);
+                return files;
+            }
+            social_media_title() {
+                return this.form().File_social_media()?.remote()?.title() ?? '';
+            }
+            mass_media_title() {
+                return this.form().File_mass_media()?.remote()?.title() ?? '';
+            }
+            submit() {
+                const form = this.board().Search_queries(null)?.make({ '': $hyoo_crus_rank.get });
+                form?.query(this.query());
+                form?.excluded_words(this.excluded_words());
+                form?.date_from(this.date_from());
+                form?.date_to(this.date_to());
+                form?.country(this.country());
+                form?.language(this.language());
+                form?.type(this.type());
+                form?.tags(this.tags());
+                form?.category(this.category());
+                form?.File_mass_media(null)?.remote(this.form().File_mass_media()?.remote());
+                form?.File_social_media(null)?.remote(this.form().File_social_media()?.remote());
+                this.clear();
+            }
+            clear() {
+                const form = this.form();
+                form.query('');
+                form.excluded_words('');
+                form.date_from('');
+                form.date_to('');
+                form.country('');
+                form.language('');
+                form.type('');
+                form.tags('');
+                form.category('');
+                form?.File_mass_media(null)?.remote(null);
+                form?.File_social_media(null)?.remote(null);
+            }
+        }
+        $$.$shm_hitalama_board_form_view = $shm_hitalama_board_form_view;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        $mol_style_define($shm_hitalama_board_form_view, {
+            Period_field: {
+                Content: {
+                    padding: 0,
+                    align: {
+                        items: 'center',
+                    },
+                    flex: {
+                        wrap: 'wrap',
+                    },
+                },
+            },
+            Social_media_field: {
+                Content: {
+                    flex: {
+                        direction: 'column',
+                    },
+                },
+            },
+            Social_media_file: {
+                Content: {
+                    padding: 0,
+                }
+            },
+            Mass_media_field: {
+                Content: {
+                    flex: {
+                        direction: 'column',
+                    },
+                },
+            },
+            Mass_media_file: {
+                Content: {
+                    padding: 0,
+                }
+            },
+            Query_group: {
+                '$mol_form_field': {
+                    flex: {
+                        basis: '25rem',
+                    },
+                },
+            },
+            Group: {
+                '$mol_form_field': {
+                    flex: {
+                        basis: '10rem',
+                    },
+                },
+            },
+            Files: {
+                '$mol_form_field': {
+                    flex: {
+                        basis: '6rem',
+                    },
+                },
+            },
+            Tags_group: {
+                '$mol_form_field': {
+                    flex: {
+                        basis: '10rem',
+                    },
+                },
+            },
+        });
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+	($.$shm_hitalama_board_block_form) = class $shm_hitalama_board_block_form extends ($.$shm_hitalama_board_block_float) {
+		form(){
+			const obj = new this.$.$shm_hitalama_board_form();
+			return obj;
+		}
+		board(){
+			const obj = new this.$.$shm_hitalama_board();
+			return obj;
+		}
+		Form(){
+			const obj = new this.$.$shm_hitalama_board_form_view();
+			(obj.form) = () => ((this.form()));
+			(obj.board) = () => ((this.board()));
+			return obj;
+		}
+		content(){
+			return [(this.Drag()), (this.Form())];
+		}
+		font_tools(){
+			return [];
+		}
+	};
+	($mol_mem(($.$shm_hitalama_board_block_form.prototype), "form"));
+	($mol_mem(($.$shm_hitalama_board_block_form.prototype), "board"));
+	($mol_mem(($.$shm_hitalama_board_block_form.prototype), "Form"));
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $shm_hitalama_board_block_form extends $.$shm_hitalama_board_block_form {
+            text(next) {
+                return this.block().Text(next)?.text(next) ?? '';
+            }
+            form() {
+                return this.block().Form(null);
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_block_form.prototype, "text", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_block_form.prototype, "form", null);
+        $$.$shm_hitalama_board_block_form = $shm_hitalama_board_block_form;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        $mol_style_define($shm_hitalama_board_block_form, {
+            background: {
+                color: $mol_theme.back,
+            },
+            Drag: {
+                position: 'absolute',
+                width: '100%',
+                height: '100%',
+            },
+            Form: {
+                padding: $mol_gap.block,
+            },
+        });
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+	($.$shm_hitalama_board_block_table) = class $shm_hitalama_board_block_table extends ($.$shm_hitalama_board_block_float) {
+		Head_query(){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => (["Запрос"]);
+			return obj;
+		}
+		Head_excluded(){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => (["Минус"]);
+			return obj;
+		}
+		Head_prediod(){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => (["Период"]);
+			return obj;
+		}
+		Head_country(){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => (["Страна"]);
+			return obj;
+		}
+		Head_language(){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => (["Язык"]);
+			return obj;
+		}
+		Head_mass_media(){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => (["СМИ"]);
+			return obj;
+		}
+		Head_social_media(){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => (["Соц.медиа"]);
+			return obj;
+		}
+		Head_type(){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => (["Type"]);
+			return obj;
+		}
+		Head_tags(){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => (["Tags"]);
+			return obj;
+		}
+		Head_category(){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => (["Category"]);
+			return obj;
+		}
+		query(id){
+			return "";
+		}
+		Query(id){
+			const obj = new this.$.$mol_paragraph();
+			(obj.title) = () => ((this.query(id)));
+			return obj;
+		}
+		excluded_words(id){
+			return "";
+		}
+		Excluded(id){
+			const obj = new this.$.$mol_paragraph();
+			(obj.title) = () => ((this.excluded_words(id)));
+			return obj;
+		}
+		prediod(id){
+			return "";
+		}
+		Prediod(id){
+			const obj = new this.$.$mol_paragraph();
+			(obj.title) = () => ((this.prediod(id)));
+			return obj;
+		}
+		country(id){
+			return "";
+		}
+		Country(id){
+			const obj = new this.$.$mol_paragraph();
+			(obj.title) = () => ((this.country(id)));
+			return obj;
+		}
+		language(id){
+			return "";
+		}
+		Language(id){
+			const obj = new this.$.$mol_paragraph();
+			(obj.title) = () => ((this.language(id)));
+			return obj;
+		}
+		mass_media_title(id){
+			return "";
+		}
+		Mass_media(id){
+			const obj = new this.$.$mol_paragraph();
+			(obj.title) = () => ((this.mass_media_title(id)));
+			return obj;
+		}
+		social_media_title(id){
+			return "";
+		}
+		Social_media(id){
+			const obj = new this.$.$mol_paragraph();
+			(obj.title) = () => ((this.social_media_title(id)));
+			return obj;
+		}
+		type(id){
+			return "";
+		}
+		Type(id){
+			const obj = new this.$.$mol_paragraph();
+			(obj.title) = () => ((this.type(id)));
+			return obj;
+		}
+		tags(id){
+			return "";
+		}
+		Tags(id){
+			const obj = new this.$.$mol_paragraph();
+			(obj.title) = () => ((this.tags(id)));
+			return obj;
+		}
+		category(id){
+			return "";
+		}
+		Category(id){
+			const obj = new this.$.$mol_paragraph();
+			(obj.title) = () => ((this.category(id)));
+			return obj;
+		}
+		Row(id){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => ([
+				(this.Query(id)), 
+				(this.Excluded(id)), 
+				(this.Prediod(id)), 
+				(this.Country(id)), 
+				(this.Language(id)), 
+				(this.Mass_media(id)), 
+				(this.Social_media(id)), 
+				(this.Type(id)), 
+				(this.Tags(id)), 
+				(this.Category(id))
+			]);
+			return obj;
+		}
+		query_rows(){
+			return [(this.Row("0"))];
+		}
+		Table(){
+			const obj = new this.$.$shm_hitalama_table();
+			(obj.head) = () => ([
+				(this.Head_query()), 
+				(this.Head_excluded()), 
+				(this.Head_prediod()), 
+				(this.Head_country()), 
+				(this.Head_language()), 
+				(this.Head_mass_media()), 
+				(this.Head_social_media()), 
+				(this.Head_type()), 
+				(this.Head_tags()), 
+				(this.Head_category())
+			]);
+			(obj.rows) = () => ((this.query_rows()));
+			return obj;
+		}
+		board(){
+			const obj = new this.$.$shm_hitalama_board();
+			return obj;
+		}
+		drag_body(){
+			return [(this.Table())];
+		}
+		font_tools(){
+			return [];
+		}
+	};
+	($mol_mem(($.$shm_hitalama_board_block_table.prototype), "Head_query"));
+	($mol_mem(($.$shm_hitalama_board_block_table.prototype), "Head_excluded"));
+	($mol_mem(($.$shm_hitalama_board_block_table.prototype), "Head_prediod"));
+	($mol_mem(($.$shm_hitalama_board_block_table.prototype), "Head_country"));
+	($mol_mem(($.$shm_hitalama_board_block_table.prototype), "Head_language"));
+	($mol_mem(($.$shm_hitalama_board_block_table.prototype), "Head_mass_media"));
+	($mol_mem(($.$shm_hitalama_board_block_table.prototype), "Head_social_media"));
+	($mol_mem(($.$shm_hitalama_board_block_table.prototype), "Head_type"));
+	($mol_mem(($.$shm_hitalama_board_block_table.prototype), "Head_tags"));
+	($mol_mem(($.$shm_hitalama_board_block_table.prototype), "Head_category"));
+	($mol_mem_key(($.$shm_hitalama_board_block_table.prototype), "Query"));
+	($mol_mem_key(($.$shm_hitalama_board_block_table.prototype), "Excluded"));
+	($mol_mem_key(($.$shm_hitalama_board_block_table.prototype), "Prediod"));
+	($mol_mem_key(($.$shm_hitalama_board_block_table.prototype), "Country"));
+	($mol_mem_key(($.$shm_hitalama_board_block_table.prototype), "Language"));
+	($mol_mem_key(($.$shm_hitalama_board_block_table.prototype), "Mass_media"));
+	($mol_mem_key(($.$shm_hitalama_board_block_table.prototype), "Social_media"));
+	($mol_mem_key(($.$shm_hitalama_board_block_table.prototype), "Type"));
+	($mol_mem_key(($.$shm_hitalama_board_block_table.prototype), "Tags"));
+	($mol_mem_key(($.$shm_hitalama_board_block_table.prototype), "Category"));
+	($mol_mem_key(($.$shm_hitalama_board_block_table.prototype), "Row"));
+	($mol_mem(($.$shm_hitalama_board_block_table.prototype), "Table"));
+	($mol_mem(($.$shm_hitalama_board_block_table.prototype), "board"));
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $shm_hitalama_board_block_table extends $.$shm_hitalama_board_block_table {
+            search_query(ref) {
+                return $hyoo_crus_glob.Node(ref, $shm_hitalama_board_form);
+            }
+            query_rows() {
+                return this.board().Search_queries()?.remote_list().map(q => this.Row(q.ref())) ?? [];
+            }
+            query(ref) {
+                return this.search_query(ref).Query()?.val() || '–';
+            }
+            excluded_words(ref) {
+                return this.search_query(ref).Excluded_words()?.val() || '–';
+            }
+            prediod(ref) {
+                return this.search_query(ref).Date_from()?.val() + ' – ' + this.search_query(ref).Date_to()?.val();
+            }
+            country(ref) {
+                return this.search_query(ref).Country()?.val() || '–';
+            }
+            language(ref) {
+                return this.search_query(ref).Language()?.val() || '–';
+            }
+            type(ref) {
+                return this.search_query(ref).Type()?.val() || '–';
+            }
+            tags(ref) {
+                return this.search_query(ref).Tags()?.val() || '–';
+            }
+            category(ref) {
+                return this.search_query(ref).Category()?.val() || '–';
+            }
+            social_media_title(ref) {
+                return this.search_query(ref).File_social_media()?.remote()?.title() || '–';
+            }
+            mass_media_title(ref) {
+                return this.search_query(ref).File_mass_media()?.remote()?.title() || '–';
+            }
+        }
+        __decorate([
+            $mol_mem_key
+        ], $shm_hitalama_board_block_table.prototype, "search_query", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_block_table.prototype, "query_rows", null);
+        __decorate([
+            $mol_mem_key
+        ], $shm_hitalama_board_block_table.prototype, "query", null);
+        __decorate([
+            $mol_mem_key
+        ], $shm_hitalama_board_block_table.prototype, "excluded_words", null);
+        __decorate([
+            $mol_mem_key
+        ], $shm_hitalama_board_block_table.prototype, "prediod", null);
+        __decorate([
+            $mol_mem_key
+        ], $shm_hitalama_board_block_table.prototype, "country", null);
+        __decorate([
+            $mol_mem_key
+        ], $shm_hitalama_board_block_table.prototype, "language", null);
+        __decorate([
+            $mol_mem_key
+        ], $shm_hitalama_board_block_table.prototype, "type", null);
+        __decorate([
+            $mol_mem_key
+        ], $shm_hitalama_board_block_table.prototype, "tags", null);
+        __decorate([
+            $mol_mem_key
+        ], $shm_hitalama_board_block_table.prototype, "category", null);
+        __decorate([
+            $mol_mem_key
+        ], $shm_hitalama_board_block_table.prototype, "social_media_title", null);
+        __decorate([
+            $mol_mem_key
+        ], $shm_hitalama_board_block_table.prototype, "mass_media_title", null);
+        $$.$shm_hitalama_board_block_table = $shm_hitalama_board_block_table;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        $mol_style_define($shm_hitalama_board_block_table, {
+            background: {
+                color: $mol_theme.back,
+            },
+            Drag: {
+                position: 'absolute',
+                width: '100%',
+                height: '100%',
+            },
+            Table: {
+                padding: $mol_gap.block,
+            },
+        });
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
 	($.$shm_hitalama_board_block_any) = class $shm_hitalama_board_block_any extends ($.$mol_ghost) {
 		height(){
 			return (this.Sub().height());
@@ -26373,6 +28355,10 @@ var $;
 		}
 		block(){
 			const obj = new this.$.$shm_hitalama_board_block();
+			return obj;
+		}
+		board(){
+			const obj = new this.$.$shm_hitalama_board();
 			return obj;
 		}
 		delete(){
@@ -26397,17 +28383,6 @@ var $;
 		editing(next){
 			return (this.Sub().editing(next));
 		}
-		Sub(){
-			const obj = new this.$.$shm_hitalama_board_block_float();
-			(obj.block) = () => ((this.block()));
-			(obj.delete) = () => ((this.delete()));
-			(obj.to_top) = () => ((this.to_top()));
-			(obj.to_bottom) = () => ((this.to_bottom()));
-			(obj.sticks_y) = () => ((this.sticks_y()));
-			(obj.sticks_x) = () => ((this.sticks_x()));
-			(obj.selected) = (next) => ((this.selected(next)));
-			return obj;
-		}
 		Input(){
 			const obj = new this.$.$shm_hitalama_board_block_input();
 			return obj;
@@ -26420,13 +28395,45 @@ var $;
 			const obj = new this.$.$shm_hitalama_board_block_text();
 			return obj;
 		}
+		Form(){
+			const obj = new this.$.$shm_hitalama_board_block_form();
+			return obj;
+		}
+		Table(){
+			const obj = new this.$.$shm_hitalama_board_block_table();
+			return obj;
+		}
+		Sub(){
+			const obj = new this.$.$shm_hitalama_board_block_float();
+			(obj.block) = () => ((this.block()));
+			(obj.board) = () => ((this.board()));
+			(obj.delete) = () => ((this.delete()));
+			(obj.to_top) = () => ((this.to_top()));
+			(obj.to_bottom) = () => ((this.to_bottom()));
+			(obj.sticks_y) = () => ((this.sticks_y()));
+			(obj.sticks_x) = () => ((this.sticks_x()));
+			(obj.selected) = (next) => ((this.selected(next)));
+			return obj;
+		}
+		blocks(){
+			return {
+				"input": (this.Input()), 
+				"iframe": (this.Iframe()), 
+				"text": (this.Text()), 
+				"form": (this.Form()), 
+				"table": (this.Table())
+			};
+		}
 	};
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "block"));
+	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "board"));
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "selected"));
-	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Sub"));
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Input"));
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Iframe"));
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Text"));
+	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Form"));
+	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Table"));
+	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Sub"));
 
 
 ;
@@ -26440,18 +28447,10 @@ var $;
     (function ($$) {
         class $shm_hitalama_board_block_any extends $.$shm_hitalama_board_block_any {
             Sub() {
-                let obj;
                 const type = this.block().Type()?.val();
-                switch (type) {
-                    case 'input':
-                        obj = this.Input();
-                        break;
-                    case 'iframe':
-                        obj = this.Iframe();
-                        break;
-                    default: obj = this.Text();
-                }
+                const obj = this.blocks()[type] ?? super.Sub();
                 obj.block = () => this.block();
+                obj.board = () => this.board();
                 obj.delete = () => this.delete();
                 obj.to_top = () => this.to_top();
                 obj.to_bottom = () => this.to_bottom();
@@ -26503,14 +28502,14 @@ var $;
 			(obj.event) = () => ({"pointerdown": (next) => (this.back_pointerdown(next)), "contextmenu": (next) => (this.back_contextmenu(next))});
 			return obj;
 		}
-		block_add(next){
+		text_add(next){
 			if(next !== undefined) return next;
 			return null;
 		}
 		Text_add(){
 			const obj = new this.$.$mol_button_minor();
 			(obj.title) = () => ("Добавить текст");
-			(obj.click) = (next) => ((this.block_add(next)));
+			(obj.click) = (next) => ((this.text_add(next)));
 			return obj;
 		}
 		input_add(next){
@@ -26531,6 +28530,26 @@ var $;
 			const obj = new this.$.$mol_button_minor();
 			(obj.title) = () => ("Добавить iframe");
 			(obj.click) = (next) => ((this.iframe_add(next)));
+			return obj;
+		}
+		form_add(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Form_add(){
+			const obj = new this.$.$mol_button_minor();
+			(obj.title) = () => ("Добавить форму");
+			(obj.click) = (next) => ((this.form_add(next)));
+			return obj;
+		}
+		table_add(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Table_add(){
+			const obj = new this.$.$mol_button_minor();
+			(obj.title) = () => ("Добавить таблицу");
+			(obj.click) = (next) => ((this.table_add(next)));
 			return obj;
 		}
 		context_menu_left(next){
@@ -26554,7 +28573,9 @@ var $;
 			(obj.sub) = () => ([
 				(this.Text_add()), 
 				(this.Input_add()), 
-				(this.Iframe_add())
+				(this.Iframe_add()), 
+				(this.Form_add()), 
+				(this.Table_add())
 			]);
 			(obj.style) = () => ({"left": (this.context_menu_left()), "top": (this.context_menu_top())});
 			(obj.event) = () => ({"pointerenter": (next) => (this.context_menu_pointerenter(next)), "pointerleave": (next) => (this.context_menu_pointerleave(next))});
@@ -26604,6 +28625,7 @@ var $;
 		Block(id){
 			const obj = new this.$.$shm_hitalama_board_block_any();
 			(obj.block) = () => ((this.block(id)));
+			(obj.board) = () => ((this.board()));
 			(obj.delete) = () => ((this.block_delete(id)));
 			(obj.to_top) = () => ((this.block_to_top(id)));
 			(obj.to_bottom) = () => ((this.block_to_bottom(id)));
@@ -26620,7 +28642,7 @@ var $;
 			return obj;
 		}
 		cut_title(){
-			return "Удалить доску";
+			return "Удалить карту";
 		}
 		head(){
 			return [
@@ -26661,12 +28683,16 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "back_pointerdown"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "back_contextmenu"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Back"));
-	($mol_mem(($.$shm_hitalama_board_page.prototype), "block_add"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "text_add"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Text_add"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "input_add"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Input_add"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "iframe_add"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Iframe_add"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "form_add"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "Form_add"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "table_add"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "Table_add"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "context_menu_left"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "context_menu_top"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "context_menu_pointerenter"));
@@ -26700,14 +28726,6 @@ var $;
             }
             board_cut() {
                 $shm_hitalama_profile.current()?.boards()?.cut(this.board().ref());
-            }
-            block_add() {
-                const block = this.board().Blocks(null)?.make({ '': $hyoo_crus_rank.get });
-                block?.Text(null)?.value('text');
-                block?.Body_x(null)?.val(parseFloat(this.context_menu_left()));
-                block?.Body_y(null)?.val(parseFloat(this.context_menu_top()));
-                this.context_menu_visible(false);
-                return block;
             }
             block_delete(ref) {
                 this.board().Blocks(null)?.cut(ref);
@@ -26789,26 +28807,60 @@ var $;
             context_menu_pointerleave(next) {
                 this.context_menu_hovered(false);
             }
-            text_add(text) {
+            paste_text(text) {
                 const block = this.board().Blocks(null)?.make({ '': $hyoo_crus_rank.get });
+                block?.Type(null)?.val('text');
                 block?.Text(null)?.value(text);
+                return block;
+            }
+            text_add() {
+                const block = this.board().Blocks(null)?.make({ '': $hyoo_crus_rank.get });
+                block?.Type(null)?.val('text');
+                block?.Text(null)?.value('text');
+                block?.Body_x(null)?.val(parseFloat(this.context_menu_left()));
+                block?.Body_y(null)?.val(parseFloat(this.context_menu_top()));
+                this.context_menu_visible(false);
+                block?.Right_edge_x(null)?.val(100);
                 return block;
             }
             input_add() {
                 const block = this.board().Blocks(null)?.make({ '': $hyoo_crus_rank.get });
-                block?.Text(null)?.value('Hello');
                 block?.Type(null)?.val('input');
+                block?.Text(null)?.value('Hello');
                 block?.Body_x(null)?.val(parseFloat(this.context_menu_left()));
                 block?.Body_y(null)?.val(parseFloat(this.context_menu_top()));
                 this.context_menu_visible(false);
+                block?.Right_edge_x(null)?.val(100);
                 return block;
             }
             iframe_add() {
                 const block = this.board().Blocks(null)?.make({ '': $hyoo_crus_rank.get });
-                block?.Src(null)?.val('https://www.google.com/search?igu=1');
                 block?.Type(null)?.val('iframe');
+                block?.Src(null)?.val('https://www.google.com/search?igu=1');
                 block?.Body_x(null)?.val(parseFloat(this.context_menu_left()));
                 block?.Body_y(null)?.val(parseFloat(this.context_menu_top()));
+                this.context_menu_visible(false);
+                block?.Bottom_edge_y(null)?.val(500);
+                block?.Right_edge_x(null)?.val(700);
+                return block;
+            }
+            form_add() {
+                const block = this.board().Blocks(null)?.make({ '': $hyoo_crus_rank.get });
+                block?.Type(null)?.val('form');
+                block?.Body_x(null)?.val(parseFloat(this.context_menu_left()));
+                block?.Body_y(null)?.val(parseFloat(this.context_menu_top()));
+                block?.Bottom_edge_y(null)?.val(400);
+                block?.Right_edge_x(null)?.val(400);
+                this.context_menu_visible(false);
+                return block;
+            }
+            table_add() {
+                const block = this.board().Blocks(null)?.make({ '': $hyoo_crus_rank.get });
+                block?.Type(null)?.val('table');
+                block?.Body_x(null)?.val(parseFloat(this.context_menu_left()));
+                block?.Body_y(null)?.val(parseFloat(this.context_menu_top()));
+                block?.Bottom_edge_y(null)?.val(400);
+                block?.Right_edge_x(null)?.val(400);
                 this.context_menu_visible(false);
                 return block;
             }
@@ -26842,7 +28894,7 @@ var $;
                         const item = items[index];
                         if (item.type === 'text/plain') {
                             item.getAsString((s) => {
-                                $mol_wire_async(this).text_add(s);
+                                $mol_wire_async(this).paste_text(s);
                             });
                         }
                         if (item.kind === 'file') {
@@ -26862,9 +28914,6 @@ var $;
         __decorate([
             $mol_action
         ], $shm_hitalama_board_page.prototype, "board_cut", null);
-        __decorate([
-            $mol_action
-        ], $shm_hitalama_board_page.prototype, "block_add", null);
         __decorate([
             $mol_action
         ], $shm_hitalama_board_page.prototype, "block_delete", null);
@@ -26900,6 +28949,9 @@ var $;
         ], $shm_hitalama_board_page.prototype, "selected", null);
         __decorate([
             $mol_action
+        ], $shm_hitalama_board_page.prototype, "paste_text", null);
+        __decorate([
+            $mol_action
         ], $shm_hitalama_board_page.prototype, "text_add", null);
         __decorate([
             $mol_action
@@ -26907,6 +28959,12 @@ var $;
         __decorate([
             $mol_action
         ], $shm_hitalama_board_page.prototype, "iframe_add", null);
+        __decorate([
+            $mol_action
+        ], $shm_hitalama_board_page.prototype, "form_add", null);
+        __decorate([
+            $mol_action
+        ], $shm_hitalama_board_page.prototype, "table_add", null);
         __decorate([
             $mol_action
         ], $shm_hitalama_board_page.prototype, "image_add", null);
@@ -26932,12 +28990,13 @@ var $;
         $mol_style_define($shm_hitalama_board_page, {
             Back: {
                 position: 'absolute',
-                height: '100%',
-                width: '100%',
+                height: '9999px',
+                width: '9999px',
             },
             Context_menu: {
                 position: 'absolute',
                 zIndex: $mol_layer.popup,
+                whiteSpace: 'nowrap',
             },
         });
     })($$ = $.$$ || ($.$$ = {}));
@@ -26946,13 +29005,13 @@ var $;
 ;
 	($.$shm_hitalama_board_catalog) = class $shm_hitalama_board_catalog extends ($.$shm_hitalama_entity_catalog) {
 		menu_title(){
-			return "Доски";
+			return "Карты";
 		}
 		param(){
 			return "board";
 		}
 		title_default(){
-			return "Новая доска";
+			return "Новая карта";
 		}
 		Page(id){
 			const obj = new this.$.$shm_hitalama_board_page();

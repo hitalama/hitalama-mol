@@ -1992,13 +1992,20 @@ $shm_hitalama_drag_view $mol_view
 
 $shm_hitalama_resize $mol_view
 	sub /
-		<= Drag $shm_hitalama_drag_view
-			sub <= drag_body /
-			x? <=> body_x? 0
-			y? <=> body_y? 0
-			drag_start? <=> drag_start? null
-			drag_end? <=> drag_end? null
-			dragged => dragged
+		<= Content $mol_scroll
+			sub <= content_wrapper /
+				<= Fullsize_wrapper $mol_view
+					style *
+						minHeight \100%
+						minWidth \100%
+					sub <= content /
+						<= Drag $shm_hitalama_drag_view
+							sub <= drag_body /
+							x? <=> body_x? 0
+							y? <=> body_y? 0
+							drag_start? <=> drag_start? null
+							drag_end? <=> drag_end? null
+							dragged => dragged
 		^ edges /
 			<= Top_edge $shm_hitalama_resize_edge
 				drag_start? <=> resize_start? null
@@ -2040,7 +2047,7 @@ $shm_hitalama_resize $mol_view
 	resizing? false
 	-
 	height_base 100
-	width_base 200
+	width_base 100
 	height 0
 	width 0
 	top 0
@@ -2183,10 +2190,15 @@ $mol_icon_delete $mol_icon path \M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0
 
 $shm_hitalama_board_block_float $shm_hitalama_resize
 	block $shm_hitalama_board_block
+	board $shm_hitalama_board
 	- plugins /
 		<= Keyboard $mol_keyboard_state
 			- key *
 				delete <= delete
+	sub /
+		<= Content
+		^ edges
+		^ toolbar
 	auto /
 		^
 		<= editing? false
@@ -2301,6 +2313,282 @@ $shm_hitalama_board_block_text $shm_hitalama_board_block_float
 				pointerdown? <=> pointerdown? null
 				pointerup? <=> pointerup? null
 
+$mol_form $mol_list
+	submit_allowed true
+	submit_blocked false
+	event *
+		^
+		keydown?event <=> keydown?event null
+	submit?event null
+	rows /
+		<= Body $mol_list
+			sub <= body <= form_fields /$mol_form_field
+		<= Foot $mol_row
+			sub <= foot <= buttons /$mol_view
+
+$mol_form_field $mol_labeler
+	bids /string
+	label /
+		<= name \
+		<= Bid $mol_view
+			sub / <= bid \
+	content / <= control null
+
+$mol_icon_calendar $mol_icon path \M19,19H5V8H19M16,1V3H8V1H6V3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3H18V1M17,12H12V17H17V12Z
+
+$mol_icon_calendar_today $mol_icon path \M7,10H12V15H7M19,19H5V8H19M19,3H18V1H16V3H8V1H6V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3Z
+
+$mol_format $mol_string
+	allow \0123456789
+	hint <= mask*0 \
+	keyboard \numeric
+
+$mol_icon_trash_can $mol_icon path \M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M9,8H11V17H9V8M13,8H15V17H13V8Z
+
+$mol_icon_trash_can_outline $mol_icon path \M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z
+
+$mol_icon_chevron_left $mol_icon path \M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z
+
+$mol_icon_chevron_right $mol_icon path \M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z
+
+$mol_hor $mol_view
+
+$mol_calendar $mol_list
+	sub /
+		<= Head $mol_view
+			sub <= head /
+				<= Title $mol_view
+					minimal_height 24
+					sub /
+						<= title \
+		<= Weekdays $mol_hor
+			sub <= weekdays /$mol_view
+	weeks /$mol_view
+	weeks_count 6
+	-
+	Weekday* $mol_calendar_day
+		holiday <= weekend* false
+		sub /
+			<= weekday* \
+	-
+	Week* $mol_hor
+		sub <= week_days* /$mol_view
+	-
+	Day* $mol_calendar_day
+		ghost <= day_ghost* false
+		holiday <= day_holiday* false
+		selected <= day_selected* false
+		today <= day_today* false
+		theme <= day_theme* null
+		sub <= day_content* /
+			<= day_text* \
+	-
+	month_string \
+	month_moment $mol_time_moment
+
+$mol_calendar_day $mol_view
+	minimal_height 24
+	minimal_width 36
+	attr *
+		mol_calendar_holiday <= holiday false
+		mol_calendar_ghost <= ghost false
+		mol_calendar_selected <= selected false
+		mol_calendar_today <= today false
+		mol_theme <= theme null
+
+$mol_date $mol_pick
+	Icon $mol_icon_calendar
+	-
+	bubble_content /
+		<= Input_row $mol_view sub <= input_content /
+			<= Today $mol_button_minor
+				hint @ \Today
+				enabled <= enabled true
+				click?event <=> today_click?event null
+				sub /
+					<= Today_icon $mol_icon_calendar_today
+			<= Input $mol_format
+				value? <=> value? \
+				value_changed? => value_changed?
+				mask* <= input_mask* \
+				enabled <= enabled true
+			<= Clear $mol_button_minor
+				hint @ \Clear
+				enabled <= enabled true
+				click?event <=> clear?event null
+				sub /
+					<= Clear_icon $mol_icon_trash_can_outline
+		<= Calendar $mol_date_calendar
+			enabled <= enabled true
+			month_moment <= month_moment <= value_moment
+			day_selected* <= day_selected* false
+			day_click*?event <=> day_click*?event null
+			Title => Calendar_title
+			head /
+				<= Calendar_tools $mol_view
+					sub /
+						<= Prev $mol_button_minor
+							hint <= prev_hint @ \Previous month
+							click?event <=> prev?event null
+							sub /
+								<= Prev_icon $mol_icon_chevron_left
+						<= Calendar_title
+						<= Next $mol_button_minor
+							hint <= next_hint @ \Next month
+							click?event <=> next?event null
+							sub /
+								<= Next_icon $mol_icon_chevron_right
+	-
+	value_number? +NaN
+	value_moment? $mol_time_moment
+
+$mol_date_calendar $mol_calendar
+	day_content* /
+		<= Day_button* $mol_button_minor
+			title <= day_text*
+			event_click?event <=> day_click*?event null
+			minimal_height 24
+			enabled <= enabled true
+
+$mol_form_group $mol_view
+
+$mol_status $mol_view
+	status <= title
+	minimal_height 24
+	minimal_width 0
+	sub /
+		<= message \
+
+$shm_hitalama_board_form_view $mol_form
+	board $shm_hitalama_board
+	model <= form $shm_hitalama_board_form
+	form_fields /
+		<= Query_field $mol_form_field
+			name \Поисковой запрос
+			Content <= Query $mol_string
+				value? <=> query? \
+		<= Excluded_words_field $mol_form_field
+			name \Минус-слова
+			Content <= Excluded_words $mol_textarea
+				value? <=> excluded_words? \
+		<= Period_field $mol_form_field
+			name \Период
+			content /
+				<= Date_from $mol_date
+					value? <=> date_from? \
+				\–
+				<= Date_to $mol_date
+					value? <=> date_to? \
+		<= Country_field $mol_form_field
+			name \Страны
+			Content <= Country $mol_string
+				value? <=> country? \
+		<= Language_field $mol_form_field
+			name \Языки
+			Content <= Language $mol_string
+				value? <=> language? \
+		<= Social_media_field $mol_form_field
+			name \Соц.медиа
+			content <= content_social_media /
+				<= Social_media_file $mol_attach
+					attach_new? <=> social_media_attach? /
+				<= Social_media_name $mol_paragraph
+					title <= social_media_title \
+		<= Mass_media_field $mol_form_field
+			name \СМИ
+			content <= content_mass_media /
+				<= Mass_media_file $mol_attach
+					attach_new? <=> mass_media_attach? /
+				<= Mass_media_name $mol_paragraph
+					title <= mass_media_title \
+		<= Type_field $mol_form_field
+			name \Type
+			Content <= Type $mol_string
+				value? <=> type? \
+		<= Tags_field $mol_form_field
+			name \Tags
+			Content <= Tags $mol_string
+				value? <=> tags? \
+		<= Category_field $mol_form_field
+			name \Category
+			Content <= Category $mol_string
+				value? <=> category? \
+	body <= form_body /
+		<= Query_group $mol_form_group sub /
+			<= Query_field
+			<= Excluded_words_field
+		<= Period_field
+		<= Group $mol_form_group sub /
+			<= Country_field
+			<= Language_field
+		<= Files $mol_form_group sub /
+			<= Social_media_field
+			<= Mass_media_field
+		<= Tags_group $mol_form_group sub /
+			<= Type_field
+			<= Tags_field
+			<= Category_field
+	buttons /
+		<= Publish $mol_button_major
+			title \Отправить
+			click? <=> submit? null
+			enabled <= submit_allowed true
+		<= Result $mol_status
+			message <= result? \
+		<= Clear $mol_button_minor
+			title \Очистить
+			click? <=> clear? null
+			- enabled <= changed false
+
+$shm_hitalama_board_block_form $shm_hitalama_board_block_float
+	content /
+		<= Drag
+		<= Form $shm_hitalama_board_form_view
+			form <= form $shm_hitalama_board_form
+			board <= board $shm_hitalama_board
+	- sub /
+		- <= Head $mol_view
+			sub /
+		<= Drag
+		<= Form $shm_hitalama_board_form_view
+			form <= form $shm_hitalama_board_form
+			board <= board $shm_hitalama_board
+		^ edges
+		^ toolbar
+	font_tools /
+	- drag_body /
+		<= Form
+
+$shm_hitalama_board_block_table $shm_hitalama_board_block_float
+	board $shm_hitalama_board
+	drag_body /
+		<= Table $shm_hitalama_table
+			head /
+				<= Head_query $mol_view sub / \Запрос
+				<= Head_excluded $mol_view sub / \Минус
+				<= Head_prediod $mol_view sub / \Период
+				<= Head_country $mol_view sub / \Страна
+				<= Head_language $mol_view sub / \Язык
+				<= Head_mass_media $mol_view sub / \СМИ
+				<= Head_social_media $mol_view sub / \Соц.медиа
+				<= Head_type $mol_view sub / \Type
+				<= Head_tags $mol_view sub / \Tags
+				<= Head_category $mol_view sub / \Category
+			rows <= query_rows /
+				<= Row*0 $mol_view
+					sub /
+						<= Query* $mol_paragraph title <= query* \
+						<= Excluded* $mol_paragraph title <= excluded_words* \
+						<= Prediod* $mol_paragraph title <= prediod* \
+						<= Country* $mol_paragraph title <= country* \
+						<= Language* $mol_paragraph title <= language* \
+						<= Mass_media* $mol_paragraph title <= mass_media_title* \
+						<= Social_media* $mol_paragraph title <= social_media_title* \
+						<= Type* $mol_paragraph title <= type* \
+						<= Tags* $mol_paragraph title <= tags* \
+						<= Category* $mol_paragraph title <= category* \
+	font_tools /
+
 $shm_hitalama_board_block_any $mol_ghost
 	Sub $shm_hitalama_board_block_float
 		height => height
@@ -2308,6 +2596,7 @@ $shm_hitalama_board_block_any $mol_ghost
 		top => top
 		left => left
 		block <= block $shm_hitalama_board_block
+		board <= board $shm_hitalama_board
 		delete <= delete null
 		to_top <= to_top null
 		to_bottom <= to_bottom null
@@ -2315,13 +2604,16 @@ $shm_hitalama_board_block_any $mol_ghost
 		sticks_x <= sticks_x / 0
 		selected? <=> selected? false
 		editing? => editing? false
-	Input $shm_hitalama_board_block_input
-	Iframe $shm_hitalama_board_block_iframe
-	Text $shm_hitalama_board_block_text
+	blocks *
+		input <= Input $shm_hitalama_board_block_input
+		iframe <= Iframe $shm_hitalama_board_block_iframe
+		text <= Text $shm_hitalama_board_block_text
+		form <= Form $shm_hitalama_board_block_form
+		table <= Table $shm_hitalama_board_block_table
 
 $shm_hitalama_board_page $shm_hitalama_entity_page
 	board $shm_hitalama_board
-	cut_title \Удалить доску
+	cut_title \Удалить карту
 	head /
 		<= Open_in_new $mol_link_iconed 
 			sub /
@@ -2348,13 +2640,19 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 				sub /
 					<= Text_add $mol_button_minor
 						title \Добавить текст
-						click? <=> block_add? null
+						click? <=> text_add? null
 					<= Input_add $mol_button_minor
 						title \Добавить input
 						click? <=> input_add? null
 					<= Iframe_add $mol_button_minor
 						title \Добавить iframe
 						click? <=> iframe_add? null
+					<= Form_add $mol_button_minor
+						title \Добавить форму
+						click? <=> form_add? null
+					<= Table_add $mol_button_minor
+						title \Добавить таблицу
+						click? <=> table_add? null
 				style *
 					left <= context_menu_left? \0px
 					top <= context_menu_top? \0px
@@ -2364,6 +2662,7 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 		^ blocks /
 			<= Block* $shm_hitalama_board_block_any
 				block <= block* $shm_hitalama_board_block
+				board <= board
 				delete <= block_delete* null
 				to_top <= block_to_top* null
 				to_bottom <= block_to_bottom* null
@@ -2378,9 +2677,9 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 	selected_ref? null
 
 $shm_hitalama_board_catalog $shm_hitalama_entity_catalog
-	menu_title \Доски
+	menu_title \Карты
 	param \board
-	title_default \Новая доска
+	title_default \Новая карта
 	Page* $shm_hitalama_board_page
 		entity <= entity*
 		cut <= cut*
