@@ -1,6 +1,6 @@
 namespace $.$$ {
 
-	export class $shm_hitalama_board_block_form extends $.$shm_hitalama_board_block_input {
+	export class $shm_hitalama_board_block_form extends $.$shm_hitalama_board_block_form {
 		
 		@ $mol_mem
 		text( next?: string ): string {
@@ -8,9 +8,14 @@ namespace $.$$ {
 		}
 
 		@ $mol_mem
-		editing(): boolean {
-			return this.input_focused()
+		form() {
+			return this.block().Form(null)!
 		}
+
+		// @ $mol_mem
+		// editing(): boolean {
+		// 	return this.input_focused()
+		// }
 		
 	}
 

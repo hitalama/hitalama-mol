@@ -1,6 +1,6 @@
 namespace $.$$ {
 	
-	$mol_style_define( $shm_hitalama_board_block_form, {
+	$mol_style_define( $shm_hitalama_board_block_table, {
 
 		background: {
 			color: $mol_theme.back,
@@ -20,13 +20,11 @@ namespace $.$$ {
 			position: 'absolute',
 			width: '100%',
 			height: '100%',
+			// overflow: 'scroll',
 		},
 
-		Form: {
+		Table: {
 			padding: $mol_gap.block,
-			// background: {
-			// 	color: $mol_theme.card,
-			// },
 		},
 		
 	} )

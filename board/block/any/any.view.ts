@@ -9,6 +9,7 @@ namespace $.$$ {
 			const obj = this.blocks()[ type ] ?? super.Sub()
 
 			obj.block = () => this.block()
+			obj.board = () => this.board()
 			obj.delete = () => this.delete()
 			obj.to_top = () => this.to_top()
 			obj.to_bottom = () => this.to_bottom()

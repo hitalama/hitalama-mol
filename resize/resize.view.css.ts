@@ -12,6 +12,12 @@ namespace $.$$ {
 		// width: '100%',
 		// height: '100%',
 		
+		Fullsize_wrapper: {
+			position: 'relative',
+			height: 'auto',
+			width: 'auto',
+		},
+		
 		Drag: {
 			flex: {
 				grow: 1,

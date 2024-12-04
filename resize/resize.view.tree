@@ -1,12 +1,19 @@
 $shm_hitalama_resize $mol_view
 	sub /
-		<= Drag $shm_hitalama_drag_view
-			sub <= drag_body /
-			x? <=> body_x? 0
-			y? <=> body_y? 0
-			drag_start? <=> drag_start? null
-			drag_end? <=> drag_end? null
-			dragged => dragged
+		<= Content $mol_scroll
+			sub <= content_wrapper /
+				<= Fullsize_wrapper $mol_view
+					style *
+						minHeight \100%
+						minWidth \100%
+					sub <= content /
+						<= Drag $shm_hitalama_drag_view
+							sub <= drag_body /
+							x? <=> body_x? 0
+							y? <=> body_y? 0
+							drag_start? <=> drag_start? null
+							drag_end? <=> drag_end? null
+							dragged => dragged
 		^ edges /
 			<= Top_edge $shm_hitalama_resize_edge
 				drag_start? <=> resize_start? null
@@ -48,7 +55,7 @@ $shm_hitalama_resize $mol_view
 	resizing? false
 	-
 	height_base 100
-	width_base 200
+	width_base 100
 	height 0
 	width 0
 	top 0

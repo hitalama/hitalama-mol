@@ -1,9 +1,14 @@
 $shm_hitalama_board_block_float $shm_hitalama_resize
 	block $shm_hitalama_board_block
+	board $shm_hitalama_board
 	- plugins /
 		<= Keyboard $mol_keyboard_state
 			- key *
 				delete <= delete
+	sub /
+		<= Content
+		^ edges
+		^ toolbar
 	auto /
 		^
 		<= editing? false

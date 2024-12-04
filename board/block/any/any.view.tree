@@ -5,6 +5,7 @@ $shm_hitalama_board_block_any $mol_ghost
 		top => top
 		left => left
 		block <= block $shm_hitalama_board_block
+		board <= board $shm_hitalama_board
 		delete <= delete null
 		to_top <= to_top null
 		to_bottom <= to_bottom null
@@ -17,3 +18,4 @@ $shm_hitalama_board_block_any $mol_ghost
 		iframe <= Iframe $shm_hitalama_board_block_iframe
 		text <= Text $shm_hitalama_board_block_text
 		form <= Form $shm_hitalama_board_block_form
+		table <= Table $shm_hitalama_board_block_table

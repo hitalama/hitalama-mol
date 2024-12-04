@@ -1,0 +1,80 @@
+$shm_hitalama_board_form_view $mol_form
+	board $shm_hitalama_board
+	model <= form $shm_hitalama_board_form
+	form_fields /
+		<= Query_field $mol_form_field
+			name \Поисковой запрос
+			Content <= Query $mol_string
+				value? <=> query? \
+		<= Excluded_words_field $mol_form_field
+			name \Минус-слова
+			Content <= Excluded_words $mol_textarea
+				value? <=> excluded_words? \
+		<= Period_field $mol_form_field
+			name \Период
+			content /
+				<= Date_from $mol_date
+					value? <=> date_from? \
+				\–
+				<= Date_to $mol_date
+					value? <=> date_to? \
+		<= Country_field $mol_form_field
+			name \Страны
+			Content <= Country $mol_string
+				value? <=> country? \
+		<= Language_field $mol_form_field
+			name \Языки
+			Content <= Language $mol_string
+				value? <=> language? \
+		<= Social_media_field $mol_form_field
+			name \Соц.медиа
+			content <= content_social_media /
+				<= Social_media_file $mol_attach
+					attach_new? <=> social_media_attach? /
+				<= Social_media_name $mol_paragraph
+					title <= social_media_title \
+		<= Mass_media_field $mol_form_field
+			name \СМИ
+			content <= content_mass_media /
+				<= Mass_media_file $mol_attach
+					attach_new? <=> mass_media_attach? /
+				<= Mass_media_name $mol_paragraph
+					title <= mass_media_title \
+		<= Type_field $mol_form_field
+			name \Type
+			Content <= Type $mol_string
+				value? <=> type? \
+		<= Tags_field $mol_form_field
+			name \Tags
+			Content <= Tags $mol_string
+				value? <=> tags? \
+		<= Category_field $mol_form_field
+			name \Category
+			Content <= Category $mol_string
+				value? <=> category? \
+	body <= form_body /
+		<= Query_group $mol_form_group sub /
+			<= Query_field
+			<= Excluded_words_field
+		<= Period_field
+		<= Group $mol_form_group sub /
+			<= Country_field
+			<= Language_field
+		<= Files $mol_form_group sub /
+			<= Social_media_field
+			<= Mass_media_field
+		<= Tags_group $mol_form_group sub /
+			<= Type_field
+			<= Tags_field
+			<= Category_field
+	buttons /
+		<= Publish $mol_button_major
+			title \Отправить
+			click? <=> submit? null
+			enabled <= submit_allowed true
+		<= Result $mol_status
+			message <= result? \
+		<= Clear $mol_button_minor
+			title \Очистить
+			click? <=> clear? null
+			- enabled <= changed false

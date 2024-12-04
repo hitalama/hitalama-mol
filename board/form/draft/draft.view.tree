@@ -1,0 +1,73 @@
+$shm_hitalama_board_form_draft $mol_form_draft
+	model <= form $shm_hitalama_board_form
+	form_fields /
+		<= Query_field $mol_form_field
+			name \Поисковой запрос
+			Content <= Query $mol_string
+				value? <=> value_str*query?
+		<= Excluded_words_field $mol_form_field
+			name \Минус-слова
+			Content <= Excluded_words $mol_textarea
+				value? <=> value_str*excluded_words?
+		<= Period_field $mol_form_field
+			name \Период
+			content /
+				<= Date_from $mol_date
+					value_number? <=> value_number*date_from?
+				\–
+				<= Date_to $mol_date
+					value_number? <=> value_number*date_to?
+		<= Country_field $mol_form_field
+			name \Страны
+			Content <= Country $mol_string
+				value? <=> value_str*country?
+		<= Language_field $mol_form_field
+			name \Языки
+			Content <= Language $mol_string
+				value? <=> value_str*language?
+		<= File_smm_field $mol_form_field
+			name \Соц.медиа
+			Content <= File_smm $mol_attach
+				attach_new? <=> smm_attach? /
+		<= File_media_field $mol_form_field
+			name \СМИ
+			Content <= File_media $mol_attach
+				attach_new? <=> media_attach? /
+		<= Type_field $mol_form_field
+			name \Type
+			Content <= Type $mol_string
+				value? <=> value_str*type?
+		<= Tags_field $mol_form_field
+			name \Tags
+			Content <= Tags $mol_string
+				value? <=> value_str*tags?
+		<= Category_field $mol_form_field
+			name \Category
+			Content <= Category $mol_string
+				value? <=> value_str*category?
+	body <= form_body /
+		<= Query_group $mol_form_group sub /
+			<= Query_field
+			<= Excluded_words_field
+		<= Period_field
+		<= Group $mol_form_group sub /
+			<= Country_field
+			<= Language_field
+		<= Files $mol_form_group sub /
+			<= File_smm_field
+			<= File_media_field
+		<= Tags_group $mol_form_group sub /
+			<= Type_field
+			<= Tags_field
+			<= Category_field
+	buttons /
+		<= Publish $mol_button_major
+			title \Отправить
+			click? <=> submit?
+			enabled <= submit_allowed
+		<= Result $mol_status
+			message <= result? \
+		<= Reset $mol_button_minor
+			title \Очистить
+			click? <=> reset?
+			enabled <= changed

@@ -20,16 +20,6 @@ namespace $.$$ {
 		}
 
 		@ $mol_action
-		block_add() {
-			const block = this.board().Blocks(null)?.make( {'': $hyoo_crus_rank.get} )
-			block?.Text(null)?.value( 'text' )
-			block?.Body_x(null)?.val( parseFloat( this.context_menu_left() ) )
-			block?.Body_y(null)?.val( parseFloat( this.context_menu_top() ) )
-			this.context_menu_visible( false )
-			return block
-		}
-
-		@ $mol_action
 		block_delete( ref: $hyoo_crus_ref ) {
 			this.board().Blocks(null)?.cut( ref )
 		}
@@ -135,31 +125,47 @@ namespace $.$$ {
 		}
 
 		@ $mol_action
-		text_add( text: string ) {
+		paste_text( text: string ) {
 			const block = this.board().Blocks(null)?.make( {'': $hyoo_crus_rank.get} )
+			block?.Type(null)?.val( 'text' )
 			block?.Text(null)?.value( text )
+			return block
+		}
+
+		@ $mol_action
+		text_add() {
+			const block = this.board().Blocks(null)?.make( {'': $hyoo_crus_rank.get} )
+			block?.Type(null)?.val( 'text' )
+			block?.Text(null)?.value( 'text' )
+			block?.Body_x(null)?.val( parseFloat( this.context_menu_left() ) )
+			block?.Body_y(null)?.val( parseFloat( this.context_menu_top() ) )
+			this.context_menu_visible( false )
+			block?.Right_edge_x(null)?.val( 100 )
 			return block
 		}
 
 		@ $mol_action
 		input_add() {
 			const block = this.board().Blocks(null)?.make( {'': $hyoo_crus_rank.get} )
-			block?.Text(null)?.value( 'Hello' )
 			block?.Type(null)?.val( 'input' )
+			block?.Text(null)?.value( 'Hello' )
 			block?.Body_x(null)?.val( parseFloat( this.context_menu_left() ) )
 			block?.Body_y(null)?.val( parseFloat( this.context_menu_top() ) )
 			this.context_menu_visible( false )
+			block?.Right_edge_x(null)?.val( 100 )
 			return block
 		}
 
 		@ $mol_action
 		iframe_add() {
 			const block = this.board().Blocks(null)?.make( {'': $hyoo_crus_rank.get} )
-			block?.Src(null)?.val( 'https://www.google.com/search?igu=1' )
 			block?.Type(null)?.val( 'iframe' )
+			block?.Src(null)?.val( 'https://www.google.com/search?igu=1' )
 			block?.Body_x(null)?.val( parseFloat( this.context_menu_left() ) )
 			block?.Body_y(null)?.val( parseFloat( this.context_menu_top() ) )
 			this.context_menu_visible( false )
+			block?.Bottom_edge_y(null)?.val( 500 )
+			block?.Right_edge_x(null)?.val( 700 )
 			return block
 		}
 
@@ -169,6 +175,20 @@ namespace $.$$ {
 			block?.Type(null)?.val( 'form' )
 			block?.Body_x(null)?.val( parseFloat( this.context_menu_left() ) )
 			block?.Body_y(null)?.val( parseFloat( this.context_menu_top() ) )
+			block?.Bottom_edge_y(null)?.val( 400 )
+			block?.Right_edge_x(null)?.val( 400 )
+			this.context_menu_visible( false )
+			return block
+		}
+
+		@ $mol_action
+		table_add() {
+			const block = this.board().Blocks(null)?.make( {'': $hyoo_crus_rank.get} )
+			block?.Type(null)?.val( 'table' )
+			block?.Body_x(null)?.val( parseFloat( this.context_menu_left() ) )
+			block?.Body_y(null)?.val( parseFloat( this.context_menu_top() ) )
+			block?.Bottom_edge_y(null)?.val( 400 )
+			block?.Right_edge_x(null)?.val( 400 )
 			this.context_menu_visible( false )
 			return block
 		}
@@ -221,7 +241,7 @@ namespace $.$$ {
 						const item = items[ index ]
 						if( item.type === 'text/plain' ) {
 							item.getAsString( ( s: string) => {
-								$mol_wire_async( this ).text_add( s )
+								$mol_wire_async( this ).paste_text( s )
 							} )
 						}
 						if( item.kind === 'file' ) {

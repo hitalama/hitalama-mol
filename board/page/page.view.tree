@@ -27,7 +27,7 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 				sub /
 					<= Text_add $mol_button_minor
 						title \Добавить текст
-						click? <=> block_add? null
+						click? <=> text_add? null
 					<= Input_add $mol_button_minor
 						title \Добавить input
 						click? <=> input_add? null
@@ -37,6 +37,9 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 					<= Form_add $mol_button_minor
 						title \Добавить форму
 						click? <=> form_add? null
+					<= Table_add $mol_button_minor
+						title \Добавить таблицу
+						click? <=> table_add? null
 				style *
 					left <= context_menu_left? \0px
 					top <= context_menu_top? \0px
@@ -46,6 +49,7 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 		^ blocks /
 			<= Block* $shm_hitalama_board_block_any
 				block <= block* $shm_hitalama_board_block
+				board <= board
 				delete <= block_delete* null
 				to_top <= block_to_top* null
 				to_bottom <= block_to_bottom* null
