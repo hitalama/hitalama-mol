@@ -233,7 +233,8 @@ namespace $.$$ {
 				'paste',
 				$mol_wire_async( event => {
 
-					if( this.editing( this.selected_ref() ) ) return
+					const ref = this.selected_ref()
+					if( ref && this.editing( ref ) ) return
 
 					// event.preventDefault()
 					const items = ( event.clipboardData || event.originalEvent.clipboardData ).items
