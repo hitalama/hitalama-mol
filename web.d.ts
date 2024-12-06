@@ -220,7 +220,10 @@ declare namespace $ {
         refresh(): void;
         abstract put(next: Result | Error | Promise<Result | Error>): Result | Error | Promise<Result | Error>;
         sync(): Awaited<Result>;
-        async(): Promise<Result>;
+        async_raw(): Promise<Result>;
+        async(): Promise<Result> & {
+            destructor(): void;
+        };
         step(): Promise<null>;
     }
 }
@@ -289,7 +292,7 @@ declare namespace $ {
         static getter<Host, Args extends readonly unknown[], Result>(task: (this: Host, ...args: Args) => Result): (host: Host, args: Args) => $mol_wire_task<Host, Args, Result>;
         get temp(): boolean;
         complete(): void;
-        put(next: Result | Error | Promise<Result | Error>): Error | Result | Promise<Error | Result>;
+        put(next: Result | Error | Promise<Result | Error>): Result | Error | Promise<Result | Error>;
     }
 }
 
@@ -16818,6 +16821,38 @@ declare namespace $ {
 //# sourceMappingURL=new.view.tree.d.ts.map
 declare namespace $ {
 
+	type $mol_touch__draw_start_shm_hitalama_board_back_1 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_back['draw_start'] >
+		,
+		ReturnType< $mol_touch['draw_start'] >
+	>
+	type $mol_touch__draw_shm_hitalama_board_back_2 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_back['draw'] >
+		,
+		ReturnType< $mol_touch['draw'] >
+	>
+	type $mol_touch__draw_end_shm_hitalama_board_back_3 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_back['draw_end'] >
+		,
+		ReturnType< $mol_touch['draw_end'] >
+	>
+	export class $shm_hitalama_board_back extends $mol_view {
+		contextmenu( next?: any ): any
+		draw_start( next?: any ): any
+		draw( next?: any ): any
+		draw_end( next?: any ): any
+		Touch( ): $mol_touch
+		event( ): ({ 
+			contextmenu( next?: ReturnType< $shm_hitalama_board_back['contextmenu'] > ): ReturnType< $shm_hitalama_board_back['contextmenu'] >,
+		})  & ReturnType< $mol_view['event'] >
+		plugins( ): readonly(any)[]
+	}
+	
+}
+
+//# sourceMappingURL=back.view.tree.d.ts.map
+declare namespace $ {
+
 	export class $shm_hitalama_drag extends $mol_plugin {
 		pointerdown( next?: any ): any
 		dragged( next?: boolean ): boolean
@@ -16825,6 +16860,9 @@ declare namespace $ {
 		y( next?: number ): number
 		repos_x( id: any): number
 		repos_y( id: any): number
+		on_drag( next?: any ): any
+		on_drag_start( next?: any ): any
+		on_drag_end( next?: any ): any
 		drag( next?: any ): any
 		drag_start( next?: any ): any
 		drag_end( next?: any ): any
@@ -16834,6 +16872,7 @@ declare namespace $ {
 		attr( ): ({ 
 			'shm_hitalama_dragged': ReturnType< $shm_hitalama_drag['dragged'] >,
 		})  & ReturnType< $mol_plugin['attr'] >
+		drags_synced( ): readonly($shm_hitalama_drag)[]
 	}
 	
 }
@@ -16848,26 +16887,29 @@ declare namespace $.$$ {
             x: number;
             y: number;
         };
-        pointerdown(event?: any): void;
+        drag_start(event: PointerEvent): void;
+        drag(event: PointerEvent): void;
+        drag_end(event: PointerEvent): void;
+        pointerdown(event: PointerEvent): void;
     }
 }
 
 declare namespace $ {
 
-	type $shm_hitalama_drag__drag_shm_hitalama_drag_view_1 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_drag_view['drag'] >
+	type $shm_hitalama_drag__on_drag_start_shm_hitalama_drag_view_1 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_drag_view['on_drag_start'] >
 		,
-		ReturnType< $shm_hitalama_drag['drag'] >
+		ReturnType< $shm_hitalama_drag['on_drag_start'] >
 	>
-	type $shm_hitalama_drag__drag_start_shm_hitalama_drag_view_2 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_drag_view['drag_start'] >
+	type $shm_hitalama_drag__on_drag_end_shm_hitalama_drag_view_2 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_drag_view['on_drag_end'] >
 		,
-		ReturnType< $shm_hitalama_drag['drag_start'] >
+		ReturnType< $shm_hitalama_drag['on_drag_end'] >
 	>
-	type $shm_hitalama_drag__drag_end_shm_hitalama_drag_view_3 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_drag_view['drag_end'] >
+	type $shm_hitalama_drag__on_drag_shm_hitalama_drag_view_3 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_drag_view['on_drag'] >
 		,
-		ReturnType< $shm_hitalama_drag['drag_end'] >
+		ReturnType< $shm_hitalama_drag['on_drag'] >
 	>
 	type $shm_hitalama_drag__y_shm_hitalama_drag_view_4 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_drag_view['y'] >
@@ -16879,13 +16921,19 @@ declare namespace $ {
 		,
 		ReturnType< $shm_hitalama_drag['x'] >
 	>
+	type $shm_hitalama_drag__drags_synced_shm_hitalama_drag_view_6 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_drag_view['drags_synced'] >
+		,
+		ReturnType< $shm_hitalama_drag['drags_synced'] >
+	>
 	export class $shm_hitalama_drag_view extends $mol_view {
-		drag( next?: any ): any
-		drag_start( next?: any ): any
-		drag_end( next?: any ): any
+		on_drag_start( next?: any ): any
+		on_drag_end( next?: any ): any
+		on_drag( next?: any ): any
 		dragged( ): ReturnType< ReturnType< $shm_hitalama_drag_view['Drag'] >['dragged'] >
 		y( next?: number ): number
 		x( next?: number ): number
+		drags_synced( ): readonly($shm_hitalama_drag)[]
 		Drag( ): $shm_hitalama_drag
 		plugins( ): readonly(any)[]
 		style( ): ({ 
@@ -16913,17 +16961,22 @@ declare namespace $ {
 		,
 		ReturnType< $shm_hitalama_drag_view['y'] >
 	>
-	type $shm_hitalama_drag_view__drag_start_shm_hitalama_resize_4 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_resize['drag_start'] >
+	type $shm_hitalama_drag_view__on_drag_start_shm_hitalama_resize_4 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_resize['on_drag_start'] >
 		,
-		ReturnType< $shm_hitalama_drag_view['drag_start'] >
+		ReturnType< $shm_hitalama_drag_view['on_drag_start'] >
 	>
-	type $shm_hitalama_drag_view__drag_end_shm_hitalama_resize_5 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_resize['drag_end'] >
+	type $shm_hitalama_drag_view__on_drag_end_shm_hitalama_resize_5 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_resize['on_drag_end'] >
 		,
-		ReturnType< $shm_hitalama_drag_view['drag_end'] >
+		ReturnType< $shm_hitalama_drag_view['on_drag_end'] >
 	>
-	type $mol_view__style_shm_hitalama_resize_6 = $mol_type_enforce<
+	type $shm_hitalama_drag_view__drags_synced_shm_hitalama_resize_6 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_resize['drags_synced'] >
+		,
+		ReturnType< $shm_hitalama_drag_view['drags_synced'] >
+	>
+	type $mol_view__style_shm_hitalama_resize_7 = $mol_type_enforce<
 		({ 
 			'minHeight': string,
 			'minWidth': string,
@@ -16931,152 +16984,152 @@ declare namespace $ {
 		,
 		ReturnType< $mol_view['style'] >
 	>
-	type $mol_view__sub_shm_hitalama_resize_7 = $mol_type_enforce<
+	type $mol_view__sub_shm_hitalama_resize_8 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_resize['content'] >
 		,
 		ReturnType< $mol_view['sub'] >
 	>
-	type $mol_scroll__sub_shm_hitalama_resize_8 = $mol_type_enforce<
+	type $mol_scroll__sub_shm_hitalama_resize_9 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_resize['content_wrapper'] >
 		,
 		ReturnType< $mol_scroll['sub'] >
 	>
-	type $shm_hitalama_resize_edge__drag_start_shm_hitalama_resize_9 = $mol_type_enforce<
+	type $shm_hitalama_resize_edge__on_drag_start_shm_hitalama_resize_10 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_resize['resize_start'] >
 		,
-		ReturnType< $shm_hitalama_resize_edge['drag_start'] >
+		ReturnType< $shm_hitalama_resize_edge['on_drag_start'] >
 	>
-	type $shm_hitalama_resize_edge__drag_end_shm_hitalama_resize_10 = $mol_type_enforce<
+	type $shm_hitalama_resize_edge__on_drag_end_shm_hitalama_resize_11 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_resize['resize_end'] >
 		,
-		ReturnType< $shm_hitalama_resize_edge['drag_end'] >
+		ReturnType< $shm_hitalama_resize_edge['on_drag_end'] >
 	>
-	type $shm_hitalama_resize_edge__y_shm_hitalama_resize_11 = $mol_type_enforce<
+	type $shm_hitalama_resize_edge__y_shm_hitalama_resize_12 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_resize['top_edge_y'] >
 		,
 		ReturnType< $shm_hitalama_resize_edge['y'] >
 	>
-	type $shm_hitalama_resize_edge__drag_start_shm_hitalama_resize_12 = $mol_type_enforce<
+	type $shm_hitalama_resize_edge__on_drag_start_shm_hitalama_resize_13 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_resize['resize_start'] >
 		,
-		ReturnType< $shm_hitalama_resize_edge['drag_start'] >
+		ReturnType< $shm_hitalama_resize_edge['on_drag_start'] >
 	>
-	type $shm_hitalama_resize_edge__drag_end_shm_hitalama_resize_13 = $mol_type_enforce<
+	type $shm_hitalama_resize_edge__on_drag_end_shm_hitalama_resize_14 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_resize['resize_end'] >
 		,
-		ReturnType< $shm_hitalama_resize_edge['drag_end'] >
+		ReturnType< $shm_hitalama_resize_edge['on_drag_end'] >
 	>
-	type $shm_hitalama_resize_edge__x_shm_hitalama_resize_14 = $mol_type_enforce<
+	type $shm_hitalama_resize_edge__x_shm_hitalama_resize_15 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_resize['left_edge_x'] >
 		,
 		ReturnType< $shm_hitalama_resize_edge['x'] >
 	>
-	type $shm_hitalama_resize_edge__drag_start_shm_hitalama_resize_15 = $mol_type_enforce<
+	type $shm_hitalama_resize_edge__on_drag_start_shm_hitalama_resize_16 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_resize['resize_start'] >
 		,
-		ReturnType< $shm_hitalama_resize_edge['drag_start'] >
+		ReturnType< $shm_hitalama_resize_edge['on_drag_start'] >
 	>
-	type $shm_hitalama_resize_edge__drag_end_shm_hitalama_resize_16 = $mol_type_enforce<
+	type $shm_hitalama_resize_edge__on_drag_end_shm_hitalama_resize_17 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_resize['resize_end'] >
 		,
-		ReturnType< $shm_hitalama_resize_edge['drag_end'] >
+		ReturnType< $shm_hitalama_resize_edge['on_drag_end'] >
 	>
-	type $shm_hitalama_resize_edge__y_shm_hitalama_resize_17 = $mol_type_enforce<
+	type $shm_hitalama_resize_edge__y_shm_hitalama_resize_18 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_resize['bottom_edge_y'] >
 		,
 		ReturnType< $shm_hitalama_resize_edge['y'] >
 	>
-	type $shm_hitalama_resize_edge__drag_start_shm_hitalama_resize_18 = $mol_type_enforce<
+	type $shm_hitalama_resize_edge__on_drag_start_shm_hitalama_resize_19 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_resize['resize_start'] >
 		,
-		ReturnType< $shm_hitalama_resize_edge['drag_start'] >
+		ReturnType< $shm_hitalama_resize_edge['on_drag_start'] >
 	>
-	type $shm_hitalama_resize_edge__drag_end_shm_hitalama_resize_19 = $mol_type_enforce<
+	type $shm_hitalama_resize_edge__on_drag_end_shm_hitalama_resize_20 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_resize['resize_end'] >
 		,
-		ReturnType< $shm_hitalama_resize_edge['drag_end'] >
+		ReturnType< $shm_hitalama_resize_edge['on_drag_end'] >
 	>
-	type $shm_hitalama_resize_edge__x_shm_hitalama_resize_20 = $mol_type_enforce<
+	type $shm_hitalama_resize_edge__x_shm_hitalama_resize_21 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_resize['right_edge_x'] >
 		,
 		ReturnType< $shm_hitalama_resize_edge['x'] >
 	>
-	type $shm_hitalama_resize_edge__drag_start_shm_hitalama_resize_21 = $mol_type_enforce<
+	type $shm_hitalama_resize_edge__on_drag_start_shm_hitalama_resize_22 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_resize['resize_start'] >
 		,
-		ReturnType< $shm_hitalama_resize_edge['drag_start'] >
+		ReturnType< $shm_hitalama_resize_edge['on_drag_start'] >
 	>
-	type $shm_hitalama_resize_edge__drag_end_shm_hitalama_resize_22 = $mol_type_enforce<
+	type $shm_hitalama_resize_edge__on_drag_end_shm_hitalama_resize_23 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_resize['resize_end'] >
 		,
-		ReturnType< $shm_hitalama_resize_edge['drag_end'] >
+		ReturnType< $shm_hitalama_resize_edge['on_drag_end'] >
 	>
-	type $shm_hitalama_resize_edge__y_shm_hitalama_resize_23 = $mol_type_enforce<
+	type $shm_hitalama_resize_edge__y_shm_hitalama_resize_24 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_resize['top_edge_y'] >
 		,
 		ReturnType< $shm_hitalama_resize_edge['y'] >
 	>
-	type $shm_hitalama_resize_edge__x_shm_hitalama_resize_24 = $mol_type_enforce<
+	type $shm_hitalama_resize_edge__x_shm_hitalama_resize_25 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_resize['left_edge_x'] >
 		,
 		ReturnType< $shm_hitalama_resize_edge['x'] >
 	>
-	type $shm_hitalama_resize_edge__drag_start_shm_hitalama_resize_25 = $mol_type_enforce<
+	type $shm_hitalama_resize_edge__on_drag_start_shm_hitalama_resize_26 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_resize['resize_start'] >
 		,
-		ReturnType< $shm_hitalama_resize_edge['drag_start'] >
+		ReturnType< $shm_hitalama_resize_edge['on_drag_start'] >
 	>
-	type $shm_hitalama_resize_edge__drag_end_shm_hitalama_resize_26 = $mol_type_enforce<
+	type $shm_hitalama_resize_edge__on_drag_end_shm_hitalama_resize_27 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_resize['resize_end'] >
 		,
-		ReturnType< $shm_hitalama_resize_edge['drag_end'] >
+		ReturnType< $shm_hitalama_resize_edge['on_drag_end'] >
 	>
-	type $shm_hitalama_resize_edge__y_shm_hitalama_resize_27 = $mol_type_enforce<
+	type $shm_hitalama_resize_edge__y_shm_hitalama_resize_28 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_resize['top_edge_y'] >
 		,
 		ReturnType< $shm_hitalama_resize_edge['y'] >
 	>
-	type $shm_hitalama_resize_edge__x_shm_hitalama_resize_28 = $mol_type_enforce<
+	type $shm_hitalama_resize_edge__x_shm_hitalama_resize_29 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_resize['right_edge_x'] >
 		,
 		ReturnType< $shm_hitalama_resize_edge['x'] >
 	>
-	type $shm_hitalama_resize_edge__drag_start_shm_hitalama_resize_29 = $mol_type_enforce<
+	type $shm_hitalama_resize_edge__on_drag_start_shm_hitalama_resize_30 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_resize['resize_start'] >
 		,
-		ReturnType< $shm_hitalama_resize_edge['drag_start'] >
+		ReturnType< $shm_hitalama_resize_edge['on_drag_start'] >
 	>
-	type $shm_hitalama_resize_edge__drag_end_shm_hitalama_resize_30 = $mol_type_enforce<
+	type $shm_hitalama_resize_edge__on_drag_end_shm_hitalama_resize_31 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_resize['resize_end'] >
 		,
-		ReturnType< $shm_hitalama_resize_edge['drag_end'] >
+		ReturnType< $shm_hitalama_resize_edge['on_drag_end'] >
 	>
-	type $shm_hitalama_resize_edge__y_shm_hitalama_resize_31 = $mol_type_enforce<
+	type $shm_hitalama_resize_edge__y_shm_hitalama_resize_32 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_resize['bottom_edge_y'] >
 		,
 		ReturnType< $shm_hitalama_resize_edge['y'] >
 	>
-	type $shm_hitalama_resize_edge__x_shm_hitalama_resize_32 = $mol_type_enforce<
+	type $shm_hitalama_resize_edge__x_shm_hitalama_resize_33 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_resize['left_edge_x'] >
 		,
 		ReturnType< $shm_hitalama_resize_edge['x'] >
 	>
-	type $shm_hitalama_resize_edge__drag_start_shm_hitalama_resize_33 = $mol_type_enforce<
+	type $shm_hitalama_resize_edge__on_drag_start_shm_hitalama_resize_34 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_resize['resize_start'] >
 		,
-		ReturnType< $shm_hitalama_resize_edge['drag_start'] >
+		ReturnType< $shm_hitalama_resize_edge['on_drag_start'] >
 	>
-	type $shm_hitalama_resize_edge__drag_end_shm_hitalama_resize_34 = $mol_type_enforce<
+	type $shm_hitalama_resize_edge__on_drag_end_shm_hitalama_resize_35 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_resize['resize_end'] >
 		,
-		ReturnType< $shm_hitalama_resize_edge['drag_end'] >
+		ReturnType< $shm_hitalama_resize_edge['on_drag_end'] >
 	>
-	type $shm_hitalama_resize_edge__y_shm_hitalama_resize_35 = $mol_type_enforce<
+	type $shm_hitalama_resize_edge__y_shm_hitalama_resize_36 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_resize['bottom_edge_y'] >
 		,
 		ReturnType< $shm_hitalama_resize_edge['y'] >
 	>
-	type $shm_hitalama_resize_edge__x_shm_hitalama_resize_36 = $mol_type_enforce<
+	type $shm_hitalama_resize_edge__x_shm_hitalama_resize_37 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_resize['right_edge_x'] >
 		,
 		ReturnType< $shm_hitalama_resize_edge['x'] >
@@ -17085,10 +17138,12 @@ declare namespace $ {
 		drag_body( ): readonly(any)[]
 		body_x( next?: number ): number
 		body_y( next?: number ): number
-		drag_start( next?: any ): any
-		drag_end( next?: any ): any
-		dragged( ): ReturnType< ReturnType< $shm_hitalama_resize['Drag'] >['dragged'] >
-		Drag( ): $shm_hitalama_drag_view
+		on_drag_start( next?: any ): any
+		on_drag_end( next?: any ): any
+		dragged( ): ReturnType< ReturnType< $shm_hitalama_resize['Drag_view'] >['dragged'] >
+		drags_synced( ): readonly($shm_hitalama_drag)[]
+		Drag( ): ReturnType< ReturnType< $shm_hitalama_resize['Drag_view'] >['Drag'] >
+		Drag_view( ): $shm_hitalama_drag_view
 		content( ): readonly(any)[]
 		Fullsize_wrapper( ): $mol_view
 		content_wrapper( ): readonly(any)[]
@@ -17164,7 +17219,7 @@ declare namespace $.$$ {
         width_px(): string;
         top_px(): string;
         left_px(): string;
-        drag_end(): void;
+        on_drag_end(): void;
         resize_start(next?: any): void;
         resize_end(): void;
         vals_to_sticks(): void;
@@ -17591,7 +17646,6 @@ declare namespace $ {
 		board( ): $shm_hitalama_board
 		sub( ): readonly(any)[]
 		auto( ): readonly(any)[]
-		selected_or_dragged( ): boolean
 		toolbar( ): readonly(any)[]
 		opacity( next?: number ): number
 		style( ): ({ 
@@ -17628,9 +17682,7 @@ declare namespace $.$$ {
         edges(): readonly (any)[];
         toolbar(): readonly (any)[];
         transition(): string;
-        drag_end(): void;
-        drag_start(): void;
-        selected_or_dragged(): boolean;
+        on_drag_start(event: PointerEvent): void;
     }
 }
 
@@ -18874,49 +18926,59 @@ declare namespace $.$$ {
 declare namespace $ {
 
 	type _shm_hitalama_board_block_any_1 = $mol_type_enforce<
+		Parameters< $shm_hitalama_board_block_any['dragged'] >[0]
+		,
+		Parameters< ReturnType< $shm_hitalama_board_block_any['Sub'] >['dragged'] >[0]
+	>
+	type _shm_hitalama_board_block_any_2 = $mol_type_enforce<
 		Parameters< $shm_hitalama_board_block_any['editing'] >[0]
 		,
 		Parameters< ReturnType< $shm_hitalama_board_block_any['Sub'] >['editing'] >[0]
 	>
-	type $shm_hitalama_board_block_float__block_shm_hitalama_board_block_any_2 = $mol_type_enforce<
+	type $shm_hitalama_board_block_float__block_shm_hitalama_board_block_any_3 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_any['block'] >
 		,
 		ReturnType< $shm_hitalama_board_block_float['block'] >
 	>
-	type $shm_hitalama_board_block_float__board_shm_hitalama_board_block_any_3 = $mol_type_enforce<
+	type $shm_hitalama_board_block_float__board_shm_hitalama_board_block_any_4 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_any['board'] >
 		,
 		ReturnType< $shm_hitalama_board_block_float['board'] >
 	>
-	type $shm_hitalama_board_block_float__delete_shm_hitalama_board_block_any_4 = $mol_type_enforce<
+	type $shm_hitalama_board_block_float__delete_shm_hitalama_board_block_any_5 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_any['delete'] >
 		,
 		ReturnType< $shm_hitalama_board_block_float['delete'] >
 	>
-	type $shm_hitalama_board_block_float__to_top_shm_hitalama_board_block_any_5 = $mol_type_enforce<
+	type $shm_hitalama_board_block_float__to_top_shm_hitalama_board_block_any_6 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_any['to_top'] >
 		,
 		ReturnType< $shm_hitalama_board_block_float['to_top'] >
 	>
-	type $shm_hitalama_board_block_float__to_bottom_shm_hitalama_board_block_any_6 = $mol_type_enforce<
+	type $shm_hitalama_board_block_float__to_bottom_shm_hitalama_board_block_any_7 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_any['to_bottom'] >
 		,
 		ReturnType< $shm_hitalama_board_block_float['to_bottom'] >
 	>
-	type $shm_hitalama_board_block_float__sticks_y_shm_hitalama_board_block_any_7 = $mol_type_enforce<
+	type $shm_hitalama_board_block_float__sticks_y_shm_hitalama_board_block_any_8 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_any['sticks_y'] >
 		,
 		ReturnType< $shm_hitalama_board_block_float['sticks_y'] >
 	>
-	type $shm_hitalama_board_block_float__sticks_x_shm_hitalama_board_block_any_8 = $mol_type_enforce<
+	type $shm_hitalama_board_block_float__sticks_x_shm_hitalama_board_block_any_9 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_any['sticks_x'] >
 		,
 		ReturnType< $shm_hitalama_board_block_float['sticks_x'] >
 	>
-	type $shm_hitalama_board_block_float__selected_shm_hitalama_board_block_any_9 = $mol_type_enforce<
+	type $shm_hitalama_board_block_float__selected_shm_hitalama_board_block_any_10 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_any['selected'] >
 		,
 		ReturnType< $shm_hitalama_board_block_float['selected'] >
+	>
+	type $shm_hitalama_board_block_float__drags_synced_shm_hitalama_board_block_any_11 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_any['drags_synced'] >
+		,
+		ReturnType< $shm_hitalama_board_block_float['drags_synced'] >
 	>
 	export class $shm_hitalama_board_block_any extends $mol_ghost {
 		height( ): ReturnType< ReturnType< $shm_hitalama_board_block_any['Sub'] >['height'] >
@@ -18931,7 +18993,9 @@ declare namespace $ {
 		sticks_y( ): readonly(any)[]
 		sticks_x( ): readonly(any)[]
 		selected( next?: boolean ): boolean
+		dragged( next?: ReturnType< ReturnType< $shm_hitalama_board_block_any['Sub'] >['dragged'] > ): ReturnType< ReturnType< $shm_hitalama_board_block_any['Sub'] >['dragged'] >
 		editing( next?: ReturnType< ReturnType< $shm_hitalama_board_block_any['Sub'] >['editing'] > ): ReturnType< ReturnType< $shm_hitalama_board_block_any['Sub'] >['editing'] >
+		drags_synced( ): readonly($shm_hitalama_drag)[]
 		Input( ): $shm_hitalama_board_block_input
 		Iframe( ): $shm_hitalama_board_block_iframe
 		Text( ): $shm_hitalama_board_block_text
@@ -18958,6 +19022,21 @@ declare namespace $.$$ {
 
 declare namespace $ {
 
+	export class $shm_hitalama_board_pane extends $mol_view {
+		selecting( ): boolean
+		attr( ): ({ 
+			'selecting': ReturnType< $shm_hitalama_board_pane['selecting'] >,
+		})  & ReturnType< $mol_view['attr'] >
+	}
+	
+}
+
+//# sourceMappingURL=pane.view.tree.d.ts.map
+declare namespace $.$$ {
+}
+
+declare namespace $ {
+
 	type $mol_link_iconed__sub_shm_hitalama_board_page_1 = $mol_type_enforce<
 		readonly(any)[]
 		,
@@ -18976,13 +19055,13 @@ declare namespace $ {
 		,
 		ReturnType< $mol_link_iconed['external'] >
 	>
-	type $mol_view__event_shm_hitalama_board_page_4 = $mol_type_enforce<
+	type $shm_hitalama_board_back__event_shm_hitalama_board_page_4 = $mol_type_enforce<
 		({ 
 			pointerdown( next?: ReturnType< $shm_hitalama_board_page['back_pointerdown'] > ): ReturnType< $shm_hitalama_board_page['back_pointerdown'] >,
 			contextmenu( next?: ReturnType< $shm_hitalama_board_page['back_contextmenu'] > ): ReturnType< $shm_hitalama_board_page['back_contextmenu'] >,
 		}) 
 		,
-		ReturnType< $mol_view['event'] >
+		ReturnType< $shm_hitalama_board_back['event'] >
 	>
 	type $mol_button_minor__title_shm_hitalama_board_page_5 = $mol_type_enforce<
 		string
@@ -19085,55 +19164,93 @@ declare namespace $ {
 		,
 		Parameters< $shm_hitalama_board_page['Block'] >[0]
 	>
-	type $shm_hitalama_board_block_any__block_shm_hitalama_board_page_24 = $mol_type_enforce<
+	type _shm_hitalama_board_page_24 = $mol_type_enforce<
+		Parameters< $shm_hitalama_board_page['dragged'] >[0]
+		,
+		Parameters< $shm_hitalama_board_page['Block'] >[0]
+	>
+	type _shm_hitalama_board_page_25 = $mol_type_enforce<
+		Parameters< $shm_hitalama_board_page['dragged'] >[1]
+		,
+		Parameters< $shm_hitalama_board_page['Block'] >[0]
+	>
+	type $shm_hitalama_board_block_any__block_shm_hitalama_board_page_26 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_page['block'] >
 		,
 		ReturnType< $shm_hitalama_board_block_any['block'] >
 	>
-	type $shm_hitalama_board_block_any__board_shm_hitalama_board_page_25 = $mol_type_enforce<
+	type $shm_hitalama_board_block_any__board_shm_hitalama_board_page_27 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_page['board'] >
 		,
 		ReturnType< $shm_hitalama_board_block_any['board'] >
 	>
-	type $shm_hitalama_board_block_any__delete_shm_hitalama_board_page_26 = $mol_type_enforce<
+	type $shm_hitalama_board_block_any__delete_shm_hitalama_board_page_28 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_page['block_delete'] >
 		,
 		ReturnType< $shm_hitalama_board_block_any['delete'] >
 	>
-	type $shm_hitalama_board_block_any__to_top_shm_hitalama_board_page_27 = $mol_type_enforce<
+	type $shm_hitalama_board_block_any__to_top_shm_hitalama_board_page_29 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_page['block_to_top'] >
 		,
 		ReturnType< $shm_hitalama_board_block_any['to_top'] >
 	>
-	type $shm_hitalama_board_block_any__to_bottom_shm_hitalama_board_page_28 = $mol_type_enforce<
+	type $shm_hitalama_board_block_any__to_bottom_shm_hitalama_board_page_30 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_page['block_to_bottom'] >
 		,
 		ReturnType< $shm_hitalama_board_block_any['to_bottom'] >
 	>
-	type $shm_hitalama_board_block_any__sticks_y_shm_hitalama_board_page_29 = $mol_type_enforce<
+	type $shm_hitalama_board_block_any__sticks_y_shm_hitalama_board_page_31 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_page['sticks_y'] >
 		,
 		ReturnType< $shm_hitalama_board_block_any['sticks_y'] >
 	>
-	type $shm_hitalama_board_block_any__sticks_x_shm_hitalama_board_page_30 = $mol_type_enforce<
+	type $shm_hitalama_board_block_any__sticks_x_shm_hitalama_board_page_32 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_page['sticks_x'] >
 		,
 		ReturnType< $shm_hitalama_board_block_any['sticks_x'] >
 	>
-	type $shm_hitalama_board_block_any__selected_shm_hitalama_board_page_31 = $mol_type_enforce<
+	type $shm_hitalama_board_block_any__selected_shm_hitalama_board_page_33 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_page['selected'] >
 		,
 		ReturnType< $shm_hitalama_board_block_any['selected'] >
+	>
+	type $shm_hitalama_board_block_any__drags_synced_shm_hitalama_board_page_34 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_page['drags_synced'] >
+		,
+		ReturnType< $shm_hitalama_board_block_any['drags_synced'] >
+	>
+	type $mol_view__style_shm_hitalama_board_page_35 = $mol_type_enforce<
+		({ 
+			'left': ReturnType< $shm_hitalama_board_page['select_rect_left'] >,
+			'top': ReturnType< $shm_hitalama_board_page['select_rect_top'] >,
+			'width': ReturnType< $shm_hitalama_board_page['select_rect_width'] >,
+			'height': ReturnType< $shm_hitalama_board_page['select_rect_height'] >,
+		}) 
+		,
+		ReturnType< $mol_view['style'] >
+	>
+	type $shm_hitalama_board_pane__selecting_shm_hitalama_board_page_36 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_page['selecting'] >
+		,
+		ReturnType< $shm_hitalama_board_pane['selecting'] >
+	>
+	type $shm_hitalama_board_pane__sub_shm_hitalama_board_page_37 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $shm_hitalama_board_pane['sub'] >
 	>
 	export class $shm_hitalama_board_page extends $shm_hitalama_entity_page {
 		Open_in_new_icon( ): $mol_icon_open_in_new
 		Open_in_new( ): $mol_link_iconed
 		keydown_listener( ): any
+		keyup_listener( ): any
 		paste_listener( ): any
 		pointerdown_listener( ): any
+		shift_pressed( next?: boolean ): boolean
+		pull_drags_synced( ): any
 		back_pointerdown( next?: any ): any
 		back_contextmenu( next?: any ): any
-		Back( ): $mol_view
+		Back( ): $shm_hitalama_board_back
 		text_add( next?: any ): any
 		Text_add( ): $mol_button_minor
 		input_add( next?: any ): any
@@ -19162,8 +19279,16 @@ declare namespace $ {
 		sticks_x( id: any): readonly(any)[]
 		selected( id: any, next?: boolean ): boolean
 		editing( id: any, next?: ReturnType< ReturnType< $shm_hitalama_board_page['Block'] >['editing'] > ): ReturnType< ReturnType< $shm_hitalama_board_page['Block'] >['editing'] >
+		dragged( id: any, next?: ReturnType< ReturnType< $shm_hitalama_board_page['Block'] >['dragged'] > ): ReturnType< ReturnType< $shm_hitalama_board_page['Block'] >['dragged'] >
+		drags_synced( id: any): readonly($shm_hitalama_drag)[]
 		Block( id: any): $shm_hitalama_board_block_any
 		blocks( ): readonly(any)[]
+		select_rect_left( next?: string ): string
+		select_rect_top( next?: string ): string
+		select_rect_width( next?: string ): string
+		select_rect_height( next?: string ): string
+		Select_rect( ): $mol_view
+		select_rect( ): readonly(any)[]
 		board( ): $shm_hitalama_board
 		cut_title( ): string
 		head( ): readonly(any)[]
@@ -19171,7 +19296,13 @@ declare namespace $ {
 		context_menu_hovered( next?: boolean ): boolean
 		context_menu_visible( next?: boolean ): boolean
 		body_content( ): readonly(any)[]
-		selected_ref( next?: any ): any
+		Pane( ): $shm_hitalama_board_pane
+		selecting( next?: boolean ): boolean
+		selected_refs( next?: readonly(any)[] ): readonly(any)[]
+		select_rect_start_x( next?: number ): number
+		select_rect_start_y( next?: number ): number
+		select_rect_end_x( next?: number ): number
+		select_rect_end_y( next?: number ): number
 	}
 	
 }
@@ -19193,13 +19324,16 @@ declare namespace $.$$ {
         sticks_x_by_block(ref: $hyoo_crus_ref): number[];
         sticks_x(ref: $hyoo_crus_ref): any[];
         sticks_y(ref: $hyoo_crus_ref): any[];
+        drags_synced(ref: $hyoo_crus_ref): readonly ($.$shm_hitalama_drag)[];
+        pull_drags_synced(): (readonly $.$shm_hitalama_drag[])[];
         selected(ref: $hyoo_crus_ref, next?: boolean): boolean;
-        back_pointerdown(e: PointerEvent): void;
+        back_pointerdown(event: PointerEvent): void;
         deselect_all(): void;
-        back_contextmenu(e: PointerEvent): void;
+        back_contextmenu(event: PointerEvent): void;
         context_menu(): readonly (any)[];
         context_menu_pointerenter(next?: any): void;
         context_menu_pointerleave(next?: any): void;
+        block_add(type: (typeof $shm_hitalama_board_block_types)[number], x?: number, y?: number, right_x?: number, bottom_x?: number): $shm_hitalama_board_block | undefined;
         paste_text(text: string): $shm_hitalama_board_block | undefined;
         text_add(): $shm_hitalama_board_block | undefined;
         input_add(): $shm_hitalama_board_block | undefined;
@@ -19208,8 +19342,15 @@ declare namespace $.$$ {
         table_add(): $shm_hitalama_board_block | undefined;
         image_add(blob: Blob): $shm_hitalama_board_block | undefined;
         pointerdown_listener(): $mol_dom_listener;
+        shift_pressed(next?: boolean): boolean;
         keydown_listener(): $mol_dom_listener;
+        keyup_listener(): $mol_dom_listener;
         paste_listener(): $mol_dom_listener;
+        select_rect(): readonly any[];
+        select_rect_left(): string;
+        select_rect_top(): string;
+        select_rect_width(): string;
+        select_rect_height(): string;
     }
 }
 

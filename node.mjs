@@ -844,7 +844,7 @@ var $;
             }
             return this.cache;
         }
-        async async() {
+        async async_raw() {
             while (true) {
                 this.fresh();
                 if (this.cache instanceof Error) {
@@ -859,6 +859,12 @@ var $;
                     await new Promise(() => { });
                 }
             }
+        }
+        async() {
+            const promise = this.async_raw();
+            if (!promise.destructor)
+                promise.destructor = () => this.destructor();
+            return promise;
         }
         step() {
             return new Promise(done => {
@@ -13799,7 +13805,7 @@ var $;
         'code-docs': /\/\/\/.*?$/,
         'code-comment-block': /(?:\/\*[^]*?\*\/|\/\+[^]*?\+\/|<![^]*?>)/,
         'code-link': /(?:\w+:\/\/|#)\S+?(?=\s|\\\\|""|$)/,
-        'code-comment-inline': /\/\/.*?(?:$|\/\/)|- \\.*|#!? .*/,
+        'code-comment-inline': /\/\/.*?(?:$|\/\/)|- \\(?!\\).*|#!? .*/,
         'code-string': /(?:".*?"|'.*?'|`.*?`| ?\\\\.+?\\\\|\/.+?\/[dygimsu]*(?!\p{Letter})|[ \t]*\\[^\n]*)/u,
         'code-number': /[+-]?(?:\d*\.)?\d+\w*/,
         'code-call': /\.?\w+ *(?=\()/,
@@ -24506,6 +24512,48 @@ var $;
 "use strict";
 
 ;
+	($.$shm_hitalama_board_back) = class $shm_hitalama_board_back extends ($.$mol_view) {
+		contextmenu(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		draw_start(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		draw(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		draw_end(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Touch(){
+			const obj = new this.$.$mol_touch();
+			(obj.draw_start) = (next) => ((this.draw_start(next)));
+			(obj.draw) = (next) => ((this.draw(next)));
+			(obj.draw_end) = (next) => ((this.draw_end(next)));
+			return obj;
+		}
+		event(){
+			return {...(super.event()), "contextmenu": (next) => (this.contextmenu(next))};
+		}
+		plugins(){
+			return [(this.Touch())];
+		}
+	};
+	($mol_mem(($.$shm_hitalama_board_back.prototype), "contextmenu"));
+	($mol_mem(($.$shm_hitalama_board_back.prototype), "draw_start"));
+	($mol_mem(($.$shm_hitalama_board_back.prototype), "draw"));
+	($mol_mem(($.$shm_hitalama_board_back.prototype), "draw_end"));
+	($mol_mem(($.$shm_hitalama_board_back.prototype), "Touch"));
+
+
+;
+"use strict";
+
+;
 	($.$shm_hitalama_drag) = class $shm_hitalama_drag extends ($.$mol_plugin) {
 		pointerdown(next){
 			if(next !== undefined) return next;
@@ -24529,6 +24577,18 @@ var $;
 		repos_y(id){
 			return 1;
 		}
+		on_drag(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		on_drag_start(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		on_drag_end(next){
+			if(next !== undefined) return next;
+			return null;
+		}
 		drag(next){
 			if(next !== undefined) return next;
 			return null;
@@ -24547,11 +24607,17 @@ var $;
 		attr(){
 			return {...(super.attr()), "shm_hitalama_dragged": (this.dragged())};
 		}
+		drags_synced(){
+			return [];
+		}
 	};
 	($mol_mem(($.$shm_hitalama_drag.prototype), "pointerdown"));
 	($mol_mem(($.$shm_hitalama_drag.prototype), "dragged"));
 	($mol_mem(($.$shm_hitalama_drag.prototype), "x"));
 	($mol_mem(($.$shm_hitalama_drag.prototype), "y"));
+	($mol_mem(($.$shm_hitalama_drag.prototype), "on_drag"));
+	($mol_mem(($.$shm_hitalama_drag.prototype), "on_drag_start"));
+	($mol_mem(($.$shm_hitalama_drag.prototype), "on_drag_end"));
 	($mol_mem(($.$shm_hitalama_drag.prototype), "drag"));
 	($mol_mem(($.$shm_hitalama_drag.prototype), "drag_start"));
 	($mol_mem(($.$shm_hitalama_drag.prototype), "drag_end"));
@@ -24575,19 +24641,32 @@ var $;
             }
             start_event;
             start_pos;
-            pointerdown(event) {
+            drag_start(event) {
                 this.start_event = event;
                 this.start_pos = { x: this.x(), y: this.y() };
                 this.dragged(true);
+                this.on_drag_start(event);
+            }
+            drag(event) {
+                this.x(this.start_pos.x + this.repos_x(event.x - this.start_event.x));
+                this.y(this.start_pos.y + this.repos_y(event.y - this.start_event.y));
+                this.on_drag(event);
+            }
+            drag_end(event) {
+                this.dragged(false);
+                this.on_drag_end(event);
+            }
+            pointerdown(event) {
                 this.drag_start(event);
+                console.log('this.drags_synced()', this.drags_synced());
+                this.drags_synced().forEach(d => d.drag_start(event));
                 const mousemove = new $mol_dom_listener(this.$.$mol_dom_context.document, 'mousemove', $mol_wire_async(event => {
                     this.drag(event);
-                    this.x(this.start_pos.x + this.repos_x(event.x - this.start_event.x));
-                    this.y(this.start_pos.y + this.repos_y(event.y - this.start_event.y));
+                    this.drags_synced().forEach(d => d.drag(event));
                 }));
                 const mouseup = new $mol_dom_listener(this.$.$mol_dom_context.document, 'mouseup', $mol_wire_async(event => {
-                    this.dragged(false);
                     this.drag_end(event);
+                    this.drags_synced().forEach(d => d.drag_end(event));
                     mouseup?.destructor();
                     mousemove?.destructor();
                 }));
@@ -24599,15 +24678,15 @@ var $;
 
 ;
 	($.$shm_hitalama_drag_view) = class $shm_hitalama_drag_view extends ($.$mol_view) {
-		drag(next){
+		on_drag_start(next){
 			if(next !== undefined) return next;
 			return null;
 		}
-		drag_start(next){
+		on_drag_end(next){
 			if(next !== undefined) return next;
 			return null;
 		}
-		drag_end(next){
+		on_drag(next){
 			if(next !== undefined) return next;
 			return null;
 		}
@@ -24622,13 +24701,17 @@ var $;
 			if(next !== undefined) return next;
 			return 0;
 		}
+		drags_synced(){
+			return [];
+		}
 		Drag(){
 			const obj = new this.$.$shm_hitalama_drag();
-			(obj.drag) = (next) => ((this.drag(next)));
-			(obj.drag_start) = (next) => ((this.drag_start(next)));
-			(obj.drag_end) = (next) => ((this.drag_end(next)));
+			(obj.on_drag_start) = (next) => ((this.on_drag_start(next)));
+			(obj.on_drag_end) = (next) => ((this.on_drag_end(next)));
+			(obj.on_drag) = (next) => ((this.on_drag(next)));
 			(obj.y) = (next) => ((this.y(next)));
 			(obj.x) = (next) => ((this.x(next)));
+			(obj.drags_synced) = () => ((this.drags_synced()));
 			return obj;
 		}
 		plugins(){
@@ -24638,9 +24721,9 @@ var $;
 			return {...(super.style()), "userSelect": "none"};
 		}
 	};
-	($mol_mem(($.$shm_hitalama_drag_view.prototype), "drag"));
-	($mol_mem(($.$shm_hitalama_drag_view.prototype), "drag_start"));
-	($mol_mem(($.$shm_hitalama_drag_view.prototype), "drag_end"));
+	($mol_mem(($.$shm_hitalama_drag_view.prototype), "on_drag_start"));
+	($mol_mem(($.$shm_hitalama_drag_view.prototype), "on_drag_end"));
+	($mol_mem(($.$shm_hitalama_drag_view.prototype), "on_drag"));
 	($mol_mem(($.$shm_hitalama_drag_view.prototype), "y"));
 	($mol_mem(($.$shm_hitalama_drag_view.prototype), "x"));
 	($mol_mem(($.$shm_hitalama_drag_view.prototype), "Drag"));
@@ -24662,28 +24745,35 @@ var $;
 			if(next !== undefined) return next;
 			return 0;
 		}
-		drag_start(next){
+		on_drag_start(next){
 			if(next !== undefined) return next;
 			return null;
 		}
-		drag_end(next){
+		on_drag_end(next){
 			if(next !== undefined) return next;
 			return null;
 		}
 		dragged(){
-			return (this.Drag().dragged());
+			return (this.Drag_view().dragged());
+		}
+		drags_synced(){
+			return [];
 		}
 		Drag(){
+			return (this.Drag_view().Drag());
+		}
+		Drag_view(){
 			const obj = new this.$.$shm_hitalama_drag_view();
 			(obj.sub) = () => ((this.drag_body()));
 			(obj.x) = (next) => ((this.body_x(next)));
 			(obj.y) = (next) => ((this.body_y(next)));
-			(obj.drag_start) = (next) => ((this.drag_start(next)));
-			(obj.drag_end) = (next) => ((this.drag_end(next)));
+			(obj.on_drag_start) = (next) => ((this.on_drag_start(next)));
+			(obj.on_drag_end) = (next) => ((this.on_drag_end(next)));
+			(obj.drags_synced) = () => ((this.drags_synced()));
 			return obj;
 		}
 		content(){
-			return [(this.Drag())];
+			return [(this.Drag_view())];
 		}
 		Fullsize_wrapper(){
 			const obj = new this.$.$mol_view();
@@ -24713,8 +24803,8 @@ var $;
 		}
 		Top_edge(){
 			const obj = new this.$.$shm_hitalama_resize_edge();
-			(obj.drag_start) = (next) => ((this.resize_start(next)));
-			(obj.drag_end) = (next) => ((this.resize_end(next)));
+			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
+			(obj.on_drag_end) = (next) => ((this.resize_end(next)));
 			(obj.y) = (next) => ((this.top_edge_y(next)));
 			return obj;
 		}
@@ -24724,8 +24814,8 @@ var $;
 		}
 		Left_edge(){
 			const obj = new this.$.$shm_hitalama_resize_edge();
-			(obj.drag_start) = (next) => ((this.resize_start(next)));
-			(obj.drag_end) = (next) => ((this.resize_end(next)));
+			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
+			(obj.on_drag_end) = (next) => ((this.resize_end(next)));
 			(obj.x) = (next) => ((this.left_edge_x(next)));
 			return obj;
 		}
@@ -24735,8 +24825,8 @@ var $;
 		}
 		Bottom_edge(){
 			const obj = new this.$.$shm_hitalama_resize_edge();
-			(obj.drag_start) = (next) => ((this.resize_start(next)));
-			(obj.drag_end) = (next) => ((this.resize_end(next)));
+			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
+			(obj.on_drag_end) = (next) => ((this.resize_end(next)));
 			(obj.y) = (next) => ((this.bottom_edge_y(next)));
 			return obj;
 		}
@@ -24746,39 +24836,39 @@ var $;
 		}
 		Right_edge(){
 			const obj = new this.$.$shm_hitalama_resize_edge();
-			(obj.drag_start) = (next) => ((this.resize_start(next)));
-			(obj.drag_end) = (next) => ((this.resize_end(next)));
+			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
+			(obj.on_drag_end) = (next) => ((this.resize_end(next)));
 			(obj.x) = (next) => ((this.right_edge_x(next)));
 			return obj;
 		}
 		Top_left_edge(){
 			const obj = new this.$.$shm_hitalama_resize_edge();
-			(obj.drag_start) = (next) => ((this.resize_start(next)));
-			(obj.drag_end) = (next) => ((this.resize_end(next)));
+			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
+			(obj.on_drag_end) = (next) => ((this.resize_end(next)));
 			(obj.y) = (next) => ((this.top_edge_y(next)));
 			(obj.x) = (next) => ((this.left_edge_x(next)));
 			return obj;
 		}
 		Top_right_edge(){
 			const obj = new this.$.$shm_hitalama_resize_edge();
-			(obj.drag_start) = (next) => ((this.resize_start(next)));
-			(obj.drag_end) = (next) => ((this.resize_end(next)));
+			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
+			(obj.on_drag_end) = (next) => ((this.resize_end(next)));
 			(obj.y) = (next) => ((this.top_edge_y(next)));
 			(obj.x) = (next) => ((this.right_edge_x(next)));
 			return obj;
 		}
 		Bottom_left_edge(){
 			const obj = new this.$.$shm_hitalama_resize_edge();
-			(obj.drag_start) = (next) => ((this.resize_start(next)));
-			(obj.drag_end) = (next) => ((this.resize_end(next)));
+			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
+			(obj.on_drag_end) = (next) => ((this.resize_end(next)));
 			(obj.y) = (next) => ((this.bottom_edge_y(next)));
 			(obj.x) = (next) => ((this.left_edge_x(next)));
 			return obj;
 		}
 		Bottom_right_edge(){
 			const obj = new this.$.$shm_hitalama_resize_edge();
-			(obj.drag_start) = (next) => ((this.resize_start(next)));
-			(obj.drag_end) = (next) => ((this.resize_end(next)));
+			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
+			(obj.on_drag_end) = (next) => ((this.resize_end(next)));
 			(obj.y) = (next) => ((this.bottom_edge_y(next)));
 			(obj.x) = (next) => ((this.right_edge_x(next)));
 			return obj;
@@ -24883,9 +24973,9 @@ var $;
 	};
 	($mol_mem(($.$shm_hitalama_resize.prototype), "body_x"));
 	($mol_mem(($.$shm_hitalama_resize.prototype), "body_y"));
-	($mol_mem(($.$shm_hitalama_resize.prototype), "drag_start"));
-	($mol_mem(($.$shm_hitalama_resize.prototype), "drag_end"));
-	($mol_mem(($.$shm_hitalama_resize.prototype), "Drag"));
+	($mol_mem(($.$shm_hitalama_resize.prototype), "on_drag_start"));
+	($mol_mem(($.$shm_hitalama_resize.prototype), "on_drag_end"));
+	($mol_mem(($.$shm_hitalama_resize.prototype), "Drag_view"));
 	($mol_mem(($.$shm_hitalama_resize.prototype), "Fullsize_wrapper"));
 	($mol_mem(($.$shm_hitalama_resize.prototype), "Content"));
 	($mol_mem(($.$shm_hitalama_resize.prototype), "resize_start"));
@@ -25015,14 +25105,14 @@ var $;
             left_px() {
                 return this.left() + 'px';
             }
-            drag_end() {
+            on_drag_end() {
                 this.vals_to_sticks();
             }
             resize_start(next) {
                 this.resizing(true);
             }
             resize_end() {
-                this.drag_end();
+                this.on_drag_end();
                 this.resizing(false);
             }
             vals_to_sticks() {
@@ -25070,7 +25160,7 @@ var $;
                 height: 'auto',
                 width: 'auto',
             },
-            Drag: {
+            Drag_view: {
                 flex: {
                     grow: 1,
                 },
@@ -25770,9 +25860,6 @@ var $;
 		auto(){
 			return [...(super.auto()), (this.editing())];
 		}
-		selected_or_dragged(){
-			return false;
-		}
 		toolbar(){
 			return [(this.Toolbar())];
 		}
@@ -25888,16 +25975,9 @@ var $;
             transition() {
                 return (this.dragged() || this.resizing()) ? 'none' : this.transition_smooth();
             }
-            drag_end() {
-                super.drag_end();
+            on_drag_start(event) {
+                super.on_drag_start(event);
                 this.selected(true);
-            }
-            drag_start() {
-                super.drag_start();
-                this.selected(false);
-            }
-            selected_or_dragged() {
-                return this.selected() || this.dragged();
             }
         }
         __decorate([
@@ -25936,9 +26016,6 @@ var $;
         __decorate([
             $mol_mem
         ], $shm_hitalama_board_block_float.prototype, "transition", null);
-        __decorate([
-            $mol_mem
-        ], $shm_hitalama_board_block_float.prototype, "selected_or_dragged", null);
         $$.$shm_hitalama_board_block_float = $shm_hitalama_board_block_float;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
@@ -26042,7 +26119,7 @@ var $;
 		sub(){
 			return [
 				(this.Head()), 
-				(this.Drag()), 
+				(this.Drag_view()), 
 				...(this.edges()), 
 				...(this.toolbar())
 			];
@@ -26105,7 +26182,7 @@ var $;
                     items: 'center',
                 },
             },
-            Drag: {
+            Drag_view: {
                 justify: {
                     content: 'center',
                 },
@@ -26148,7 +26225,7 @@ var $;
 		}
 		sub(){
 			return [
-				(this.Drag()), 
+				(this.Drag_view()), 
 				(this.Iframe()), 
 				...(this.blocker()), 
 				...(this.edges()), 
@@ -26220,7 +26297,7 @@ var $;
                 height: '100%',
                 width: '100%',
             },
-            Drag: {
+            Drag_view: {
                 flex: {
                     grow: 0,
                 },
@@ -26285,7 +26362,7 @@ var $;
 			return [
 				...(this.image()), 
 				(this.Text()), 
-				(this.Drag()), 
+				(this.Drag_view()), 
 				...(this.edges()), 
 				...(this.toolbar())
 			];
@@ -26346,7 +26423,7 @@ var $;
                 }
             }
             editing(next) {
-                if (this.selected_or_dragged() === false)
+                if (this.selected() === false)
                     return false;
                 return next ?? false;
             }
@@ -27959,7 +28036,7 @@ var $;
 			return obj;
 		}
 		content(){
-			return [(this.Drag()), (this.Form())];
+			return [(this.Drag_view()), (this.Form())];
 		}
 		font_tools(){
 			return [];
@@ -28007,7 +28084,7 @@ var $;
             background: {
                 color: $mol_theme.back,
             },
-            Drag: {
+            Drag_view: {
                 position: 'absolute',
                 width: '100%',
                 height: '100%',
@@ -28320,7 +28397,7 @@ var $;
             background: {
                 color: $mol_theme.back,
             },
-            Drag: {
+            Drag_view: {
                 position: 'absolute',
                 width: '100%',
                 height: '100%',
@@ -28373,8 +28450,14 @@ var $;
 			if(next !== undefined) return next;
 			return false;
 		}
+		dragged(next){
+			return (this.Sub().dragged(next));
+		}
 		editing(next){
 			return (this.Sub().editing(next));
+		}
+		drags_synced(){
+			return [];
 		}
 		Input(){
 			const obj = new this.$.$shm_hitalama_board_block_input();
@@ -28406,6 +28489,7 @@ var $;
 			(obj.sticks_y) = () => ((this.sticks_y()));
 			(obj.sticks_x) = () => ((this.sticks_x()));
 			(obj.selected) = (next) => ((this.selected(next)));
+			(obj.drags_synced) = () => ((this.drags_synced()));
 			return obj;
 		}
 		blocks(){
@@ -28450,6 +28534,7 @@ var $;
                 obj.sticks_y = () => this.sticks_y();
                 obj.sticks_x = () => this.sticks_x();
                 obj.selected = (next) => this.selected(next);
+                obj.drags_synced = () => this.drags_synced();
                 return obj;
             }
         }
@@ -28457,6 +28542,37 @@ var $;
             $mol_mem
         ], $shm_hitalama_board_block_any.prototype, "Sub", null);
         $$.$shm_hitalama_board_block_any = $shm_hitalama_board_block_any;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+	($.$shm_hitalama_board_pane) = class $shm_hitalama_board_pane extends ($.$mol_view) {
+		selecting(){
+			return false;
+		}
+		attr(){
+			return {...(super.attr()), "selecting": (this.selecting())};
+		}
+	};
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        $mol_style_define($shm_hitalama_board_pane, {
+            '[selecting]': {
+                true: {
+                    userSelect: 'none',
+                    pointerEvents: 'none',
+                },
+            },
+        });
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
 
@@ -28476,10 +28592,20 @@ var $;
 		keydown_listener(){
 			return null;
 		}
+		keyup_listener(){
+			return null;
+		}
 		paste_listener(){
 			return null;
 		}
 		pointerdown_listener(){
+			return null;
+		}
+		shift_pressed(next){
+			if(next !== undefined) return next;
+			return false;
+		}
+		pull_drags_synced(){
 			return null;
 		}
 		back_pointerdown(next){
@@ -28491,7 +28617,7 @@ var $;
 			return null;
 		}
 		Back(){
-			const obj = new this.$.$mol_view();
+			const obj = new this.$.$shm_hitalama_board_back();
 			(obj.event) = () => ({"pointerdown": (next) => (this.back_pointerdown(next)), "contextmenu": (next) => (this.back_contextmenu(next))});
 			return obj;
 		}
@@ -28615,6 +28741,12 @@ var $;
 		editing(id, next){
 			return (this.Block(id).editing(next));
 		}
+		dragged(id, next){
+			return (this.Block(id).dragged(next));
+		}
+		drags_synced(id){
+			return [];
+		}
 		Block(id){
 			const obj = new this.$.$shm_hitalama_board_block_any();
 			(obj.block) = () => ((this.block(id)));
@@ -28625,10 +28757,40 @@ var $;
 			(obj.sticks_y) = () => ((this.sticks_y(id)));
 			(obj.sticks_x) = () => ((this.sticks_x(id)));
 			(obj.selected) = (next) => ((this.selected(id, next)));
+			(obj.drags_synced) = () => ((this.drags_synced(id)));
 			return obj;
 		}
 		blocks(){
 			return [(this.Block(id))];
+		}
+		select_rect_left(next){
+			if(next !== undefined) return next;
+			return "0px";
+		}
+		select_rect_top(next){
+			if(next !== undefined) return next;
+			return "0px";
+		}
+		select_rect_width(next){
+			if(next !== undefined) return next;
+			return "0px";
+		}
+		select_rect_height(next){
+			if(next !== undefined) return next;
+			return "0px";
+		}
+		Select_rect(){
+			const obj = new this.$.$mol_view();
+			(obj.style) = () => ({
+				"left": (this.select_rect_left()), 
+				"top": (this.select_rect_top()), 
+				"width": (this.select_rect_width()), 
+				"height": (this.select_rect_height())
+			});
+			return obj;
+		}
+		select_rect(){
+			return [(this.Select_rect())];
 		}
 		board(){
 			const obj = new this.$.$shm_hitalama_board();
@@ -28647,8 +28809,11 @@ var $;
 		auto(){
 			return [
 				(this.keydown_listener()), 
+				(this.keyup_listener()), 
 				(this.paste_listener()), 
-				(this.pointerdown_listener())
+				(this.pointerdown_listener()), 
+				(this.shift_pressed()), 
+				(this.pull_drags_synced())
 			];
 		}
 		context_menu_hovered(next){
@@ -28660,19 +28825,47 @@ var $;
 			return false;
 		}
 		body_content(){
-			return [
+			return [(this.Pane())];
+		}
+		Pane(){
+			const obj = new this.$.$shm_hitalama_board_pane();
+			(obj.selecting) = () => ((this.selecting()));
+			(obj.sub) = () => ([
 				(this.Back()), 
 				...(this.context_menu()), 
-				...(this.blocks())
-			];
+				...(this.blocks()), 
+				...(this.select_rect())
+			]);
+			return obj;
 		}
-		selected_ref(next){
+		selecting(next){
 			if(next !== undefined) return next;
-			return null;
+			return false;
+		}
+		selected_refs(next){
+			if(next !== undefined) return next;
+			return [];
+		}
+		select_rect_start_x(next){
+			if(next !== undefined) return next;
+			return NaN;
+		}
+		select_rect_start_y(next){
+			if(next !== undefined) return next;
+			return NaN;
+		}
+		select_rect_end_x(next){
+			if(next !== undefined) return next;
+			return NaN;
+		}
+		select_rect_end_y(next){
+			if(next !== undefined) return next;
+			return NaN;
 		}
 	};
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Open_in_new_icon"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Open_in_new"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "shift_pressed"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "back_pointerdown"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "back_contextmenu"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Back"));
@@ -28694,10 +28887,21 @@ var $;
 	($mol_mem_key(($.$shm_hitalama_board_page.prototype), "block"));
 	($mol_mem_key(($.$shm_hitalama_board_page.prototype), "selected"));
 	($mol_mem_key(($.$shm_hitalama_board_page.prototype), "Block"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "select_rect_left"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "select_rect_top"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "select_rect_width"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "select_rect_height"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "Select_rect"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "board"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "context_menu_hovered"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "context_menu_visible"));
-	($mol_mem(($.$shm_hitalama_board_page.prototype), "selected_ref"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "Pane"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "selecting"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "selected_refs"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "select_rect_start_x"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "select_rect_start_y"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "select_rect_end_x"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "select_rect_end_y"));
 
 
 ;
@@ -28755,6 +28959,8 @@ var $;
                 return [left, left + width];
             }
             sticks_x(ref) {
+                if (this.selected_refs().length > 1)
+                    return [];
                 const blocks = this.board().Blocks()?.remote_list() ?? [];
                 const sticks = [...super.sticks_x(ref)];
                 blocks.forEach(b => {
@@ -28764,6 +28970,8 @@ var $;
                 return sticks;
             }
             sticks_y(ref) {
+                if (this.selected_refs().length > 1)
+                    return [];
                 const blocks = this.board().Blocks()?.remote_list() ?? [];
                 const sticks = [...super.sticks_y(ref)];
                 blocks.forEach(b => {
@@ -28772,23 +28980,68 @@ var $;
                 });
                 return sticks;
             }
+            drags_synced(ref) {
+                return this.selected_refs().flatMap(sref => sref == ref ? [] : [this.Block(sref).Sub().Drag()]);
+            }
+            pull_drags_synced() {
+                return this.blocks().map(b => this.drags_synced(b.block().ref()));
+            }
             selected(ref, next) {
                 if (next === undefined)
-                    return this.selected_ref() == ref;
-                this.selected_ref(ref);
+                    return this.selected_refs().includes(ref);
+                if (next) {
+                    if (this.shift_pressed()) {
+                        const set = new Set([...this.selected_refs(), ref]);
+                        this.selected_refs([...set.values()]);
+                    }
+                    else if (!this.selected_refs().includes(ref)) {
+                        this.selected_refs([ref]);
+                    }
+                }
+                else {
+                    this.selected_refs(this.shift_pressed() ? this.selected_refs().filter(r => r !== ref) : []);
+                }
                 return next;
             }
-            back_pointerdown(e) {
+            back_pointerdown(event) {
                 this.deselect_all();
+                this.selecting(true);
+                this.select_rect_start_x(event.clientX);
+                this.select_rect_start_y(event.clientY);
+                const mousemove = new $mol_dom_listener(this.$.$mol_dom_context.document, 'mousemove', $mol_wire_async(event => {
+                    this.select_rect_end_x(event.clientX);
+                    this.select_rect_end_y(event.clientY);
+                    const left = parseFloat(this.select_rect_left());
+                    const top = parseFloat(this.select_rect_top());
+                    const width = parseFloat(this.select_rect_width());
+                    const height = parseFloat(this.select_rect_height());
+                    const blocks = this.blocks().filter(b => {
+                        if (left + width < b.Sub().left())
+                            return;
+                        if (top + height < b.Sub().top())
+                            return;
+                        if (left > b.Sub().left() + b.Sub().width())
+                            return;
+                        if (top > b.Sub().top() + b.Sub().height())
+                            return;
+                        return true;
+                    });
+                    this.selected_refs(blocks.map(b => b.block().ref()));
+                }));
+                const mouseup = new $mol_dom_listener(this.$.$mol_dom_context.document, 'mouseup', $mol_wire_async(event => {
+                    this.selecting(false);
+                    mouseup?.destructor();
+                    mousemove?.destructor();
+                }));
             }
             deselect_all() {
                 const blocks = this.board().Blocks()?.remote_list() ?? [];
                 blocks.forEach(b => this.selected(b.ref(), false));
             }
-            back_contextmenu(e) {
-                e.preventDefault();
-                this.context_menu_left(e.offsetX + 'px');
-                this.context_menu_top(e.offsetY + 'px');
+            back_contextmenu(event) {
+                event.preventDefault();
+                this.context_menu_left(event.offsetX + 'px');
+                this.context_menu_top(event.offsetY + 'px');
                 this.context_menu_visible(true);
             }
             context_menu() {
@@ -28800,65 +29053,50 @@ var $;
             context_menu_pointerleave(next) {
                 this.context_menu_hovered(false);
             }
-            paste_text(text) {
+            block_add(type, x = 0, y = 0, right_x = 0, bottom_x = 0) {
                 const block = this.board().Blocks(null)?.make({ '': $hyoo_crus_rank.get });
-                block?.Type(null)?.val('text');
+                block?.Type(null)?.val(type);
+                block?.Body_x(null)?.val(x);
+                block?.Body_y(null)?.val(y);
+                block?.Right_edge_x(null)?.val(right_x);
+                block?.Bottom_edge_y(null)?.val(bottom_x);
+                return block;
+            }
+            paste_text(text) {
+                const block = this.block_add('text');
                 block?.Text(null)?.value(text);
                 return block;
             }
             text_add() {
-                const block = this.board().Blocks(null)?.make({ '': $hyoo_crus_rank.get });
-                block?.Type(null)?.val('text');
+                const block = this.block_add('text', parseFloat(this.context_menu_left()), parseFloat(this.context_menu_top()), 100);
                 block?.Text(null)?.value('text');
-                block?.Body_x(null)?.val(parseFloat(this.context_menu_left()));
-                block?.Body_y(null)?.val(parseFloat(this.context_menu_top()));
                 this.context_menu_visible(false);
-                block?.Right_edge_x(null)?.val(100);
                 return block;
             }
             input_add() {
-                const block = this.board().Blocks(null)?.make({ '': $hyoo_crus_rank.get });
-                block?.Type(null)?.val('input');
+                const block = this.block_add('input', parseFloat(this.context_menu_left()), parseFloat(this.context_menu_top()), 100);
                 block?.Text(null)?.value('Hello');
-                block?.Body_x(null)?.val(parseFloat(this.context_menu_left()));
-                block?.Body_y(null)?.val(parseFloat(this.context_menu_top()));
                 this.context_menu_visible(false);
-                block?.Right_edge_x(null)?.val(100);
                 return block;
             }
             iframe_add() {
-                const block = this.board().Blocks(null)?.make({ '': $hyoo_crus_rank.get });
-                block?.Type(null)?.val('iframe');
+                const block = this.block_add('iframe', parseFloat(this.context_menu_left()), parseFloat(this.context_menu_top()), 500, 700);
                 block?.Src(null)?.val('https://www.google.com/search?igu=1');
-                block?.Body_x(null)?.val(parseFloat(this.context_menu_left()));
-                block?.Body_y(null)?.val(parseFloat(this.context_menu_top()));
                 this.context_menu_visible(false);
-                block?.Bottom_edge_y(null)?.val(500);
-                block?.Right_edge_x(null)?.val(700);
                 return block;
             }
             form_add() {
-                const block = this.board().Blocks(null)?.make({ '': $hyoo_crus_rank.get });
-                block?.Type(null)?.val('form');
-                block?.Body_x(null)?.val(parseFloat(this.context_menu_left()));
-                block?.Body_y(null)?.val(parseFloat(this.context_menu_top()));
-                block?.Bottom_edge_y(null)?.val(400);
-                block?.Right_edge_x(null)?.val(400);
+                const block = this.block_add('form', parseFloat(this.context_menu_left()), parseFloat(this.context_menu_top()), 400, 400);
                 this.context_menu_visible(false);
                 return block;
             }
             table_add() {
-                const block = this.board().Blocks(null)?.make({ '': $hyoo_crus_rank.get });
-                block?.Type(null)?.val('table');
-                block?.Body_x(null)?.val(parseFloat(this.context_menu_left()));
-                block?.Body_y(null)?.val(parseFloat(this.context_menu_top()));
-                block?.Bottom_edge_y(null)?.val(400);
-                block?.Right_edge_x(null)?.val(400);
+                const block = this.block_add('table', parseFloat(this.context_menu_left()), parseFloat(this.context_menu_top()), 400, 400);
                 this.context_menu_visible(false);
                 return block;
             }
             image_add(blob) {
-                const block = this.board().Blocks(null)?.make({ '': $hyoo_crus_rank.get });
+                const block = this.block_add('text');
                 block?.Image(null)?.blob(blob);
                 return block;
             }
@@ -28868,19 +29106,33 @@ var $;
                         this.context_menu_visible(false);
                 }));
             }
+            shift_pressed(next) {
+                return next ?? false;
+            }
             keydown_listener() {
                 return new $mol_dom_listener(this.$.$mol_dom_context.document, 'keydown', $mol_wire_async(event => {
                     if (event.key == 'Delete') {
-                        const ref = this.selected_ref();
-                        if (!ref || this.editing(ref))
+                        const refs = this.selected_refs();
+                        if (refs.some(r => this.editing(r)))
                             return;
-                        this.block_delete(ref);
+                        refs.forEach(r => this.block_delete(r));
+                    }
+                    else if (event.key == 'Shift') {
+                        this.shift_pressed(true);
+                    }
+                }));
+            }
+            keyup_listener() {
+                return new $mol_dom_listener(this.$.$mol_dom_context.document, 'keyup', $mol_wire_async(event => {
+                    if (event.key == 'Shift') {
+                        this.shift_pressed(false);
                     }
                 }));
             }
             paste_listener() {
                 return new $mol_dom_listener(this.$.$mol_dom_context.document, 'paste', $mol_wire_async(event => {
-                    if (this.editing(this.selected_ref()))
+                    const refs = this.selected_refs();
+                    if (refs.some(r => this.editing(r)))
                         return;
                     const items = (event.clipboardData || event.originalEvent.clipboardData).items;
                     for (let index in items) {
@@ -28896,6 +29148,27 @@ var $;
                         }
                     }
                 }));
+            }
+            select_rect() {
+                return this.selecting() ? super.select_rect() : [];
+            }
+            select_rect_left() {
+                return (Math.min(this.select_rect_start_x(), this.select_rect_end_x())
+                    - this.Pane().view_rect().left) + 'px';
+            }
+            select_rect_top() {
+                return (Math.min(this.select_rect_start_y(), this.select_rect_end_y())
+                    - this.Pane().view_rect().top) + 'px';
+            }
+            select_rect_width() {
+                const start_x = this.select_rect_start_x();
+                const end_x = this.select_rect_end_x();
+                return Math.abs(end_x - start_x) + 'px';
+            }
+            select_rect_height() {
+                const start_y = this.select_rect_start_y();
+                const end_y = this.select_rect_end_y();
+                return Math.abs(end_y - start_y) + 'px';
             }
         }
         __decorate([
@@ -28939,7 +29212,16 @@ var $;
         ], $shm_hitalama_board_page.prototype, "sticks_y", null);
         __decorate([
             $mol_mem_key
+        ], $shm_hitalama_board_page.prototype, "drags_synced", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_page.prototype, "pull_drags_synced", null);
+        __decorate([
+            $mol_mem_key
         ], $shm_hitalama_board_page.prototype, "selected", null);
+        __decorate([
+            $mol_action
+        ], $shm_hitalama_board_page.prototype, "block_add", null);
         __decorate([
             $mol_action
         ], $shm_hitalama_board_page.prototype, "paste_text", null);
@@ -28966,10 +29248,28 @@ var $;
         ], $shm_hitalama_board_page.prototype, "pointerdown_listener", null);
         __decorate([
             $mol_mem
+        ], $shm_hitalama_board_page.prototype, "shift_pressed", null);
+        __decorate([
+            $mol_mem
         ], $shm_hitalama_board_page.prototype, "keydown_listener", null);
         __decorate([
             $mol_mem
+        ], $shm_hitalama_board_page.prototype, "keyup_listener", null);
+        __decorate([
+            $mol_mem
         ], $shm_hitalama_board_page.prototype, "paste_listener", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_page.prototype, "select_rect_left", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_page.prototype, "select_rect_top", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_page.prototype, "select_rect_width", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_page.prototype, "select_rect_height", null);
         $$.$shm_hitalama_board_page = $shm_hitalama_board_page;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
@@ -28991,6 +29291,16 @@ var $;
                 zIndex: $mol_layer.popup,
                 whiteSpace: 'nowrap',
             },
+            Select_rect: {
+                position: 'absolute',
+                transition: 'none',
+                pointerEvents: 'none',
+                background: {
+                    color: $mol_style_func.rgba(112, 166, 219, 0.1),
+                },
+                outline: '1px solid #70A6DB'
+            },
+            Pane: {},
         });
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));

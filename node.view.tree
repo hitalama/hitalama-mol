@@ -1959,11 +1959,29 @@ $shm_hitalama_duckdb_page $mol_book2
 
 $mol_icon_open_in_new $mol_icon path \M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z
 
+$shm_hitalama_board_back $mol_view
+	event *
+		^
+		- pointerdown? <=> pointerdown? null
+		contextmenu? <=> contextmenu? null
+	plugins /
+		<= Touch $mol_touch
+			- allow_draw false
+			- allow_pan <= allow_pan? true
+			- pointer_center => cursor_position
+			draw_start? <=> draw_start? null
+			draw? <=> draw? null
+			draw_end? <=> draw_end? null
+
 $shm_hitalama_drag $mol_plugin
 	x? 0
 	y? 0
 	repos_x* 1
 	repos_y* 1
+	-
+	on_drag? null
+	on_drag_start? null
+	on_drag_end? null
 	-
 	drag? null
 	drag_start? null
@@ -1975,17 +1993,20 @@ $shm_hitalama_drag $mol_plugin
 	attr *
 		^
 		shm_hitalama_dragged <= dragged? false
+	-
+	drags_synced /$shm_hitalama_drag
 
 $shm_hitalama_drag_view $mol_view
 	plugins /
 		^
 		<= Drag $shm_hitalama_drag
-			drag? <=> drag? null
-			drag_start? <=> drag_start? null
-			drag_end? <=> drag_end? null
+			on_drag_start? <=> on_drag_start? null
+			on_drag_end? <=> on_drag_end? null
+			on_drag? <=> on_drag? null
 			dragged => dragged
 			y? <=> y? 0
 			x? <=> x? 0
+			drags_synced <= drags_synced /$shm_hitalama_drag
 	style *
 		^
 		userSelect \none
@@ -1999,48 +2020,50 @@ $shm_hitalama_resize $mol_view
 						minHeight \100%
 						minWidth \100%
 					sub <= content /
-						<= Drag $shm_hitalama_drag_view
+						<= Drag_view $shm_hitalama_drag_view
 							sub <= drag_body /
 							x? <=> body_x? 0
 							y? <=> body_y? 0
-							drag_start? <=> drag_start? null
-							drag_end? <=> drag_end? null
+							on_drag_start? <=> on_drag_start? null
+							on_drag_end? <=> on_drag_end? null
 							dragged => dragged
+							drags_synced <= drags_synced /$shm_hitalama_drag
+							Drag => Drag
 		^ edges /
 			<= Top_edge $shm_hitalama_resize_edge
-				drag_start? <=> resize_start? null
-				drag_end? <=> resize_end? null
+				on_drag_start? <=> resize_start? null
+				on_drag_end? <=> resize_end? null
 				y? <=> top_edge_y? 0
 			<= Left_edge $shm_hitalama_resize_edge
-				drag_start? <=> resize_start? null
-				drag_end? <=> resize_end? null
+				on_drag_start? <=> resize_start? null
+				on_drag_end? <=> resize_end? null
 				x? <=> left_edge_x? 0
 			<= Bottom_edge $shm_hitalama_resize_edge
-				drag_start? <=> resize_start? null
-				drag_end? <=> resize_end? null
+				on_drag_start? <=> resize_start? null
+				on_drag_end? <=> resize_end? null
 				y? <=> bottom_edge_y? 0
 			<= Right_edge $shm_hitalama_resize_edge
-				drag_start? <=> resize_start? null
-				drag_end? <=> resize_end? null
+				on_drag_start? <=> resize_start? null
+				on_drag_end? <=> resize_end? null
 				x? <=> right_edge_x? 0
 			<= Top_left_edge $shm_hitalama_resize_edge
-				drag_start? <=> resize_start? null
-				drag_end? <=> resize_end? null
+				on_drag_start? <=> resize_start? null
+				on_drag_end? <=> resize_end? null
 				y? <=> top_edge_y? 0
 				x? <=> left_edge_x? 0
 			<= Top_right_edge $shm_hitalama_resize_edge
-				drag_start? <=> resize_start? null
-				drag_end? <=> resize_end? null
+				on_drag_start? <=> resize_start? null
+				on_drag_end? <=> resize_end? null
 				y? <=> top_edge_y? 0
 				x? <=> right_edge_x? 0
 			<= Bottom_left_edge $shm_hitalama_resize_edge
-				drag_start? <=> resize_start? null
-				drag_end? <=> resize_end? null
+				on_drag_start? <=> resize_start? null
+				on_drag_end? <=> resize_end? null
 				y? <=> bottom_edge_y? 0
 				x? <=> left_edge_x? 0
 			<= Bottom_right_edge $shm_hitalama_resize_edge
-				drag_start? <=> resize_start? null
-				drag_end? <=> resize_end? null
+				on_drag_start? <=> resize_start? null
+				on_drag_end? <=> resize_end? null
 				y? <=> bottom_edge_y? 0
 				x? <=> right_edge_x? 0
 	-
@@ -2202,7 +2225,6 @@ $shm_hitalama_board_block_float $shm_hitalama_resize
 	auto /
 		^
 		<= editing? false
-	selected_or_dragged false
 	toolbar /
 		<= Toolbar $mol_view
 			sub <= tools /
@@ -2266,7 +2288,7 @@ $shm_hitalama_board_block_input $shm_hitalama_board_block_float
 				<= Input $mol_string
 					value? <=> text? \
 					focused => input_focused
-		<= Drag
+		<= Drag_view
 		^ edges
 		^ toolbar
 	font_tools /
@@ -2277,7 +2299,7 @@ $shm_hitalama_board_block_input $shm_hitalama_board_block_float
 
 $shm_hitalama_board_block_iframe $shm_hitalama_board_block_float
 	sub /
-		<= Drag
+		<= Drag_view
 		<= Iframe $mol_frame
 			uri <= src
 		^ blocker / <= Blocker $mol_view
@@ -2304,7 +2326,7 @@ $shm_hitalama_board_block_text $shm_hitalama_board_block_float
 			style *
 				color <= color
 				fontSize <= font_size_px
-		<= Drag
+		<= Drag_view
 		^ edges
 		^ toolbar
 	drag_body /
@@ -2542,14 +2564,14 @@ $shm_hitalama_board_form_view $mol_form
 
 $shm_hitalama_board_block_form $shm_hitalama_board_block_float
 	content /
-		<= Drag
+		<= Drag_view
 		<= Form $shm_hitalama_board_form_view
 			form <= form $shm_hitalama_board_form
 			board <= board $shm_hitalama_board
 	- sub /
 		- <= Head $mol_view
 			sub /
-		<= Drag
+		<= Drag_view
 		<= Form $shm_hitalama_board_form_view
 			form <= form $shm_hitalama_board_form
 			board <= board $shm_hitalama_board
@@ -2603,13 +2625,20 @@ $shm_hitalama_board_block_any $mol_ghost
 		sticks_y <= sticks_y / 0
 		sticks_x <= sticks_x / 0
 		selected? <=> selected? false
+		dragged? => dragged? false
 		editing? => editing? false
+		drags_synced <= drags_synced /$shm_hitalama_drag
 	blocks *
 		input <= Input $shm_hitalama_board_block_input
 		iframe <= Iframe $shm_hitalama_board_block_iframe
 		text <= Text $shm_hitalama_board_block_text
 		form <= Form $shm_hitalama_board_block_form
 		table <= Table $shm_hitalama_board_block_table
+
+$shm_hitalama_board_pane $mol_view
+	attr *
+		^
+		selecting <= selecting false
 
 $shm_hitalama_board_page $shm_hitalama_entity_page
 	board $shm_hitalama_board
@@ -2626,55 +2655,75 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 		<= Tools
 	auto /
 		<= keydown_listener null
+		<= keyup_listener null
 		<= paste_listener null
 		<= pointerdown_listener null
+		<= shift_pressed? false
+		<= pull_drags_synced null
 	context_menu_hovered? false
 	context_menu_visible? false
-	body_content /
-		<= Back $mol_view
-			event *
-				pointerdown? <=> back_pointerdown? null
-				contextmenu? <=> back_contextmenu? null
-		^ context_menu /
-			<= Context_menu $mol_list
-				sub /
-					<= Text_add $mol_button_minor
-						title \Добавить текст
-						click? <=> text_add? null
-					<= Input_add $mol_button_minor
-						title \Добавить input
-						click? <=> input_add? null
-					<= Iframe_add $mol_button_minor
-						title \Добавить iframe
-						click? <=> iframe_add? null
-					<= Form_add $mol_button_minor
-						title \Добавить форму
-						click? <=> form_add? null
-					<= Table_add $mol_button_minor
-						title \Добавить таблицу
-						click? <=> table_add? null
-				style *
-					left <= context_menu_left? \0px
-					top <= context_menu_top? \0px
+	body_content / <= Pane
+	Pane $shm_hitalama_board_pane 
+		selecting <= selecting
+		sub /
+			<= Back $shm_hitalama_board_back
 				event *
-					pointerenter? <=> context_menu_pointerenter? null
-					pointerleave? <=> context_menu_pointerleave? null
-		^ blocks /
-			<= Block* $shm_hitalama_board_block_any
-				block <= block* $shm_hitalama_board_block
-				board <= board
-				delete <= block_delete* null
-				to_top <= block_to_top* null
-				to_bottom <= block_to_bottom* null
-				height => block_height*
-				width => block_width*
-				top => block_top*
-				left => block_left*
-				sticks_y <= sticks_y* / 0
-				sticks_x <= sticks_x* / 0
-				selected? <=> selected*? false
-				editing? => editing*? false
-	selected_ref? null
+					pointerdown? <=> back_pointerdown? null
+					contextmenu? <=> back_contextmenu? null
+			^ context_menu /
+				<= Context_menu $mol_list
+					sub /
+						<= Text_add $mol_button_minor
+							title \Добавить текст
+							click? <=> text_add? null
+						<= Input_add $mol_button_minor
+							title \Добавить input
+							click? <=> input_add? null
+						<= Iframe_add $mol_button_minor
+							title \Добавить iframe
+							click? <=> iframe_add? null
+						<= Form_add $mol_button_minor
+							title \Добавить форму
+							click? <=> form_add? null
+						<= Table_add $mol_button_minor
+							title \Добавить таблицу
+							click? <=> table_add? null
+					style *
+						left <= context_menu_left? \0px
+						top <= context_menu_top? \0px
+					event *
+						pointerenter? <=> context_menu_pointerenter? null
+						pointerleave? <=> context_menu_pointerleave? null
+			^ blocks /
+				<= Block* $shm_hitalama_board_block_any
+					block <= block* $shm_hitalama_board_block
+					board <= board
+					delete <= block_delete* null
+					to_top <= block_to_top* null
+					to_bottom <= block_to_bottom* null
+					height => block_height*
+					width => block_width*
+					top => block_top*
+					left => block_left*
+					sticks_y <= sticks_y* / 0
+					sticks_x <= sticks_x* / 0
+					selected? <=> selected*? false
+					editing? => editing*? false
+					dragged? => dragged*? false
+					drags_synced <= drags_synced* /$shm_hitalama_drag
+			^ select_rect /
+				<= Select_rect $mol_view
+					style *
+						left <= select_rect_left? \0px
+						top <= select_rect_top? \0px
+						width <= select_rect_width? \0px
+						height <= select_rect_height? \0px
+	selecting? false
+	selected_refs? /
+	select_rect_start_x? NaN
+	select_rect_start_y? NaN
+	select_rect_end_x? NaN
+	select_rect_end_y? NaN
 
 $shm_hitalama_board_catalog $shm_hitalama_entity_catalog
 	menu_title \Карты
