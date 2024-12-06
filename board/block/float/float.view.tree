@@ -12,7 +12,6 @@ $shm_hitalama_board_block_float $shm_hitalama_resize
 	auto /
 		^
 		<= editing? false
-	selected_or_dragged false
 	toolbar /
 		<= Toolbar $mol_view
 			sub <= tools /

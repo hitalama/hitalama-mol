@@ -16,7 +16,7 @@ namespace $.$$ {
 			},
 		},
 
-		Drag: {
+		Drag_view: {
 			justify: {
 				content: 'center',
 			},

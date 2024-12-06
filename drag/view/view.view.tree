@@ -2,12 +2,13 @@ $shm_hitalama_drag_view $mol_view
 	plugins /
 		^
 		<= Drag $shm_hitalama_drag
-			drag? <=> drag? null
-			drag_start? <=> drag_start? null
-			drag_end? <=> drag_end? null
+			on_drag_start? <=> on_drag_start? null
+			on_drag_end? <=> on_drag_end? null
+			on_drag? <=> on_drag? null
 			dragged => dragged
 			y? <=> y? 0
 			x? <=> x? 0
+			drags_synced <= drags_synced /$shm_hitalama_drag
 	style *
 		^
 		userSelect \none

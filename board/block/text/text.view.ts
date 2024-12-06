@@ -24,7 +24,7 @@ namespace $.$$ {
 
 		@ $mol_mem
 		editing( next?: boolean ): boolean {
-			if( this.selected_or_dragged() === false ) return false
+			if( this.selected() === false ) return false
 			return next ?? false
 		}
 

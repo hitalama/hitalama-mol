@@ -18,7 +18,7 @@ namespace $.$$ {
 			width: 'auto',
 		},
 		
-		Drag: {
+		Drag_view: {
 			flex: {
 				grow: 1,
 			},

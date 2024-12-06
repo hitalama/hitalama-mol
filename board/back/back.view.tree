@@ -1,0 +1,13 @@
+$shm_hitalama_board_back $mol_view
+	event *
+		^
+		- pointerdown? <=> pointerdown? null
+		contextmenu? <=> contextmenu? null
+	plugins /
+		<= Touch $mol_touch
+			- allow_draw false
+			- allow_pan <= allow_pan? true
+			- pointer_center => cursor_position
+			draw_start? <=> draw_start? null
+			draw? <=> draw? null
+			draw_end? <=> draw_end? null

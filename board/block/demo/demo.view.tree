@@ -11,7 +11,7 @@ $shm_hitalama_board_block_demo $shm_hitalama_board_block_float
 					click? <=> cut? null
 					sub /
 						<= Cut_icon $mol_icon_close
-		<= Drag
+		<= Drag_view
 		^ edges
 	drag_body /
 		<= Content $mol_text

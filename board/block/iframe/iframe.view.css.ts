@@ -12,7 +12,7 @@ namespace $.$$ {
 			width: '100%',
 		},
 		
-		Drag: {
+		Drag_view: {
 			flex: {
 				grow: 0,
 			},

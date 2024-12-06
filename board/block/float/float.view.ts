@@ -77,20 +77,10 @@ namespace $.$$ {
 		transition() {
 			return ( this.dragged() || this.resizing() ) ? 'none' : this.transition_smooth()
 		}
-
-		drag_end() {
-			super.drag_end()
+		
+		on_drag_start( event: PointerEvent ) {
+			super.on_drag_start( event )
 			this.selected( true )
-		}
-
-		drag_start() {
-			super.drag_start()
-			this.selected( false )
-		}
-
-		@ $mol_mem
-		selected_or_dragged() {
-			return this.selected() || this.dragged()
 		}
 		
 	}

@@ -16,6 +16,7 @@ namespace $.$$ {
 			obj.sticks_y = () => this.sticks_y()
 			obj.sticks_x = () => this.sticks_x()
 			obj.selected = (next) => this.selected(next)
+			obj.drags_synced = () => this.drags_synced()
 
 			return obj
 			

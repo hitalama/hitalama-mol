@@ -9,7 +9,7 @@ $shm_hitalama_board_block_text $shm_hitalama_board_block_float
 			style *
 				color <= color
 				fontSize <= font_size_px
-		<= Drag
+		<= Drag_view
 		^ edges
 		^ toolbar
 	drag_body /

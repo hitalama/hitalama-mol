@@ -13,52 +13,72 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 		<= Tools
 	auto /
 		<= keydown_listener null
+		<= keyup_listener null
 		<= paste_listener null
 		<= pointerdown_listener null
+		<= shift_pressed? false
+		<= pull_drags_synced null
 	context_menu_hovered? false
 	context_menu_visible? false
-	body_content /
-		<= Back $mol_view
-			event *
-				pointerdown? <=> back_pointerdown? null
-				contextmenu? <=> back_contextmenu? null
-		^ context_menu /
-			<= Context_menu $mol_list
-				sub /
-					<= Text_add $mol_button_minor
-						title \Добавить текст
-						click? <=> text_add? null
-					<= Input_add $mol_button_minor
-						title \Добавить input
-						click? <=> input_add? null
-					<= Iframe_add $mol_button_minor
-						title \Добавить iframe
-						click? <=> iframe_add? null
-					<= Form_add $mol_button_minor
-						title \Добавить форму
-						click? <=> form_add? null
-					<= Table_add $mol_button_minor
-						title \Добавить таблицу
-						click? <=> table_add? null
-				style *
-					left <= context_menu_left? \0px
-					top <= context_menu_top? \0px
+	body_content / <= Pane
+	Pane $shm_hitalama_board_pane 
+		selecting <= selecting
+		sub /
+			<= Back $shm_hitalama_board_back
 				event *
-					pointerenter? <=> context_menu_pointerenter? null
-					pointerleave? <=> context_menu_pointerleave? null
-		^ blocks /
-			<= Block* $shm_hitalama_board_block_any
-				block <= block* $shm_hitalama_board_block
-				board <= board
-				delete <= block_delete* null
-				to_top <= block_to_top* null
-				to_bottom <= block_to_bottom* null
-				height => block_height*
-				width => block_width*
-				top => block_top*
-				left => block_left*
-				sticks_y <= sticks_y* / 0
-				sticks_x <= sticks_x* / 0
-				selected? <=> selected*? false
-				editing? => editing*? false
-	selected_ref? null
+					pointerdown? <=> back_pointerdown? null
+					contextmenu? <=> back_contextmenu? null
+			^ context_menu /
+				<= Context_menu $mol_list
+					sub /
+						<= Text_add $mol_button_minor
+							title \Добавить текст
+							click? <=> text_add? null
+						<= Input_add $mol_button_minor
+							title \Добавить input
+							click? <=> input_add? null
+						<= Iframe_add $mol_button_minor
+							title \Добавить iframe
+							click? <=> iframe_add? null
+						<= Form_add $mol_button_minor
+							title \Добавить форму
+							click? <=> form_add? null
+						<= Table_add $mol_button_minor
+							title \Добавить таблицу
+							click? <=> table_add? null
+					style *
+						left <= context_menu_left? \0px
+						top <= context_menu_top? \0px
+					event *
+						pointerenter? <=> context_menu_pointerenter? null
+						pointerleave? <=> context_menu_pointerleave? null
+			^ blocks /
+				<= Block* $shm_hitalama_board_block_any
+					block <= block* $shm_hitalama_board_block
+					board <= board
+					delete <= block_delete* null
+					to_top <= block_to_top* null
+					to_bottom <= block_to_bottom* null
+					height => block_height*
+					width => block_width*
+					top => block_top*
+					left => block_left*
+					sticks_y <= sticks_y* / 0
+					sticks_x <= sticks_x* / 0
+					selected? <=> selected*? false
+					editing? => editing*? false
+					dragged? => dragged*? false
+					drags_synced <= drags_synced* /$shm_hitalama_drag
+			^ select_rect /
+				<= Select_rect $mol_view
+					style *
+						left <= select_rect_left? \0px
+						top <= select_rect_top? \0px
+						width <= select_rect_width? \0px
+						height <= select_rect_height? \0px
+	selecting? false
+	selected_refs? /
+	select_rect_start_x? NaN
+	select_rect_start_y? NaN
+	select_rect_end_x? NaN
+	select_rect_end_y? NaN

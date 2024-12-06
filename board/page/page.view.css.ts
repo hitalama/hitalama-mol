@@ -13,6 +13,26 @@ namespace $.$$ {
 			zIndex: $mol_layer.popup,
 			whiteSpace: 'nowrap',
 		},
+
+		Select_rect: {
+			position: 'absolute',
+			transition: 'none',
+			pointerEvents: 'none',
+			background: {
+				color: $mol_style_func.rgba( 112, 166, 219, 0.1 ),		
+			},
+			outline: '1px solid #70A6DB'
+			// opacity: 0.5,
+		},
+
+		Pane: {
+			// userSelect: 'none',
+			// '[selecting]': [
+			// 	'true': {
+			// 		userSelect: 'none',
+			// 	},
+			// ],
+		},
 		
 	} )
 	

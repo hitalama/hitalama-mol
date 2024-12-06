@@ -1,6 +1,6 @@
 $shm_hitalama_board_block_iframe $shm_hitalama_board_block_float
 	sub /
-		<= Drag
+		<= Drag_view
 		<= Iframe $mol_frame
 			uri <= src
 		^ blocker / <= Blocker $mol_view

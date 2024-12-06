@@ -5,7 +5,7 @@ $shm_hitalama_board_block_input $shm_hitalama_board_block_float
 				<= Input $mol_string
 					value? <=> text? \
 					focused => input_focused
-		<= Drag
+		<= Drag_view
 		^ edges
 		^ toolbar
 	font_tools /

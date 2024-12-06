@@ -110,7 +110,7 @@ namespace $.$$ {
 			return this.left() + 'px'
 		}
 
-		drag_end() {
+		on_drag_end() {
 			this.vals_to_sticks()
 		}
 
@@ -119,7 +119,7 @@ namespace $.$$ {
 		}
 
 		resize_end() {
-			this.drag_end()
+			this.on_drag_end()
 			this.resizing( false )
 		}
 
