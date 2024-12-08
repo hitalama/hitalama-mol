@@ -19214,13 +19214,38 @@ declare namespace $.$$ {
 
 declare namespace $ {
 
+	type $mol_view__style_shm_hitalama_board_pane_1 = $mol_type_enforce<
+		({ 
+			'left': ReturnType< $shm_hitalama_board_pane['select_rect_left'] >,
+			'top': ReturnType< $shm_hitalama_board_pane['select_rect_top'] >,
+			'width': ReturnType< $shm_hitalama_board_pane['select_rect_width'] >,
+			'height': ReturnType< $shm_hitalama_board_pane['select_rect_height'] >,
+		}) 
+		,
+		ReturnType< $mol_view['style'] >
+	>
 	export class $shm_hitalama_board_pane extends $mol_view {
-		selecting( ): boolean
+		selecting( next?: boolean ): boolean
+		body( ): readonly(any)[]
+		select_rect_left( next?: string ): string
+		select_rect_top( next?: string ): string
+		select_rect_width( next?: string ): string
+		select_rect_height( next?: string ): string
+		Select_rect( ): $mol_view
+		select_rect( ): readonly(any)[]
 		pointer_move( next?: any ): any
 		attr( ): ({ 
 			'selecting': ReturnType< $shm_hitalama_board_pane['selecting'] >,
 		})  & ReturnType< $mol_view['attr'] >
-		pointer_pos( next?: readonly(any)[] ): readonly(any)[]
+		pointer_client_pos( next?: readonly(any)[] ): readonly(any)[]
+		pointer_pos( ): readonly(any)[]
+		sub( ): readonly(any)[]
+		select_rect_start_x( next?: number ): number
+		select_rect_start_y( next?: number ): number
+		select_rect_end_x( next?: number ): number
+		select_rect_end_y( next?: number ): number
+		select_start( next?: any ): any
+		select_resize( next?: any ): any
 		event( ): ({ 
 			pointermove( next?: ReturnType< $shm_hitalama_board_pane['pointer_move'] > ): ReturnType< $shm_hitalama_board_pane['pointer_move'] >,
 		})  & ReturnType< $mol_view['event'] >
@@ -19231,7 +19256,17 @@ declare namespace $ {
 //# sourceMappingURL=pane.view.tree.d.ts.map
 declare namespace $.$$ {
     class $shm_hitalama_board_pane extends $.$shm_hitalama_board_pane {
+        select_start(event: PointerEvent): void;
         pointer_move(event?: PointerEvent): void;
+        pointer_pos(): readonly (any)[];
+        to_pane_pos(client_pos: readonly [number, number] | readonly number[]): readonly [number, number];
+        select_rect(): readonly any[];
+        select_rect_pos(): readonly [number, number];
+        select_rect_size(): number[];
+        select_rect_left(): string;
+        select_rect_top(): string;
+        select_rect_width(): string;
+        select_rect_height(): string;
     }
 }
 
@@ -19258,7 +19293,12 @@ declare namespace $ {
 		,
 		ReturnType< $mol_link_iconed['external'] >
 	>
-	type $shm_hitalama_board_back__event_shm_hitalama_board_page_4 = $mol_type_enforce<
+	type _shm_hitalama_board_page_4 = $mol_type_enforce<
+		Parameters< $shm_hitalama_board_page['select_start'] >[0]
+		,
+		Parameters< ReturnType< $shm_hitalama_board_page['Pane'] >['select_start'] >[0]
+	>
+	type $shm_hitalama_board_back__event_shm_hitalama_board_page_5 = $mol_type_enforce<
 		({ 
 			pointerdown( next?: ReturnType< $shm_hitalama_board_page['back_pointerdown'] > ): ReturnType< $shm_hitalama_board_page['back_pointerdown'] >,
 			contextmenu( next?: ReturnType< $shm_hitalama_board_page['back_contextmenu'] > ): ReturnType< $shm_hitalama_board_page['back_contextmenu'] >,
@@ -19266,62 +19306,52 @@ declare namespace $ {
 		,
 		ReturnType< $shm_hitalama_board_back['event'] >
 	>
-	type $mol_button_minor__title_shm_hitalama_board_page_5 = $mol_type_enforce<
+	type $mol_button_minor__title_shm_hitalama_board_page_6 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_button_minor['title'] >
 	>
-	type $mol_button_minor__click_shm_hitalama_board_page_6 = $mol_type_enforce<
+	type $mol_button_minor__click_shm_hitalama_board_page_7 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_page['text_add'] >
 		,
 		ReturnType< $mol_button_minor['click'] >
 	>
-	type $mol_button_minor__title_shm_hitalama_board_page_7 = $mol_type_enforce<
+	type $mol_button_minor__title_shm_hitalama_board_page_8 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_button_minor['title'] >
 	>
-	type $mol_button_minor__click_shm_hitalama_board_page_8 = $mol_type_enforce<
+	type $mol_button_minor__click_shm_hitalama_board_page_9 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_page['input_add'] >
 		,
 		ReturnType< $mol_button_minor['click'] >
 	>
-	type $mol_button_minor__title_shm_hitalama_board_page_9 = $mol_type_enforce<
+	type $mol_button_minor__title_shm_hitalama_board_page_10 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_button_minor['title'] >
 	>
-	type $mol_button_minor__click_shm_hitalama_board_page_10 = $mol_type_enforce<
+	type $mol_button_minor__click_shm_hitalama_board_page_11 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_page['iframe_add'] >
 		,
 		ReturnType< $mol_button_minor['click'] >
 	>
-	type $mol_button_minor__title_shm_hitalama_board_page_11 = $mol_type_enforce<
+	type $mol_button_minor__title_shm_hitalama_board_page_12 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_button_minor['title'] >
 	>
-	type $mol_button_minor__click_shm_hitalama_board_page_12 = $mol_type_enforce<
+	type $mol_button_minor__click_shm_hitalama_board_page_13 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_page['form_add'] >
 		,
 		ReturnType< $mol_button_minor['click'] >
 	>
-	type $mol_button_minor__title_shm_hitalama_board_page_13 = $mol_type_enforce<
-		string
-		,
-		ReturnType< $mol_button_minor['title'] >
-	>
-	type $mol_button_minor__click_shm_hitalama_board_page_14 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_page['table_add'] >
-		,
-		ReturnType< $mol_button_minor['click'] >
-	>
-	type $mol_list__sub_shm_hitalama_board_page_15 = $mol_type_enforce<
+	type $mol_list__sub_shm_hitalama_board_page_14 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_list['sub'] >
 	>
-	type $mol_list__style_shm_hitalama_board_page_16 = $mol_type_enforce<
+	type $mol_list__style_shm_hitalama_board_page_15 = $mol_type_enforce<
 		({ 
 			'left': ReturnType< $shm_hitalama_board_page['context_menu_left'] >,
 			'top': ReturnType< $shm_hitalama_board_page['context_menu_top'] >,
@@ -19329,7 +19359,7 @@ declare namespace $ {
 		,
 		ReturnType< $mol_list['style'] >
 	>
-	type $mol_list__event_shm_hitalama_board_page_17 = $mol_type_enforce<
+	type $mol_list__event_shm_hitalama_board_page_16 = $mol_type_enforce<
 		({ 
 			pointerenter( next?: ReturnType< $shm_hitalama_board_page['context_menu_pointerenter'] > ): ReturnType< $shm_hitalama_board_page['context_menu_pointerenter'] >,
 			pointerleave( next?: ReturnType< $shm_hitalama_board_page['context_menu_pointerleave'] > ): ReturnType< $shm_hitalama_board_page['context_menu_pointerleave'] >,
@@ -19337,110 +19367,100 @@ declare namespace $ {
 		,
 		ReturnType< $mol_list['event'] >
 	>
-	type _shm_hitalama_board_page_18 = $mol_type_enforce<
+	type _shm_hitalama_board_page_17 = $mol_type_enforce<
 		Parameters< $shm_hitalama_board_page['block_height'] >[0]
 		,
 		Parameters< $shm_hitalama_board_page['Block'] >[0]
 	>
-	type _shm_hitalama_board_page_19 = $mol_type_enforce<
+	type _shm_hitalama_board_page_18 = $mol_type_enforce<
 		Parameters< $shm_hitalama_board_page['block_width'] >[0]
 		,
 		Parameters< $shm_hitalama_board_page['Block'] >[0]
 	>
-	type _shm_hitalama_board_page_20 = $mol_type_enforce<
+	type _shm_hitalama_board_page_19 = $mol_type_enforce<
 		Parameters< $shm_hitalama_board_page['block_top'] >[0]
 		,
 		Parameters< $shm_hitalama_board_page['Block'] >[0]
 	>
-	type _shm_hitalama_board_page_21 = $mol_type_enforce<
+	type _shm_hitalama_board_page_20 = $mol_type_enforce<
 		Parameters< $shm_hitalama_board_page['block_left'] >[0]
 		,
 		Parameters< $shm_hitalama_board_page['Block'] >[0]
 	>
-	type _shm_hitalama_board_page_22 = $mol_type_enforce<
+	type _shm_hitalama_board_page_21 = $mol_type_enforce<
 		Parameters< $shm_hitalama_board_page['editing'] >[0]
 		,
 		Parameters< $shm_hitalama_board_page['Block'] >[0]
 	>
-	type _shm_hitalama_board_page_23 = $mol_type_enforce<
+	type _shm_hitalama_board_page_22 = $mol_type_enforce<
 		Parameters< $shm_hitalama_board_page['editing'] >[1]
 		,
 		Parameters< $shm_hitalama_board_page['Block'] >[0]
 	>
-	type _shm_hitalama_board_page_24 = $mol_type_enforce<
+	type _shm_hitalama_board_page_23 = $mol_type_enforce<
 		Parameters< $shm_hitalama_board_page['dragged'] >[0]
 		,
 		Parameters< $shm_hitalama_board_page['Block'] >[0]
 	>
-	type _shm_hitalama_board_page_25 = $mol_type_enforce<
+	type _shm_hitalama_board_page_24 = $mol_type_enforce<
 		Parameters< $shm_hitalama_board_page['dragged'] >[1]
 		,
 		Parameters< $shm_hitalama_board_page['Block'] >[0]
 	>
-	type $shm_hitalama_board_block_any__block_shm_hitalama_board_page_26 = $mol_type_enforce<
+	type $shm_hitalama_board_block_any__block_shm_hitalama_board_page_25 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_page['block'] >
 		,
 		ReturnType< $shm_hitalama_board_block_any['block'] >
 	>
-	type $shm_hitalama_board_block_any__board_shm_hitalama_board_page_27 = $mol_type_enforce<
+	type $shm_hitalama_board_block_any__board_shm_hitalama_board_page_26 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_page['board'] >
 		,
 		ReturnType< $shm_hitalama_board_block_any['board'] >
 	>
-	type $shm_hitalama_board_block_any__delete_shm_hitalama_board_page_28 = $mol_type_enforce<
+	type $shm_hitalama_board_block_any__delete_shm_hitalama_board_page_27 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_page['block_delete'] >
 		,
 		ReturnType< $shm_hitalama_board_block_any['delete'] >
 	>
-	type $shm_hitalama_board_block_any__to_top_shm_hitalama_board_page_29 = $mol_type_enforce<
+	type $shm_hitalama_board_block_any__to_top_shm_hitalama_board_page_28 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_page['block_to_top'] >
 		,
 		ReturnType< $shm_hitalama_board_block_any['to_top'] >
 	>
-	type $shm_hitalama_board_block_any__to_bottom_shm_hitalama_board_page_30 = $mol_type_enforce<
+	type $shm_hitalama_board_block_any__to_bottom_shm_hitalama_board_page_29 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_page['block_to_bottom'] >
 		,
 		ReturnType< $shm_hitalama_board_block_any['to_bottom'] >
 	>
-	type $shm_hitalama_board_block_any__sticks_y_shm_hitalama_board_page_31 = $mol_type_enforce<
+	type $shm_hitalama_board_block_any__sticks_y_shm_hitalama_board_page_30 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_page['sticks_y'] >
 		,
 		ReturnType< $shm_hitalama_board_block_any['sticks_y'] >
 	>
-	type $shm_hitalama_board_block_any__sticks_x_shm_hitalama_board_page_32 = $mol_type_enforce<
+	type $shm_hitalama_board_block_any__sticks_x_shm_hitalama_board_page_31 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_page['sticks_x'] >
 		,
 		ReturnType< $shm_hitalama_board_block_any['sticks_x'] >
 	>
-	type $shm_hitalama_board_block_any__selected_shm_hitalama_board_page_33 = $mol_type_enforce<
+	type $shm_hitalama_board_block_any__selected_shm_hitalama_board_page_32 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_page['selected'] >
 		,
 		ReturnType< $shm_hitalama_board_block_any['selected'] >
 	>
-	type $shm_hitalama_board_block_any__drags_synced_shm_hitalama_board_page_34 = $mol_type_enforce<
+	type $shm_hitalama_board_block_any__drags_synced_shm_hitalama_board_page_33 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_page['drags_synced'] >
 		,
 		ReturnType< $shm_hitalama_board_block_any['drags_synced'] >
 	>
-	type $mol_view__style_shm_hitalama_board_page_35 = $mol_type_enforce<
-		({ 
-			'left': ReturnType< $shm_hitalama_board_page['select_rect_left'] >,
-			'top': ReturnType< $shm_hitalama_board_page['select_rect_top'] >,
-			'width': ReturnType< $shm_hitalama_board_page['select_rect_width'] >,
-			'height': ReturnType< $shm_hitalama_board_page['select_rect_height'] >,
-		}) 
+	type $shm_hitalama_board_pane__select_resize_shm_hitalama_board_page_34 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_page['select_resize'] >
 		,
-		ReturnType< $mol_view['style'] >
+		ReturnType< $shm_hitalama_board_pane['select_resize'] >
 	>
-	type $shm_hitalama_board_pane__selecting_shm_hitalama_board_page_36 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_page['selecting'] >
-		,
-		ReturnType< $shm_hitalama_board_pane['selecting'] >
-	>
-	type $shm_hitalama_board_pane__sub_shm_hitalama_board_page_37 = $mol_type_enforce<
+	type $shm_hitalama_board_pane__body_shm_hitalama_board_page_35 = $mol_type_enforce<
 		readonly(any)[]
 		,
-		ReturnType< $shm_hitalama_board_pane['sub'] >
+		ReturnType< $shm_hitalama_board_pane['body'] >
 	>
 	export class $shm_hitalama_board_page extends $shm_hitalama_entity_page {
 		Open_in_new_icon( ): $mol_icon_open_in_new
@@ -19451,6 +19471,10 @@ declare namespace $ {
 		pointerdown_listener( ): any
 		shift_pressed( next?: boolean ): boolean
 		pull_drags_synced( ): any
+		select_start( next?: ReturnType< ReturnType< $shm_hitalama_board_page['Pane'] >['select_start'] > ): ReturnType< ReturnType< $shm_hitalama_board_page['Pane'] >['select_start'] >
+		select_rect_pos( ): ReturnType< ReturnType< $shm_hitalama_board_page['Pane'] >['select_rect_pos'] >
+		select_rect_size( ): ReturnType< ReturnType< $shm_hitalama_board_page['Pane'] >['select_rect_size'] >
+		select_resize( ): any
 		pointer_pos( ): ReturnType< ReturnType< $shm_hitalama_board_page['Pane'] >['pointer_pos'] >
 		back_pointerdown( next?: any ): any
 		back_contextmenu( next?: any ): any
@@ -19463,8 +19487,6 @@ declare namespace $ {
 		Iframe_add( ): $mol_button_minor
 		form_add( next?: any ): any
 		Form_add( ): $mol_button_minor
-		table_add( next?: any ): any
-		Table_add( ): $mol_button_minor
 		context_menu_left( next?: string ): string
 		context_menu_top( next?: string ): string
 		context_menu_pointerenter( next?: any ): any
@@ -19487,12 +19509,6 @@ declare namespace $ {
 		drags_synced( id: any): readonly($shm_hitalama_drag)[]
 		Block( id: any): $shm_hitalama_board_block_any
 		blocks( ): readonly(any)[]
-		select_rect_left( next?: string ): string
-		select_rect_top( next?: string ): string
-		select_rect_width( next?: string ): string
-		select_rect_height( next?: string ): string
-		Select_rect( ): $mol_view
-		select_rect( ): readonly(any)[]
 		board( ): $shm_hitalama_board
 		cut_title( ): string
 		head( ): readonly(any)[]
@@ -19500,13 +19516,8 @@ declare namespace $ {
 		context_menu_hovered( next?: boolean ): boolean
 		context_menu_visible( next?: boolean ): boolean
 		body_content( ): readonly(any)[]
-		Pane( ): $shm_hitalama_board_pane
-		selecting( next?: boolean ): boolean
 		selected_refs( next?: readonly(any)[] ): readonly(any)[]
-		select_rect_start_x( next?: number ): number
-		select_rect_start_y( next?: number ): number
-		select_rect_end_x( next?: number ): number
-		select_rect_end_y( next?: number ): number
+		Pane( ): $shm_hitalama_board_pane
 	}
 	
 }
@@ -19532,6 +19543,7 @@ declare namespace $.$$ {
         pull_drags_synced(): (readonly $.$shm_hitalama_drag[])[];
         selected(ref: $hyoo_crus_ref, next?: boolean): boolean;
         back_pointerdown(event: PointerEvent): void;
+        select_resize(): void;
         deselect_all(): void;
         back_contextmenu(event: PointerEvent): void;
         context_menu_pos(next?: readonly [number, number]): readonly [number, number];
@@ -19540,12 +19552,11 @@ declare namespace $.$$ {
         context_menu(): readonly (any)[];
         context_menu_pointerenter(next?: any): void;
         context_menu_pointerleave(next?: any): void;
-        block_add(type: (typeof $shm_hitalama_board_block_types)[number], pos?: readonly [number, number], right_x?: number, bottom_x?: number): $shm_hitalama_board_block | undefined;
+        block_add(type: (typeof $shm_hitalama_board_block_types)[number], pos?: readonly [number, number] | readonly number[], right_x?: number, bottom_x?: number): $shm_hitalama_board_block | undefined;
         text_add(): $shm_hitalama_board_block | undefined;
         input_add(): $shm_hitalama_board_block | undefined;
         iframe_add(): $shm_hitalama_board_block | undefined;
-        form_add(): $shm_hitalama_board_block | undefined;
-        table_add(): $shm_hitalama_board_block | undefined;
+        form_add(): void;
         image_add(blob: Blob): $shm_hitalama_board_block | undefined;
         paste_text(text: string): $shm_hitalama_board_block | undefined;
         pointerdown_listener(): $mol_dom_listener;
@@ -19553,14 +19564,6 @@ declare namespace $.$$ {
         keydown_listener(): $mol_dom_listener;
         keyup_listener(): $mol_dom_listener;
         paste_listener(): $mol_dom_listener;
-        select_rect(): readonly any[];
-        to_pane_pos(client_pos: readonly [number, number] | readonly number[]): readonly [number, number];
-        select_rect_pos(): readonly [number, number];
-        select_rect_size(): number[];
-        select_rect_left(): string;
-        select_rect_top(): string;
-        select_rect_width(): string;
-        select_rect_height(): string;
     }
 }
 

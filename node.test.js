@@ -22974,6 +22974,7 @@ var $;
             add() {
                 const entity = this.list()?.make({ '': $hyoo_crus_rank.get });
                 entity?.title(this.title_default());
+                this.spread(entity.ref().description);
                 return entity;
             }
             cut(id) {
@@ -28931,8 +28932,41 @@ var $;
 
 ;
 	($.$shm_hitalama_board_pane) = class $shm_hitalama_board_pane extends ($.$mol_view) {
-		selecting(){
+		selecting(next){
+			if(next !== undefined) return next;
 			return false;
+		}
+		body(){
+			return [];
+		}
+		select_rect_left(next){
+			if(next !== undefined) return next;
+			return "0px";
+		}
+		select_rect_top(next){
+			if(next !== undefined) return next;
+			return "0px";
+		}
+		select_rect_width(next){
+			if(next !== undefined) return next;
+			return "0px";
+		}
+		select_rect_height(next){
+			if(next !== undefined) return next;
+			return "0px";
+		}
+		Select_rect(){
+			const obj = new this.$.$mol_view();
+			(obj.style) = () => ({
+				"left": (this.select_rect_left()), 
+				"top": (this.select_rect_top()), 
+				"width": (this.select_rect_width()), 
+				"height": (this.select_rect_height())
+			});
+			return obj;
+		}
+		select_rect(){
+			return [(this.Select_rect())];
 		}
 		pointer_move(next){
 			if(next !== undefined) return next;
@@ -28941,16 +28975,58 @@ var $;
 		attr(){
 			return {...(super.attr()), "selecting": (this.selecting())};
 		}
-		pointer_pos(next){
+		pointer_client_pos(next){
 			if(next !== undefined) return next;
 			return [];
+		}
+		pointer_pos(){
+			return [];
+		}
+		sub(){
+			return [...(this.body()), ...(this.select_rect())];
+		}
+		select_rect_start_x(next){
+			if(next !== undefined) return next;
+			return NaN;
+		}
+		select_rect_start_y(next){
+			if(next !== undefined) return next;
+			return NaN;
+		}
+		select_rect_end_x(next){
+			if(next !== undefined) return next;
+			return NaN;
+		}
+		select_rect_end_y(next){
+			if(next !== undefined) return next;
+			return NaN;
+		}
+		select_start(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		select_resize(next){
+			if(next !== undefined) return next;
+			return null;
 		}
 		event(){
 			return {...(super.event()), "pointermove": (next) => (this.pointer_move(next))};
 		}
 	};
+	($mol_mem(($.$shm_hitalama_board_pane.prototype), "selecting"));
+	($mol_mem(($.$shm_hitalama_board_pane.prototype), "select_rect_left"));
+	($mol_mem(($.$shm_hitalama_board_pane.prototype), "select_rect_top"));
+	($mol_mem(($.$shm_hitalama_board_pane.prototype), "select_rect_width"));
+	($mol_mem(($.$shm_hitalama_board_pane.prototype), "select_rect_height"));
+	($mol_mem(($.$shm_hitalama_board_pane.prototype), "Select_rect"));
 	($mol_mem(($.$shm_hitalama_board_pane.prototype), "pointer_move"));
-	($mol_mem(($.$shm_hitalama_board_pane.prototype), "pointer_pos"));
+	($mol_mem(($.$shm_hitalama_board_pane.prototype), "pointer_client_pos"));
+	($mol_mem(($.$shm_hitalama_board_pane.prototype), "select_rect_start_x"));
+	($mol_mem(($.$shm_hitalama_board_pane.prototype), "select_rect_start_y"));
+	($mol_mem(($.$shm_hitalama_board_pane.prototype), "select_rect_end_x"));
+	($mol_mem(($.$shm_hitalama_board_pane.prototype), "select_rect_end_y"));
+	($mol_mem(($.$shm_hitalama_board_pane.prototype), "select_start"));
+	($mol_mem(($.$shm_hitalama_board_pane.prototype), "select_resize"));
 
 
 ;
@@ -28963,10 +29039,73 @@ var $;
     var $$;
     (function ($$) {
         class $shm_hitalama_board_pane extends $.$shm_hitalama_board_pane {
+            select_start(event) {
+                this.selecting(true);
+                this.select_rect_start_x(event.clientX);
+                this.select_rect_start_y(event.clientY);
+                this.select_rect_end_x(event.clientX);
+                this.select_rect_end_y(event.clientY);
+                const mousemove = new $mol_dom_listener(this.$.$mol_dom_context.document, 'mousemove', $mol_wire_async(event => {
+                    this.select_rect_end_x(event.clientX);
+                    this.select_rect_end_y(event.clientY);
+                    this.select_resize(event);
+                }));
+                const mouseup = new $mol_dom_listener(this.$.$mol_dom_context.document, 'mouseup', $mol_wire_async(event => {
+                    this.selecting(false);
+                    mouseup?.destructor();
+                    mousemove?.destructor();
+                }));
+            }
             pointer_move(event) {
-                this.pointer_pos([event?.clientX, event?.clientY]);
+                this.pointer_client_pos([event?.clientX, event?.clientY]);
+            }
+            pointer_pos() {
+                return this.to_pane_pos(this.pointer_client_pos());
+            }
+            to_pane_pos(client_pos) {
+                const { left, top } = this.dom_node().getBoundingClientRect();
+                return [client_pos[0] - left, client_pos[1] - top];
+            }
+            select_rect() {
+                return this.selecting() ? super.select_rect() : [];
+            }
+            select_rect_pos() {
+                return this.to_pane_pos([
+                    Math.min(this.select_rect_start_x(), this.select_rect_end_x()),
+                    Math.min(this.select_rect_start_y(), this.select_rect_end_y()),
+                ]);
+            }
+            select_rect_size() {
+                return [
+                    Math.abs(this.select_rect_end_x() - this.select_rect_start_x()),
+                    Math.abs(this.select_rect_end_y() - this.select_rect_start_y()),
+                ];
+            }
+            select_rect_left() {
+                return this.select_rect_pos()[0] + 'px';
+            }
+            select_rect_top() {
+                return this.select_rect_pos()[1] + 'px';
+            }
+            select_rect_width() {
+                return this.select_rect_size()[0] + 'px';
+            }
+            select_rect_height() {
+                return this.select_rect_size()[1] + 'px';
             }
         }
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_pane.prototype, "select_rect_left", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_pane.prototype, "select_rect_top", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_pane.prototype, "select_rect_width", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_pane.prototype, "select_rect_height", null);
         $$.$shm_hitalama_board_pane = $shm_hitalama_board_pane;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
@@ -28983,6 +29122,15 @@ var $;
                     userSelect: 'none',
                     pointerEvents: 'none',
                 },
+            },
+            Select_rect: {
+                position: 'absolute',
+                transition: 'none',
+                pointerEvents: 'none',
+                background: {
+                    color: $mol_style_func.rgba(112, 166, 219, 0.1),
+                },
+                outline: '1px solid #70A6DB'
             },
         });
     })($$ = $.$$ || ($.$$ = {}));
@@ -29018,6 +29166,18 @@ var $;
 			return false;
 		}
 		pull_drags_synced(){
+			return null;
+		}
+		select_start(next){
+			return (this.Pane().select_start(next));
+		}
+		select_rect_pos(){
+			return (this.Pane().select_rect_pos());
+		}
+		select_rect_size(){
+			return (this.Pane().select_rect_size());
+		}
+		select_resize(){
 			return null;
 		}
 		pointer_pos(){
@@ -29072,18 +29232,8 @@ var $;
 		}
 		Form_add(){
 			const obj = new this.$.$mol_button_minor();
-			(obj.title) = () => ("Добавить форму");
+			(obj.title) = () => ("Добавить виджет: Сбор 1% выгрузки БА");
 			(obj.click) = (next) => ((this.form_add(next)));
-			return obj;
-		}
-		table_add(next){
-			if(next !== undefined) return next;
-			return null;
-		}
-		Table_add(){
-			const obj = new this.$.$mol_button_minor();
-			(obj.title) = () => ("Добавить таблицу");
-			(obj.click) = (next) => ((this.table_add(next)));
 			return obj;
 		}
 		context_menu_left(next){
@@ -29108,8 +29258,7 @@ var $;
 				(this.Text_add()), 
 				(this.Input_add()), 
 				(this.Iframe_add()), 
-				(this.Form_add()), 
-				(this.Table_add())
+				(this.Form_add())
 			]);
 			(obj.style) = () => ({"left": (this.context_menu_left()), "top": (this.context_menu_top())});
 			(obj.event) = () => ({"pointerenter": (next) => (this.context_menu_pointerenter(next)), "pointerleave": (next) => (this.context_menu_pointerleave(next))});
@@ -29178,35 +29327,6 @@ var $;
 		blocks(){
 			return [(this.Block(id))];
 		}
-		select_rect_left(next){
-			if(next !== undefined) return next;
-			return "0px";
-		}
-		select_rect_top(next){
-			if(next !== undefined) return next;
-			return "0px";
-		}
-		select_rect_width(next){
-			if(next !== undefined) return next;
-			return "0px";
-		}
-		select_rect_height(next){
-			if(next !== undefined) return next;
-			return "0px";
-		}
-		Select_rect(){
-			const obj = new this.$.$mol_view();
-			(obj.style) = () => ({
-				"left": (this.select_rect_left()), 
-				"top": (this.select_rect_top()), 
-				"width": (this.select_rect_width()), 
-				"height": (this.select_rect_height())
-			});
-			return obj;
-		}
-		select_rect(){
-			return [(this.Select_rect())];
-		}
 		board(){
 			const obj = new this.$.$shm_hitalama_board();
 			return obj;
@@ -29242,40 +29362,19 @@ var $;
 		body_content(){
 			return [(this.Pane())];
 		}
-		Pane(){
-			const obj = new this.$.$shm_hitalama_board_pane();
-			(obj.selecting) = () => ((this.selecting()));
-			(obj.sub) = () => ([
-				(this.Back()), 
-				...(this.context_menu()), 
-				...(this.blocks()), 
-				...(this.select_rect())
-			]);
-			return obj;
-		}
-		selecting(next){
-			if(next !== undefined) return next;
-			return false;
-		}
 		selected_refs(next){
 			if(next !== undefined) return next;
 			return [];
 		}
-		select_rect_start_x(next){
-			if(next !== undefined) return next;
-			return NaN;
-		}
-		select_rect_start_y(next){
-			if(next !== undefined) return next;
-			return NaN;
-		}
-		select_rect_end_x(next){
-			if(next !== undefined) return next;
-			return NaN;
-		}
-		select_rect_end_y(next){
-			if(next !== undefined) return next;
-			return NaN;
+		Pane(){
+			const obj = new this.$.$shm_hitalama_board_pane();
+			(obj.select_resize) = () => ((this.select_resize()));
+			(obj.body) = () => ([
+				(this.Back()), 
+				...(this.context_menu()), 
+				...(this.blocks())
+			]);
+			return obj;
 		}
 	};
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Open_in_new_icon"));
@@ -29292,8 +29391,6 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Iframe_add"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "form_add"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Form_add"));
-	($mol_mem(($.$shm_hitalama_board_page.prototype), "table_add"));
-	($mol_mem(($.$shm_hitalama_board_page.prototype), "Table_add"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "context_menu_left"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "context_menu_top"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "context_menu_pointerenter"));
@@ -29302,21 +29399,11 @@ var $;
 	($mol_mem_key(($.$shm_hitalama_board_page.prototype), "block"));
 	($mol_mem_key(($.$shm_hitalama_board_page.prototype), "selected"));
 	($mol_mem_key(($.$shm_hitalama_board_page.prototype), "Block"));
-	($mol_mem(($.$shm_hitalama_board_page.prototype), "select_rect_left"));
-	($mol_mem(($.$shm_hitalama_board_page.prototype), "select_rect_top"));
-	($mol_mem(($.$shm_hitalama_board_page.prototype), "select_rect_width"));
-	($mol_mem(($.$shm_hitalama_board_page.prototype), "select_rect_height"));
-	($mol_mem(($.$shm_hitalama_board_page.prototype), "Select_rect"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "board"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "context_menu_hovered"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "context_menu_visible"));
-	($mol_mem(($.$shm_hitalama_board_page.prototype), "Pane"));
-	($mol_mem(($.$shm_hitalama_board_page.prototype), "selecting"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "selected_refs"));
-	($mol_mem(($.$shm_hitalama_board_page.prototype), "select_rect_start_x"));
-	($mol_mem(($.$shm_hitalama_board_page.prototype), "select_rect_start_y"));
-	($mol_mem(($.$shm_hitalama_board_page.prototype), "select_rect_end_x"));
-	($mol_mem(($.$shm_hitalama_board_page.prototype), "select_rect_end_y"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "Pane"));
 
 
 ;
@@ -29420,34 +29507,23 @@ var $;
             }
             back_pointerdown(event) {
                 this.deselect_all();
-                this.selecting(true);
-                this.select_rect_start_x(event.clientX);
-                this.select_rect_start_y(event.clientY);
-                this.select_rect_end_x(event.clientX);
-                this.select_rect_end_y(event.clientY);
-                const mousemove = new $mol_dom_listener(this.$.$mol_dom_context.document, 'mousemove', $mol_wire_async(event => {
-                    this.select_rect_end_x(event.clientX);
-                    this.select_rect_end_y(event.clientY);
-                    const [left, top] = this.select_rect_pos();
-                    const [width, height] = this.select_rect_size();
-                    const blocks = this.blocks().filter(b => {
-                        if (left + width < b.Sub().left())
-                            return;
-                        if (top + height < b.Sub().top())
-                            return;
-                        if (left > b.Sub().left() + b.Sub().width())
-                            return;
-                        if (top > b.Sub().top() + b.Sub().height())
-                            return;
-                        return true;
-                    });
-                    this.selected_refs(blocks.map(b => b.block().ref()));
-                }));
-                const mouseup = new $mol_dom_listener(this.$.$mol_dom_context.document, 'mouseup', $mol_wire_async(event => {
-                    this.selecting(false);
-                    mouseup?.destructor();
-                    mousemove?.destructor();
-                }));
+                this.select_start(event);
+            }
+            select_resize() {
+                const [left, top] = this.select_rect_pos();
+                const [width, height] = this.select_rect_size();
+                const blocks = this.blocks().filter(b => {
+                    if (left + width < b.Sub().left())
+                        return;
+                    if (top + height < b.Sub().top())
+                        return;
+                    if (left > b.Sub().left() + b.Sub().width())
+                        return;
+                    if (top > b.Sub().top() + b.Sub().height())
+                        return;
+                    return true;
+                });
+                this.selected_refs(blocks.map(b => b.block().ref()));
             }
             deselect_all() {
                 const blocks = this.board().Blocks()?.remote_list() ?? [];
@@ -29504,23 +29580,20 @@ var $;
                 return block;
             }
             form_add() {
-                const block = this.block_add('form', this.context_menu_pos(), 400, 400);
+                const form_pos = this.context_menu_pos();
+                const form = this.block_add('form', form_pos, 450, 780);
+                const table_pos = [form_pos[0] + 460, form_pos[1]];
+                const table = this.block_add('table', table_pos, 800, 780);
                 this.context_menu_visible(false);
-                return block;
-            }
-            table_add() {
-                const block = this.block_add('table', this.context_menu_pos(), 400, 400);
-                this.context_menu_visible(false);
-                return block;
             }
             image_add(blob) {
-                const pos = this.to_pane_pos(this.pointer_pos());
-                const block = this.block_add('text', pos);
+                const pos = this.pointer_pos();
+                const block = this.block_add('text', pos, 0, 0);
                 block?.Image(null)?.blob(blob);
                 return block;
             }
             paste_text(text) {
-                const pos = this.to_pane_pos(this.pointer_pos());
+                const pos = this.pointer_pos();
                 const block = this.block_add('text', pos);
                 block?.Text(null)?.value(text);
                 return block;
@@ -29573,37 +29646,6 @@ var $;
                         }
                     }
                 }));
-            }
-            select_rect() {
-                return this.selecting() ? super.select_rect() : [];
-            }
-            to_pane_pos(client_pos) {
-                const { left, top } = this.Pane().dom_node().getBoundingClientRect();
-                return [client_pos[0] - left, client_pos[1] - top];
-            }
-            select_rect_pos() {
-                return this.to_pane_pos([
-                    Math.min(this.select_rect_start_x(), this.select_rect_end_x()),
-                    Math.min(this.select_rect_start_y(), this.select_rect_end_y()),
-                ]);
-            }
-            select_rect_size() {
-                return [
-                    Math.abs(this.select_rect_end_x() - this.select_rect_start_x()),
-                    Math.abs(this.select_rect_end_y() - this.select_rect_start_y()),
-                ];
-            }
-            select_rect_left() {
-                return this.select_rect_pos()[0] + 'px';
-            }
-            select_rect_top() {
-                return this.select_rect_pos()[1] + 'px';
-            }
-            select_rect_width() {
-                return this.select_rect_size()[0] + 'px';
-            }
-            select_rect_height() {
-                return this.select_rect_size()[1] + 'px';
             }
         }
         __decorate([
@@ -29680,9 +29722,6 @@ var $;
         ], $shm_hitalama_board_page.prototype, "form_add", null);
         __decorate([
             $mol_action
-        ], $shm_hitalama_board_page.prototype, "table_add", null);
-        __decorate([
-            $mol_action
         ], $shm_hitalama_board_page.prototype, "image_add", null);
         __decorate([
             $mol_action
@@ -29702,18 +29741,6 @@ var $;
         __decorate([
             $mol_mem
         ], $shm_hitalama_board_page.prototype, "paste_listener", null);
-        __decorate([
-            $mol_mem
-        ], $shm_hitalama_board_page.prototype, "select_rect_left", null);
-        __decorate([
-            $mol_mem
-        ], $shm_hitalama_board_page.prototype, "select_rect_top", null);
-        __decorate([
-            $mol_mem
-        ], $shm_hitalama_board_page.prototype, "select_rect_width", null);
-        __decorate([
-            $mol_mem
-        ], $shm_hitalama_board_page.prototype, "select_rect_height", null);
         $$.$shm_hitalama_board_page = $shm_hitalama_board_page;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
@@ -29734,15 +29761,6 @@ var $;
                 position: 'absolute',
                 zIndex: $mol_layer.popup,
                 whiteSpace: 'nowrap',
-            },
-            Select_rect: {
-                position: 'absolute',
-                transition: 'none',
-                pointerEvents: 'none',
-                background: {
-                    color: $mol_style_func.rgba(112, 166, 219, 0.1),
-                },
-                outline: '1px solid #70A6DB'
             },
             Pane: {},
         });
