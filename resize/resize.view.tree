@@ -53,11 +53,9 @@ $shm_hitalama_resize $mol_view
 				on_drag_end? <=> resize_end? null
 				y? <=> bottom_edge_y? 0
 				x? <=> right_edge_x? 0
-	-
 	resizing? false
 	-
-	height_base 100
-	width_base 100
+	ratio null
 	height 0
 	width 0
 	top 0

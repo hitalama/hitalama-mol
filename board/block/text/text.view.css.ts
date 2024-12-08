@@ -26,11 +26,9 @@ namespace $.$$ {
 
 		Image: {
 			position: 'absolute',
-			objectFit: 'contain',
-			height: 'inherit',
-			width: 'inherit',
+			width: '100%',
 			transition: 'none',
-			// width: '100%',
+			pointerEvents: 'none',
 		},
 
 		Text: {

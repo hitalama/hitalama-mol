@@ -34,7 +34,6 @@ namespace $.$$ {
 		pointerdown( event: PointerEvent ) {
 			
 			this.drag_start( event )
-			console.log('this.drags_synced()', this.drags_synced())
 			this.drags_synced().forEach( d => d.drag_start( event ) )
 			
 			const mousemove =  new $mol_dom_listener(

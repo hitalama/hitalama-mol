@@ -127,6 +127,8 @@ namespace $.$$ {
 			this.selecting( true )
 			this.select_rect_start_x( event.clientX )
 			this.select_rect_start_y( event.clientY )
+			this.select_rect_end_x( event.clientX )
+			this.select_rect_end_y( event.clientY )
 
 			const mousemove =  new $mol_dom_listener(
 				this.$.$mol_dom_context.document,
@@ -135,10 +137,8 @@ namespace $.$$ {
 					this.select_rect_end_x( event.clientX )
 					this.select_rect_end_y( event.clientY )
 		
-					const left = parseFloat( this.select_rect_left() )
-					const top = parseFloat( this.select_rect_top() )
-					const width = parseFloat( this.select_rect_width() )
-					const height = parseFloat( this.select_rect_height() )
+					const [left, top] = this.select_rect_pos()
+					const [width, height] = this.select_rect_size()
 		
 					const blocks = this.blocks().filter( b => {
 						if( left + width < b.Sub().left() ) return
@@ -199,15 +199,8 @@ namespace $.$$ {
 		}
 
 		@ $mol_action
-		paste_text( text: string ) {
-			const block = this.block_add( 'text' )
-			block?.Text(null)?.value( text )
-			return block
-		}
-
-		@ $mol_action
 		text_add() {
-			const block = this.block_add( 'text', parseFloat( this.context_menu_left() ), parseFloat( this.context_menu_top() ), 100 )
+			const block = this.block_add( 'text', parseFloat( this.context_menu_left() ), parseFloat( this.context_menu_top() ), 200, 100 )
 			block?.Text(null)?.value( 'text' )
 			this.context_menu_visible( false )
 			return block
@@ -245,8 +238,17 @@ namespace $.$$ {
 
 		@ $mol_action
 		image_add( blob: Blob ) {
-			const block = this.block_add( 'text' )
+			const pos =  this.to_pane_pos( this.pointer_pos() )
+			const block = this.block_add( 'text', pos[0], pos[1] )
 			block?.Image(null)?.blob( blob )
+			return block
+		}
+
+		@ $mol_action
+		paste_text( text: string ) {
+			const pos =  this.to_pane_pos( this.pointer_pos() )
+			const block = this.block_add( 'text', pos[0], pos[1] )
+			block?.Text(null)?.value( text )
 			return block
 		}
 
@@ -329,30 +331,43 @@ namespace $.$$ {
 			return this.selecting() ? super.select_rect() : []
 		}
 
+		to_pane_pos( client_pos: readonly [ number, number ] | readonly number[] ) {
+			const { left, top } = this.Pane().dom_node().getBoundingClientRect()
+			return [ client_pos[0] - left, client_pos[1] - top ]
+		}
+
+		select_rect_pos() {
+			return this.to_pane_pos([
+				Math.min( this.select_rect_start_x(), this.select_rect_end_x() ),
+				Math.min( this.select_rect_start_y(), this.select_rect_end_y() ),
+			])
+		}
+
+		select_rect_size() {
+			return [
+				Math.abs( this.select_rect_end_x() - this.select_rect_start_x() ),
+				Math.abs( this.select_rect_end_y() - this.select_rect_start_y() ),
+			]
+		}
+
 		@ $mol_mem
 		select_rect_left(): string {
-			return ( Math.min( this.select_rect_start_x(), this.select_rect_end_x() )
-				- this.Pane().view_rect()!.left ) + 'px'
+			return this.select_rect_pos()[0] + 'px'
 		}
 
 		@ $mol_mem
 		select_rect_top(): string {
-			return ( Math.min( this.select_rect_start_y(), this.select_rect_end_y() )
-				- this.Pane().view_rect()!.top ) + 'px'
+			return this.select_rect_pos()[1] + 'px'
 		}
 
 		@ $mol_mem
 		select_rect_width(): string {
-			const start_x = this.select_rect_start_x()
-			const end_x = this.select_rect_end_x()
-			return Math.abs( end_x - start_x ) + 'px'
+			return this.select_rect_size()[0] + 'px'
 		}
 
 		@ $mol_mem
 		select_rect_height(): string {
-			const start_y = this.select_rect_start_y()
-			const end_y = this.select_rect_end_y()
-			return Math.abs( end_y - start_y ) + 'px'
+			return this.select_rect_size()[1] + 'px'
 		}
 
 	}

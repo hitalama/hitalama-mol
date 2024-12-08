@@ -2,3 +2,7 @@ $shm_hitalama_board_pane $mol_view
 	attr *
 		^
 		selecting <= selecting false
+	pointer_pos? /
+	event *
+		^
+		pointermove? <=> pointer_move? null

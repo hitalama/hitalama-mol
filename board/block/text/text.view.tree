@@ -1,7 +1,5 @@
 $shm_hitalama_board_block_text $shm_hitalama_board_block_float
 	sub /
-		^ image / <= Image $mol_image
-			uri <= image_uri \
 		<= Text $mol_textarea
 			value? <=> text? \
 			selection? <=> selection? /number
@@ -17,3 +15,8 @@ $shm_hitalama_board_block_text $shm_hitalama_board_block_float
 			event *
 				pointerdown? <=> pointerdown? null
 				pointerup? <=> pointerup? null
+		^ image / <= Image $mol_image
+			uri <= image_uri \
+	auto /
+		^
+		<= image_size_auto null

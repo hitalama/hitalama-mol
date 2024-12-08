@@ -1,6 +1,5 @@
 $shm_hitalama_board_form_view $mol_form
 	board $shm_hitalama_board
-	model <= form $shm_hitalama_board_form
 	form_fields /
 		<= Query_field $mol_form_field
 			name \Поисковой запрос

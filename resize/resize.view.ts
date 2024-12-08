@@ -34,6 +34,19 @@ namespace $.$$ {
 		}
 
 		@ $mol_mem
+		body_x( next?: number ): number {
+			if( next === undefined ) return 0
+			const left_stick = this.to_stick_x( next, this.left_edge_x_stick() )
+			if( left_stick == next ) {
+				const right_stick = this.to_stick_x( next, this.left_edge_x_stick() + this.width() )
+				this.body_x_stick( right_stick )
+			} else {
+				this.body_x_stick( left_stick )
+			}
+			return next
+		}
+
+		@ $mol_mem
 		top_edge_y( next?: number ): number {
 			if( next === undefined ) return 0
 			const top_edge_y_stick = this.to_stick_y( next, this.body_y_stick() )
@@ -44,21 +57,8 @@ namespace $.$$ {
 		@ $mol_mem
 		bottom_edge_y( next?: number ): number {
 			if( next === undefined ) return 0
-			const bottom_edge_y_stick = this.to_stick_y( next, this.top() + this.height_base() - this.top_edge_y_stick() )
+			const bottom_edge_y_stick = this.to_stick_y( next, this.top() - this.top_edge_y_stick() )
 			this.bottom_edge_y_stick( bottom_edge_y_stick )
-			return next
-		}
-
-		@ $mol_mem
-		body_x( next?: number ): number {
-			if( next === undefined ) return 0
-			const left_stick = this.to_stick_x( next, this.left_edge_x_stick() )
-			if( left_stick == next ) {
-				const right_stick = this.to_stick_x( next, this.left_edge_x_stick() + this.width() )
-				this.body_x_stick( right_stick )
-			} else {
-				this.body_x_stick( left_stick )
-			}
 			return next
 		}
 
@@ -73,39 +73,47 @@ namespace $.$$ {
 		@ $mol_mem
 		right_edge_x( next?: number ): number {
 			if( next === undefined ) return 0
-			const right_edge_x_stick = this.to_stick_x( next, this.left() + this.width_base() - this.left_edge_x_stick() )
+			const right_edge_x_stick = this.to_stick_x( next, this.left() - this.left_edge_x_stick() )
 			this.right_edge_x_stick( right_edge_x_stick )
 			return next
 		}
 
+		@ $mol_mem
 		top(): number {
 			return this.body_y_stick() + this.top_edge_y_stick()
 		}
 
+		@ $mol_mem
 		left(): number {
 			return this.body_x_stick() + this.left_edge_x_stick()
 		}
 
+		@ $mol_mem
 		width(): number {
-			return this.width_base() + this.right_edge_x_stick() - this.left_edge_x_stick()
+			return this.right_edge_x_stick() - this.left_edge_x_stick()
 		}
 
+		@ $mol_mem
 		height(): number {
-			return this.height_base() + this.bottom_edge_y_stick() - this.top_edge_y_stick()
+			return this.bottom_edge_y_stick() - this.top_edge_y_stick()
 		}
 
+		@ $mol_mem
 		height_px(): string {
 			return this.height() + 'px'
 		}
 
+		@ $mol_mem
 		width_px(): string {
 			return this.width() + 'px'
 		}
 
+		@ $mol_mem
 		top_px(): string {
 			return this.top() + 'px'
 		}
 
+		@ $mol_mem
 		left_px(): string {
 			return this.left() + 'px'
 		}
@@ -123,9 +131,11 @@ namespace $.$$ {
 			this.resizing( false )
 		}
 
+		@ $mol_action
 		vals_to_sticks() {
 			this.body_x( this.body_x_stick() )
 			this.body_y( this.body_y_stick() )
+			
 			this.bottom_edge_y( this.bottom_edge_y_stick() )
 			this.right_edge_x( this.right_edge_x_stick() )
 			this.top_edge_y( this.top_edge_y_stick() )

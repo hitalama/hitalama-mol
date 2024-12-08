@@ -21,8 +21,9 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 	context_menu_hovered? false
 	context_menu_visible? false
 	body_content / <= Pane
-	Pane $shm_hitalama_board_pane 
+	Pane $shm_hitalama_board_pane
 		selecting <= selecting
+		pointer_pos => pointer_pos
 		sub /
 			<= Back $shm_hitalama_board_back
 				event *
