@@ -123,44 +123,22 @@ namespace $.$$ {
 
 		back_pointerdown( event: PointerEvent ) {
 			this.deselect_all()
+			this.select_start( event )
+		}
 
-			this.selecting( true )
-			this.select_rect_start_x( event.clientX )
-			this.select_rect_start_y( event.clientY )
-			this.select_rect_end_x( event.clientX )
-			this.select_rect_end_y( event.clientY )
+		select_resize() {
+			const [left, top] = this.select_rect_pos()
+			const [width, height] = this.select_rect_size()
 
-			const mousemove =  new $mol_dom_listener(
-				this.$.$mol_dom_context.document,
-				'mousemove',
-				$mol_wire_async( event => {
-					this.select_rect_end_x( event.clientX )
-					this.select_rect_end_y( event.clientY )
-		
-					const [left, top] = this.select_rect_pos()
-					const [width, height] = this.select_rect_size()
-		
-					const blocks = this.blocks().filter( b => {
-						if( left + width < b.Sub().left() ) return
-						if( top + height < b.Sub().top() ) return
-						if( left > b.Sub().left() + b.Sub().width() ) return
-						if( top > b.Sub().top() + b.Sub().height() ) return
-						return true
-					} )
-		
-					this.selected_refs( blocks.map( b => b.block().ref() ) )
-				} ),
-			)
+			const blocks = this.blocks().filter( b => {
+				if( left + width < b.Sub().left() ) return
+				if( top + height < b.Sub().top() ) return
+				if( left > b.Sub().left() + b.Sub().width() ) return
+				if( top > b.Sub().top() + b.Sub().height() ) return
+				return true
+			} )
 
-			const mouseup = new $mol_dom_listener(
-				this.$.$mol_dom_context.document,
-				'mouseup',
-				$mol_wire_async( event => {
-					this.selecting( false )
-					mouseup?.destructor()
-					mousemove?.destructor()
-				} ),
-			)
+			this.selected_refs( blocks.map( b => b.block().ref() ) )
 		}
 
 		deselect_all() {
@@ -204,7 +182,7 @@ namespace $.$$ {
 		@ $mol_action
 		block_add( 
 			type: (typeof $shm_hitalama_board_block_types)[number], 
-			pos: readonly [number, number] = [0,0],
+			pos: readonly [number, number] | readonly number[] = [0,0],
 			right_x = 200, bottom_x = 100,
 		) {
 			const block = this.board().Blocks(null)?.make( {'': $hyoo_crus_rank.get} )
@@ -242,21 +220,18 @@ namespace $.$$ {
 
 		@ $mol_action
 		form_add() {
-			const block = this.block_add( 'form', this.context_menu_pos(), 400, 400 )
-			this.context_menu_visible( false )
-			return block
-		}
+			const form_pos = this.context_menu_pos()
+			const form = this.block_add( 'form', form_pos, 450, 780 )
+			
+			const table_pos = [ form_pos[0] + 460, form_pos[1]] as const
+			const table = this.block_add( 'table', table_pos, 800, 780 )
 
-		@ $mol_action
-		table_add() {
-			const block = this.block_add( 'table', this.context_menu_pos(), 400, 400 )
 			this.context_menu_visible( false )
-			return block
 		}
 
 		@ $mol_action
 		image_add( blob: Blob ) {
-			const pos =  this.to_pane_pos( this.pointer_pos() )
+			const pos =  this.pointer_pos()
 			const block = this.block_add( 'text', pos )
 			block?.Image(null)?.blob( blob )
 			return block
@@ -264,7 +239,7 @@ namespace $.$$ {
 
 		@ $mol_action
 		paste_text( text: string ) {
-			const pos =  this.to_pane_pos( this.pointer_pos() )
+			const pos =  this.pointer_pos()
 			const block = this.block_add( 'text', pos )
 			block?.Text(null)?.value( text )
 			return block
@@ -343,49 +318,6 @@ namespace $.$$ {
 
 				} ),
 			)
-		}
-
-		select_rect() {
-			return this.selecting() ? super.select_rect() : []
-		}
-
-		to_pane_pos( client_pos: readonly [ number, number ] | readonly number[] ) {
-			const { left, top } = this.Pane().dom_node().getBoundingClientRect()
-			return [ client_pos[0] - left, client_pos[1] - top ] as const
-		}
-
-		select_rect_pos() {
-			return this.to_pane_pos([
-				Math.min( this.select_rect_start_x(), this.select_rect_end_x() ),
-				Math.min( this.select_rect_start_y(), this.select_rect_end_y() ),
-			])
-		}
-
-		select_rect_size() {
-			return [
-				Math.abs( this.select_rect_end_x() - this.select_rect_start_x() ),
-				Math.abs( this.select_rect_end_y() - this.select_rect_start_y() ),
-			]
-		}
-
-		@ $mol_mem
-		select_rect_left(): string {
-			return this.select_rect_pos()[0] + 'px'
-		}
-
-		@ $mol_mem
-		select_rect_top(): string {
-			return this.select_rect_pos()[1] + 'px'
-		}
-
-		@ $mol_mem
-		select_rect_width(): string {
-			return this.select_rect_size()[0] + 'px'
-		}
-
-		@ $mol_mem
-		select_rect_height(): string {
-			return this.select_rect_size()[1] + 'px'
 		}
 
 	}

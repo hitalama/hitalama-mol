@@ -1,8 +1,24 @@
 $shm_hitalama_board_pane $mol_view
 	attr *
 		^
-		selecting <= selecting false
-	pointer_pos? /
+		selecting <= selecting? false
+	pointer_client_pos? /
+	pointer_pos /
+	sub /
+		^ body /
+		^ select_rect /
+			<= Select_rect $mol_view
+				style *
+					left <= select_rect_left? \0px
+					top <= select_rect_top? \0px
+					width <= select_rect_width? \0px
+					height <= select_rect_height? \0px
+	select_rect_start_x? NaN
+	select_rect_start_y? NaN
+	select_rect_end_x? NaN
+	select_rect_end_y? NaN
+	select_start? null
+	select_resize? null
 	event *
 		^
 		pointermove? <=> pointer_move? null
