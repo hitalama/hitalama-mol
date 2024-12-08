@@ -170,11 +170,25 @@ namespace $.$$ {
 
 		back_contextmenu( event: PointerEvent ) {
 			event.preventDefault()
-			this.context_menu_left( event.offsetX+'px' )
-			this.context_menu_top( event.offsetY+'px' )
+			this.context_menu_pos( [event.offsetX, event.offsetY] )
 			this.context_menu_visible( true )
 		}
 
+		@ $mol_mem
+		context_menu_pos( next?: readonly [number, number] ) {
+			return next ?? [0,0]
+		}
+		
+		@ $mol_mem
+		context_menu_left(): string {
+			return this.context_menu_pos()[0] + 'px'
+		}
+		
+		@ $mol_mem
+		context_menu_top(): string {
+			return this.context_menu_pos()[1] + 'px'
+		}
+		
 		context_menu(): readonly ( any )[] {
 			return this.context_menu_visible() ? super.context_menu() : []
 		}
@@ -190,13 +204,13 @@ namespace $.$$ {
 		@ $mol_action
 		block_add( 
 			type: (typeof $shm_hitalama_board_block_types)[number], 
-			x = 0, y = 0,
+			pos: readonly [number, number] = [0,0],
 			right_x = 200, bottom_x = 100,
 		) {
 			const block = this.board().Blocks(null)?.make( {'': $hyoo_crus_rank.get} )
 			block?.Type(null)?.val( type )
-			block?.Body_x(null)?.val( x )
-			block?.Body_y(null)?.val( y )
+			block?.Body_x(null)?.val( pos[0] )
+			block?.Body_y(null)?.val( pos[1] )
 			block?.Right_edge_x(null)?.val( right_x )
 			block?.Bottom_edge_y(null)?.val( bottom_x )
 			return block
@@ -204,7 +218,7 @@ namespace $.$$ {
 
 		@ $mol_action
 		text_add() {
-			const block = this.block_add( 'text', parseFloat( this.context_menu_left() ), parseFloat( this.context_menu_top() ), 200, 100 )
+			const block = this.block_add( 'text', this.context_menu_pos() )
 			block?.Text(null)?.value( 'text' )
 			this.context_menu_visible( false )
 			return block
@@ -212,7 +226,7 @@ namespace $.$$ {
 
 		@ $mol_action
 		input_add() {
-			const block = this.block_add( 'input', parseFloat( this.context_menu_left() ), parseFloat( this.context_menu_top() ), 100 )
+			const block = this.block_add( 'input', this.context_menu_pos() )
 			block?.Text(null)?.value( 'Hello' )
 			this.context_menu_visible( false )
 			return block
@@ -220,7 +234,7 @@ namespace $.$$ {
 
 		@ $mol_action
 		iframe_add() {
-			const block = this.block_add( 'iframe', parseFloat( this.context_menu_left() ), parseFloat( this.context_menu_top() ), 500, 700 )
+			const block = this.block_add( 'iframe', this.context_menu_pos(), 500, 700 )
 			block?.Src(null)?.val( 'https://www.google.com/search?igu=1' )
 			this.context_menu_visible( false )
 			return block
@@ -228,14 +242,14 @@ namespace $.$$ {
 
 		@ $mol_action
 		form_add() {
-			const block = this.block_add( 'form', parseFloat( this.context_menu_left() ), parseFloat( this.context_menu_top() ), 400, 400 )
+			const block = this.block_add( 'form', this.context_menu_pos(), 400, 400 )
 			this.context_menu_visible( false )
 			return block
 		}
 
 		@ $mol_action
 		table_add() {
-			const block = this.block_add( 'table', parseFloat( this.context_menu_left() ), parseFloat( this.context_menu_top() ), 400, 400 )
+			const block = this.block_add( 'table', this.context_menu_pos(), 400, 400 )
 			this.context_menu_visible( false )
 			return block
 		}
@@ -243,7 +257,7 @@ namespace $.$$ {
 		@ $mol_action
 		image_add( blob: Blob ) {
 			const pos =  this.to_pane_pos( this.pointer_pos() )
-			const block = this.block_add( 'text', pos[0], pos[1] )
+			const block = this.block_add( 'text', pos )
 			block?.Image(null)?.blob( blob )
 			return block
 		}
@@ -251,7 +265,7 @@ namespace $.$$ {
 		@ $mol_action
 		paste_text( text: string ) {
 			const pos =  this.to_pane_pos( this.pointer_pos() )
-			const block = this.block_add( 'text', pos[0], pos[1] )
+			const block = this.block_add( 'text', pos )
 			block?.Text(null)?.value( text )
 			return block
 		}
@@ -337,7 +351,7 @@ namespace $.$$ {
 
 		to_pane_pos( client_pos: readonly [ number, number ] | readonly number[] ) {
 			const { left, top } = this.Pane().dom_node().getBoundingClientRect()
-			return [ client_pos[0] - left, client_pos[1] - top ]
+			return [ client_pos[0] - left, client_pos[1] - top ] as const
 		}
 
 		select_rect_pos() {
