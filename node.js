@@ -29477,7 +29477,7 @@ var $;
             context_menu_pointerleave(next) {
                 this.context_menu_hovered(false);
             }
-            block_add(type, x = 0, y = 0, right_x = 0, bottom_x = 0) {
+            block_add(type, x = 0, y = 0, right_x = 200, bottom_x = 100) {
                 const block = this.board().Blocks(null)?.make({ '': $hyoo_crus_rank.get });
                 block?.Type(null)?.val(type);
                 block?.Body_x(null)?.val(x);
