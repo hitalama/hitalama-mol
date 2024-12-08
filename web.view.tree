@@ -1799,6 +1799,7 @@ $mol_textarea $mol_stack
 			row_numb* <= row_numb* 0
 			sidebar_showed <= sidebar_showed
 			highlight <= highlight \
+			syntax <= syntax $mol_syntax2
 	symbols_alt *string
 		comma \<
 		period \>
@@ -2066,11 +2067,9 @@ $shm_hitalama_resize $mol_view
 				on_drag_end? <=> resize_end? null
 				y? <=> bottom_edge_y? 0
 				x? <=> right_edge_x? 0
-	-
 	resizing? false
 	-
-	height_base 100
-	width_base 100
+	ratio null
 	height 0
 	width 0
 	top 0
@@ -2097,6 +2096,41 @@ $shm_hitalama_resize $mol_view
 		width <= width_px \500px
 
 $shm_hitalama_resize_edge $shm_hitalama_drag_view
+
+$shm_hitalama_resize_ratio $shm_hitalama_resize
+	edges_ratio /
+		<= Left_top_edge_ratio $shm_hitalama_resize_edge
+			on_drag_start? <=> resize_start?
+			on_drag_end? <=> resize_end?
+			x? <=> left_top_edge_ratio_x? 0
+		<= Left_bottom_edge_ratio $shm_hitalama_resize_edge
+			on_drag_start? <=> resize_start?
+			on_drag_end? <=> resize_end?
+			x? <=> left_bottom_edge_ratio_x? 0
+		<= Right_bottom_edge_ratio $shm_hitalama_resize_edge
+			on_drag_start? <=> resize_start?
+			on_drag_end? <=> resize_end?
+			x? <=> right_bottom_edge_ratio_x? 0
+		<= Right_top_edge_ratio $shm_hitalama_resize_edge
+			on_drag_start? <=> resize_start?
+			on_drag_end? <=> resize_end?
+			x? <=> right_top_edge_ratio_x? 0
+		<= Top_left_edge_ratio $shm_hitalama_resize_edge
+			on_drag_start? <=> resize_start?
+			on_drag_end? <=> resize_end?
+			y? <=> top_left_edge_ratio_y? 0
+		<= Top_right_edge_ratio $shm_hitalama_resize_edge
+			on_drag_start? <=> resize_start?
+			on_drag_end? <=> resize_end?
+			y? <=> top_right_edge_ratio_y? 0
+		<= Bottom_left_edge_ratio $shm_hitalama_resize_edge
+			on_drag_start? <=> resize_start?
+			on_drag_end? <=> resize_end?
+			y? <=> bottom_left_edge_ratio_y? 0
+		<= Bottom_right_edge_ratio $shm_hitalama_resize_edge
+			on_drag_start? <=> resize_start?
+			on_drag_end? <=> resize_end?
+			y? <=> bottom_right_edge_ratio_y? 0
 
 $shm_hitalama_color_dot $mol_view
 	style *
@@ -2211,7 +2245,7 @@ $mol_icon_arrow_collapse_down $mol_icon path \M19.92,12.08L12,20L4.08,12.08L5.5,
 
 $mol_icon_delete $mol_icon path \M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z
 
-$shm_hitalama_board_block_float $shm_hitalama_resize
+$shm_hitalama_board_block_float $shm_hitalama_resize_ratio
 	block $shm_hitalama_board_block
 	board $shm_hitalama_board
 	- plugins /
@@ -2317,8 +2351,6 @@ $shm_hitalama_board_block_iframe $shm_hitalama_board_block_float
 
 $shm_hitalama_board_block_text $shm_hitalama_board_block_float
 	sub /
-		^ image / <= Image $mol_image
-			uri <= image_uri \
 		<= Text $mol_textarea
 			value? <=> text? \
 			selection? <=> selection? /number
@@ -2334,6 +2366,11 @@ $shm_hitalama_board_block_text $shm_hitalama_board_block_float
 			event *
 				pointerdown? <=> pointerdown? null
 				pointerup? <=> pointerup? null
+		^ image / <= Image $mol_image
+			uri <= image_uri \
+	auto /
+		^
+		<= image_size_auto null
 
 $mol_form $mol_list
 	submit_allowed true
@@ -2483,7 +2520,6 @@ $mol_status $mol_view
 
 $shm_hitalama_board_form_view $mol_form
 	board $shm_hitalama_board
-	model <= form $shm_hitalama_board_form
 	form_fields /
 		<= Query_field $mol_form_field
 			name \Поисковой запрос
@@ -2639,6 +2675,10 @@ $shm_hitalama_board_pane $mol_view
 	attr *
 		^
 		selecting <= selecting false
+	pointer_pos? /
+	event *
+		^
+		pointermove? <=> pointer_move? null
 
 $shm_hitalama_board_page $shm_hitalama_entity_page
 	board $shm_hitalama_board
@@ -2663,8 +2703,9 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 	context_menu_hovered? false
 	context_menu_visible? false
 	body_content / <= Pane
-	Pane $shm_hitalama_board_pane 
+	Pane $shm_hitalama_board_pane
 		selecting <= selecting
+		pointer_pos => pointer_pos
 		sub /
 			<= Back $shm_hitalama_board_back
 				event *

@@ -13939,7 +13939,7 @@ var $;
             display: 'block',
             position: 'relative',
             font: {
-                family: 'monospace',
+                family: 'inherit',
             },
             Numb: {
                 textAlign: 'right',
@@ -23613,6 +23613,10 @@ var $;
 		highlight(){
 			return "";
 		}
+		syntax(){
+			const obj = new this.$.$mol_syntax2();
+			return obj;
+		}
 		View(){
 			const obj = new this.$.$mol_text_code();
 			(obj.text) = () => ((this.value()));
@@ -23620,6 +23624,7 @@ var $;
 			(obj.row_numb) = (id) => ((this.row_numb(id)));
 			(obj.sidebar_showed) = () => ((this.sidebar_showed()));
 			(obj.highlight) = () => ((this.highlight()));
+			(obj.syntax) = () => ((this.syntax()));
 			return obj;
 		}
 		attr(){
@@ -23691,6 +23696,7 @@ var $;
 	($mol_mem(($.$mol_textarea.prototype), "selection"));
 	($mol_mem(($.$mol_textarea.prototype), "submit"));
 	($mol_mem(($.$mol_textarea.prototype), "Edit"));
+	($mol_mem(($.$mol_textarea.prototype), "syntax"));
 	($mol_mem(($.$mol_textarea.prototype), "View"));
 	($.$mol_textarea_edit) = class $mol_textarea_edit extends ($.$mol_string) {
 		dom_name(){
@@ -23790,6 +23796,9 @@ var $;
             }
             row_numb(index) {
                 return index;
+            }
+            syntax() {
+                return this.$.$mol_syntax2_md_code;
             }
         }
         __decorate([
@@ -24649,7 +24658,6 @@ var $;
             }
             pointerdown(event) {
                 this.drag_start(event);
-                console.log('this.drags_synced()', this.drags_synced());
                 this.drags_synced().forEach(d => d.drag_start(event));
                 const mousemove = new $mol_dom_listener(this.$.$mol_dom_context.document, 'mousemove', $mol_wire_async(event => {
                     this.drag(event);
@@ -24898,11 +24906,8 @@ var $;
 			if(next !== undefined) return next;
 			return false;
 		}
-		height_base(){
-			return 100;
-		}
-		width_base(){
-			return 100;
+		ratio(){
+			return null;
 		}
 		height(){
 			return 0;
@@ -25031,20 +25036,6 @@ var $;
                 }
                 return next;
             }
-            top_edge_y(next) {
-                if (next === undefined)
-                    return 0;
-                const top_edge_y_stick = this.to_stick_y(next, this.body_y_stick());
-                this.top_edge_y_stick(top_edge_y_stick);
-                return next;
-            }
-            bottom_edge_y(next) {
-                if (next === undefined)
-                    return 0;
-                const bottom_edge_y_stick = this.to_stick_y(next, this.top() + this.height_base() - this.top_edge_y_stick());
-                this.bottom_edge_y_stick(bottom_edge_y_stick);
-                return next;
-            }
             body_x(next) {
                 if (next === undefined)
                     return 0;
@@ -25058,6 +25049,20 @@ var $;
                 }
                 return next;
             }
+            top_edge_y(next) {
+                if (next === undefined)
+                    return 0;
+                const top_edge_y_stick = this.to_stick_y(next, this.body_y_stick());
+                this.top_edge_y_stick(top_edge_y_stick);
+                return next;
+            }
+            bottom_edge_y(next) {
+                if (next === undefined)
+                    return 0;
+                const bottom_edge_y_stick = this.to_stick_y(next, this.top() - this.top_edge_y_stick());
+                this.bottom_edge_y_stick(bottom_edge_y_stick);
+                return next;
+            }
             left_edge_x(next) {
                 if (next === undefined)
                     return 0;
@@ -25068,7 +25073,7 @@ var $;
             right_edge_x(next) {
                 if (next === undefined)
                     return 0;
-                const right_edge_x_stick = this.to_stick_x(next, this.left() + this.width_base() - this.left_edge_x_stick());
+                const right_edge_x_stick = this.to_stick_x(next, this.left() - this.left_edge_x_stick());
                 this.right_edge_x_stick(right_edge_x_stick);
                 return next;
             }
@@ -25079,10 +25084,10 @@ var $;
                 return this.body_x_stick() + this.left_edge_x_stick();
             }
             width() {
-                return this.width_base() + this.right_edge_x_stick() - this.left_edge_x_stick();
+                return this.right_edge_x_stick() - this.left_edge_x_stick();
             }
             height() {
-                return this.height_base() + this.bottom_edge_y_stick() - this.top_edge_y_stick();
+                return this.bottom_edge_y_stick() - this.top_edge_y_stick();
             }
             height_px() {
                 return this.height() + 'px';
@@ -25120,19 +25125,46 @@ var $;
         ], $shm_hitalama_resize.prototype, "body_y", null);
         __decorate([
             $mol_mem
+        ], $shm_hitalama_resize.prototype, "body_x", null);
+        __decorate([
+            $mol_mem
         ], $shm_hitalama_resize.prototype, "top_edge_y", null);
         __decorate([
             $mol_mem
         ], $shm_hitalama_resize.prototype, "bottom_edge_y", null);
         __decorate([
             $mol_mem
-        ], $shm_hitalama_resize.prototype, "body_x", null);
-        __decorate([
-            $mol_mem
         ], $shm_hitalama_resize.prototype, "left_edge_x", null);
         __decorate([
             $mol_mem
         ], $shm_hitalama_resize.prototype, "right_edge_x", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_resize.prototype, "top", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_resize.prototype, "left", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_resize.prototype, "width", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_resize.prototype, "height", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_resize.prototype, "height_px", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_resize.prototype, "width_px", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_resize.prototype, "top_px", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_resize.prototype, "left_px", null);
+        __decorate([
+            $mol_action
+        ], $shm_hitalama_resize.prototype, "vals_to_sticks", null);
         $$.$shm_hitalama_resize = $shm_hitalama_resize;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
@@ -25143,6 +25175,22 @@ var $;
 (function ($) {
     var $$;
     (function ($$) {
+        const Top_edge = {
+            top: '-5px',
+            height: '10px',
+        };
+        const Left_edge = {
+            left: '-5px',
+            width: '10px',
+        };
+        const Right_edge = {
+            right: '-5px',
+            width: '10px',
+        };
+        const Bottom_edge = {
+            bottom: '-5px',
+            height: '10px',
+        };
         $mol_style_define($shm_hitalama_resize, {
             position: 'absolute',
             transition: 'none',
@@ -25159,55 +25207,43 @@ var $;
             Top_edge: {
                 cursor: 'ns-resize',
                 left: 0,
-                top: '-5px',
+                ...Top_edge,
                 width: '100%',
-                height: '10px',
             },
             Top_left_edge: {
                 cursor: 'nwse-resize',
-                left: '-5px',
-                top: '-5px',
-                width: '10px',
-                height: '10px',
+                ...Top_edge,
+                ...Left_edge,
             },
             Top_right_edge: {
                 cursor: 'nesw-resize',
-                right: '-5px',
-                top: '-5px',
-                width: '10px',
-                height: '10px',
+                ...Top_edge,
+                ...Right_edge,
             },
             Left_edge: {
                 cursor: 'ew-resize',
-                left: '-5px',
+                ...Left_edge,
                 height: '100%',
-                width: '10px',
             },
             Bottom_edge: {
                 cursor: 'ns-resize',
-                bottom: '-5px',
+                ...Bottom_edge,
                 width: '100%',
-                height: '10px',
             },
             Bottom_left_edge: {
                 cursor: 'nesw-resize',
-                left: '-5px',
-                bottom: '-5px',
-                width: '10px',
-                height: '10px',
+                ...Bottom_edge,
+                ...Left_edge,
             },
             Bottom_right_edge: {
                 cursor: 'nwse-resize',
-                right: '-5px',
-                bottom: '-5px',
-                width: '10px',
-                height: '10px',
+                ...Bottom_edge,
+                ...Right_edge,
             },
             Right_edge: {
                 cursor: 'ew-resize',
-                right: '-5px',
+                ...Right_edge,
                 height: '100%',
-                width: '10px',
             },
         });
         $mol_style_define($shm_hitalama_resize_edge, {
@@ -25215,7 +25251,6 @@ var $;
             zIndex: $mol_layer.float,
             userSelect: 'none',
             opacity: 0.1,
-            background: {},
             ":hover": {
                 background: {
                     color: $mol_theme.shade,
@@ -25232,6 +25267,342 @@ var $;
                         },
                     },
                 },
+            },
+        });
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+	($.$shm_hitalama_resize_ratio) = class $shm_hitalama_resize_ratio extends ($.$shm_hitalama_resize) {
+		left_top_edge_ratio_x(next){
+			if(next !== undefined) return next;
+			return 0;
+		}
+		Left_top_edge_ratio(){
+			const obj = new this.$.$shm_hitalama_resize_edge();
+			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
+			(obj.on_drag_end) = (next) => ((this.resize_end(next)));
+			(obj.x) = (next) => ((this.left_top_edge_ratio_x(next)));
+			return obj;
+		}
+		left_bottom_edge_ratio_x(next){
+			if(next !== undefined) return next;
+			return 0;
+		}
+		Left_bottom_edge_ratio(){
+			const obj = new this.$.$shm_hitalama_resize_edge();
+			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
+			(obj.on_drag_end) = (next) => ((this.resize_end(next)));
+			(obj.x) = (next) => ((this.left_bottom_edge_ratio_x(next)));
+			return obj;
+		}
+		right_bottom_edge_ratio_x(next){
+			if(next !== undefined) return next;
+			return 0;
+		}
+		Right_bottom_edge_ratio(){
+			const obj = new this.$.$shm_hitalama_resize_edge();
+			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
+			(obj.on_drag_end) = (next) => ((this.resize_end(next)));
+			(obj.x) = (next) => ((this.right_bottom_edge_ratio_x(next)));
+			return obj;
+		}
+		right_top_edge_ratio_x(next){
+			if(next !== undefined) return next;
+			return 0;
+		}
+		Right_top_edge_ratio(){
+			const obj = new this.$.$shm_hitalama_resize_edge();
+			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
+			(obj.on_drag_end) = (next) => ((this.resize_end(next)));
+			(obj.x) = (next) => ((this.right_top_edge_ratio_x(next)));
+			return obj;
+		}
+		top_left_edge_ratio_y(next){
+			if(next !== undefined) return next;
+			return 0;
+		}
+		Top_left_edge_ratio(){
+			const obj = new this.$.$shm_hitalama_resize_edge();
+			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
+			(obj.on_drag_end) = (next) => ((this.resize_end(next)));
+			(obj.y) = (next) => ((this.top_left_edge_ratio_y(next)));
+			return obj;
+		}
+		top_right_edge_ratio_y(next){
+			if(next !== undefined) return next;
+			return 0;
+		}
+		Top_right_edge_ratio(){
+			const obj = new this.$.$shm_hitalama_resize_edge();
+			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
+			(obj.on_drag_end) = (next) => ((this.resize_end(next)));
+			(obj.y) = (next) => ((this.top_right_edge_ratio_y(next)));
+			return obj;
+		}
+		bottom_left_edge_ratio_y(next){
+			if(next !== undefined) return next;
+			return 0;
+		}
+		Bottom_left_edge_ratio(){
+			const obj = new this.$.$shm_hitalama_resize_edge();
+			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
+			(obj.on_drag_end) = (next) => ((this.resize_end(next)));
+			(obj.y) = (next) => ((this.bottom_left_edge_ratio_y(next)));
+			return obj;
+		}
+		bottom_right_edge_ratio_y(next){
+			if(next !== undefined) return next;
+			return 0;
+		}
+		Bottom_right_edge_ratio(){
+			const obj = new this.$.$shm_hitalama_resize_edge();
+			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
+			(obj.on_drag_end) = (next) => ((this.resize_end(next)));
+			(obj.y) = (next) => ((this.bottom_right_edge_ratio_y(next)));
+			return obj;
+		}
+		edges_ratio(){
+			return [
+				(this.Left_top_edge_ratio()), 
+				(this.Left_bottom_edge_ratio()), 
+				(this.Right_bottom_edge_ratio()), 
+				(this.Right_top_edge_ratio()), 
+				(this.Top_left_edge_ratio()), 
+				(this.Top_right_edge_ratio()), 
+				(this.Bottom_left_edge_ratio()), 
+				(this.Bottom_right_edge_ratio())
+			];
+		}
+	};
+	($mol_mem(($.$shm_hitalama_resize_ratio.prototype), "left_top_edge_ratio_x"));
+	($mol_mem(($.$shm_hitalama_resize_ratio.prototype), "Left_top_edge_ratio"));
+	($mol_mem(($.$shm_hitalama_resize_ratio.prototype), "left_bottom_edge_ratio_x"));
+	($mol_mem(($.$shm_hitalama_resize_ratio.prototype), "Left_bottom_edge_ratio"));
+	($mol_mem(($.$shm_hitalama_resize_ratio.prototype), "right_bottom_edge_ratio_x"));
+	($mol_mem(($.$shm_hitalama_resize_ratio.prototype), "Right_bottom_edge_ratio"));
+	($mol_mem(($.$shm_hitalama_resize_ratio.prototype), "right_top_edge_ratio_x"));
+	($mol_mem(($.$shm_hitalama_resize_ratio.prototype), "Right_top_edge_ratio"));
+	($mol_mem(($.$shm_hitalama_resize_ratio.prototype), "top_left_edge_ratio_y"));
+	($mol_mem(($.$shm_hitalama_resize_ratio.prototype), "Top_left_edge_ratio"));
+	($mol_mem(($.$shm_hitalama_resize_ratio.prototype), "top_right_edge_ratio_y"));
+	($mol_mem(($.$shm_hitalama_resize_ratio.prototype), "Top_right_edge_ratio"));
+	($mol_mem(($.$shm_hitalama_resize_ratio.prototype), "bottom_left_edge_ratio_y"));
+	($mol_mem(($.$shm_hitalama_resize_ratio.prototype), "Bottom_left_edge_ratio"));
+	($mol_mem(($.$shm_hitalama_resize_ratio.prototype), "bottom_right_edge_ratio_y"));
+	($mol_mem(($.$shm_hitalama_resize_ratio.prototype), "Bottom_right_edge_ratio"));
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $shm_hitalama_resize_ratio extends $.$shm_hitalama_resize_ratio {
+            top_edge_y_by_ratio() {
+                const height_next = this.width() / this.ratio();
+                const top_edge_y_stick = this.bottom_edge_y_stick() - height_next;
+                this.top_edge_y_stick(top_edge_y_stick);
+            }
+            bottom_edge_y_by_ratio() {
+                const height_next = this.width() / this.ratio();
+                const bottom_edge_y_stick = height_next + this.top_edge_y_stick();
+                this.bottom_edge_y_stick(bottom_edge_y_stick);
+            }
+            left_edge_x_by_ratio() {
+                const width_next = this.height() * this.ratio();
+                const left_edge_x_stick = this.right_edge_x_stick() - width_next;
+                this.left_edge_x_stick(left_edge_x_stick);
+            }
+            right_edge_x_by_ratio() {
+                const width_next = this.height() * this.ratio();
+                const right_edge_x_stick = width_next + this.left_edge_x_stick();
+                this.right_edge_x_stick(right_edge_x_stick);
+            }
+            left_top_edge_ratio_x(next) {
+                if (next === undefined)
+                    return 0;
+                this.left_edge_x(next);
+                this.top_edge_y_by_ratio();
+                return next;
+            }
+            left_bottom_edge_ratio_x(next) {
+                if (next === undefined)
+                    return 0;
+                this.left_edge_x(next);
+                this.bottom_edge_y_by_ratio();
+                return next;
+            }
+            right_bottom_edge_ratio_x(next) {
+                if (next === undefined)
+                    return 0;
+                this.right_edge_x(next);
+                this.bottom_edge_y_by_ratio();
+                return next;
+            }
+            top_left_edge_ratio_y(next) {
+                if (next === undefined)
+                    return 0;
+                this.top_edge_y(next);
+                this.left_edge_x_by_ratio();
+                return next;
+            }
+            right_top_edge_ratio_x(next) {
+                if (next === undefined)
+                    return 0;
+                this.right_edge_x(next);
+                this.top_edge_y_by_ratio();
+                return next;
+            }
+            top_right_edge_ratio_y(next) {
+                if (next === undefined)
+                    return 0;
+                this.top_edge_y(next);
+                this.right_edge_x_by_ratio();
+                return next;
+            }
+            bottom_left_edge_ratio_y(next) {
+                if (next === undefined)
+                    return 0;
+                this.bottom_edge_y(next);
+                this.left_edge_x_by_ratio();
+                return next;
+            }
+            bottom_right_edge_ratio_y(next) {
+                if (next === undefined)
+                    return 0;
+                this.bottom_edge_y(next);
+                this.right_edge_x_by_ratio();
+                return next;
+            }
+            edges() {
+                return this.ratio() ? this.edges_ratio() : super.edges();
+            }
+            vals_to_sticks() {
+                this.body_x(this.body_x_stick());
+                this.body_y(this.body_y_stick());
+                if (this.ratio()) {
+                    this.left_bottom_edge_ratio_x(this.left_edge_x_stick());
+                    this.left_top_edge_ratio_x(this.left_edge_x_stick());
+                    this.right_bottom_edge_ratio_x(this.right_edge_x_stick());
+                    this.right_top_edge_ratio_x(this.right_edge_x_stick());
+                    this.top_left_edge_ratio_y(this.top_edge_y_stick());
+                    this.top_right_edge_ratio_y(this.top_edge_y_stick());
+                    this.bottom_left_edge_ratio_y(this.bottom_edge_y_stick());
+                    this.bottom_right_edge_ratio_y(this.bottom_edge_y_stick());
+                }
+                else {
+                    this.bottom_edge_y(this.bottom_edge_y_stick());
+                    this.right_edge_x(this.right_edge_x_stick());
+                    this.top_edge_y(this.top_edge_y_stick());
+                    this.left_edge_x(this.left_edge_x_stick());
+                }
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_resize_ratio.prototype, "left_top_edge_ratio_x", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_resize_ratio.prototype, "left_bottom_edge_ratio_x", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_resize_ratio.prototype, "right_bottom_edge_ratio_x", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_resize_ratio.prototype, "top_left_edge_ratio_y", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_resize_ratio.prototype, "right_top_edge_ratio_x", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_resize_ratio.prototype, "top_right_edge_ratio_y", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_resize_ratio.prototype, "bottom_left_edge_ratio_y", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_resize_ratio.prototype, "bottom_right_edge_ratio_y", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_resize_ratio.prototype, "edges", null);
+        __decorate([
+            $mol_action
+        ], $shm_hitalama_resize_ratio.prototype, "vals_to_sticks", null);
+        $$.$shm_hitalama_resize_ratio = $shm_hitalama_resize_ratio;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        const Top_edge = {
+            top: '-5px',
+            height: '10px',
+        };
+        const Left_edge = {
+            left: '-5px',
+            width: '10px',
+        };
+        const Right_edge = {
+            right: '-5px',
+            width: '10px',
+        };
+        const Bottom_edge = {
+            bottom: '-5px',
+            height: '10px',
+        };
+        $mol_style_define($shm_hitalama_resize_ratio, {
+            Left_top_edge_ratio: {
+                cursor: 'nwse-resize',
+                ...Left_edge,
+                height: '50%',
+            },
+            Left_bottom_edge_ratio: {
+                cursor: 'nesw-resize',
+                ...Left_edge,
+                height: '50%',
+                top: '50%',
+            },
+            Right_bottom_edge_ratio: {
+                cursor: 'nwse-resize',
+                ...Right_edge,
+                height: '50%',
+                top: '50%',
+            },
+            Right_top_edge_ratio: {
+                cursor: 'nesw-resize',
+                ...Right_edge,
+                height: '50%',
+            },
+            Top_left_edge_ratio: {
+                cursor: 'nwse-resize',
+                ...Top_edge,
+                width: '50%',
+            },
+            Top_right_edge_ratio: {
+                cursor: 'nesw-resize',
+                ...Top_edge,
+                width: '50%',
+                left: '50%',
+            },
+            Bottom_left_edge_ratio: {
+                cursor: 'nesw-resize',
+                ...Bottom_edge,
+                width: '50%',
+            },
+            Bottom_right_edge_ratio: {
+                cursor: 'nwse-resize',
+                ...Bottom_edge,
+                width: '50%',
+                left: '50%',
             },
         });
     })($$ = $.$$ || ($.$$ = {}));
@@ -25694,7 +26065,7 @@ var $;
 "use strict";
 
 ;
-	($.$shm_hitalama_board_block_float) = class $shm_hitalama_board_block_float extends ($.$shm_hitalama_resize) {
+	($.$shm_hitalama_board_block_float) = class $shm_hitalama_board_block_float extends ($.$shm_hitalama_resize_ratio) {
 		editing(next){
 			if(next !== undefined) return next;
 			return false;
@@ -26306,17 +26677,6 @@ var $;
 
 ;
 	($.$shm_hitalama_board_block_text) = class $shm_hitalama_board_block_text extends ($.$shm_hitalama_board_block_float) {
-		image_uri(){
-			return "";
-		}
-		Image(){
-			const obj = new this.$.$mol_image();
-			(obj.uri) = () => ((this.image_uri()));
-			return obj;
-		}
-		image(){
-			return [(this.Image())];
-		}
 		text(next){
 			if(next !== undefined) return next;
 			return "";
@@ -26349,9 +26709,22 @@ var $;
 		blocker(){
 			return [(this.Blocker())];
 		}
+		image_uri(){
+			return "";
+		}
+		Image(){
+			const obj = new this.$.$mol_image();
+			(obj.uri) = () => ((this.image_uri()));
+			return obj;
+		}
+		image(){
+			return [(this.Image())];
+		}
+		image_size_auto(){
+			return null;
+		}
 		sub(){
 			return [
-				...(this.image()), 
 				(this.Text()), 
 				(this.Drag_view()), 
 				...(this.edges()), 
@@ -26359,16 +26732,19 @@ var $;
 			];
 		}
 		drag_body(){
-			return [...(this.blocker())];
+			return [...(this.blocker()), ...(this.image())];
+		}
+		auto(){
+			return [...(super.auto()), (this.image_size_auto())];
 		}
 	};
-	($mol_mem(($.$shm_hitalama_board_block_text.prototype), "Image"));
 	($mol_mem(($.$shm_hitalama_board_block_text.prototype), "text"));
 	($mol_mem(($.$shm_hitalama_board_block_text.prototype), "selection"));
 	($mol_mem(($.$shm_hitalama_board_block_text.prototype), "Text"));
 	($mol_mem(($.$shm_hitalama_board_block_text.prototype), "pointerdown"));
 	($mol_mem(($.$shm_hitalama_board_block_text.prototype), "pointerup"));
 	($mol_mem(($.$shm_hitalama_board_block_text.prototype), "Blocker"));
+	($mol_mem(($.$shm_hitalama_board_block_text.prototype), "Image"));
 
 
 ;
@@ -26435,6 +26811,26 @@ var $;
                 const uri = this.image_uri();
                 return uri ? super.image() : [];
             }
+            ratio() {
+                if (!this.image())
+                    return null;
+                const img = this.Image();
+                return img.natural_width() / img.natural_height();
+            }
+            image_size_auto() {
+                if (!this.image() || this.width() != 0 || this.height() != 0)
+                    return;
+                const img = this.Image();
+                const width = img.natural_width();
+                const height = img.natural_height();
+                if (!width || !height)
+                    return;
+                this.block().Bottom_edge_y(null)?.val(height);
+                this.block().Right_edge_x(null)?.val(width);
+                this.block().Body_x(null)?.val(this.block().Body_x()?.val() - width / 2);
+                this.block().Body_y(null)?.val(this.block().Body_y()?.val() - height / 2);
+                this.vals_to_sticks();
+            }
         }
         __decorate([
             $mol_mem
@@ -26454,6 +26850,12 @@ var $;
         __decorate([
             $mol_mem
         ], $shm_hitalama_board_block_text.prototype, "image", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_block_text.prototype, "ratio", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_block_text.prototype, "image_size_auto", null);
         $$.$shm_hitalama_board_block_text = $shm_hitalama_board_block_text;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
@@ -26481,10 +26883,9 @@ var $;
             },
             Image: {
                 position: 'absolute',
-                objectFit: 'contain',
-                height: 'inherit',
-                width: 'inherit',
+                width: '100%',
                 transition: 'none',
+                pointerEvents: 'none',
             },
             Text: {
                 position: 'absolute',
@@ -27515,10 +27916,6 @@ var $;
 
 ;
 	($.$shm_hitalama_board_form_view) = class $shm_hitalama_board_form_view extends ($.$mol_form) {
-		form(){
-			const obj = new this.$.$shm_hitalama_board_form();
-			return obj;
-		}
 		query(next){
 			if(next !== undefined) return next;
 			return "";
@@ -27774,9 +28171,6 @@ var $;
 			const obj = new this.$.$shm_hitalama_board();
 			return obj;
 		}
-		model(){
-			return (this.form());
-		}
 		form_fields(){
 			return [
 				(this.Query_field()), 
@@ -27802,7 +28196,6 @@ var $;
 			];
 		}
 	};
-	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "form"));
 	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "query"));
 	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Query"));
 	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Query_field"));
@@ -28541,14 +28934,42 @@ var $;
 		selecting(){
 			return false;
 		}
+		pointer_move(next){
+			if(next !== undefined) return next;
+			return null;
+		}
 		attr(){
 			return {...(super.attr()), "selecting": (this.selecting())};
 		}
+		pointer_pos(next){
+			if(next !== undefined) return next;
+			return [];
+		}
+		event(){
+			return {...(super.event()), "pointermove": (next) => (this.pointer_move(next))};
+		}
 	};
+	($mol_mem(($.$shm_hitalama_board_pane.prototype), "pointer_move"));
+	($mol_mem(($.$shm_hitalama_board_pane.prototype), "pointer_pos"));
 
 
 ;
 "use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $shm_hitalama_board_pane extends $.$shm_hitalama_board_pane {
+            pointer_move(event) {
+                this.pointer_pos([event?.clientX, event?.clientY]);
+            }
+        }
+        $$.$shm_hitalama_board_pane = $shm_hitalama_board_pane;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
 
 ;
 "use strict";
@@ -28598,6 +29019,9 @@ var $;
 		}
 		pull_drags_synced(){
 			return null;
+		}
+		pointer_pos(){
+			return (this.Pane().pointer_pos());
 		}
 		back_pointerdown(next){
 			if(next !== undefined) return next;
@@ -28999,13 +29423,13 @@ var $;
                 this.selecting(true);
                 this.select_rect_start_x(event.clientX);
                 this.select_rect_start_y(event.clientY);
+                this.select_rect_end_x(event.clientX);
+                this.select_rect_end_y(event.clientY);
                 const mousemove = new $mol_dom_listener(this.$.$mol_dom_context.document, 'mousemove', $mol_wire_async(event => {
                     this.select_rect_end_x(event.clientX);
                     this.select_rect_end_y(event.clientY);
-                    const left = parseFloat(this.select_rect_left());
-                    const top = parseFloat(this.select_rect_top());
-                    const width = parseFloat(this.select_rect_width());
-                    const height = parseFloat(this.select_rect_height());
+                    const [left, top] = this.select_rect_pos();
+                    const [width, height] = this.select_rect_size();
                     const blocks = this.blocks().filter(b => {
                         if (left + width < b.Sub().left())
                             return;
@@ -29053,13 +29477,8 @@ var $;
                 block?.Bottom_edge_y(null)?.val(bottom_x);
                 return block;
             }
-            paste_text(text) {
-                const block = this.block_add('text');
-                block?.Text(null)?.value(text);
-                return block;
-            }
             text_add() {
-                const block = this.block_add('text', parseFloat(this.context_menu_left()), parseFloat(this.context_menu_top()), 100);
+                const block = this.block_add('text', parseFloat(this.context_menu_left()), parseFloat(this.context_menu_top()), 200, 100);
                 block?.Text(null)?.value('text');
                 this.context_menu_visible(false);
                 return block;
@@ -29087,8 +29506,15 @@ var $;
                 return block;
             }
             image_add(blob) {
-                const block = this.block_add('text');
+                const pos = this.to_pane_pos(this.pointer_pos());
+                const block = this.block_add('text', pos[0], pos[1]);
                 block?.Image(null)?.blob(blob);
+                return block;
+            }
+            paste_text(text) {
+                const pos = this.to_pane_pos(this.pointer_pos());
+                const block = this.block_add('text', pos[0], pos[1]);
+                block?.Text(null)?.value(text);
                 return block;
             }
             pointerdown_listener() {
@@ -29143,23 +29569,33 @@ var $;
             select_rect() {
                 return this.selecting() ? super.select_rect() : [];
             }
+            to_pane_pos(client_pos) {
+                const { left, top } = this.Pane().dom_node().getBoundingClientRect();
+                return [client_pos[0] - left, client_pos[1] - top];
+            }
+            select_rect_pos() {
+                return this.to_pane_pos([
+                    Math.min(this.select_rect_start_x(), this.select_rect_end_x()),
+                    Math.min(this.select_rect_start_y(), this.select_rect_end_y()),
+                ]);
+            }
+            select_rect_size() {
+                return [
+                    Math.abs(this.select_rect_end_x() - this.select_rect_start_x()),
+                    Math.abs(this.select_rect_end_y() - this.select_rect_start_y()),
+                ];
+            }
             select_rect_left() {
-                return (Math.min(this.select_rect_start_x(), this.select_rect_end_x())
-                    - this.Pane().view_rect().left) + 'px';
+                return this.select_rect_pos()[0] + 'px';
             }
             select_rect_top() {
-                return (Math.min(this.select_rect_start_y(), this.select_rect_end_y())
-                    - this.Pane().view_rect().top) + 'px';
+                return this.select_rect_pos()[1] + 'px';
             }
             select_rect_width() {
-                const start_x = this.select_rect_start_x();
-                const end_x = this.select_rect_end_x();
-                return Math.abs(end_x - start_x) + 'px';
+                return this.select_rect_size()[0] + 'px';
             }
             select_rect_height() {
-                const start_y = this.select_rect_start_y();
-                const end_y = this.select_rect_end_y();
-                return Math.abs(end_y - start_y) + 'px';
+                return this.select_rect_size()[1] + 'px';
             }
         }
         __decorate([
@@ -29215,9 +29651,6 @@ var $;
         ], $shm_hitalama_board_page.prototype, "block_add", null);
         __decorate([
             $mol_action
-        ], $shm_hitalama_board_page.prototype, "paste_text", null);
-        __decorate([
-            $mol_action
         ], $shm_hitalama_board_page.prototype, "text_add", null);
         __decorate([
             $mol_action
@@ -29234,6 +29667,9 @@ var $;
         __decorate([
             $mol_action
         ], $shm_hitalama_board_page.prototype, "image_add", null);
+        __decorate([
+            $mol_action
+        ], $shm_hitalama_board_page.prototype, "paste_text", null);
         __decorate([
             $mol_mem
         ], $shm_hitalama_board_page.prototype, "pointerdown_listener", null);

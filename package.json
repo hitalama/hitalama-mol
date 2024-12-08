@@ -392,6 +392,7 @@
     "$shm_hitalama_board_block_any",
     "$shm_hitalama_board_block_input",
     "$shm_hitalama_board_block_float",
+    "$shm_hitalama_resize_ratio",
     "$shm_hitalama_resize",
     "$shm_hitalama_drag_view",
     "$shm_hitalama_drag",

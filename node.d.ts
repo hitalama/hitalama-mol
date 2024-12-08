@@ -13025,6 +13025,11 @@ declare namespace $ {
 		,
 		ReturnType< $mol_text_code['highlight'] >
 	>
+	type $mol_text_code__syntax_mol_textarea_14 = $mol_type_enforce<
+		ReturnType< $mol_textarea['syntax'] >
+		,
+		ReturnType< $mol_text_code['syntax'] >
+	>
 	export class $mol_textarea extends $mol_stack {
 		clickable( next?: boolean ): boolean
 		sidebar_showed( ): boolean
@@ -13042,6 +13047,7 @@ declare namespace $ {
 		Edit( ): $mol_textarea_edit
 		row_numb( id: any): number
 		highlight( ): string
+		syntax( ): $mol_syntax2
 		View( ): $mol_text_code
 		attr( ): ({ 
 			'mol_textarea_clickable': ReturnType< $mol_textarea['clickable'] >,
@@ -13077,6 +13083,24 @@ declare namespace $.$$ {
         hover(event: PointerEvent): void;
         press(event: KeyboardEvent): void;
         row_numb(index: number): number;
+        syntax(): $mol_syntax2<{
+            'code-indent': RegExp;
+            'code-docs': RegExp;
+            'code-comment-block': RegExp;
+            'code-link': RegExp;
+            'code-comment-inline': RegExp;
+            'code-string': RegExp;
+            'code-number': RegExp;
+            'code-call': RegExp;
+            'code-sexpr': RegExp;
+            'code-field': RegExp;
+            'code-keyword': RegExp;
+            'code-global': RegExp;
+            'code-word': RegExp;
+            'code-decorator': RegExp;
+            'code-tag': RegExp;
+            'code-punctuation': RegExp;
+        }>;
     }
 }
 
@@ -13861,8 +13885,7 @@ declare namespace $ {
 		width_px( ): string
 		sub( ): readonly(any)[]
 		resizing( next?: boolean ): boolean
-		height_base( ): number
-		width_base( ): number
+		ratio( ): any
 		height( ): number
 		width( ): number
 		top( ): number
@@ -13897,9 +13920,9 @@ declare namespace $.$$ {
         to_stick_x(val: number, shift: number): number;
         to_stick_y(val: number, shift: number): number;
         body_y(next?: number): number;
+        body_x(next?: number): number;
         top_edge_y(next?: number): number;
         bottom_edge_y(next?: number): number;
-        body_x(next?: number): number;
         left_edge_x(next?: number): number;
         right_edge_x(next?: number): number;
         top(): number;
@@ -13913,6 +13936,173 @@ declare namespace $.$$ {
         on_drag_end(): void;
         resize_start(next?: any): void;
         resize_end(): void;
+        vals_to_sticks(): void;
+    }
+}
+
+declare namespace $.$$ {
+}
+
+declare namespace $ {
+
+	type $shm_hitalama_resize_edge__on_drag_start_shm_hitalama_resize_ratio_1 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_resize_ratio['resize_start'] >
+		,
+		ReturnType< $shm_hitalama_resize_edge['on_drag_start'] >
+	>
+	type $shm_hitalama_resize_edge__on_drag_end_shm_hitalama_resize_ratio_2 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_resize_ratio['resize_end'] >
+		,
+		ReturnType< $shm_hitalama_resize_edge['on_drag_end'] >
+	>
+	type $shm_hitalama_resize_edge__x_shm_hitalama_resize_ratio_3 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_resize_ratio['left_top_edge_ratio_x'] >
+		,
+		ReturnType< $shm_hitalama_resize_edge['x'] >
+	>
+	type $shm_hitalama_resize_edge__on_drag_start_shm_hitalama_resize_ratio_4 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_resize_ratio['resize_start'] >
+		,
+		ReturnType< $shm_hitalama_resize_edge['on_drag_start'] >
+	>
+	type $shm_hitalama_resize_edge__on_drag_end_shm_hitalama_resize_ratio_5 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_resize_ratio['resize_end'] >
+		,
+		ReturnType< $shm_hitalama_resize_edge['on_drag_end'] >
+	>
+	type $shm_hitalama_resize_edge__x_shm_hitalama_resize_ratio_6 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_resize_ratio['left_bottom_edge_ratio_x'] >
+		,
+		ReturnType< $shm_hitalama_resize_edge['x'] >
+	>
+	type $shm_hitalama_resize_edge__on_drag_start_shm_hitalama_resize_ratio_7 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_resize_ratio['resize_start'] >
+		,
+		ReturnType< $shm_hitalama_resize_edge['on_drag_start'] >
+	>
+	type $shm_hitalama_resize_edge__on_drag_end_shm_hitalama_resize_ratio_8 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_resize_ratio['resize_end'] >
+		,
+		ReturnType< $shm_hitalama_resize_edge['on_drag_end'] >
+	>
+	type $shm_hitalama_resize_edge__x_shm_hitalama_resize_ratio_9 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_resize_ratio['right_bottom_edge_ratio_x'] >
+		,
+		ReturnType< $shm_hitalama_resize_edge['x'] >
+	>
+	type $shm_hitalama_resize_edge__on_drag_start_shm_hitalama_resize_ratio_10 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_resize_ratio['resize_start'] >
+		,
+		ReturnType< $shm_hitalama_resize_edge['on_drag_start'] >
+	>
+	type $shm_hitalama_resize_edge__on_drag_end_shm_hitalama_resize_ratio_11 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_resize_ratio['resize_end'] >
+		,
+		ReturnType< $shm_hitalama_resize_edge['on_drag_end'] >
+	>
+	type $shm_hitalama_resize_edge__x_shm_hitalama_resize_ratio_12 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_resize_ratio['right_top_edge_ratio_x'] >
+		,
+		ReturnType< $shm_hitalama_resize_edge['x'] >
+	>
+	type $shm_hitalama_resize_edge__on_drag_start_shm_hitalama_resize_ratio_13 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_resize_ratio['resize_start'] >
+		,
+		ReturnType< $shm_hitalama_resize_edge['on_drag_start'] >
+	>
+	type $shm_hitalama_resize_edge__on_drag_end_shm_hitalama_resize_ratio_14 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_resize_ratio['resize_end'] >
+		,
+		ReturnType< $shm_hitalama_resize_edge['on_drag_end'] >
+	>
+	type $shm_hitalama_resize_edge__y_shm_hitalama_resize_ratio_15 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_resize_ratio['top_left_edge_ratio_y'] >
+		,
+		ReturnType< $shm_hitalama_resize_edge['y'] >
+	>
+	type $shm_hitalama_resize_edge__on_drag_start_shm_hitalama_resize_ratio_16 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_resize_ratio['resize_start'] >
+		,
+		ReturnType< $shm_hitalama_resize_edge['on_drag_start'] >
+	>
+	type $shm_hitalama_resize_edge__on_drag_end_shm_hitalama_resize_ratio_17 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_resize_ratio['resize_end'] >
+		,
+		ReturnType< $shm_hitalama_resize_edge['on_drag_end'] >
+	>
+	type $shm_hitalama_resize_edge__y_shm_hitalama_resize_ratio_18 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_resize_ratio['top_right_edge_ratio_y'] >
+		,
+		ReturnType< $shm_hitalama_resize_edge['y'] >
+	>
+	type $shm_hitalama_resize_edge__on_drag_start_shm_hitalama_resize_ratio_19 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_resize_ratio['resize_start'] >
+		,
+		ReturnType< $shm_hitalama_resize_edge['on_drag_start'] >
+	>
+	type $shm_hitalama_resize_edge__on_drag_end_shm_hitalama_resize_ratio_20 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_resize_ratio['resize_end'] >
+		,
+		ReturnType< $shm_hitalama_resize_edge['on_drag_end'] >
+	>
+	type $shm_hitalama_resize_edge__y_shm_hitalama_resize_ratio_21 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_resize_ratio['bottom_left_edge_ratio_y'] >
+		,
+		ReturnType< $shm_hitalama_resize_edge['y'] >
+	>
+	type $shm_hitalama_resize_edge__on_drag_start_shm_hitalama_resize_ratio_22 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_resize_ratio['resize_start'] >
+		,
+		ReturnType< $shm_hitalama_resize_edge['on_drag_start'] >
+	>
+	type $shm_hitalama_resize_edge__on_drag_end_shm_hitalama_resize_ratio_23 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_resize_ratio['resize_end'] >
+		,
+		ReturnType< $shm_hitalama_resize_edge['on_drag_end'] >
+	>
+	type $shm_hitalama_resize_edge__y_shm_hitalama_resize_ratio_24 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_resize_ratio['bottom_right_edge_ratio_y'] >
+		,
+		ReturnType< $shm_hitalama_resize_edge['y'] >
+	>
+	export class $shm_hitalama_resize_ratio extends $shm_hitalama_resize {
+		left_top_edge_ratio_x( next?: number ): number
+		Left_top_edge_ratio( ): $shm_hitalama_resize_edge
+		left_bottom_edge_ratio_x( next?: number ): number
+		Left_bottom_edge_ratio( ): $shm_hitalama_resize_edge
+		right_bottom_edge_ratio_x( next?: number ): number
+		Right_bottom_edge_ratio( ): $shm_hitalama_resize_edge
+		right_top_edge_ratio_x( next?: number ): number
+		Right_top_edge_ratio( ): $shm_hitalama_resize_edge
+		top_left_edge_ratio_y( next?: number ): number
+		Top_left_edge_ratio( ): $shm_hitalama_resize_edge
+		top_right_edge_ratio_y( next?: number ): number
+		Top_right_edge_ratio( ): $shm_hitalama_resize_edge
+		bottom_left_edge_ratio_y( next?: number ): number
+		Bottom_left_edge_ratio( ): $shm_hitalama_resize_edge
+		bottom_right_edge_ratio_y( next?: number ): number
+		Bottom_right_edge_ratio( ): $shm_hitalama_resize_edge
+		edges_ratio( ): readonly(any)[]
+	}
+	
+}
+
+//# sourceMappingURL=ratio.view.tree.d.ts.map
+declare namespace $.$$ {
+    class $shm_hitalama_resize_ratio extends $.$shm_hitalama_resize_ratio {
+        top_edge_y_by_ratio(): void;
+        bottom_edge_y_by_ratio(): void;
+        left_edge_x_by_ratio(): void;
+        right_edge_x_by_ratio(): void;
+        left_top_edge_ratio_x(next?: number): number;
+        left_bottom_edge_ratio_x(next?: number): number;
+        right_bottom_edge_ratio_x(next?: number): number;
+        top_left_edge_ratio_y(next?: number): number;
+        right_top_edge_ratio_x(next?: number): number;
+        top_right_edge_ratio_y(next?: number): number;
+        bottom_left_edge_ratio_y(next?: number): number;
+        bottom_right_edge_ratio_y(next?: number): number;
+        edges(): readonly (any)[];
         vals_to_sticks(): void;
     }
 }
@@ -14303,7 +14493,7 @@ declare namespace $ {
 		,
 		ReturnType< $mol_view['sub'] >
 	>
-	export class $shm_hitalama_board_block_float extends $shm_hitalama_resize {
+	export class $shm_hitalama_board_block_float extends $shm_hitalama_resize_ratio {
 		editing( next?: boolean ): boolean
 		color( next?: string ): string
 		Color( ): $shm_hitalama_color_pick
@@ -14342,15 +14532,15 @@ declare namespace $ {
 		style( ): ({ 
 			'opacity': ReturnType< $shm_hitalama_board_block_float['opacity_str'] >,
 			'transition': ReturnType< $shm_hitalama_board_block_float['transition'] >,
-		})  & ReturnType< $shm_hitalama_resize['style'] >
+		})  & ReturnType< $shm_hitalama_resize_ratio['style'] >
 		font_size_px( ): string
 		event( ): ({ 
 			keydown( next?: ReturnType< $shm_hitalama_board_block_float['down'] > ): ReturnType< $shm_hitalama_board_block_float['down'] >,
-		})  & ReturnType< $shm_hitalama_resize['event'] >
+		})  & ReturnType< $shm_hitalama_resize_ratio['event'] >
 		attr( ): ({ 
 			'shm_hitalama_board_block_float_selected': ReturnType< $shm_hitalama_board_block_float['selected'] >,
 			'shm_hitalama_board_block_float_dragged': ReturnType< $shm_hitalama_board_block_float['dragged'] >,
-		})  & ReturnType< $shm_hitalama_resize['attr'] >
+		})  & ReturnType< $shm_hitalama_resize_ratio['attr'] >
 	}
 	
 }
@@ -14478,27 +14668,22 @@ declare namespace $ {
 
 declare namespace $ {
 
-	type $mol_image__uri_shm_hitalama_board_block_text_1 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_text['image_uri'] >
-		,
-		ReturnType< $mol_image['uri'] >
-	>
-	type $mol_textarea__value_shm_hitalama_board_block_text_2 = $mol_type_enforce<
+	type $mol_textarea__value_shm_hitalama_board_block_text_1 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_text['text'] >
 		,
 		ReturnType< $mol_textarea['value'] >
 	>
-	type $mol_textarea__selection_shm_hitalama_board_block_text_3 = $mol_type_enforce<
+	type $mol_textarea__selection_shm_hitalama_board_block_text_2 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_text['selection'] >
 		,
 		ReturnType< $mol_textarea['selection'] >
 	>
-	type $mol_textarea__spellcheck_shm_hitalama_board_block_text_4 = $mol_type_enforce<
+	type $mol_textarea__spellcheck_shm_hitalama_board_block_text_3 = $mol_type_enforce<
 		boolean
 		,
 		ReturnType< $mol_textarea['spellcheck'] >
 	>
-	type $mol_textarea__style_shm_hitalama_board_block_text_5 = $mol_type_enforce<
+	type $mol_textarea__style_shm_hitalama_board_block_text_4 = $mol_type_enforce<
 		({ 
 			'color': ReturnType< $shm_hitalama_board_block_text['color'] >,
 			'fontSize': ReturnType< $shm_hitalama_board_block_text['font_size_px'] >,
@@ -14506,7 +14691,7 @@ declare namespace $ {
 		,
 		ReturnType< $mol_textarea['style'] >
 	>
-	type $mol_view__event_shm_hitalama_board_block_text_6 = $mol_type_enforce<
+	type $mol_view__event_shm_hitalama_board_block_text_5 = $mol_type_enforce<
 		({ 
 			pointerdown( next?: ReturnType< $shm_hitalama_board_block_text['pointerdown'] > ): ReturnType< $shm_hitalama_board_block_text['pointerdown'] >,
 			pointerup( next?: ReturnType< $shm_hitalama_board_block_text['pointerup'] > ): ReturnType< $shm_hitalama_board_block_text['pointerup'] >,
@@ -14514,10 +14699,12 @@ declare namespace $ {
 		,
 		ReturnType< $mol_view['event'] >
 	>
+	type $mol_image__uri_shm_hitalama_board_block_text_6 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_text['image_uri'] >
+		,
+		ReturnType< $mol_image['uri'] >
+	>
 	export class $shm_hitalama_board_block_text extends $shm_hitalama_board_block_float {
-		image_uri( ): string
-		Image( ): $mol_image
-		image( ): readonly(any)[]
 		text( next?: string ): string
 		selection( next?: readonly(number)[] ): readonly(number)[]
 		Text( ): $mol_textarea
@@ -14525,8 +14712,13 @@ declare namespace $ {
 		pointerup( next?: any ): any
 		Blocker( ): $mol_view
 		blocker( ): readonly(any)[]
+		image_uri( ): string
+		Image( ): $mol_image
+		image( ): readonly(any)[]
+		image_size_auto( ): any
 		sub( ): readonly(any)[]
 		drag_body( ): readonly(any)[]
+		auto( ): readonly(any)[]
 	}
 	
 }
@@ -14543,6 +14735,8 @@ declare namespace $.$$ {
         blob_uri(): Promise<string> | null;
         image_uri(): string;
         image(): readonly any[];
+        ratio(): number | null;
+        image_size_auto(): void;
     }
 }
 
@@ -15318,7 +15512,6 @@ declare namespace $ {
 		ReturnType< $mol_button_minor['click'] >
 	>
 	export class $shm_hitalama_board_form_view extends $mol_form {
-		form( ): $shm_hitalama_board_form
 		query( next?: string ): string
 		Query( ): $mol_string
 		Query_field( ): $mol_form_field
@@ -15370,7 +15563,6 @@ declare namespace $ {
 		clear( next?: any ): any
 		Clear( ): $mol_button_minor
 		board( ): $shm_hitalama_board
-		model( ): ReturnType< $shm_hitalama_board_form_view['form'] >
 		form_fields( ): readonly(any)[]
 		body( ): ReturnType< $shm_hitalama_board_form_view['form_body'] >
 		buttons( ): readonly(any)[]
@@ -15381,15 +15573,15 @@ declare namespace $ {
 //# sourceMappingURL=view.view.tree.d.ts.map
 declare namespace $.$$ {
     class $shm_hitalama_board_form_view extends $.$shm_hitalama_board_form_view {
-        query(next?: string): string;
-        excluded_words(next?: string): string;
-        date_from(next?: string): string;
-        date_to(next?: string): string;
-        country(next?: string): string;
-        language(next?: string): string;
-        type(next?: string): string;
-        tags(next?: string): string;
-        category(next?: string): string;
+        query(next?: string): any;
+        excluded_words(next?: string): any;
+        date_from(next?: string): any;
+        date_to(next?: string): any;
+        country(next?: string): any;
+        language(next?: string): any;
+        type(next?: string): any;
+        tags(next?: string): any;
+        category(next?: string): any;
         social_media_attach(files: File[]): File[];
         mass_media_attach(files: File[]): File[];
         social_media_title(): any;
@@ -15715,14 +15907,25 @@ declare namespace $ {
 
 	export class $shm_hitalama_board_pane extends $mol_view {
 		selecting( ): boolean
+		pointer_move( next?: any ): any
 		attr( ): ({ 
 			'selecting': ReturnType< $shm_hitalama_board_pane['selecting'] >,
 		})  & ReturnType< $mol_view['attr'] >
+		pointer_pos( next?: readonly(any)[] ): readonly(any)[]
+		event( ): ({ 
+			pointermove( next?: ReturnType< $shm_hitalama_board_pane['pointer_move'] > ): ReturnType< $shm_hitalama_board_pane['pointer_move'] >,
+		})  & ReturnType< $mol_view['event'] >
 	}
 	
 }
 
 //# sourceMappingURL=pane.view.tree.d.ts.map
+declare namespace $.$$ {
+    class $shm_hitalama_board_pane extends $.$shm_hitalama_board_pane {
+        pointer_move(event?: PointerEvent): void;
+    }
+}
+
 declare namespace $.$$ {
 }
 
@@ -15939,6 +16142,7 @@ declare namespace $ {
 		pointerdown_listener( ): any
 		shift_pressed( next?: boolean ): boolean
 		pull_drags_synced( ): any
+		pointer_pos( ): ReturnType< ReturnType< $shm_hitalama_board_page['Pane'] >['pointer_pos'] >
 		back_pointerdown( next?: any ): any
 		back_contextmenu( next?: any ): any
 		Back( ): $shm_hitalama_board_back
@@ -16025,19 +16229,22 @@ declare namespace $.$$ {
         context_menu_pointerenter(next?: any): void;
         context_menu_pointerleave(next?: any): void;
         block_add(type: (typeof $shm_hitalama_board_block_types)[number], x?: number, y?: number, right_x?: number, bottom_x?: number): $shm_hitalama_board_block | undefined;
-        paste_text(text: string): $shm_hitalama_board_block | undefined;
         text_add(): $shm_hitalama_board_block | undefined;
         input_add(): $shm_hitalama_board_block | undefined;
         iframe_add(): $shm_hitalama_board_block | undefined;
         form_add(): $shm_hitalama_board_block | undefined;
         table_add(): $shm_hitalama_board_block | undefined;
         image_add(blob: Blob): $shm_hitalama_board_block | undefined;
+        paste_text(text: string): $shm_hitalama_board_block | undefined;
         pointerdown_listener(): $mol_dom_listener;
         shift_pressed(next?: boolean): boolean;
         keydown_listener(): $mol_dom_listener;
         keyup_listener(): $mol_dom_listener;
         paste_listener(): $mol_dom_listener;
         select_rect(): readonly any[];
+        to_pane_pos(client_pos: readonly [number, number] | readonly number[]): number[];
+        select_rect_pos(): number[];
+        select_rect_size(): number[];
         select_rect_left(): string;
         select_rect_top(): string;
         select_rect_width(): string;
