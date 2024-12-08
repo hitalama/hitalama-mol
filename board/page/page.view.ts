@@ -232,7 +232,7 @@ namespace $.$$ {
 		@ $mol_action
 		image_add( blob: Blob ) {
 			const pos =  this.pointer_pos()
-			const block = this.block_add( 'text', pos )
+			const block = this.block_add( 'text', pos, 0, 0 )
 			block?.Image(null)?.blob( blob )
 			return block
 		}
