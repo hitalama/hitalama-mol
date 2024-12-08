@@ -11,6 +11,7 @@ namespace $.$$ {
 		add() {
 			const entity = this.list()?.make( {'': $hyoo_crus_rank.get} )
 			entity?.title( this.title_default() )
+			this.spread( entity.ref().description )
 			return entity
 		}
 
