@@ -29455,9 +29455,17 @@ var $;
             }
             back_contextmenu(event) {
                 event.preventDefault();
-                this.context_menu_left(event.offsetX + 'px');
-                this.context_menu_top(event.offsetY + 'px');
+                this.context_menu_pos([event.offsetX, event.offsetY]);
                 this.context_menu_visible(true);
+            }
+            context_menu_pos(next) {
+                return next ?? [0, 0];
+            }
+            context_menu_left() {
+                return this.context_menu_pos()[0] + 'px';
+            }
+            context_menu_top() {
+                return this.context_menu_pos()[1] + 'px';
             }
             context_menu() {
                 return this.context_menu_visible() ? super.context_menu() : [];
@@ -29468,52 +29476,52 @@ var $;
             context_menu_pointerleave(next) {
                 this.context_menu_hovered(false);
             }
-            block_add(type, x = 0, y = 0, right_x = 200, bottom_x = 100) {
+            block_add(type, pos = [0, 0], right_x = 200, bottom_x = 100) {
                 const block = this.board().Blocks(null)?.make({ '': $hyoo_crus_rank.get });
                 block?.Type(null)?.val(type);
-                block?.Body_x(null)?.val(x);
-                block?.Body_y(null)?.val(y);
+                block?.Body_x(null)?.val(pos[0]);
+                block?.Body_y(null)?.val(pos[1]);
                 block?.Right_edge_x(null)?.val(right_x);
                 block?.Bottom_edge_y(null)?.val(bottom_x);
                 return block;
             }
             text_add() {
-                const block = this.block_add('text', parseFloat(this.context_menu_left()), parseFloat(this.context_menu_top()), 200, 100);
+                const block = this.block_add('text', this.context_menu_pos());
                 block?.Text(null)?.value('text');
                 this.context_menu_visible(false);
                 return block;
             }
             input_add() {
-                const block = this.block_add('input', parseFloat(this.context_menu_left()), parseFloat(this.context_menu_top()), 100);
+                const block = this.block_add('input', this.context_menu_pos());
                 block?.Text(null)?.value('Hello');
                 this.context_menu_visible(false);
                 return block;
             }
             iframe_add() {
-                const block = this.block_add('iframe', parseFloat(this.context_menu_left()), parseFloat(this.context_menu_top()), 500, 700);
+                const block = this.block_add('iframe', this.context_menu_pos(), 500, 700);
                 block?.Src(null)?.val('https://www.google.com/search?igu=1');
                 this.context_menu_visible(false);
                 return block;
             }
             form_add() {
-                const block = this.block_add('form', parseFloat(this.context_menu_left()), parseFloat(this.context_menu_top()), 400, 400);
+                const block = this.block_add('form', this.context_menu_pos(), 400, 400);
                 this.context_menu_visible(false);
                 return block;
             }
             table_add() {
-                const block = this.block_add('table', parseFloat(this.context_menu_left()), parseFloat(this.context_menu_top()), 400, 400);
+                const block = this.block_add('table', this.context_menu_pos(), 400, 400);
                 this.context_menu_visible(false);
                 return block;
             }
             image_add(blob) {
                 const pos = this.to_pane_pos(this.pointer_pos());
-                const block = this.block_add('text', pos[0], pos[1]);
+                const block = this.block_add('text', pos);
                 block?.Image(null)?.blob(blob);
                 return block;
             }
             paste_text(text) {
                 const pos = this.to_pane_pos(this.pointer_pos());
-                const block = this.block_add('text', pos[0], pos[1]);
+                const block = this.block_add('text', pos);
                 block?.Text(null)?.value(text);
                 return block;
             }
@@ -29646,6 +29654,15 @@ var $;
         __decorate([
             $mol_mem_key
         ], $shm_hitalama_board_page.prototype, "selected", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_page.prototype, "context_menu_pos", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_page.prototype, "context_menu_left", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_page.prototype, "context_menu_top", null);
         __decorate([
             $mol_action
         ], $shm_hitalama_board_page.prototype, "block_add", null);

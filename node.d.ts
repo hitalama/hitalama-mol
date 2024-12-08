@@ -16225,10 +16225,13 @@ declare namespace $.$$ {
         back_pointerdown(event: PointerEvent): void;
         deselect_all(): void;
         back_contextmenu(event: PointerEvent): void;
+        context_menu_pos(next?: readonly [number, number]): readonly [number, number];
+        context_menu_left(): string;
+        context_menu_top(): string;
         context_menu(): readonly (any)[];
         context_menu_pointerenter(next?: any): void;
         context_menu_pointerleave(next?: any): void;
-        block_add(type: (typeof $shm_hitalama_board_block_types)[number], x?: number, y?: number, right_x?: number, bottom_x?: number): $shm_hitalama_board_block | undefined;
+        block_add(type: (typeof $shm_hitalama_board_block_types)[number], pos?: readonly [number, number], right_x?: number, bottom_x?: number): $shm_hitalama_board_block | undefined;
         text_add(): $shm_hitalama_board_block | undefined;
         input_add(): $shm_hitalama_board_block | undefined;
         iframe_add(): $shm_hitalama_board_block | undefined;
@@ -16242,8 +16245,8 @@ declare namespace $.$$ {
         keyup_listener(): $mol_dom_listener;
         paste_listener(): $mol_dom_listener;
         select_rect(): readonly any[];
-        to_pane_pos(client_pos: readonly [number, number] | readonly number[]): number[];
-        select_rect_pos(): number[];
+        to_pane_pos(client_pos: readonly [number, number] | readonly number[]): readonly [number, number];
+        select_rect_pos(): readonly [number, number];
         select_rect_size(): number[];
         select_rect_left(): string;
         select_rect_top(): string;
