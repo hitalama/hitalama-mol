@@ -1,7 +1,20 @@
 namespace $.$$ {
 
+	class Code_row extends $mol_text_code_row {
+		minimal_height(): number {
+			return 0
+		}
+	}
+
 	export class $shm_hitalama_board_block_text extends $.$shm_hitalama_board_block_text {
 		
+		@ $mol_memo.field
+		get $() {
+			return super.$.$mol_ambient({
+				$mol_text_code_row: Code_row,
+			})
+		}
+
 		@ $mol_mem
 		text( next?: string ): string {
 			return this.block().Text( next )?.text( next ) ?? ''

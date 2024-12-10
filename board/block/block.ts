@@ -6,6 +6,7 @@ namespace $ {
 		'iframe',
 		'form',
 		'table',
+		'code',
 	] as const
 
 	class $shm_hitalama_board_block_type extends $hyoo_crus_atom_enum( $shm_hitalama_board_block_types ){}
@@ -30,6 +31,18 @@ namespace $ {
 		Form: $shm_hitalama_board_form,
 
 	}){
+
+		text( next?: string ) {
+			return this.Text(next)?.value(next) ?? ''
+		}
+
+		color( next?: string ) {
+			return this.Color(next)?.val(next) ?? ''
+		}
+
+		font_size( next?: number ) {
+			return this.Font_size(next)?.val(next) ?? ''
+		}
 		
 	}
 

@@ -1,12 +1,14 @@
 namespace $.$$ {
-
-	$$.$mol_text_code_row.prototype.minimal_height = ()=> 0
 	
 	export class $shm_hitalama_board_page extends $.$shm_hitalama_board_page {
 
 		@ $mol_mem
 		board(): $shm_hitalama_board {
 			return this.entity().cast( $shm_hitalama_board )
+		}
+
+		Board_page() {
+			return this
 		}
 
 		@ $mol_mem
@@ -225,6 +227,10 @@ namespace $.$$ {
 			
 			const table_pos = [ form_pos[0] + 460, form_pos[1]] as const
 			const table = this.block_add( 'table', table_pos, 800, 780 )
+
+			const code_pos = [ form_pos[0], form_pos[1] + 790 ] as const
+			const code = this.block_add( 'code', code_pos, 800, 200 )
+			code?.Text(null)?.value( "const block = board.block_add( 'text', board.pointer_pos() )\nblock.text( 'Some text' )\nblock.color( 'red' )\nblock.font_size( 32 )" )
 
 			this.context_menu_visible( false )
 		}

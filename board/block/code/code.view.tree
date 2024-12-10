@@ -1,0 +1,12 @@
+$shm_hitalama_board_block_code $shm_hitalama_board_block_float
+	Board_page $shm_hitalama_board_page
+	content /
+		<= Drag_view
+		<= Textarea $mol_textarea
+			sidebar_showed true
+			value? <=> code? 
+	sub /
+		^
+		<= Run $mol_button_major
+			title \Выполнить
+			click? <=> run? null

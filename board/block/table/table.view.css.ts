@@ -3,7 +3,8 @@ namespace $.$$ {
 	$mol_style_define( $shm_hitalama_board_block_table, {
 
 		background: {
-			color: $mol_theme.back,
+			color: $mol_theme.card,
+			// color: $mol_theme.back,
 		},
 		
 		// Head: {
@@ -25,6 +26,19 @@ namespace $.$$ {
 
 		Table: {
 			padding: $mol_gap.block,
+			background: {
+				color: 'transparent',
+			},
+			Head: {
+				background: {
+					color: $mol_theme.back,
+				},
+				$mol_view: {
+					background: {
+						color: $mol_theme.card,
+					},
+				},
+			},
 		},
 		
 	} )
