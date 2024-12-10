@@ -299,8 +299,9 @@ namespace $.$$ {
 				'paste',
 				$mol_wire_async( event => {
 
-					const refs = this.selected_refs()
-					if( refs.some( r => this.editing( r ) ) ) return
+					if( ['INPUT', 'TEXTAREA']
+						.includes( $mol_view_selection.focused()[0].nodeName )
+					) return
 
 					const items = ( event.clipboardData || event.originalEvent.clipboardData ).items
 					for( let index in items ) {

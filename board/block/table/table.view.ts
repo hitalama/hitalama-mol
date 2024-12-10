@@ -2,11 +2,6 @@ namespace $.$$ {
 
 	export class $shm_hitalama_board_block_table extends $.$shm_hitalama_board_block_table {
 		
-		// @ $mol_mem
-		// editing(): boolean {
-		// 	return this.input_focused()
-		// }
-
 		@ $mol_mem_key
 		search_query( ref: $hyoo_crus_ref ) {
 			return $hyoo_crus_glob.Node( ref, $shm_hitalama_board_form )

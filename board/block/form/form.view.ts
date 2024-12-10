@@ -11,11 +11,6 @@ namespace $.$$ {
 		form() {
 			return this.block().Form(null)!
 		}
-
-		// @ $mol_mem
-		// editing(): boolean {
-		// 	return this.input_focused()
-		// }
 		
 	}
 
