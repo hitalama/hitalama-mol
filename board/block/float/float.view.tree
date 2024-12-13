@@ -54,6 +54,9 @@ $shm_hitalama_board_block_float $shm_hitalama_resize_ratio
 					sub /
 						<= Delete_icon $mol_icon_delete
 					click? <=> delete? null
+				<= Ref_copy $mol_button_copy
+					title <= ref_str \
+					text <= ref_code \
 	opacity? 1
 	style *
 		^

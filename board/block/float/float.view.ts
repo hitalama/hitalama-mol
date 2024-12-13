@@ -32,6 +32,14 @@ namespace $.$$ {
 			return this.block().Left_edge_x(next)?.val(next) ?? 0
 		}
 
+		ref_str() {
+			return this.block().ref().description ?? ''
+		}
+
+		ref_code(): string {
+			return 'const ' + this.block().Type()?.val() + " = board.block( '" + this.ref_str() + "' )"
+		}
+
 		@ $mol_mem
 		opacity( next?: number ) {
 			return this.block().Opacity(next)?.val(next) ?? 1

@@ -39,8 +39,13 @@ namespace $.$$ {
 		}
 
 		@ $mol_mem_key
-		block( ref: $hyoo_crus_ref ) {
+		block_by_ref( ref: $hyoo_crus_ref ) {
 			return $hyoo_crus_glob.Node( ref, $shm_hitalama_board_block )
+		}
+
+		@ $mol_mem_key
+		block( ref: string ) {
+			return this.block_by_ref( $hyoo_crus_ref( ref ) )
 		}
 
 		pos_by_ref: Map< string, number > = new Map
@@ -233,6 +238,20 @@ namespace $.$$ {
 			code?.Text(null)?.value( "const block = board.block_add( 'text', board.pointer_pos() )\nblock.text( 'Some text' )\nblock.color( 'red' )\nblock.font_size( 32 )" )
 
 			this.context_menu_visible( false )
+		}
+
+		@ $mol_action
+		table_add() {
+			const block = this.block_add( 'table2', this.context_menu_pos(), 500, 700 )
+			block?.Table(null)?.val( {
+				head: ['1','2','3'],
+				rows: [
+					['11','22','33'],
+					['111','222','333'],
+				]
+			} )
+			this.context_menu_visible( false )
+			return block
 		}
 
 		@ $mol_action
