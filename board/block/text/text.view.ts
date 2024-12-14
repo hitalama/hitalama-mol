@@ -1,6 +1,6 @@
 namespace $.$$ {
 
-	class Code_row extends $mol_text_code_row {
+	class Code_line extends $mol_text_code_line {
 		minimal_height(): number {
 			return 0
 		}
@@ -11,7 +11,7 @@ namespace $.$$ {
 		@ $mol_memo.field
 		get $() {
 			return super.$.$mol_ambient({
-				$mol_text_code_row: Code_row,
+				$mol_text_code_line: Code_line,
 			})
 		}
 
