@@ -1,29 +1,7 @@
 $shm_hitalama_board_block_table $shm_hitalama_board_block_float
 	board $shm_hitalama_board
 	drag_body /
-		<= Table $shm_hitalama_table
-			head /
-				<= Head_query $mol_view sub / \Запрос
-				<= Head_excluded $mol_view sub / \Минус
-				<= Head_prediod $mol_view sub / \Период
-				<= Head_country $mol_view sub / \Страна
-				<= Head_language $mol_view sub / \Язык
-				<= Head_mass_media $mol_view sub / \СМИ
-				<= Head_social_media $mol_view sub / \Соц.медиа
-				<= Head_type $mol_view sub / \Type
-				<= Head_tags $mol_view sub / \Tags
-				<= Head_category $mol_view sub / \Category
-			rows <= query_rows /
-				<= Row*0 $mol_view
-					sub /
-						<= Query* $mol_paragraph title <= query* \
-						<= Excluded* $mol_paragraph title <= excluded_words* \
-						<= Prediod* $mol_paragraph title <= prediod* \
-						<= Country* $mol_paragraph title <= country* \
-						<= Language* $mol_paragraph title <= language* \
-						<= Mass_media* $mol_paragraph title <= mass_media_title* \
-						<= Social_media* $mol_paragraph title <= social_media_title* \
-						<= Type* $mol_paragraph title <= type* \
-						<= Tags* $mol_paragraph title <= tags* \
-						<= Category* $mol_paragraph title <= category* \
+		<= Table $mol_grid
+			records <= rows *
+			col_head_content* <= col_head_content* /
 	font_tools /

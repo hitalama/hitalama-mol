@@ -1,9 +1,0 @@
-$shm_hitalama_board_block_table2 $shm_hitalama_board_block_float
-	board $shm_hitalama_board
-	drag_body /
-		<= Table $mol_grid
-			records <= records *
-			col_head_content* <= col_head_content* /
-	font_tools /
-	rows 1000
-	cols 10

@@ -8,8 +8,8 @@ namespace $.$$ {
 		}
 
 		run() {
-			const func = new Function( 'const board = this;\n'+ this.code() )
-			func.call( this.Board_page() )
+			const func = new Function( 'const board = this.board;\nconst page = this.page;\n'+ this.code() )
+			func.call( { page: this.Board_page(), board: this.board() } )
 		}
 		
 	}

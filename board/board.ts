@@ -10,6 +10,31 @@ namespace $ {
 
 	}){
 		
+		@ $mol_mem_key
+		block( ref: string ) {
+			return $hyoo_crus_glob.Node( $hyoo_crus_ref( ref ), $shm_hitalama_board_block )
+		}
+
+		@ $mol_action
+		block_add( 
+			type: (typeof $shm_hitalama_board_block_types)[number], 
+			pos: readonly [number, number] | readonly number[] = [0,0],
+			right_x = 200, bottom_x = 100,
+		) {
+			const block = this.Blocks(null)?.make( {'': $hyoo_crus_rank.get} )
+			block?.Type(null)?.val( type )
+			block?.Body_x(null)?.val( pos[0] )
+			block?.Body_y(null)?.val( pos[1] )
+			block?.Right_edge_x(null)?.val( right_x )
+			block?.Bottom_edge_y(null)?.val( bottom_x )
+			return block
+		}
+
+		@ $mol_mem
+		search_queries() {
+			return this.Search_queries()?.remote_list() ?? []
+		}
+		
 	}
 
 }

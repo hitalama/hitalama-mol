@@ -53,6 +53,18 @@ namespace $ {
 		category( next?: string ) {
 			return this.Category(next)?.val(next) ?? ''
 		}
+
+		prediod() {
+			return this.Date_from()?.val() + ' – ' + this.Date_to()?.val()
+		}
+
+		social_media_title() {
+			return this.File_social_media()?.remote()?.title() || ''
+		}
+
+		mass_media_title() {
+			return this.File_mass_media()?.remote()?.title() || ''
+		}
 		
 	}
 

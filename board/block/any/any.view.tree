@@ -21,6 +21,5 @@ $shm_hitalama_board_block_any $mol_ghost
 		text <= Text $shm_hitalama_board_block_text
 		form <= Form $shm_hitalama_board_block_form
 		table <= Table $shm_hitalama_board_block_table
-		table2 <= Table2 $shm_hitalama_board_block_table2
 		code <= Code $shm_hitalama_board_block_code
 			Board_page <= Board_page $shm_hitalama_board_page

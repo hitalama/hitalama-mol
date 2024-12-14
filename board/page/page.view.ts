@@ -43,11 +43,6 @@ namespace $.$$ {
 			return $hyoo_crus_glob.Node( ref, $shm_hitalama_board_block )
 		}
 
-		@ $mol_mem_key
-		block( ref: string ) {
-			return this.block_by_ref( $hyoo_crus_ref( ref ) )
-		}
-
 		pos_by_ref: Map< string, number > = new Map
 		@ $mol_mem
 		blocks() {
@@ -187,23 +182,8 @@ namespace $.$$ {
 		}
 
 		@ $mol_action
-		block_add( 
-			type: (typeof $shm_hitalama_board_block_types)[number], 
-			pos: readonly [number, number] | readonly number[] = [0,0],
-			right_x = 200, bottom_x = 100,
-		) {
-			const block = this.board().Blocks(null)?.make( {'': $hyoo_crus_rank.get} )
-			block?.Type(null)?.val( type )
-			block?.Body_x(null)?.val( pos[0] )
-			block?.Body_y(null)?.val( pos[1] )
-			block?.Right_edge_x(null)?.val( right_x )
-			block?.Bottom_edge_y(null)?.val( bottom_x )
-			return block
-		}
-
-		@ $mol_action
 		text_add() {
-			const block = this.block_add( 'text', this.context_menu_pos() )
+			const block = this.board().block_add( 'text', this.context_menu_pos() )
 			block?.Text(null)?.value( 'text' )
 			this.context_menu_visible( false )
 			return block
@@ -211,7 +191,7 @@ namespace $.$$ {
 
 		@ $mol_action
 		input_add() {
-			const block = this.block_add( 'input', this.context_menu_pos() )
+			const block = this.board().block_add( 'input', this.context_menu_pos() )
 			block?.Text(null)?.value( 'Hello' )
 			this.context_menu_visible( false )
 			return block
@@ -219,7 +199,7 @@ namespace $.$$ {
 
 		@ $mol_action
 		iframe_add() {
-			const block = this.block_add( 'iframe', this.context_menu_pos(), 500, 700 )
+			const block = this.board().block_add( 'iframe', this.context_menu_pos(), 500, 700 )
 			block?.Src(null)?.val( 'https://www.google.com/search?igu=1' )
 			this.context_menu_visible( false )
 			return block
@@ -228,13 +208,17 @@ namespace $.$$ {
 		@ $mol_action
 		form_add() {
 			const form_pos = this.context_menu_pos()
-			const form = this.block_add( 'form', form_pos, 450, 780 )
+			const form = this.board().block_add( 'form', form_pos, 450, 780 )
 			
 			const table_pos = [ form_pos[0] + 460, form_pos[1]] as const
-			const table = this.block_add( 'table', table_pos, 800, 780 )
+			// const table = this.board().block_add( 'table', table_pos, 800, 780 )
+			const block_table = this.board().block_add( 'table', table_pos, 800, 780 )!
+			block_table.Table(null)?.Board(null)?.remote( this.board() )
+			block_table.Table(null)?.table_head( [ 'Запрос', 'Минус', 'Период', 'Страна', 'Язык', 'СМИ', 'Соц.медиа', 'Type', 'Tags', 'Category', ] )
+			block_table.Table(null)?.Rows_method(null)?.val( "return board.Search_queries()?.remote_list().map( q => [\n	q.query() || '–',\n	q.excluded_words() || '–',\n	q.prediod() || '–',\n	q.country() || '–',\n	q.language() || '–',\n	q.mass_media_title() || '–',\n	q.social_media_title() || '–',\n	q.type() || '–',\n	q.tags() || '–',\n	q.category() || '–',\n] )" )
 
 			const code_pos = [ form_pos[0], form_pos[1] + 790 ] as const
-			const code = this.block_add( 'code', code_pos, 800, 200 )
+			const code = this.board().block_add( 'code', code_pos, 800, 200 )
 			code?.Text(null)?.value( "const block = board.block_add( 'text', board.pointer_pos() )\nblock.text( 'Some text' )\nblock.color( 'red' )\nblock.font_size( 32 )" )
 
 			this.context_menu_visible( false )
@@ -242,14 +226,13 @@ namespace $.$$ {
 
 		@ $mol_action
 		table_add() {
-			const block = this.block_add( 'table2', this.context_menu_pos(), 500, 700 )
-			block?.Table(null)?.val( {
-				head: ['1','2','3'],
-				rows: [
-					['11','22','33'],
-					['111','222','333'],
-				]
-			} )
+			const block = this.board().block_add( 'table', this.context_menu_pos(), 500, 700 )
+			block?.Table(null)?.Board(null)?.remote( this.board() )
+			block?.Table(null)?.table_head( ['1','2','3'] )
+			block?.Table(null)?.rows( [
+				['11','22','33'],
+				['111','222','3334'],
+			] )
 			this.context_menu_visible( false )
 			return block
 		}
@@ -257,7 +240,7 @@ namespace $.$$ {
 		@ $mol_action
 		image_add( blob: Blob ) {
 			const pos =  this.pointer_pos()
-			const block = this.block_add( 'text', pos, 0, 0 )
+			const block = this.board().block_add( 'text', pos, 0, 0 )
 			block?.Image(null)?.blob( blob )
 			return block
 		}
@@ -265,7 +248,7 @@ namespace $.$$ {
 		@ $mol_action
 		paste_text( text: string ) {
 			const pos =  this.pointer_pos()
-			const block = this.block_add( 'text', pos )
+			const block = this.board().block_add( 'text', pos )
 			block?.Text(null)?.value( text )
 			return block
 		}
