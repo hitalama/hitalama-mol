@@ -780,13 +780,12 @@ var $;
                         break;
                 }
                 if ($mol_promise_like(result) && !handled.has(result)) {
-                    handled.add(result);
                     const put = (res) => {
                         if (this.cache === result)
                             this.put(res);
                         return res;
                     };
-                    result = Object.assign(result.then(put, put), { destructor: result.destructor });
+                    result = result.then(put, put);
                 }
             }
             catch (error) {
@@ -797,11 +796,10 @@ var $;
                     result = new Error(String(error), { cause: error });
                 }
                 if ($mol_promise_like(result) && !handled.has(result)) {
-                    handled.add(result);
-                    result = Object.assign(result.finally(() => {
+                    result = result.finally(() => {
                         if (this.cache === result)
                             this.absorb();
-                    }), { destructor: result.destructor });
+                    });
                 }
             }
             if ($mol_promise_like(result) && !handled.has(result)) {
@@ -17000,7 +16998,7 @@ var $;
             return $hyoo_crus_glob.Node($hyoo_crus_ref(ref), $shm_hitalama_board_block);
         }
         block_add(type, pos = [0, 0], right_x = 200, bottom_x = 100) {
-            const block = this.Blocks(null)?.make({ '': $hyoo_crus_rank.get });
+            const block = this.Blocks(null)?.make(this.land());
             block?.Type(null)?.val(type);
             block?.Body_x(null)?.val(pos[0]);
             block?.Body_y(null)?.val(pos[1]);
