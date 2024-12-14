@@ -37,7 +37,7 @@ namespace $.$$ {
 		}
 
 		ref_code(): string {
-			return 'const ' + this.block().Type()?.val() + " = board.block( '" + this.ref_str() + "' )"
+			return "const block = board.block( '" + this.ref_str() + "' )"
 		}
 
 		@ $mol_mem

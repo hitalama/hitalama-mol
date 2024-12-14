@@ -16,6 +16,27 @@ namespace $.$$ {
 			padding: $mol_gap.block,
 			overflowX: 'inherit',
 		},
+
+		Cell_text: {
+			whiteSpace: 'normal',
+		},
+
+		Col_width_title: {
+			flex: {
+				grow: 1,
+			},
+			align: {
+				items: 'center',
+			},
+			padding: $mol_gap.text,
+		},
+
+		Col_widths_head: {
+			justify: {
+				content: 'flex-end'
+			},
+			padding: $mol_gap.text,
+		},
 		
 	} )
 	

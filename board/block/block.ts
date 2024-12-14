@@ -45,6 +45,16 @@ namespace $ {
 		font_size( next?: number ) {
 			return this.Font_size(next)?.val(next) ?? ''
 		}
+
+		@ $mol_mem
+		table_head( next?: any ) {
+			return this.Table(null)?.table_head( next )
+		}
+
+		@ $mol_mem
+		table_rows( next?: any ) {
+			return this.Table(null)?.table_rows( next )
+		}
 		
 	}
 

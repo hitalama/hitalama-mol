@@ -30,12 +30,13 @@ namespace $.$$ {
 			)
 		}
 		
+		pointer_client_pos: [ number, number ] = [ 0, 0 ]
 		pointer_move( event?: PointerEvent ) {
-			this.pointer_client_pos( [ event?.clientX, event?.clientY ] )
+			this.pointer_client_pos = [ event!.clientX, event!.clientY ]
 		}
 
 		pointer_pos(): readonly ( any )[] {
-			return this.to_pane_pos( this.pointer_client_pos() )
+			return this.to_pane_pos( this.pointer_client_pos )
 		}
 
 		to_pane_pos( client_pos: readonly [ number, number ] | readonly number[] ) {

@@ -211,30 +211,15 @@ namespace $.$$ {
 			const form = this.board().block_add( 'form', form_pos, 450, 780 )
 			
 			const table_pos = [ form_pos[0] + 460, form_pos[1]] as const
-			// const table = this.board().block_add( 'table', table_pos, 800, 780 )
-			const block_table = this.board().block_add( 'table', table_pos, 800, 780 )!
-			block_table.Table(null)?.Board(null)?.remote( this.board() )
+			const block_table = this.board().table_add( table_pos, 1000, 780 )!
 			block_table.Table(null)?.table_head( [ 'Запрос', 'Минус', 'Период', 'Страна', 'Язык', 'СМИ', 'Соц.медиа', 'Type', 'Tags', 'Category', ] )
-			block_table.Table(null)?.Rows_method(null)?.val( "return board.Search_queries()?.remote_list().map( q => [\n	q.query() || '–',\n	q.excluded_words() || '–',\n	q.prediod() || '–',\n	q.country() || '–',\n	q.language() || '–',\n	q.mass_media_title() || '–',\n	q.social_media_title() || '–',\n	q.type() || '–',\n	q.tags() || '–',\n	q.category() || '–',\n] )" )
+			block_table.Table(null)?.Rows_method(null)?.val( "return board.search_statistics().map( s => [\n	s.query(),\n	s.excluded_words(),\n	s.prediod(),\n	s.country(),\n	s.language(),\n	s.mass_media_title(),\n	s.social_media_title(),\n	s.type(),\n	s.tags(),\n	s.category(),\n] )" )
 
 			const code_pos = [ form_pos[0], form_pos[1] + 790 ] as const
-			const code = this.board().block_add( 'code', code_pos, 800, 200 )
-			code?.Text(null)?.value( "const block = board.block_add( 'text', board.pointer_pos() )\nblock.text( 'Some text' )\nblock.color( 'red' )\nblock.font_size( 32 )" )
+			const code = this.board().block_add( 'code', code_pos, 1220, 680 )
+			code?.Text(null)?.value( "const block = board.table_add( page.pointer_pos(), 800, 780 )\n\nblock.table_head( [ 'Дата', 'Кол-во', 'Позитив', 'Негатив', 'Запрос', 'Минус', 'Область поиска', 'Страна', 'Язык' ] )\n\nconst rows = []\n\nboard.search_statistics().forEach( s => {\n	if( !s.query() ) return\n\n	s.File_mass_media()?.remote()?.File()?.remote()?.str()?.split('\\n')?.forEach( line => {\n		const [ date, count, positive, negative ] = line.split(';')\n		if( isNaN( Number( count ) ) ) return\n		rows.push( [ date, count, positive, negative, s.query(), s.excluded_words(), 'СМИ', s.country(), s.language() ] )\n	} )\n\n	s.File_social_media()?.remote()?.File()?.remote()?.str()?.split('\\n')?.forEach( line => {\n		console.log(line)\n		const [ date, count, positive, negative ] = line.split(';')\n		if( isNaN( Number( count ) ) ) return\n		rows.push( [ date, count, positive, negative, s.query(), s.excluded_words(), 'Соц.медиа', s.country(), s.language() ] )\n	} )\n\n} )\n\nblock.table_rows( rows )\n" )
 
 			this.context_menu_visible( false )
-		}
-
-		@ $mol_action
-		table_add() {
-			const block = this.board().block_add( 'table', this.context_menu_pos(), 500, 700 )
-			block?.Table(null)?.Board(null)?.remote( this.board() )
-			block?.Table(null)?.table_head( ['1','2','3'] )
-			block?.Table(null)?.rows( [
-				['11','22','33'],
-				['111','222','3334'],
-			] )
-			this.context_menu_visible( false )
-			return block
 		}
 
 		@ $mol_action
@@ -275,14 +260,22 @@ namespace $.$$ {
 				this.$.$mol_dom_context.document,
 				'keydown',
 				$mol_wire_async( event => {
+
 					if( event.key == 'Delete' ) {
+
+						if( ['INPUT', 'TEXTAREA']
+							.includes( $mol_view_selection.focused()[0].nodeName )
+						) return
+						
 						const refs = this.selected_refs()
-						if( refs.some( r => this.editing( r ) ) ) return
 						refs.forEach( r => this.block_delete( r ) )
+						
 					}
+
 					else if( event.key == 'Shift' ) {
 						this.shift_pressed( true )
 					}
+
 				} ),
 			)
 		}

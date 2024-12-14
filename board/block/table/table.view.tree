@@ -4,4 +4,33 @@ $shm_hitalama_board_block_table $shm_hitalama_board_block_float
 		<= Table $mol_grid
 			records <= rows *
 			col_head_content* <= col_head_content* /
-	font_tools /
+			cell_content_text* => cell_content_text*
+			Cell_text* <= Cell_text* $mol_grid_cell
+				sub <= cell_content_text*
+				style *
+					maxWidth <= col_width_px* \auto
+					width <= col_width_px* \auto
+	tools /
+		<= Top
+		<= Bottom
+		<= Settings_pop $mol_pick
+			hint \Click to show options menu
+			trigger_content /
+				<= Settings_trigger_icon $mol_icon_cog_outline
+			bubble_content /
+				<= Settings_content $mol_list
+					sub /
+						<= Col_widths_head $mol_view
+							sub / \Ширина, px
+						^ col_width_rows /
+							<= Col_width_row* $mol_view
+								sub /
+									<= Col_width_title* $mol_view
+										sub <= col_head_content*
+									<= Col_width* $mol_number
+										Dec null
+										Inc null
+										value? <=> col_width*? NaN
+										hint \auto
+		<= Delete
+		<= Ref_copy

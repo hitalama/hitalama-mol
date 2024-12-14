@@ -4,9 +4,11 @@ $shm_hitalama_board_block_code $shm_hitalama_board_block_float
 		<= Drag_view
 		<= Textarea $mol_textarea
 			sidebar_showed true
-			value? <=> code? 
+			value? <=> code?
+			spellcheck false
 	sub /
 		^
 		<= Run $mol_button_major
 			title \Выполнить
 			click? <=> run? null
+	font_tools /

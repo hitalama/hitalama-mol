@@ -4,7 +4,7 @@ namespace $ {
 
 		Blocks: $hyoo_crus_list_ref_to( ()=> $shm_hitalama_board_block ),
 
-		Search_queries: $hyoo_crus_list_ref_to( ()=> $shm_hitalama_board_form ),
+		Search_statistics: $hyoo_crus_list_ref_to( ()=> $shm_hitalama_board_form ),
 
 		Files: $hyoo_crus_list_ref_to( ()=> $shm_hitalama_file ),
 
@@ -30,9 +30,19 @@ namespace $ {
 			return block
 		}
 
+		@ $mol_action
+		table_add( 
+			pos: readonly [number, number] | readonly number[] = [0,0],
+			right_x = 200, bottom_x = 100,
+		) {
+			const block = this.block_add( 'table', pos, right_x, bottom_x )
+			block?.Table(null)?.Board(null)?.remote( this )
+			return block
+		}
+
 		@ $mol_mem
-		search_queries() {
-			return this.Search_queries()?.remote_list() ?? []
+		search_statistics() {
+			return this.Search_statistics()?.remote_list() ?? []
 		}
 		
 	}

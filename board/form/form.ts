@@ -55,7 +55,9 @@ namespace $ {
 		}
 
 		prediod() {
-			return this.Date_from()?.val() + ' – ' + this.Date_to()?.val()
+			const from = this.Date_from()?.val()
+			const to = this.Date_to()?.val()
+			return (to && from) ? to + ' – ' + from : ''
 		}
 
 		social_media_title() {

@@ -10,6 +10,8 @@ namespace $ {
 		Rows: $hyoo_crus_atom_jsan,
 		Rows_method: $hyoo_crus_atom_str,
 
+		Col_widths: $hyoo_crus_atom_jsan,
+
 	}){
 
 		@ $mol_mem
@@ -26,7 +28,7 @@ namespace $ {
 		}
 		
 		@ $mol_mem
-		rows( next?: any ) {
+		table_rows( next?: any ) {
 			const method = this.Rows_method()?.val()
 			if( !method ) return this.Rows(next)?.val( next )
 

@@ -34,11 +34,18 @@ namespace $.$$ {
 		Toolbar: {
 			position: 'absolute',
 			top: 0,
+			width: '100%',
 			transform: 'translateY(-100%)',
 			overflow: 'visible',
 			zIndex: $mol_layer.popup,
 			padding: {
 				bottom: $mol_gap.space,
+			},
+		},
+
+		Ref_copy: {
+			margin: {
+				left: 'auto',
 			},
 		},
 
