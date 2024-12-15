@@ -19043,6 +19043,7 @@ declare namespace $ {
 		clear( next?: any ): any
 		Clear( ): $mol_button_minor
 		board( ): $shm_hitalama_board
+		form( ): $shm_hitalama_board_form
 		form_fields( ): readonly(any)[]
 		body( ): ReturnType< $shm_hitalama_board_form_view['form_body'] >
 		buttons( ): readonly(any)[]
@@ -19053,15 +19054,15 @@ declare namespace $ {
 //# sourceMappingURL=view.view.tree.d.ts.map
 declare namespace $.$$ {
     class $shm_hitalama_board_form_view extends $.$shm_hitalama_board_form_view {
-        query(next?: string): any;
-        excluded_words(next?: string): any;
-        date_from(next?: string): any;
-        date_to(next?: string): any;
-        country(next?: string): any;
-        language(next?: string): any;
-        type(next?: string): any;
-        tags(next?: string): any;
-        category(next?: string): any;
+        query(next?: string): string;
+        excluded_words(next?: string): string;
+        date_from(next?: string): string;
+        date_to(next?: string): string;
+        country(next?: string): string;
+        language(next?: string): string;
+        type(next?: string): string;
+        tags(next?: string): string;
+        category(next?: string): string;
         social_media_attach(files: File[]): File[];
         mass_media_attach(files: File[]): File[];
         social_media_title(): any;

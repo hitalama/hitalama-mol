@@ -38454,6 +38454,10 @@ var $;
                 padding: {
                     bottom: $mol_gap.space,
                 },
+                pointerEvents: 'none',
+                ['$mol_view']: {
+                    pointerEvents: 'auto',
+                }
             },
             Ref_copy: {
                 margin: {
@@ -40216,6 +40220,10 @@ var $;
 			const obj = new this.$.$shm_hitalama_board();
 			return obj;
 		}
+		form(){
+			const obj = new this.$.$shm_hitalama_board_form();
+			return obj;
+		}
 		form_fields(){
 			return [
 				(this.Query_field()), 
@@ -40286,6 +40294,7 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "clear"));
 	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Clear"));
 	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "board"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "form"));
 
 
 ;
@@ -40326,18 +40335,18 @@ var $;
                 return this.form().Category(next)?.val(next) ?? '';
             }
             social_media_attach(files) {
-                const file = this.board().Files(null)?.make({ '': $hyoo_crus_rank.get });
+                const file = this.board().Files(null)?.make(this.board().land());
                 file?.title(files[0].name);
                 file?.Size(null)?.val(files[0].size);
-                file?.File(null)?.ensure({ '': $hyoo_crus_rank.get })?.blob(files[0]);
+                file?.File(null)?.ensure(this.board().land())?.blob(files[0]);
                 this.form().File_social_media(null)?.remote(file);
                 return files;
             }
             mass_media_attach(files) {
-                const file = this.board().Files(null)?.make({ '': $hyoo_crus_rank.get });
+                const file = this.board().Files(null)?.make(this.board().land());
                 file?.title(files[0].name);
                 file?.Size(null)?.val(files[0].size);
-                file?.File(null)?.ensure({ '': $hyoo_crus_rank.get })?.blob(files[0]);
+                file?.File(null)?.ensure(this.board().land())?.blob(files[0]);
                 this.form().File_mass_media(null)?.remote(file);
                 return files;
             }
