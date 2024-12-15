@@ -39,11 +39,11 @@ namespace $.$$ {
 		}
 
 		social_media_attach( files: File[] ) {
-			const file = this.board().Files(null)?.make( {'': $hyoo_crus_rank.get} )
+			const file = this.board().Files(null)?.make( this.board().land() )
 
 			file?.title( files[0].name )
 			file?.Size(null)?.val( files[0].size )
-			file?.File(null)?.ensure( {'':$hyoo_crus_rank.get} )?.blob( files[0] )
+			file?.File(null)?.ensure( this.board().land() )?.blob( files[0] )
 
 			this.form().File_social_media(null)?.remote( file )
 
@@ -51,11 +51,11 @@ namespace $.$$ {
 		}
 
 		mass_media_attach( files: File[] ) {
-			const file = this.board().Files(null)?.make( {'': $hyoo_crus_rank.get} )
+			const file = this.board().Files(null)?.make( this.board().land() )
 
 			file?.title( files[0].name )
 			file?.Size(null)?.val( files[0].size )
-			file?.File(null)?.ensure( {'':$hyoo_crus_rank.get} )?.blob( files[0] )
+			file?.File(null)?.ensure( this.board().land() )?.blob( files[0] )
 
 			this.form().File_mass_media(null)?.remote( file )
 

@@ -41,6 +41,10 @@ namespace $.$$ {
 			padding: {
 				bottom: $mol_gap.space,
 			},
+			pointerEvents: 'none',
+			['$mol_view']: {
+				pointerEvents: 'auto',
+			}
 		},
 
 		Ref_copy: {
