@@ -12,8 +12,7 @@ $shm_hitalama_board_block_any $mol_ghost
 		sticks_y <= sticks_y / 0
 		sticks_x <= sticks_x / 0
 		selected? <=> selected? false
-		dragged? => dragged? false
-		editing? => editing? false
+		editing? => editing?
 		drags_synced <= drags_synced /$shm_hitalama_drag
 	blocks *
 		input <= Input $shm_hitalama_board_block_input

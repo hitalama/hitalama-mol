@@ -1,5 +1,4 @@
-namespace $.$$ {
-
+namespace $ {
 	export type $shm_hitalama_posts_dto = [
 		time: number[],
 		id: number[],
@@ -8,6 +7,9 @@ namespace $.$$ {
 		comments: number[],
 		view: number[]
 	]
+}
+
+namespace $.$$ {
 	
 	export class $shm_hitalama_posts extends $.$shm_hitalama_posts {
 		

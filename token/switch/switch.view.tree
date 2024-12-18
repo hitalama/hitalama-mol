@@ -15,7 +15,7 @@ $shm_hitalama_token_switch $mol_view
 				<= Add_vk $mol_link
 					title \VK
 					target \_self
-					uri <= vk_auth_uri
+					uri <= vk_auth_uri \
 		<= Clear $mol_button_minor
 			title \Очистить
 			click? <=> clear? null

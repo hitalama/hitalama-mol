@@ -1,6 +1,6 @@
 $shm_hitalama_lists $mol_list
 	title \Списки сообществ
-	token $shm_hitalama_token
+	token null $shm_hitalama_token
 	sub /
 		<= current_view <= Main
 	Main $mol_section

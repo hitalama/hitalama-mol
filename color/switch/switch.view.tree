@@ -6,7 +6,7 @@ $shm_hitalama_color_switch $mol_switch
 		hint <= option_hint*
 		minimal_height 24
 		style *
-			backgroundColor <= color*
+			backgroundColor <= color* \
 	colors /
 		\var(--mol_theme_text)
 		\rgb(254, 244, 69)

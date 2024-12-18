@@ -1,6 +1,6 @@
 $shm_hitalama_analysis $mol_list
 	title \Сбор и анализ постов
-	token $shm_hitalama_token
+	token null $shm_hitalama_token
 	token_str \
 	No_auth_message $mol_text
 		text \Выберите пользователя
@@ -18,7 +18,7 @@ $shm_hitalama_analysis $mol_list
 						search_label /$mol_view_content
 							<= search_title \Введите ссылку на сообщество
 							<= List_select $mol_select
-								trigger_content \выберите список
+								trigger_content / \выберите список
 								dictionary <= lists_dict *
 								value? <=> selected_list_ref? \
 						search_click <= cancel_select_list null
@@ -67,7 +67,7 @@ $shm_hitalama_analysis $mol_list
 					title <= loader_result* \Данные собрали за {sec} сек, количество постов: {count}
 	Posts_by_owner* $shm_hitalama_posts
 		token_str <= token_str
-		owner_id? <= owner_id*?
+		owner_id? <= owner_id*? \
 		collect? => collect_by_owner*?
 		dto => posts_dto_by_owner*
 		pending => posts_pending*

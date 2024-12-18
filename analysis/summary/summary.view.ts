@@ -49,7 +49,7 @@ namespace $.$$ {
 
 		@ $mol_mem_key
 		posts_counts( owner_id: string ) {
-			return this.posts_dto_by_owner(owner_id)?.[0].length ?? ''
+			return String( this.posts_dto_by_owner(owner_id)?.[0].length ) ?? ''
 		}
 
 		@ $mol_mem_key

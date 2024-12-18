@@ -13,7 +13,7 @@ namespace $.$$ {
 
 		@ $mol_mem
 		board_id() {
-			return this.board().ref().description
+			return this.board().ref().description!
 		}
 		
 		@ $mol_action

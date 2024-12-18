@@ -16,6 +16,8 @@ $shm_hitalama_board_pane $mol_view
 	select_rect_start_y? NaN
 	select_rect_end_x? NaN
 	select_rect_end_y? NaN
+	select_rect_size /
+	select_rect_pos /
 	select_start? null
 	select_resize? null
 	event *

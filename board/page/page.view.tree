@@ -7,7 +7,7 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 				<= Open_in_new_icon $mol_icon_open_in_new
 			arg *
 				section \board
-				board <= board_id
+				board <= board_id \
 			external true
 		<= Title
 		<= Tools
@@ -72,5 +72,4 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 					sticks_x <= sticks_x* / 0
 					selected? <=> selected*? false
 					editing? => editing*? false
-					dragged? => dragged*? false
 					drags_synced <= drags_synced* /$shm_hitalama_drag

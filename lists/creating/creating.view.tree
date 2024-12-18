@@ -1,5 +1,5 @@
 $shm_hitalama_lists_creating $mol_section
-	token $shm_hitalama_token
+	token null $shm_hitalama_token
 	title \Создание списка
 	param \create
 	groups_list? /string
@@ -15,7 +15,7 @@ $shm_hitalama_lists_creating $mol_section
 		<= Add_block $mol_view
 			sub /
 				<= Search $shm_hitalama_group_search
-					token_str <= token_str
+					token_str <= token_str \
 					dto => group_dto_current
 					buttons /
 						<= Add $mol_button_major

@@ -1,8 +1,8 @@
 $shm_hitalama_posts_multi $mol_ghost
 	owner_ids /string
 	Posts_by_owner* $shm_hitalama_posts
-		token_str <= token_str
-		owner_id? <= owner_id*?
+		token_str <= token_str \
+		owner_id? <= owner_id*? \
 		collect? => collect*?
 		dto => dto_by_owner*
 		pending => posts_pending*
