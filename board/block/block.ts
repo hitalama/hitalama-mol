@@ -22,6 +22,8 @@ namespace $ {
 		Opacity: $hyoo_crus_atom_real,
 		Type: $shm_hitalama_board_block_type,
 
+		Board: $hyoo_crus_atom_ref_to( ()=> $shm_hitalama_board ),
+
 		Image: $hyoo_crus_file,
 		Src: $hyoo_crus_atom_str,
 		Text: $hyoo_crus_text,
@@ -31,6 +33,8 @@ namespace $ {
 		Form: $shm_hitalama_board_form,
 
 		Table: $shm_hitalama_board_table,
+
+		Chart: $shm_hitalama_board_chart,
 
 	}){
 

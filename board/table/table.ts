@@ -2,7 +2,7 @@ namespace $ {
 
 	export class $shm_hitalama_board_table extends $hyoo_crus_entity.with({
 
-		Board: $hyoo_crus_atom_ref_to( ()=> $shm_hitalama_board ),
+		Block: $hyoo_crus_atom_ref_to( ()=> $shm_hitalama_board_block ),
 
 		Head: $hyoo_crus_atom_jsan,
 		Head_method: $hyoo_crus_atom_str,
@@ -15,6 +15,11 @@ namespace $ {
 	}){
 
 		@ $mol_mem
+		board() {
+			return this.Block()?.remote()?.Board()?.remote()!
+		}
+
+		@ $mol_mem
 		table_head( next?: any ) {
 			const method = this.Head_method()?.val()
 			if( !method ) return this.Head(next)?.val( next )
@@ -22,7 +27,7 @@ namespace $ {
 			const vars = 'const next = this.next;const board = this.board;\n'
 			const func = new Function( vars + method )
 
-			const res = func.call( { next, board: this.Board()?.remote() } )
+			const res = func.call( { next, board: this.board() } )
 
 			return this.Head(res)?.val( res )
 		}
@@ -35,7 +40,7 @@ namespace $ {
 			const vars = 'const next = this.next;const board = this.board;\n'
 			const func = new Function( vars + method )
 
-			const res = func.call( { next, board: this.Board()?.remote() } )
+			const res = func.call( { next, board: this.board() } )
 
 			return this.Rows(res)?.val( res )
 		}

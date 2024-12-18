@@ -22,7 +22,7 @@ namespace $ {
 			right_x = 200, bottom_x = 100,
 		) {
 			const block = this.Blocks(null)?.make( this.land() )
-			// const block = this.Blocks(null)?.make( {'': $hyoo_crus_rank.get} )
+			block?.Board(null)?.remote( this )
 			block?.Type(null)?.val( type )
 			block?.Body_x(null)?.val( pos[0] )
 			block?.Body_y(null)?.val( pos[1] )
@@ -37,7 +37,7 @@ namespace $ {
 			right_x = 200, bottom_x = 100,
 		) {
 			const block = this.block_add( 'table', pos, right_x, bottom_x )
-			block?.Table(null)?.Board(null)?.remote( this )
+			block?.Table(null)?.Block(null)?.remote( block )
 			return block
 		}
 
