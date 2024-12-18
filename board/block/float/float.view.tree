@@ -50,9 +50,10 @@ $shm_hitalama_board_block_float $shm_hitalama_resize_ratio
 					sub /
 						<= Bottom_icon $mol_icon_arrow_collapse_down
 					click? <=> to_bottom? null
-				<= Delete $mol_button_minor 
+				<= Delete $mol_button_minor
+					hint \Delete
 					sub /
-						<= Delete_icon $mol_icon_delete
+						<= Delete_icon $mol_icon_trash_can
 					click? <=> delete? null
 				<= Ref_copy $mol_button_copy
 					title <= ref_str \

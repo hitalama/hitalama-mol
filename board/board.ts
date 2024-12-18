@@ -37,7 +37,7 @@ namespace $ {
 			right_x = 200, bottom_x = 100,
 		) {
 			const block = this.block_add( 'table', pos, right_x, bottom_x )
-			block?.Table(null)?.Block(null)?.remote( block )
+			block?.table().Block(null)?.remote( block )
 			return block
 		}
 

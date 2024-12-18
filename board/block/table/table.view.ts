@@ -4,14 +4,14 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		rows() {
-			const rows = this.block().Table()?.table_rows() ?? []
+			const rows = this.block().table_rows() ?? []
 			if( rows?.length == 0 ) return [ this.head().map( _ => '' ) ]
 			return rows
 		}
 
 		@ $mol_mem
 		head() {
-			return this.block().Table()?.table_head() ?? []
+			return this.block().table_head() ?? []
 		}
 		
 		col_head_content( id : string ) {
@@ -26,12 +26,12 @@ namespace $.$$ {
 
 		@ $mol_mem_key
 		col_width( col: number, next?: number ) {
-			const widths = this.block().Table()?.Col_widths()?.val()
+			const widths = this.block().table()?.Col_widths()?.val()
 			if( next === undefined ) return widths?.[col] ?? NaN
 
 			const widths_next = [ ... widths??[] ]
 			widths_next[col] = next
-			this.block().Table()?.Col_widths(null)?.val( widths_next )
+			this.block().table()?.Col_widths(null)?.val( widths_next )
 
 			return next ?? NaN
 		}

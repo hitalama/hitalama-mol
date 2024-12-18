@@ -5,6 +5,11 @@ namespace $ {
 		Block: $hyoo_crus_atom_ref_to( ()=> $shm_hitalama_board_block ),
 
 	}){
+
+		@ $mol_mem
+		table() {
+			return this.Block()?.remote()?.table()!
+		}
 		
 	}
 

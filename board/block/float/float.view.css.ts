@@ -82,6 +82,13 @@ namespace $.$$ {
 			direction: 'column'
 		},
 
+		Delete: {
+			margin: {
+				left: $mol_gap.block,
+			},
+			color: '#ff6666',
+		},
+
 		// background: {
 		// 	color: $mol_theme.back,
 		// },

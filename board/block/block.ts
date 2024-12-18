@@ -32,7 +32,7 @@ namespace $ {
 
 		Form: $shm_hitalama_board_form,
 
-		Table: $shm_hitalama_board_table,
+		Table: $hyoo_crus_atom_ref_to( ()=> $shm_hitalama_board_table ),
 
 		Chart: $shm_hitalama_board_chart,
 
@@ -51,15 +51,20 @@ namespace $ {
 		}
 
 		@ $mol_mem
+		table() {
+			return this.Table(null)?.ensure( this.land() )!
+		}
+
+		@ $mol_mem
 		table_head( next?: any ) {
-			return this.Table(null)?.table_head( next )
+			return this.table()?.table_head( next )
 		}
 
 		@ $mol_mem
 		table_rows( next?: any ) {
-			return this.Table(null)?.table_rows( next )
+			return this.table()?.table_rows( next )
 		}
-		
+
 	}
 
 }
