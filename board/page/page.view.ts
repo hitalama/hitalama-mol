@@ -173,14 +173,6 @@ namespace $.$$ {
 			return this.context_menu_visible() ? super.context_menu() : []
 		}
 
-		context_menu_pointerenter( next?: any ) {
-			this.context_menu_hovered( true )
-		}
-
-		context_menu_pointerleave( next?: any ) {
-			this.context_menu_hovered( false )
-		}
-
 		@ $mol_action
 		text_add() {
 			const block = this.board().block_add( 'text', this.context_menu_pos() )
