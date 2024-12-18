@@ -2,6 +2,10 @@ $shm_hitalama_contextmenu $mol_view
 	sub /
 		<= Body $mol_list
 			sub <= body /
+	pos? /
+		0
+		0
+	show? null
 	style *
 		left <= left? \0px
 		top <= top? \0px
@@ -9,3 +13,6 @@ $shm_hitalama_contextmenu $mol_view
 		pointerenter? <=> pointerenter? null
 		pointerleave? <=> pointerleave? null
 	hovered? false
+	showed? false
+	auto /
+		<= pointerdown_listener null

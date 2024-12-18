@@ -1,0 +1,6 @@
+$shm_hitalama_contextmenu_plugin $mol_plugin
+	Contextmenu $shm_hitalama_contextmenu
+		body <= body /
+	event *
+		^
+		contextmenu? <=> contextmenu? null

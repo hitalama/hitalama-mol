@@ -1,10 +1,6 @@
 $shm_hitalama_board_block_float $shm_hitalama_resize_ratio
 	block $shm_hitalama_board_block
 	board $shm_hitalama_board
-	- plugins /
-		<= Keyboard $mol_keyboard_state
-			- key *
-				delete <= delete
 	sub /
 		<= Content
 		^ edges
@@ -66,7 +62,7 @@ $shm_hitalama_board_block_float $shm_hitalama_resize_ratio
 	font_size_px \
 	event *
 		^
-		keydown? <=> down? null
+		contentmenu? <=> event_contentmenu? null
 	attr *
 		^
 		shm_hitalama_board_block_float_selected <= selected? false

@@ -123,11 +123,6 @@ namespace $.$$ {
 			return next
 		}
 
-		back_pointerdown( event: PointerEvent ) {
-			this.deselect_all()
-			this.select_start( event )
-		}
-
 		select_resize() {
 			const [left, top] = this.select_rect_pos()
 			const [width, height] = this.select_rect_size()
@@ -148,58 +143,54 @@ namespace $.$$ {
 			blocks.forEach( b => this.selected( b.ref(), false ) )
 		}
 
-		back_contextmenu( event: PointerEvent ) {
+		back_event_pointerdown( event: PointerEvent ) {
+			this.deselect_all()
+			this.select_start( event )
+		}
+
+		back_event_contextmenu( event: PointerEvent ) {
 			event.preventDefault()
-			this.context_menu_pos( [event.offsetX, event.offsetY] )
-			this.context_menu_visible( true )
+			this.contextmenu_body(  )
+			this.contextmenu_pos( [event.offsetX, event.offsetY] )
+			this.contextmenu_showed( true )
 		}
 
 		@ $mol_mem
-		context_menu_pos( next?: readonly [number, number] ) {
+		contextmenu_pos( next?: readonly [number, number] ) {
 			return next ?? [0,0]
 		}
 		
-		@ $mol_mem
-		context_menu_left(): string {
-			return this.context_menu_pos()[0] + 'px'
-		}
-		
-		@ $mol_mem
-		context_menu_top(): string {
-			return this.context_menu_pos()[1] + 'px'
-		}
-		
-		context_menu(): readonly ( any )[] {
-			return this.context_menu_visible() ? super.context_menu() : []
+		contextmenu_visible(): readonly ( any )[] {
+			return this.contextmenu_showed() ? super.contextmenu_visible() : []
 		}
 
 		@ $mol_action
 		text_add() {
-			const block = this.board().block_add( 'text', this.context_menu_pos() )
+			const block = this.board().block_add( 'text', this.contextmenu_pos() )
 			block?.Text(null)?.value( 'text' )
-			this.context_menu_visible( false )
+			this.contextmenu_showed( false )
 			return block
 		}
 
 		@ $mol_action
 		input_add() {
-			const block = this.board().block_add( 'input', this.context_menu_pos() )
+			const block = this.board().block_add( 'input', this.contextmenu_pos() )
 			block?.Text(null)?.value( 'Hello' )
-			this.context_menu_visible( false )
+			this.contextmenu_showed( false )
 			return block
 		}
 
 		@ $mol_action
 		iframe_add() {
-			const block = this.board().block_add( 'iframe', this.context_menu_pos(), 500, 700 )
+			const block = this.board().block_add( 'iframe', this.contextmenu_pos(), 500, 700 )
 			block?.Src(null)?.val( 'https://www.google.com/search?igu=1' )
-			this.context_menu_visible( false )
+			this.contextmenu_showed( false )
 			return block
 		}
 
 		@ $mol_action
 		form_add() {
-			const form_pos = this.context_menu_pos()
+			const form_pos = this.contextmenu_pos()
 			const form = this.board().block_add( 'form', form_pos, 450, 780 )
 			
 			const table_pos = [ form_pos[0] + 460, form_pos[1]] as const
@@ -211,7 +202,7 @@ namespace $.$$ {
 			const code = this.board().block_add( 'code', code_pos, 1220, 680 )
 			code?.Text(null)?.value( "const block = board.table_add( page.pointer_pos(), 800, 780 )\n\nblock.table_head( [ 'Дата', 'Кол-во', 'Позитив', 'Негатив', 'Запрос', 'Минус', 'Область поиска', 'Страна', 'Язык' ] )\n\nconst rows = []\n\nboard.search_statistics().forEach( s => {\n	if( !s.query() ) return\n\n	s.File_mass_media()?.remote()?.File()?.remote()?.str()?.split('\\n')?.forEach( line => {\n		const [ date, count, positive, negative ] = line.split(';')\n		if( isNaN( Number( count ) ) ) return\n		rows.push( [ date, count, positive, negative, s.query(), s.excluded_words(), 'СМИ', s.country(), s.language() ] )\n	} )\n\n	s.File_social_media()?.remote()?.File()?.remote()?.str()?.split('\\n')?.forEach( line => {\n		console.log(line)\n		const [ date, count, positive, negative ] = line.split(';')\n		if( isNaN( Number( count ) ) ) return\n		rows.push( [ date, count, positive, negative, s.query(), s.excluded_words(), 'Соц.медиа', s.country(), s.language() ] )\n	} )\n\n} )\n\nblock.table_rows( rows )\n" )
 
-			this.context_menu_visible( false )
+			this.contextmenu_showed( false )
 		}
 
 		@ $mol_action
@@ -228,17 +219,6 @@ namespace $.$$ {
 			const block = this.board().block_add( 'text', pos )
 			block?.Text(null)?.value( text )
 			return block
-		}
-
-		@ $mol_mem
-		pointerdown_listener() {
-			return new $mol_dom_listener(
-				this.$.$mol_dom_context.document,
-				'pointerdown',
-				$mol_wire_async( event => {
-					if( !this.context_menu_hovered() ) this.context_menu_visible( false )
-				} ),
-			)
 		}
 
 		@ $mol_mem
