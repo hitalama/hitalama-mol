@@ -1,0 +1,13 @@
+$shm_hitalama_chart_line_pane $mol_plot_pane
+	Touch $mol_touch
+		- zoom? <=> zoom? 1
+		- pan? <=> shift?
+		pointer_center => cursor_position
+		allow_draw <= allow_draw true
+		allow_pan <= allow_pan true
+		allow_zoom <= allow_zoom true
+		action_type => action_type
+		action_point => action_point
+		draw_start?event <=> draw_start?event null
+		draw?event <=> draw?event null
+		draw_end?event <=> draw_end?event null

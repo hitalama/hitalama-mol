@@ -17,6 +17,35 @@ namespace $.$$ {
 		col_head_content( id : string ) {
 			return [ this.head()?.[  Number( id ) ] ?? '' ]
 		}
+
+		axis( next?: string ){
+			return this.block().Chart(next)?.Axis(next)?.val( next ) ?? ''
+		}
+
+		values( next?: ( any )[] ): ( any )[] {
+			return this.block().Chart(next)?.Values(next)?.val( next ) ?? []
+		}
+
+		groups( next?: ( any )[] ): ( any )[] {
+			return this.block().Chart(next)?.Groups(next)?.val( next ) ?? []
+		}
+
+		names(): readonly ( any )[] {
+			const rows = this.rows()
+			return [ rows[0][4] ]
+		}
+
+		@ $mol_mem_key
+		series_y( id: any ): readonly ( any )[] {
+			const rows = this.rows()
+			return rows.map( r => Number( r[1] ) )
+			// return [1,1,1].map( i => i * Math.random() )
+		}
+
+		labels(): readonly ( string )[] {
+			const rows = this.rows()
+			return rows.map( r => r[0] )
+		}
 		
 	}
 

@@ -6,6 +6,9 @@ $shm_hitalama_board_block_float $shm_hitalama_resize_ratio
 		<= Content
 		^ edges
 		^ toolbar
+		^ sidebar /
+			<= Sidebar $mol_view
+				sub <= side_body /
 	auto /
 		^
 		<= editing? false
@@ -52,7 +55,7 @@ $shm_hitalama_board_block_float $shm_hitalama_resize_ratio
 					sub /
 						<= Delete_icon $mol_icon_trash_can
 					click? <=> delete? null
-				<= Ref_copy $mol_button_copy
+				<= Ref_copy $mol_view - $mol_button_copy
 					title <= ref_str \
 					text <= ref_code \
 	opacity? 1
@@ -64,7 +67,7 @@ $shm_hitalama_board_block_float $shm_hitalama_resize_ratio
 	event *
 		^
 		contextmenu? <=> event_contextmenu? null
-	contextmenu_body /
+	Contextmenu_body null
 	attr *
 		^
 		shm_hitalama_board_block_float_selected <= selected? false

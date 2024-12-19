@@ -157,10 +157,10 @@ namespace $.$$ {
 
 		@ $mol_mem_key
 		block_event_contextmenu( ref: $hyoo_crus_ref, event?: PointerEvent ) {
-			const body = this.Block_contextmenu_body( ref )
-			if( body.length == 0 ) return
+			const Body = this.Block_contextmenu_body( ref )
+			if( !Body ) return
 			event!.preventDefault()
-			this.contextmenu_body( [body] )
+			this.contextmenu_body( [ Body ] )
 			this.contextmenu_pos( this.client_pos_to_pane_pos( [event!.clientX, event!.clientY] ) )
 			this.contextmenu_showed( true )
 		}

@@ -4,6 +4,10 @@ namespace $ {
 
 		Block: $hyoo_crus_atom_ref_to( ()=> $shm_hitalama_board_block ),
 
+		Axis: $hyoo_crus_atom_str,
+		Values: $hyoo_crus_atom_jsan,
+		Groups: $hyoo_crus_atom_jsan,
+
 	}){
 
 		@ $mol_mem

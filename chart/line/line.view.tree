@@ -1,0 +1,26 @@
+$shm_hitalama_chart_line $mol_chart
+	names /
+	labels /string
+	Plot $shm_hitalama_chart_line_pane
+		gap_left <= gap_left
+		gap_right <= gap_right
+		gap_bottom <= gap_bottom
+		gap_top <= gap_top
+		graphs <= graphs
+		graphs_colored => graphs_colored
+		hue_base <= hue_base
+		hue_shift <= hue_shift
+	graphs /
+		^ items / <= Item*0 $mol_plot_group
+			title <= item_name* \
+			series_y <= series_y* /
+			graphs /
+				<= Line* $mol_plot_line
+				<= Dot* $mol_plot_dot
+		<= Vert_ruler $mol_plot_ruler_vert
+		<= Marker_hor $mol_plot_mark_hor
+			labels <= labels
+		<= Marker_cross $mol_plot_mark_cross
+			labels <= labels
+			graphs /
+				^ dots /

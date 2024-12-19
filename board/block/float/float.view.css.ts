@@ -47,11 +47,27 @@ namespace $.$$ {
 			}
 		},
 
-		Ref_copy: {
-			margin: {
-				left: 'auto',
+		Sidebar: {
+			position: 'absolute',
+			top: 0,
+			right: 0,
+			transform: 'translateX(100%)',
+			overflow: 'visible',
+			zIndex: $mol_layer.popup,
+			padding: {
+				bottom: $mol_gap.space,
 			},
+			pointerEvents: 'none',
+			['$mol_view']: {
+				pointerEvents: 'auto',
+			}
 		},
+
+		// Ref_copy: {
+		// 	margin: {
+		// 		left: 'auto',
+		// 	},
+		// },
 
 		Font_size: {
 			width: '4rem',

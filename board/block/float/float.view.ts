@@ -81,6 +81,10 @@ namespace $.$$ {
 			return this.selected() ? super.toolbar() : []
 		}
 
+		sidebar(): readonly ( any )[] {
+			return this.selected() ? super.sidebar() : []
+		}
+
 		@ $mol_mem
 		transition() {
 			return ( this.dragged() || this.resizing() ) ? 'none' : this.transition_smooth()

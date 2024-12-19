@@ -1,7 +1,36 @@
 $shm_hitalama_board_block_chart $shm_hitalama_board_block_float
 	drag_body /
+		<= Chart $shm_hitalama_chart_line
+			names <= names /
+			labels <= labels /string
+			series_y* <= series_y* /
+	width_min 200
+	height_min 200
 	tools /
 		<= Top
 		<= Bottom
 		<= Delete
 		<= Ref_copy
+	side_body /
+		<= Form $mol_form
+			form_fields /
+				<= Axis_field $mol_form_field
+					name \Ось
+					Content <= Axis $mol_select
+						Filter null
+						options <= head /
+						value? <=> axis? \
+				<= Values_field $mol_form_field
+					name \Значения
+					Content <= Values $mol_select_list
+						value? <=> values? /
+						options <= head /
+				<= Groups_field $mol_form_field
+					name \Группировка
+					Content <= Groups $mol_select_list
+						value? <=> groups? /
+						options <= head /
+		- <= Side_body $mol_list
+			sub /
+				<= Col_widths_head $mol_view
+					sub / \Ширина, px
