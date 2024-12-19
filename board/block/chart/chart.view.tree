@@ -1,0 +1,7 @@
+$shm_hitalama_board_block_chart $shm_hitalama_board_block_float
+	drag_body /
+	tools /
+		<= Top
+		<= Bottom
+		<= Delete
+		<= Ref_copy

@@ -20,6 +20,7 @@ $shm_hitalama_board_pane $mol_view
 	select_rect_pos /
 	select_start? null
 	select_resize? null
+	client_pos_to_pane_pos* null
 	event *
 		^
 		pointermove? <=> pointer_move? null

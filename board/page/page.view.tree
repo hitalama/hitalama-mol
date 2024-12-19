@@ -19,31 +19,35 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 		<= pull_drags_synced null
 	selected_refs? /
 	body_content / <= Pane
+	contextmenu_body? /
+	Back_contextmenu_body $mol_list
+		sub /
+			<= Text_add $mol_button_minor
+				title \Добавить текст
+				click? <=> text_add? null
+			<= Input_add $mol_button_minor
+				title \Добавить input
+				click? <=> input_add? null
+			<= Iframe_add $mol_button_minor
+				title \Добавить iframe
+				click? <=> iframe_add? null
+			<= Form_add $mol_button_minor
+				title \Добавить виджет: Сбор 1% выгрузки БА
+				click? <=> form_add? null
 	Pane $shm_hitalama_board_pane
 		select_start? => select_start?
 		select_rect_pos => select_rect_pos
 		select_rect_size => select_rect_size
 		select_resize <= select_resize null
 		pointer_pos => pointer_pos
+		client_pos_to_pane_pos* => client_pos_to_pane_pos*
 		body /
 			<= Back $shm_hitalama_board_back
 				event_pointerdown? <=> back_event_pointerdown? null
 				event_contextmenu? <=> back_event_contextmenu? null
 			^ contextmenu_visible /
 				<= Context_menu $shm_hitalama_contextmenu
-					body <= contextmenu_body? / ^ back_contextmenu_body /
-						<= Text_add $mol_button_minor
-							title \Добавить текст
-							click? <=> text_add? null
-						<= Input_add $mol_button_minor
-							title \Добавить input
-							click? <=> input_add? null
-						<= Iframe_add $mol_button_minor
-							title \Добавить iframe
-							click? <=> iframe_add? null
-						<= Form_add $mol_button_minor
-							title \Добавить виджет: Сбор 1% выгрузки БА
-							click? <=> form_add? null
+					body <= contextmenu_body
 					pos? <=> contextmenu_pos? /
 					showed? <=> contextmenu_showed? false
 			^ blocks /
@@ -63,4 +67,5 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 					selected? <=> selected*? false
 					editing? => editing*? false
 					drags_synced <= drags_synced* /$shm_hitalama_drag
-					event_contentmenu? <=> block_event_contentmenu? null
+					event_contextmenu? <=> block_event_contextmenu*? null
+					Contextmenu_body => Block_contextmenu_body* /

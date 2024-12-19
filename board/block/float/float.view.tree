@@ -1,6 +1,7 @@
 $shm_hitalama_board_block_float $shm_hitalama_resize_ratio
 	block $shm_hitalama_board_block
 	board $shm_hitalama_board
+	Board_page $shm_hitalama_board_page
 	sub /
 		<= Content
 		^ edges
@@ -62,7 +63,8 @@ $shm_hitalama_board_block_float $shm_hitalama_resize_ratio
 	font_size_px \
 	event *
 		^
-		contentmenu? <=> event_contentmenu? null
+		contextmenu? <=> event_contextmenu? null
+	contextmenu_body /
 	attr *
 		^
 		shm_hitalama_board_block_float_selected <= selected? false

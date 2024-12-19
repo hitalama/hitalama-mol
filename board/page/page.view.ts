@@ -150,8 +150,18 @@ namespace $.$$ {
 
 		back_event_contextmenu( event: PointerEvent ) {
 			event.preventDefault()
-			this.contextmenu_body(  )
+			this.contextmenu_body( [ this.Back_contextmenu_body() ] )
 			this.contextmenu_pos( [event.offsetX, event.offsetY] )
+			this.contextmenu_showed( true )
+		}
+
+		@ $mol_mem_key
+		block_event_contextmenu( ref: $hyoo_crus_ref, event?: PointerEvent ) {
+			const body = this.Block_contextmenu_body( ref )
+			if( body.length == 0 ) return
+			event!.preventDefault()
+			this.contextmenu_body( [body] )
+			this.contextmenu_pos( this.client_pos_to_pane_pos( [event!.clientX, event!.clientY] ) )
 			this.contextmenu_showed( true )
 		}
 
@@ -166,6 +176,7 @@ namespace $.$$ {
 
 		@ $mol_action
 		text_add() {
+			console.log('text_add')
 			const block = this.board().block_add( 'text', this.contextmenu_pos() )
 			block?.Text(null)?.value( 'text' )
 			this.contextmenu_showed( false )

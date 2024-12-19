@@ -6,6 +6,7 @@ $shm_hitalama_board_block_any $mol_ghost
 		left => left
 		block <= block $shm_hitalama_board_block
 		board <= board $shm_hitalama_board
+		Board_page <= Board_page $shm_hitalama_board_page
 		delete <= delete null
 		to_top <= to_top null
 		to_bottom <= to_bottom null
@@ -14,6 +15,8 @@ $shm_hitalama_board_block_any $mol_ghost
 		selected? <=> selected? false
 		editing? => editing?
 		drags_synced <= drags_synced /$shm_hitalama_drag
+		event_contextmenu? <=> event_contextmenu? null
+		Contextmenu_body => Contextmenu_body
 	blocks *
 		input <= Input $shm_hitalama_board_block_input
 		iframe <= Iframe $shm_hitalama_board_block_iframe
@@ -21,4 +24,4 @@ $shm_hitalama_board_block_any $mol_ghost
 		form <= Form $shm_hitalama_board_block_form
 		table <= Table $shm_hitalama_board_block_table
 		code <= Code $shm_hitalama_board_block_code
-			Board_page <= Board_page $shm_hitalama_board_page
+		chart <= Chart $shm_hitalama_board_block_chart

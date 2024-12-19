@@ -1,5 +1,4 @@
 $shm_hitalama_board_block_table $shm_hitalama_board_block_float
-	board $shm_hitalama_board
 	drag_body /
 		<= Table $mol_grid
 			records <= rows *
@@ -34,3 +33,8 @@ $shm_hitalama_board_block_table $shm_hitalama_board_block_float
 										hint \auto
 		<= Delete
 		<= Ref_copy
+	Contextmenu_body $mol_list
+		sub /
+			<= Chart_add $mol_button_minor
+				title \Добавить график
+				click? <=> chart_add? null

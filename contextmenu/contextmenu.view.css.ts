@@ -13,6 +13,8 @@ namespace $.$$ {
 		},
 		outline: 'solid 1px var(--mol_theme_line)',
 
+		transition: 'none',
+
 		Body: {
 			background: {
 				color: $mol_theme.card,

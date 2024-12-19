@@ -10,6 +10,7 @@ namespace $.$$ {
 
 			obj.block = () => this.block()
 			obj.board = () => this.board()
+			obj.Board_page = () => this.Board_page()
 			obj.delete = () => this.delete()
 			obj.to_top = () => this.to_top()
 			obj.to_bottom = () => this.to_bottom()
@@ -17,6 +18,7 @@ namespace $.$$ {
 			obj.sticks_x = () => this.sticks_x()
 			obj.selected = (next) => this.selected(next)
 			obj.drags_synced = () => this.drags_synced()
+			obj.event_contextmenu = (next) => this.event_contextmenu(next)
 
 			return obj
 			

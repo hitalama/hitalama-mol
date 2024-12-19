@@ -36,10 +36,10 @@ namespace $.$$ {
 		}
 
 		pointer_pos(): readonly ( any )[] {
-			return this.to_pane_pos( this.pointer_client_pos )
+			return this.client_pos_to_pane_pos( this.pointer_client_pos )
 		}
 
-		to_pane_pos( client_pos: readonly [ number, number ] | readonly number[] ) {
+		client_pos_to_pane_pos( client_pos: readonly [ number, number ] | readonly number[] ) {
 			const { left, top } = this.dom_node().getBoundingClientRect()
 			return [ client_pos[0] - left, client_pos[1] - top ] as const
 		}
@@ -49,7 +49,7 @@ namespace $.$$ {
 		}
 
 		select_rect_pos() {
-			return this.to_pane_pos([
+			return this.client_pos_to_pane_pos([
 				Math.min( this.select_rect_start_x(), this.select_rect_end_x() ),
 				Math.min( this.select_rect_start_y(), this.select_rect_end_y() ),
 			])
