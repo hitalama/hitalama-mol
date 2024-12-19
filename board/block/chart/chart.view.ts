@@ -15,36 +15,65 @@ namespace $.$$ {
 		}
 		
 		col_head_content( id : string ) {
-			return [ this.head()?.[  Number( id ) ] ?? '' ]
+			return [ this.head()?.[  Number( id ) ] ?? '' ]	
 		}
 
 		axis( next?: string ){
-			return this.block().Chart(next)?.Axis(next)?.val( next ) ?? ''
+			return this.block().Chart(next)?.Axis(next)?.val( next ) ?? this.head()[0]
 		}
 
 		values( next?: ( any )[] ): ( any )[] {
 			return this.block().Chart(next)?.Values(next)?.val( next ) ?? []
 		}
 
+		values_title( next?: string ){
+			return this.block().Chart(next)?.Values(next)?.val( next ? [next] : undefined )?.at(0) ?? this.head()[1]
+		}
+
 		groups( next?: ( any )[] ): ( any )[] {
 			return this.block().Chart(next)?.Groups(next)?.val( next ) ?? []
 		}
 
-		names(): readonly ( any )[] {
-			const rows = this.rows()
-			return [ rows[0][4] ]
+		names(): string[] {
+			return [ ...this.traversed().by_group.keys() ]
 		}
 
 		@ $mol_mem_key
-		series_y( id: any ): readonly ( any )[] {
-			const rows = this.rows()
-			return rows.map( r => Number( r[1] ) )
-			// return [1,1,1].map( i => i * Math.random() )
+		series_y( group_name: any ): readonly ( any )[] {
+			const labels = this.labels()
+
+			const by_label = this.traversed().by_group.get( group_name )
+
+			return labels.map( l => Number( by_label?.get( l ) ) )
 		}
 
 		labels(): readonly ( string )[] {
-			const rows = this.rows()
-			return rows.map( r => r[0] )
+			return [...this.traversed().labels]
+		}
+
+		@ $mol_mem
+		traversed() {
+			const by_group: Map< string, Map< string, number > > = new Map
+			const labels = new Set< string >
+
+			const group_indexes =  this.groups().map( g => this.head().indexOf( g ) )
+			// const value_i = this.head().indexOf( this.values()[0] )
+			const value_i = this.head().indexOf( this.values_title() )
+			const axis_i = this.head().indexOf( this.axis() )
+
+			this.rows().forEach( r => {
+				const group_name = group_indexes.map( i => r[i] ).join(', ') ?? ''
+
+				const by_label = by_group.get( group_name ) ?? new Map
+				by_group.set( group_name, by_label )
+
+				const label = r[ axis_i ]
+				by_label.set( label, (by_label.get( label ) ?? 0) + Number( r[ value_i ] ) )
+
+				labels.add( label )
+			} )
+
+			return { by_group, labels }
 		}
 		
 	}

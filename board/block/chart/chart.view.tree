@@ -22,7 +22,11 @@ $shm_hitalama_board_block_chart $shm_hitalama_board_block_float
 						value? <=> axis? \
 				<= Values_field $mol_form_field
 					name \Значения
-					Content <= Values $mol_select_list
+					Content <= Values $mol_select
+						Filter null
+						options <= head /
+						value? <=> values_title? \
+					- Content <= Values $mol_select_list
 						value? <=> values? /
 						options <= head /
 				<= Groups_field $mol_form_field
@@ -30,7 +34,3 @@ $shm_hitalama_board_block_chart $shm_hitalama_board_block_float
 					Content <= Groups $mol_select_list
 						value? <=> groups? /
 						options <= head /
-		- <= Side_body $mol_list
-			sub /
-				<= Col_widths_head $mol_view
-					sub / \Ширина, px
