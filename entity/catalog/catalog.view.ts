@@ -37,6 +37,14 @@ namespace $.$$ {
 				this.Page( entity.ref().description ),
 			] ) )
 		}
+		
+		@ $mol_mem
+		override spread( next?: string ) {
+			const arg = this.$.$mol_state_arg.value( this.param(), next ) ?? undefined
+			return this.$.$mol_state_arg.value( this.param(),
+				this.$.$mol_state_session.value( this.toString() + '.spread', arg ) 
+			) ?? ''
+		}
 
 	}
 
