@@ -8594,6 +8594,7 @@ declare namespace $ {
         readonly Rows: (auto?: any) => $hyoo_crus_atom_jsan | null;
         readonly Rows_method: (auto?: any) => $hyoo_crus_atom_str | null;
         readonly Col_widths: (auto?: any) => $hyoo_crus_atom_jsan | null;
+        readonly Col_types: (auto?: any) => $hyoo_crus_atom_jsan | null;
     }>) & {
         schema: {
             [x: string]: typeof $hyoo_crus_node;
@@ -8666,12 +8667,20 @@ declare namespace $ {
             readonly Rows: typeof $hyoo_crus_atom_jsan;
             readonly Rows_method: typeof $hyoo_crus_atom_str;
             readonly Col_widths: typeof $hyoo_crus_atom_jsan;
+            readonly Col_types: typeof $hyoo_crus_atom_jsan;
         };
     };
     export class $shm_hitalama_board_table extends $shm_hitalama_board_table_base {
         board(): $shm_hitalama_board;
         table_head(next?: any): any[] | null | undefined;
         table_rows(next?: any): any[] | null | undefined;
+        col_types(): any[];
+        head_calculated(): {
+            title: string;
+            calc: (row: any[]) => any;
+        }[];
+        head_extended(): any[];
+        rows_extended(): any[][] | undefined;
     }
     export {};
 }
@@ -17188,7 +17197,7 @@ declare namespace $ {
 //# sourceMappingURL=chart.view.tree.d.ts.map
 declare namespace $.$$ {
     class $shm_hitalama_board_block_chart extends $.$shm_hitalama_board_block_chart {
-        rows(): any[];
+        rows(): any[][];
         head(): any[];
         col_head_content(id: string): any[];
         axis(next?: string): any;

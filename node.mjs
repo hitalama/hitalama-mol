@@ -17282,6 +17282,7 @@ var $;
         Rows: $hyoo_crus_atom_jsan,
         Rows_method: $hyoo_crus_atom_str,
         Col_widths: $hyoo_crus_atom_jsan,
+        Col_types: $hyoo_crus_atom_jsan,
     }) {
         board() {
             return this.Block()?.remote()?.Board()?.remote();
@@ -17304,6 +17305,44 @@ var $;
             const res = func.call({ next, board: this.board() });
             return this.Rows(res)?.val(res);
         }
+        col_types() {
+            return this.Col_types()?.val() ?? this.table_head()?.map(title => title == 'Дата' ? 'date' : 'any') ?? [];
+        }
+        head_calculated() {
+            const head = this.table_head();
+            const date_cols = this.col_types().flatMap((type, i) => type == 'date' ? [i] : []);
+            return date_cols.flatMap(col_i => {
+                const title = head[col_i];
+                return [{
+                        title: `${title} (месяц)`,
+                        calc: (row) => {
+                            const dd_mm_yyyy = row[col_i];
+                            const [day, month, year] = dd_mm_yyyy.split('.');
+                            return month + '.' + year;
+                        },
+                    }, {
+                        title: `${title} (год)`,
+                        calc: (row) => {
+                            const dd_mm_yyyy = row[col_i];
+                            const [day, month, year] = dd_mm_yyyy.split('.');
+                            return year;
+                        },
+                    }];
+            });
+        }
+        head_extended() {
+            return [...this.table_head() ?? [], ...this.head_calculated().map(h => h.title)];
+        }
+        rows_extended() {
+            const head_calculated = this.head_calculated();
+            const rows = this.table_rows();
+            return rows?.map((row) => {
+                const calculated = head_calculated.map(({ title, calc }) => {
+                    return calc(row);
+                });
+                return [...row, ...calculated];
+            });
+        }
     }
     __decorate([
         $mol_mem
@@ -17314,6 +17353,18 @@ var $;
     __decorate([
         $mol_mem
     ], $shm_hitalama_board_table.prototype, "table_rows", null);
+    __decorate([
+        $mol_mem
+    ], $shm_hitalama_board_table.prototype, "col_types", null);
+    __decorate([
+        $mol_mem
+    ], $shm_hitalama_board_table.prototype, "head_calculated", null);
+    __decorate([
+        $mol_mem
+    ], $shm_hitalama_board_table.prototype, "head_extended", null);
+    __decorate([
+        $mol_mem
+    ], $shm_hitalama_board_table.prototype, "rows_extended", null);
     $.$shm_hitalama_board_table = $shm_hitalama_board_table;
 })($ || ($ = {}));
 
@@ -30286,13 +30337,13 @@ var $;
     (function ($$) {
         class $shm_hitalama_board_block_chart extends $.$shm_hitalama_board_block_chart {
             rows() {
-                const rows = this.block().table_rows() ?? [];
+                const rows = this.block().Table()?.remote()?.rows_extended() ?? [];
                 if (rows?.length == 0)
                     return [this.head().map(_ => '')];
                 return rows;
             }
             head() {
-                return this.block().table_head() ?? [];
+                return this.block().Table()?.remote()?.head_extended() ?? [];
             }
             col_head_content(id) {
                 return [this.head()?.[Number(id)] ?? ''];
@@ -30352,7 +30403,13 @@ var $;
                 const fields = this.head();
                 const group_indexes = this.groups().map(g => fields.indexOf(g));
                 const value_i = fields.indexOf(this.values_title());
+                const row_value = (row) => {
+                    return row[value_i];
+                };
                 const axis_i = fields.indexOf(this.axis());
+                const row_label = (row) => {
+                    return row[axis_i];
+                };
                 this.rows().forEach((row) => {
                     let included = true;
                     row.forEach((value, i) => {
@@ -30366,8 +30423,8 @@ var $;
                     const group_name = group_indexes.map(i => row[i]).join(', ') ?? '';
                     const by_label = by_group.get(group_name) ?? new Map;
                     by_group.set(group_name, by_label);
-                    const label = row[axis_i];
-                    by_label.set(label, (by_label.get(label) ?? 0) + Number(row[value_i]));
+                    const label = row_label(row);
+                    by_label.set(label, (by_label.get(label) ?? 0) + Number(row_value(row)));
                     labels.add(label);
                 });
                 return { by_group, labels, field_options };
