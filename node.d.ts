@@ -525,32 +525,40 @@ declare namespace $ {
 declare namespace $ {
     type $mol_run_error_context = {
         pid?: number;
-        stdout: Buffer;
-        stderr: Buffer;
-        status?: number | null;
-        signal: NodeJS.Signals | null;
+        stdout: Buffer | string;
+        stderr: Buffer | string;
     };
     class $mol_run_error extends $mol_error_mix<{
-        timeout?: boolean;
+        timeout_kill?: boolean;
+        pid?: number;
         signal?: NodeJS.Signals | null;
+        status?: number | null;
+        command: string;
+        dir: string;
     }> {
     }
-    const $mol_run_spawn: typeof import("child_process").spawn;
-    const $mol_run_spawn_sync: typeof import("child_process").spawnSync;
+    const $mol_run_spawn: (command: string, args: readonly string[], options: import("child_process").SpawnOptions) => import("child_process").ChildProcess;
+    const $mol_run_spawn_sync: (command: string, args?: readonly string[] | undefined, options?: import("child_process").SpawnSyncOptions | undefined) => import("child_process").SpawnSyncReturns<string | Buffer<ArrayBufferLike>>;
     type $mol_run_options = {
         command: readonly string[] | string;
         dir: string;
         timeout?: number;
         env?: Record<string, string | undefined>;
     };
-    function $mol_run_async(this: $, { dir, timeout, command, env }: $mol_run_options): import("child_process").SpawnSyncReturns<Buffer<ArrayBufferLike>> | (Promise<$mol_run_error_context> & {
-        destructor: () => void;
-    });
-    function $mol_run(this: $, options: $mol_run_options): import("child_process").SpawnSyncReturns<Buffer<ArrayBufferLike>> | $mol_run_error_context;
+    class $mol_run extends $mol_object {
+        static async_enabled(): boolean;
+        static spawn(options: $mol_run_options): import("child_process").SpawnSyncReturns<string | Buffer<ArrayBufferLike>> | $mol_run_error_context;
+        static spawn_async({ dir, sync, timeout, command, env }: $mol_run_options & {
+            sync?: boolean;
+        }): import("child_process").SpawnSyncReturns<string | Buffer<ArrayBufferLike>> | (Promise<$mol_run_error_context> & {
+            destructor: () => void;
+        });
+        static error_message(res?: $mol_run_error_context): string;
+    }
 }
 
 declare namespace $ {
-    function $mol_exec(this: $, dir: string, command: string, ...args: readonly string[]): import("child_process").SpawnSyncReturns<Buffer<ArrayBufferLike>> | $mol_run_error_context;
+    function $mol_exec(this: $, dir: string, command: string, ...args: readonly string[]): import("child_process").SpawnSyncReturns<string | Buffer<ArrayBufferLike>> | $mol_run_error_context;
 }
 
 declare namespace $ {
@@ -577,6 +585,10 @@ declare namespace $ {
     class $mol_memo extends $mol_wrapper {
         static wrap<This extends object, Value>(task: (this: This, next?: Value) => Value): (this: This, next?: Value) => Value | undefined;
     }
+}
+
+declare namespace $ {
+    var $mol_dom: typeof globalThis;
 }
 
 declare namespace $ {
@@ -1412,6 +1424,22 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    let $mol_action: typeof $mol_wire_method;
+}
+
+declare namespace $ {
+    class $mol_lock extends $mol_object {
+        protected promise: null | Promise<void>;
+        wait(): Promise<() => void>;
+        grab(): () => void;
+    }
+}
+
+declare namespace $ {
+    function $mol_compare_array<Value extends ArrayLike<unknown>>(a: Value, b: Value): boolean;
+}
+
+declare namespace $ {
     type $mol_charset_encoding = 'utf8' | 'utf-16le' | 'utf-16be' | 'ibm866' | 'iso-8859-2' | 'iso-8859-3' | 'iso-8859-4' | 'iso-8859-5' | 'iso-8859-6' | 'iso-8859-7' | 'iso-8859-8' | 'iso-8859-8i' | 'iso-8859-10' | 'iso-8859-13' | 'iso-8859-14' | 'iso-8859-15' | 'iso-8859-16' | 'koi8-r' | 'koi8-u' | 'koi8-r' | 'macintosh' | 'windows-874' | 'windows-1250' | 'windows-1251' | 'windows-1252' | 'windows-1253' | 'windows-1254' | 'windows-1255' | 'windows-1256' | 'windows-1257' | 'windows-1258' | 'x-mac-cyrillic' | 'gbk' | 'gb18030' | 'hz-gb-2312' | 'big5' | 'euc-jp' | 'iso-2022-jp' | 'shift-jis' | 'euc-kr' | 'iso-2022-kr';
 }
 
@@ -1424,6 +1452,104 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    type $mol_file_transaction_mode = 'create' | 'exists_truncate' | 'exists_fail' | 'read_only' | 'write_only' | 'read_write' | 'append';
+    type $mol_file_transaction_buffer = ArrayBufferView;
+    class $mol_file_transaction extends $mol_object {
+        path(): string;
+        modes(): readonly $mol_file_transaction_mode[];
+        write(options: {
+            buffer: ArrayBufferView | string | readonly ArrayBufferView[];
+            offset?: number | null;
+            length?: number | null;
+            position?: number | null;
+        }): number;
+        read(): Uint8Array<ArrayBuffer>;
+        truncate(size: number): void;
+        close(): void;
+        destructor(): void;
+    }
+}
+
+declare namespace $ {
+    class $mol_file_transaction_node extends $mol_file_transaction {
+        protected descr(): number;
+        write({ buffer, offset, length, position }: {
+            buffer: ArrayBufferView | string | readonly ArrayBufferView[];
+            offset?: number | null;
+            length?: number | null;
+            position?: number | null;
+        }): number;
+        truncate(size: number): void;
+        read(): Uint8Array<ArrayBuffer>;
+        close(): void;
+    }
+}
+
+declare namespace $ {
+    class $mol_file_base extends $mol_object {
+        static absolute<This extends typeof $mol_file_base>(this: This, path: string): InstanceType<This>;
+        static relative<This extends typeof $mol_file_base>(this: This, path: string): InstanceType<This>;
+        static base: string;
+        path(): string;
+        parent(): this;
+        exists_cut(): boolean;
+        protected root(): boolean;
+        protected stat(next?: $mol_file_stat | null, virt?: 'virt'): $mol_file_stat | null;
+        protected static changed: Set<$mol_file_base>;
+        protected static frame: null | $mol_after_timeout;
+        protected static changed_add(type: 'change' | 'rename', path: string): void;
+        static watch_debounce(): number;
+        static flush(): void;
+        protected static watching: boolean;
+        protected static lock: $mol_lock;
+        protected static watch_off(path: string): void;
+        static unwatched<Result>(side_effect: () => Result, affected_dir: string): Result;
+        reset(): void;
+        modified(): Date | null;
+        version(): string;
+        protected info(path: string): null | $mol_file_stat;
+        protected ensure(): void;
+        protected drop(): void;
+        protected copy(to: string): void;
+        protected read(): Uint8Array<ArrayBuffer>;
+        protected write(buffer: Uint8Array<ArrayBuffer>): void;
+        protected kids(): readonly this[];
+        readable(opts: {
+            start?: number;
+            end?: number;
+        }): ReadableStream<Uint8Array<ArrayBuffer>>;
+        writable(opts: {
+            start?: number;
+        }): WritableStream<Uint8Array<ArrayBuffer>>;
+        buffer(next?: Uint8Array<ArrayBuffer>): Uint8Array<ArrayBuffer>;
+        stat_make(size: number): {
+            readonly type: "file";
+            readonly size: number;
+            readonly atime: Date;
+            readonly mtime: Date;
+            readonly ctime: Date;
+        };
+        clone(to: string): this | null;
+        watcher(): {
+            destructor(): void;
+        };
+        exists(next?: boolean): boolean;
+        type(): "" | $mol_file_type;
+        name(): string;
+        ext(): string;
+        text(next?: string, virt?: 'virt'): string;
+        text_int(next?: string, virt?: 'virt'): string;
+        sub(reset?: null): this[];
+        resolve(path: string): this;
+        relate(base?: $mol_file_base): string;
+        find(include?: RegExp, exclude?: RegExp): this[];
+        size(): number;
+        toJSON(): string;
+        open(...modes: readonly $mol_file_transaction_mode[]): $mol_file_transaction;
+    }
+}
+
+declare namespace $ {
     type $mol_file_type = 'file' | 'dir' | 'link';
     interface $mol_file_stat {
         type: $mol_file_type;
@@ -1432,72 +1558,33 @@ declare namespace $ {
         mtime: Date;
         ctime: Date;
     }
-    class $mol_file_not_found extends Error {
-    }
-    abstract class $mol_file extends $mol_object {
-        static absolute(path: string): $mol_file;
-        static relative(path: string): $mol_file;
-        static base: string;
-        path(): string;
-        parent(): $mol_file;
-        abstract stat(next?: $mol_file_stat | null, virt?: 'virt'): $mol_file_stat | null;
-        reset(): void;
-        version(): string;
-        abstract ensure(): void;
-        abstract drop(): void;
-        watcher(): {
-            destructor(): void;
-        };
-        exists(next?: boolean): boolean;
-        type(): "" | $mol_file_type;
-        name(): string;
-        ext(): string;
-        abstract buffer(next?: Uint8Array<ArrayBuffer>): Uint8Array<ArrayBuffer>;
-        text(next?: string, virt?: 'virt'): string;
-        abstract sub(): $mol_file[];
-        abstract resolve(path: string): $mol_file;
-        abstract relate(base?: $mol_file): string;
-        abstract append(next: Uint8Array<ArrayBuffer> | string): void;
-        find(include?: RegExp, exclude?: RegExp): $mol_file[];
-        size(): number;
-        open(...modes: readonly ('create' | 'exists_truncate' | 'exists_fail' | 'read_only' | 'write_only' | 'read_write' | 'append')[]): number;
-        toJSON(): string;
+    class $mol_file extends $mol_file_base {
     }
 }
 
 declare namespace $ {
-    let $mol_action: typeof $mol_wire_method;
-}
-
-declare namespace $ {
-    function $mol_compare_array<Value extends ArrayLike<unknown>>(a: Value, b: Value): boolean;
-}
-
-declare namespace $ {
-    enum $mol_file_mode_open {
-        create,
-        exists_truncate,
-        exists_fail,
-        read_only,
-        write_only,
-        read_write,
-        append
-    }
+    function $mol_file_node_buffer_normalize(buf: Buffer<ArrayBuffer>): Uint8Array<ArrayBuffer>;
     class $mol_file_node extends $mol_file {
-        static absolute(path: string): $mol_file_node;
-        static relative(path: string): $mol_file_node;
-        watcher(): {
+        static relative<This extends typeof $mol_file>(this: This, path: string): InstanceType<This>;
+        watcher(reset?: null): {
             destructor(): void;
         };
-        stat(next?: $mol_file_stat | null, virt?: 'virt'): $mol_file_stat | null;
-        ensure(): void;
-        drop(): void;
-        buffer(next?: Uint8Array<ArrayBuffer>): Uint8Array<ArrayBuffer>;
-        sub(): $mol_file[];
-        resolve(path: string): $mol_file;
+        protected info(path: string): $mol_file_stat | null;
+        protected ensure(): null | undefined;
+        protected copy(to: string): void;
+        protected drop(): void;
+        protected read(): Uint8Array<ArrayBuffer>;
+        protected write(buffer: Uint8Array): undefined;
+        protected kids(): this[];
+        resolve(path: string): this;
         relate(base?: $mol_file): string;
-        append(next: Uint8Array<ArrayBuffer> | string): undefined;
-        open(...modes: readonly (keyof typeof $mol_file_mode_open)[]): number;
+        readable(opts: {
+            start?: number;
+            end?: number;
+        }): ReadableStream<Uint8Array<ArrayBuffer>>;
+        writable(opts?: {
+            start?: number;
+        }): WritableStream<Uint8Array<ArrayBuffer>>;
     }
 }
 
@@ -2085,7 +2172,7 @@ declare namespace $ {
 		,
 		ReturnType< $mol_dimmer['needle'] >
 	>
-	type $mol_search_plugins_16 = $mol_type_enforce<
+	type $mol_search_plugins__16 = $mol_type_enforce<
 		ReturnType< $mol_pop['plugins'] >[number]
 		,
 		$mol_plugin
@@ -2268,7 +2355,7 @@ declare namespace $ {
 		,
 		ReturnType< $mol_view['sub'] >
 	>
-	type _mol_page_7 = $mol_type_enforce<
+	type __mol_page_7 = $mol_type_enforce<
 		Parameters< $mol_page['body_scroll_top'] >[0]
 		,
 		Parameters< ReturnType< $mol_page['Body'] >['scroll_top'] >[0]
@@ -5877,21 +5964,6 @@ declare namespace $ {
     }
 }
 
-declare namespace $.$$ {
-    class $hyoo_crus_status extends $.$hyoo_crus_status {
-        message(): string;
-        link_content(): $mol_icon_sync_off[];
-        options(): string[];
-        master_link(): string;
-        master_id(uri: string): string;
-        option_label(uri: string): string;
-        value(next?: string): string;
-    }
-}
-
-declare namespace $ {
-}
-
 declare namespace $ {
 
 	type $mol_avatar__id_hyoo_crus_status_1 = $mol_type_enforce<
@@ -5939,6 +6011,21 @@ declare namespace $ {
 }
 
 //# sourceMappingURL=status.view.tree.d.ts.map
+declare namespace $.$$ {
+    class $hyoo_crus_status extends $.$hyoo_crus_status {
+        message(): string;
+        link_content(): $mol_icon_sync_off[];
+        options(): string[];
+        master_link(): string;
+        master_id(uri: string): string;
+        option_label(uri: string): string;
+        value(next?: string): string;
+    }
+}
+
+declare namespace $ {
+}
+
 declare namespace $ {
 }
 
@@ -6247,14 +6334,14 @@ declare namespace $ {
 
 declare namespace $ {
 
-	type $mol_blob_mol_button_copy_1 = $mol_type_enforce<
+	type $mol_blob__mol_button_copy_1 = $mol_type_enforce<
 		[ readonly(BlobPart)[], ({ 
 			'type': string,
 		})  ]
 		,
 		ConstructorParameters< typeof $mol_blob >
 	>
-	type $mol_blob_mol_button_copy_2 = $mol_type_enforce<
+	type $mol_blob__mol_button_copy_2 = $mol_type_enforce<
 		[ readonly(BlobPart)[], ({ 
 			'type': string,
 		})  ]
@@ -8645,6 +8732,48 @@ declare namespace $ {
         readonly Axis: (auto?: any) => $hyoo_crus_atom_str | null;
         readonly Values: (auto?: any) => $hyoo_crus_atom_jsan | null;
         readonly Groups: (auto?: any) => $hyoo_crus_atom_jsan | null;
+        readonly Filters_enabled: (auto?: any) => $hyoo_crus_atom_jsan | null;
+        readonly Filters_options: (auto?: any) => {
+            Value: typeof $hyoo_crus_atom_jsan;
+            key(key: $hyoo_crus_vary_type, auto?: any): $hyoo_crus_atom_jsan;
+            keys(): readonly $hyoo_crus_vary_type[];
+            dive<Node_1 extends typeof $hyoo_crus_node>(key: $hyoo_crus_vary_type, Node: Node_1, auto?: any): InstanceType<Node_1> | null;
+            [$mol_dev_format_head](): any[];
+            items_vary(next?: readonly $hyoo_crus_vary_type[], tag?: keyof typeof $hyoo_crus_sand_tag): readonly $hyoo_crus_vary_type[];
+            splice(next: readonly $hyoo_crus_vary_type[], from?: number, to?: number, tag?: keyof typeof $hyoo_crus_sand_tag): void;
+            find(vary: $hyoo_crus_vary_type): $hyoo_crus_sand | null;
+            has(vary: $hyoo_crus_vary_type, next?: boolean, tag?: keyof typeof $hyoo_crus_sand_tag): boolean;
+            add(vary: $hyoo_crus_vary_type, tag?: keyof typeof $hyoo_crus_sand_tag): void;
+            cut(vary: $hyoo_crus_vary_type): void;
+            move(from: number, to: number): void;
+            wipe(seat: number): void;
+            node_make<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1, vary: $hyoo_crus_vary_type, tag?: keyof typeof $hyoo_crus_sand_tag): InstanceType<Node_1>;
+            land(): $hyoo_crus_land;
+            head(): string;
+            land_ref(): symbol & {
+                $hyoo_crus_ref: symbol;
+            };
+            ref(): symbol & {
+                $hyoo_crus_ref: symbol;
+            };
+            toJSON(): string | undefined;
+            cast<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1): InstanceType<Node_1>;
+            nodes<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+            units(): $hyoo_crus_sand[];
+            units_of(peer: string | null): $hyoo_crus_sand[];
+            filled(): boolean;
+            can_change(): boolean;
+            last_change(): $mol_time_moment | null;
+            author_peers(): string[];
+            author_lords(): (symbol & {
+                $hyoo_crus_ref: symbol;
+            })[];
+            $: $;
+            destructor(): void;
+            toString(): string;
+            [Symbol.toStringTag]: string;
+            [$mol_ambient_ref]: $;
+        } | null;
     }>) & {
         schema: {
             [x: string]: typeof $hyoo_crus_node;
@@ -8715,6 +8844,67 @@ declare namespace $ {
             readonly Axis: typeof $hyoo_crus_atom_str;
             readonly Values: typeof $hyoo_crus_atom_jsan;
             readonly Groups: typeof $hyoo_crus_atom_jsan;
+            readonly Filters_enabled: typeof $hyoo_crus_atom_jsan;
+            readonly Filters_options: {
+                new (): {
+                    Value: typeof $hyoo_crus_atom_jsan;
+                    key(key: $hyoo_crus_vary_type, auto?: any): $hyoo_crus_atom_jsan;
+                    keys(): readonly $hyoo_crus_vary_type[];
+                    dive<Node_1 extends typeof $hyoo_crus_node>(key: $hyoo_crus_vary_type, Node: Node_1, auto?: any): InstanceType<Node_1> | null;
+                    [$mol_dev_format_head](): any[];
+                    items_vary(next?: readonly $hyoo_crus_vary_type[], tag?: keyof typeof $hyoo_crus_sand_tag): readonly $hyoo_crus_vary_type[];
+                    splice(next: readonly $hyoo_crus_vary_type[], from?: number, to?: number, tag?: keyof typeof $hyoo_crus_sand_tag): void;
+                    find(vary: $hyoo_crus_vary_type): $hyoo_crus_sand | null;
+                    has(vary: $hyoo_crus_vary_type, next?: boolean, tag?: keyof typeof $hyoo_crus_sand_tag): boolean;
+                    add(vary: $hyoo_crus_vary_type, tag?: keyof typeof $hyoo_crus_sand_tag): void;
+                    cut(vary: $hyoo_crus_vary_type): void;
+                    move(from: number, to: number): void;
+                    wipe(seat: number): void;
+                    node_make<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1, vary: $hyoo_crus_vary_type, tag?: keyof typeof $hyoo_crus_sand_tag): InstanceType<Node_1>;
+                    land(): $hyoo_crus_land;
+                    head(): string;
+                    land_ref(): symbol & {
+                        $hyoo_crus_ref: symbol;
+                    };
+                    ref(): symbol & {
+                        $hyoo_crus_ref: symbol;
+                    };
+                    toJSON(): string | undefined;
+                    cast<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1): InstanceType<Node_1>;
+                    nodes<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+                    units(): $hyoo_crus_sand[];
+                    units_of(peer: string | null): $hyoo_crus_sand[];
+                    filled(): boolean;
+                    can_change(): boolean;
+                    last_change(): $mol_time_moment | null;
+                    author_peers(): string[];
+                    author_lords(): (symbol & {
+                        $hyoo_crus_ref: symbol;
+                    })[];
+                    $: $;
+                    destructor(): void;
+                    toString(): string;
+                    [Symbol.toStringTag]: string;
+                    [$mol_ambient_ref]: $;
+                };
+                toString(): any;
+                tag: keyof typeof $hyoo_crus_sand_tag;
+                schema: Record<string, typeof $hyoo_crus_node>;
+                with<This extends typeof $hyoo_crus_dict, const Schema extends Record<string, {
+                    tag: keyof typeof $hyoo_crus_sand_tag;
+                    new (): {};
+                }>>(this: This, schema: Schema): Omit<This, "prototype"> & (new (...args: any[]) => $mol_type_override<InstanceType<This>, { readonly [Key in keyof Schema]: (auto?: any) => InstanceType<Schema[Key]> | null; }>) & {
+                    schema: {
+                        [x: string]: typeof $hyoo_crus_node;
+                    } & Schema;
+                };
+                make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
+                $: $;
+                create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
+                toJSON(): any;
+                destructor(): void;
+                [Symbol.toPrimitive](): any;
+            };
         };
     };
     export class $shm_hitalama_board_chart extends $shm_hitalama_board_chart_base {
@@ -10789,22 +10979,22 @@ declare namespace $.$$ {
 
 declare namespace $ {
 
-	type _shm_hitalama_posts_multi_1 = $mol_type_enforce<
+	type __shm_hitalama_posts_multi_1 = $mol_type_enforce<
 		Parameters< $shm_hitalama_posts_multi['collect'] >[0]
 		,
 		Parameters< $shm_hitalama_posts_multi['Posts_by_owner'] >[0]
 	>
-	type _shm_hitalama_posts_multi_2 = $mol_type_enforce<
+	type __shm_hitalama_posts_multi_2 = $mol_type_enforce<
 		Parameters< $shm_hitalama_posts_multi['collect'] >[1]
 		,
 		Parameters< $shm_hitalama_posts_multi['Posts_by_owner'] >[0]
 	>
-	type _shm_hitalama_posts_multi_3 = $mol_type_enforce<
+	type __shm_hitalama_posts_multi_3 = $mol_type_enforce<
 		Parameters< $shm_hitalama_posts_multi['dto_by_owner'] >[0]
 		,
 		Parameters< $shm_hitalama_posts_multi['Posts_by_owner'] >[0]
 	>
-	type _shm_hitalama_posts_multi_4 = $mol_type_enforce<
+	type __shm_hitalama_posts_multi_4 = $mol_type_enforce<
 		Parameters< $shm_hitalama_posts_multi['posts_pending'] >[0]
 		,
 		Parameters< $shm_hitalama_posts_multi['Posts_by_owner'] >[0]
@@ -11083,72 +11273,72 @@ declare namespace $ {
 //# sourceMappingURL=title.view.tree.d.ts.map
 declare namespace $ {
 
-	type $mol_vector_range_mol_plot_graph_1 = $mol_type_enforce<
+	type $mol_vector_range__mol_plot_graph_1 = $mol_type_enforce<
 		[ number, number ]
 		,
 		ConstructorParameters< typeof $mol_vector_range<number> >
 	>
-	type $mol_vector_range_mol_plot_graph_2 = $mol_type_enforce<
+	type $mol_vector_range__mol_plot_graph_2 = $mol_type_enforce<
 		[ number, number ]
 		,
 		ConstructorParameters< typeof $mol_vector_range<number> >
 	>
-	type $mol_vector_range_mol_plot_graph_3 = $mol_type_enforce<
+	type $mol_vector_range__mol_plot_graph_3 = $mol_type_enforce<
 		[ number, number ]
 		,
 		ConstructorParameters< typeof $mol_vector_range<number> >
 	>
-	type $mol_vector_range_mol_plot_graph_4 = $mol_type_enforce<
+	type $mol_vector_range__mol_plot_graph_4 = $mol_type_enforce<
 		[ number, number ]
 		,
 		ConstructorParameters< typeof $mol_vector_range<number> >
 	>
-	type $mol_vector_range_mol_plot_graph_5 = $mol_type_enforce<
+	type $mol_vector_range__mol_plot_graph_5 = $mol_type_enforce<
 		[ number, number ]
 		,
 		ConstructorParameters< typeof $mol_vector_range<number> >
 	>
-	type $mol_vector_range_mol_plot_graph_6 = $mol_type_enforce<
+	type $mol_vector_range__mol_plot_graph_6 = $mol_type_enforce<
 		[ number, number ]
 		,
 		ConstructorParameters< typeof $mol_vector_range<number> >
 	>
-	type $mol_vector_range_mol_plot_graph_7 = $mol_type_enforce<
+	type $mol_vector_range__mol_plot_graph_7 = $mol_type_enforce<
 		[ number, number ]
 		,
 		ConstructorParameters< typeof $mol_vector_range<number> >
 	>
-	type $mol_vector_range_mol_plot_graph_8 = $mol_type_enforce<
+	type $mol_vector_range__mol_plot_graph_8 = $mol_type_enforce<
 		[ number, number ]
 		,
 		ConstructorParameters< typeof $mol_vector_range<number> >
 	>
-	type $mol_vector_2d_mol_plot_graph_9 = $mol_type_enforce<
+	type $mol_vector_2d__mol_plot_graph_9 = $mol_type_enforce<
 		[ ReturnType< $mol_plot_graph['viewport_x'] >, ReturnType< $mol_plot_graph['viewport_y'] > ]
 		,
 		ConstructorParameters< typeof $mol_vector_2d<$mol_vector_range<number>> >
 	>
-	type $mol_vector_2d_mol_plot_graph_10 = $mol_type_enforce<
+	type $mol_vector_2d__mol_plot_graph_10 = $mol_type_enforce<
 		[ number, number ]
 		,
 		ConstructorParameters< typeof $mol_vector_2d<number> >
 	>
-	type $mol_vector_2d_mol_plot_graph_11 = $mol_type_enforce<
+	type $mol_vector_2d__mol_plot_graph_11 = $mol_type_enforce<
 		[ ReturnType< $mol_plot_graph['dimensions_pane_x'] >, ReturnType< $mol_plot_graph['dimensions_pane_y'] > ]
 		,
 		ConstructorParameters< typeof $mol_vector_2d<$mol_vector_range<number>> >
 	>
-	type $mol_vector_2d_mol_plot_graph_12 = $mol_type_enforce<
+	type $mol_vector_2d__mol_plot_graph_12 = $mol_type_enforce<
 		[ ReturnType< $mol_plot_graph['dimensions_x'] >, ReturnType< $mol_plot_graph['dimensions_y'] > ]
 		,
 		ConstructorParameters< typeof $mol_vector_2d<$mol_vector_range<number>> >
 	>
-	type $mol_vector_2d_mol_plot_graph_13 = $mol_type_enforce<
+	type $mol_vector_2d__mol_plot_graph_13 = $mol_type_enforce<
 		[ number, number ]
 		,
 		ConstructorParameters< typeof $mol_vector_2d<number> >
 	>
-	type $mol_vector_2d_mol_plot_graph_14 = $mol_type_enforce<
+	type $mol_vector_2d__mol_plot_graph_14 = $mol_type_enforce<
 		[ ReturnType< $mol_plot_graph['gap_x'] >, ReturnType< $mol_plot_graph['gap_y'] > ]
 		,
 		ConstructorParameters< typeof $mol_vector_2d<$mol_vector_range<number>> >
@@ -11281,17 +11471,17 @@ declare namespace $ {
 
 declare namespace $ {
 
-	type $mol_vector_2d_mol_touch_1 = $mol_type_enforce<
+	type $mol_vector_2d__mol_touch_1 = $mol_type_enforce<
 		[ number, number ]
 		,
 		ConstructorParameters< typeof $mol_vector_2d<number> >
 	>
-	type $mol_vector_2d_mol_touch_2 = $mol_type_enforce<
+	type $mol_vector_2d__mol_touch_2 = $mol_type_enforce<
 		[ number, number ]
 		,
 		ConstructorParameters< typeof $mol_vector_2d<number> >
 	>
-	type $mol_vector_2d_mol_touch_3 = $mol_type_enforce<
+	type $mol_vector_2d__mol_touch_3 = $mol_type_enforce<
 		[ number, number ]
 		,
 		ConstructorParameters< typeof $mol_vector_2d<number> >
@@ -11369,52 +11559,52 @@ declare namespace $.$$ {
 
 declare namespace $ {
 
-	type $mol_vector_range_mol_plot_pane_1 = $mol_type_enforce<
+	type $mol_vector_range__mol_plot_pane_1 = $mol_type_enforce<
 		[ ReturnType< $mol_plot_pane['gap_left'] >, ReturnType< $mol_plot_pane['gap_right'] > ]
 		,
 		ConstructorParameters< typeof $mol_vector_range<number> >
 	>
-	type $mol_vector_range_mol_plot_pane_2 = $mol_type_enforce<
+	type $mol_vector_range__mol_plot_pane_2 = $mol_type_enforce<
 		[ ReturnType< $mol_plot_pane['gap_bottom'] >, ReturnType< $mol_plot_pane['gap_top'] > ]
 		,
 		ConstructorParameters< typeof $mol_vector_range<number> >
 	>
-	type $mol_vector_range_mol_plot_pane_3 = $mol_type_enforce<
+	type $mol_vector_range__mol_plot_pane_3 = $mol_type_enforce<
 		[ number, number ]
 		,
 		ConstructorParameters< typeof $mol_vector_range<number> >
 	>
-	type $mol_vector_range_mol_plot_pane_4 = $mol_type_enforce<
+	type $mol_vector_range__mol_plot_pane_4 = $mol_type_enforce<
 		[ number, number ]
 		,
 		ConstructorParameters< typeof $mol_vector_range<number> >
 	>
-	type $mol_vector_range_mol_plot_pane_5 = $mol_type_enforce<
+	type $mol_vector_range__mol_plot_pane_5 = $mol_type_enforce<
 		[ number, number ]
 		,
 		ConstructorParameters< typeof $mol_vector_range<number> >
 	>
-	type $mol_vector_range_mol_plot_pane_6 = $mol_type_enforce<
+	type $mol_vector_range__mol_plot_pane_6 = $mol_type_enforce<
 		[ number, number ]
 		,
 		ConstructorParameters< typeof $mol_vector_range<number> >
 	>
-	type $mol_vector_range_mol_plot_pane_7 = $mol_type_enforce<
+	type $mol_vector_range__mol_plot_pane_7 = $mol_type_enforce<
 		[ number, number ]
 		,
 		ConstructorParameters< typeof $mol_vector_range<number> >
 	>
-	type $mol_vector_range_mol_plot_pane_8 = $mol_type_enforce<
+	type $mol_vector_range__mol_plot_pane_8 = $mol_type_enforce<
 		[ number, number ]
 		,
 		ConstructorParameters< typeof $mol_vector_range<number> >
 	>
-	type $mol_vector_range_mol_plot_pane_9 = $mol_type_enforce<
+	type $mol_vector_range__mol_plot_pane_9 = $mol_type_enforce<
 		[ number, number ]
 		,
 		ConstructorParameters< typeof $mol_vector_range<number> >
 	>
-	type $mol_vector_range_mol_plot_pane_10 = $mol_type_enforce<
+	type $mol_vector_range__mol_plot_pane_10 = $mol_type_enforce<
 		[ number, number ]
 		,
 		ConstructorParameters< typeof $mol_vector_range<number> >
@@ -11459,57 +11649,57 @@ declare namespace $ {
 		,
 		ReturnType< $mol_touch['draw_end'] >
 	>
-	type $mol_vector_2d_mol_plot_pane_19 = $mol_type_enforce<
+	type $mol_vector_2d__mol_plot_pane_19 = $mol_type_enforce<
 		[ ReturnType< $mol_plot_pane['gap_x'] >, ReturnType< $mol_plot_pane['gap_y'] > ]
 		,
 		ConstructorParameters< typeof $mol_vector_2d<$mol_vector_range<number>> >
 	>
-	type $mol_vector_2d_mol_plot_pane_20 = $mol_type_enforce<
+	type $mol_vector_2d__mol_plot_pane_20 = $mol_type_enforce<
 		[ ReturnType< $mol_plot_pane['shift_limit_x'] >, ReturnType< $mol_plot_pane['shift_limit_y'] > ]
 		,
 		ConstructorParameters< typeof $mol_vector_2d<$mol_vector_range<number>> >
 	>
-	type $mol_vector_2d_mol_plot_pane_21 = $mol_type_enforce<
+	type $mol_vector_2d__mol_plot_pane_21 = $mol_type_enforce<
 		[ number, number ]
 		,
 		ConstructorParameters< typeof $mol_vector_2d<number> >
 	>
-	type $mol_vector_2d_mol_plot_pane_22 = $mol_type_enforce<
+	type $mol_vector_2d__mol_plot_pane_22 = $mol_type_enforce<
 		[ number, number ]
 		,
 		ConstructorParameters< typeof $mol_vector_2d<number> >
 	>
-	type $mol_vector_2d_mol_plot_pane_23 = $mol_type_enforce<
+	type $mol_vector_2d__mol_plot_pane_23 = $mol_type_enforce<
 		[ ReturnType< $mol_plot_pane['scale_limit_x'] >, ReturnType< $mol_plot_pane['scale_limit_y'] > ]
 		,
 		ConstructorParameters< typeof $mol_vector_2d<$mol_vector_range<number>> >
 	>
-	type $mol_vector_2d_mol_plot_pane_24 = $mol_type_enforce<
+	type $mol_vector_2d__mol_plot_pane_24 = $mol_type_enforce<
 		[ number, number ]
 		,
 		ConstructorParameters< typeof $mol_vector_2d<number> >
 	>
-	type $mol_vector_2d_mol_plot_pane_25 = $mol_type_enforce<
+	type $mol_vector_2d__mol_plot_pane_25 = $mol_type_enforce<
 		[ number, number ]
 		,
 		ConstructorParameters< typeof $mol_vector_2d<number> >
 	>
-	type $mol_vector_2d_mol_plot_pane_26 = $mol_type_enforce<
+	type $mol_vector_2d__mol_plot_pane_26 = $mol_type_enforce<
 		[ number, number ]
 		,
 		ConstructorParameters< typeof $mol_vector_2d<number> >
 	>
-	type $mol_vector_2d_mol_plot_pane_27 = $mol_type_enforce<
+	type $mol_vector_2d__mol_plot_pane_27 = $mol_type_enforce<
 		[ number, number ]
 		,
 		ConstructorParameters< typeof $mol_vector_2d<number> >
 	>
-	type $mol_vector_2d_mol_plot_pane_28 = $mol_type_enforce<
+	type $mol_vector_2d__mol_plot_pane_28 = $mol_type_enforce<
 		[ ReturnType< $mol_plot_pane['dimensions_x'] >, ReturnType< $mol_plot_pane['dimensions_y'] > ]
 		,
 		ConstructorParameters< typeof $mol_vector_2d<$mol_vector_range<number>> >
 	>
-	type $mol_vector_2d_mol_plot_pane_29 = $mol_type_enforce<
+	type $mol_vector_2d__mol_plot_pane_29 = $mol_type_enforce<
 		[ ReturnType< $mol_plot_pane['dimensions_viewport_x'] >, ReturnType< $mol_plot_pane['dimensions_viewport_y'] > ]
 		,
 		ConstructorParameters< typeof $mol_vector_2d<$mol_vector_range<number>> >
@@ -11609,7 +11799,7 @@ declare namespace $ {
 		,
 		ReturnType< $mol_chart_legend['graphs'] >
 	>
-	type _mol_chart_2 = $mol_type_enforce<
+	type __mol_chart_2 = $mol_type_enforce<
 		Parameters< $mol_chart['zoom'] >[0]
 		,
 		Parameters< ReturnType< $mol_chart['Plot'] >['scale_x'] >[0]
@@ -11897,12 +12087,12 @@ declare namespace $ {
 		,
 		ReturnType< $mol_svg_text['text'] >
 	>
-	type $mol_vector_range_mol_plot_ruler_10 = $mol_type_enforce<
+	type $mol_vector_range__mol_plot_ruler_10 = $mol_type_enforce<
 		[ number, number ]
 		,
 		ConstructorParameters< typeof $mol_vector_range<number> >
 	>
-	type $mol_vector_range_mol_plot_ruler_11 = $mol_type_enforce<
+	type $mol_vector_range__mol_plot_ruler_11 = $mol_type_enforce<
 		[ number, number ]
 		,
 		ConstructorParameters< typeof $mol_vector_range<number> >
@@ -12133,12 +12323,12 @@ declare namespace $ {
 
 declare namespace $ {
 
-	type $mol_vector_range_mol_plot_mark_cross_1 = $mol_type_enforce<
+	type $mol_vector_range__mol_plot_mark_cross_1 = $mol_type_enforce<
 		[ number, number ]
 		,
 		ConstructorParameters< typeof $mol_vector_range<number> >
 	>
-	type $mol_vector_range_mol_plot_mark_cross_2 = $mol_type_enforce<
+	type $mol_vector_range__mol_plot_mark_cross_2 = $mol_type_enforce<
 		[ number, number ]
 		,
 		ConstructorParameters< typeof $mol_vector_range<number> >
@@ -12178,7 +12368,7 @@ declare namespace $ {
 		,
 		ReturnType< $mol_svg_text_box['text'] >
 	>
-	type $mol_vector_2d_mol_plot_mark_cross_10 = $mol_type_enforce<
+	type $mol_vector_2d__mol_plot_mark_cross_10 = $mol_type_enforce<
 		[ ReturnType< $mol_plot_mark_cross['dimensions_x'] >, ReturnType< $mol_plot_mark_cross['dimensions_y'] > ]
 		,
 		ConstructorParameters< typeof $mol_vector_2d<$mol_vector_range<number>> >
@@ -12650,22 +12840,22 @@ declare namespace $ {
 		,
 		ReturnType< $mol_list['sub'] >
 	>
-	type _shm_hitalama_analysis_31 = $mol_type_enforce<
+	type __shm_hitalama_analysis_31 = $mol_type_enforce<
 		Parameters< $shm_hitalama_analysis['collect_by_owner'] >[0]
 		,
 		Parameters< $shm_hitalama_analysis['Posts_by_owner'] >[0]
 	>
-	type _shm_hitalama_analysis_32 = $mol_type_enforce<
+	type __shm_hitalama_analysis_32 = $mol_type_enforce<
 		Parameters< $shm_hitalama_analysis['collect_by_owner'] >[1]
 		,
 		Parameters< $shm_hitalama_analysis['Posts_by_owner'] >[0]
 	>
-	type _shm_hitalama_analysis_33 = $mol_type_enforce<
+	type __shm_hitalama_analysis_33 = $mol_type_enforce<
 		Parameters< $shm_hitalama_analysis['posts_dto_by_owner'] >[0]
 		,
 		Parameters< $shm_hitalama_analysis['Posts_by_owner'] >[0]
 	>
-	type _shm_hitalama_analysis_34 = $mol_type_enforce<
+	type __shm_hitalama_analysis_34 = $mol_type_enforce<
 		Parameters< $shm_hitalama_analysis['posts_pending'] >[0]
 		,
 		Parameters< $shm_hitalama_analysis['Posts_by_owner'] >[0]
@@ -13191,6 +13381,7 @@ declare namespace $.$$ {
         entity(id: string): $hyoo_crus_entity;
         entities(): readonly any[];
         spreads(): any;
+        spread(next?: string): string;
     }
 }
 
@@ -14491,7 +14682,6 @@ declare namespace $ {
 		width_px( ): string
 		sub( ): readonly(any)[]
 		resizing( next?: boolean ): boolean
-		ratio( ): any
 		height_min( ): number
 		width_min( ): number
 		height( ): number
@@ -14690,6 +14880,7 @@ declare namespace $ {
 		Bottom_left_edge_ratio( ): $shm_hitalama_resize_edge
 		bottom_right_edge_ratio_y( next?: number ): number
 		Bottom_right_edge_ratio( ): $shm_hitalama_resize_edge
+		ratio( ): number
 		edges_ratio( ): readonly(any)[]
 	}
 	
@@ -15002,12 +15193,12 @@ declare namespace $ {
 		,
 		ReturnType< $shm_hitalama_color_pick['color'] >
 	>
-	type _shm_hitalama_board_block_float_3 = $mol_type_enforce<
+	type __shm_hitalama_board_block_float_3 = $mol_type_enforce<
 		Parameters< $shm_hitalama_board_block_float['font_size_dec'] >[0]
 		,
 		Parameters< ReturnType< $shm_hitalama_board_block_float['Font_size'] >['event_dec'] >[0]
 	>
-	type _shm_hitalama_board_block_float_4 = $mol_type_enforce<
+	type __shm_hitalama_board_block_float_4 = $mol_type_enforce<
 		Parameters< $shm_hitalama_board_block_float['font_size_inc'] >[0]
 		,
 		Parameters< ReturnType< $shm_hitalama_board_block_float['Font_size'] >['event_inc'] >[0]
@@ -15189,7 +15380,6 @@ declare namespace $.$$ {
         opacity_str(): string;
         edges(): readonly (any)[];
         toolbar(): readonly (any)[];
-        sidebar(): readonly (any)[];
         transition(): string;
         on_drag_start(event: PointerEvent): void;
     }
@@ -15362,7 +15552,7 @@ declare namespace $.$$ {
         blob_uri(): Promise<string> | null;
         image_uri(): string;
         image(): readonly any[];
-        ratio(): number | null;
+        ratio(): number;
         image_size_auto(): void;
     }
 }
@@ -15688,7 +15878,7 @@ declare namespace $ {
 		,
 		ReturnType< $mol_button_minor['sub'] >
 	>
-	type _mol_date_5 = $mol_type_enforce<
+	type __mol_date_5 = $mol_type_enforce<
 		Parameters< $mol_date['value_changed'] >[0]
 		,
 		Parameters< ReturnType< $mol_date['Input'] >['value_changed'] >[0]
@@ -16266,7 +16456,7 @@ declare namespace $ {
 //# sourceMappingURL=outline.view.tree.d.ts.map
 declare namespace $ {
 
-	type _shm_hitalama_board_block_table_1 = $mol_type_enforce<
+	type __shm_hitalama_board_block_table_1 = $mol_type_enforce<
 		Parameters< $shm_hitalama_board_block_table['cell_content_text'] >[0]
 		,
 		Parameters< ReturnType< $shm_hitalama_board_block_table['Table'] >['cell_content_text'] >[0]
@@ -16606,7 +16796,7 @@ declare namespace $.$$ {
 
 declare namespace $ {
 
-	type _mol_select_list_1 = $mol_type_enforce<
+	type __mol_select_list_1 = $mol_type_enforce<
 		Parameters< $mol_select_list['filter_pattern'] >[0]
 		,
 		Parameters< ReturnType< $mol_select_list['Pick'] >['filter_pattern'] >[0]
@@ -16671,7 +16861,7 @@ declare namespace $ {
 		,
 		ReturnType< $mol_button_minor['enabled'] >
 	>
-	type $mol_select_list_sub_14 = $mol_type_enforce<
+	type $mol_select_list_sub__14 = $mol_type_enforce<
 		ReturnType< $mol_select_list['badges_list'] >[number]
 		,
 		$mol_view
@@ -16717,6 +16907,95 @@ declare namespace $.$$ {
         Badges(): $mol_button_minor[];
         title(): string;
         remove(key: string): void;
+    }
+}
+
+declare namespace $.$$ {
+}
+
+declare namespace $ {
+
+	export class $mol_icon_check extends $mol_icon {
+		path( ): string
+	}
+	
+}
+
+//# sourceMappingURL=check.view.tree.d.ts.map
+declare namespace $ {
+
+	export class $mol_icon_check_all extends $mol_icon {
+		path( ): string
+	}
+	
+}
+
+//# sourceMappingURL=all.view.tree.d.ts.map
+declare namespace $ {
+
+	export class $mol_check_group extends $mol_check_box {
+		checks( ): readonly($mol_check)[]
+		full( ): boolean
+	}
+	
+}
+
+//# sourceMappingURL=group.view.tree.d.ts.map
+declare namespace $.$$ {
+    class $mol_check_group extends $.$mol_check_group {
+        checked(next?: boolean): boolean;
+        full(): boolean;
+        Icon(): $mol_icon_tick | $mol_icon_check_all;
+    }
+}
+
+declare namespace $ {
+
+	type $mol_check_group__title_shm_hitalama_check_list_1 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_check_group['title'] >
+	>
+	type $mol_check_group__checks_shm_hitalama_check_list_2 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_check_list['checks'] >
+		,
+		ReturnType< $mol_check_group['checks'] >
+	>
+	type $mol_list__rows_shm_hitalama_check_list_3 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_check_list['checks'] >
+		,
+		ReturnType< $mol_list['rows'] >
+	>
+	type $mol_check_box__title_shm_hitalama_check_list_4 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_check_list['check_title'] >
+		,
+		ReturnType< $mol_check_box['title'] >
+	>
+	type $mol_check_box__checked_shm_hitalama_check_list_5 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_check_list['checked'] >
+		,
+		ReturnType< $mol_check_box['checked'] >
+	>
+	export class $shm_hitalama_check_list extends $mol_list {
+		All( ): $mol_check_group
+		checks( ): readonly(any)[]
+		Checks( ): $mol_list
+		check_title( id: any): string
+		checked( id: any, next?: boolean ): boolean
+		options( ): readonly(string)[]
+		value( next?: readonly(string)[] ): readonly(string)[]
+		rows( ): readonly(any)[]
+		Check( id: any): $mol_check_box
+	}
+	
+}
+
+//# sourceMappingURL=list.view.tree.d.ts.map
+declare namespace $.$$ {
+    class $shm_hitalama_check_list extends $.$shm_hitalama_check_list {
+        checks(): $mol_check_box[];
+        check_title(id: any): string;
+        checked(id: any, next?: boolean): boolean;
     }
 }
 
@@ -16810,10 +17089,65 @@ declare namespace $ {
 		,
 		ReturnType< $mol_form_field['Content'] >
 	>
-	type $mol_form__form_fields_shm_hitalama_board_block_chart_18 = $mol_type_enforce<
+	type $mol_list__sub_shm_hitalama_board_block_chart_18 = $mol_type_enforce<
 		readonly(any)[]
 		,
-		ReturnType< $mol_form['form_fields'] >
+		ReturnType< $mol_list['sub'] >
+	>
+	type __shm_hitalama_board_block_chart_19 = $mol_type_enforce<
+		Parameters< $shm_hitalama_board_block_chart['filter_enabled'] >[0]
+		,
+		Parameters< ReturnType< $shm_hitalama_board_block_chart['Checks'] >['checked'] >[0]
+	>
+	type __shm_hitalama_board_block_chart_20 = $mol_type_enforce<
+		Parameters< $shm_hitalama_board_block_chart['filter_enabled'] >[1]
+		,
+		Parameters< ReturnType< $shm_hitalama_board_block_chart['Checks'] >['checked'] >[1]
+	>
+	type $shm_hitalama_check_list__options_shm_hitalama_board_block_chart_21 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_chart['head'] >
+		,
+		ReturnType< $shm_hitalama_check_list['options'] >
+	>
+	type $shm_hitalama_check_list__value_shm_hitalama_board_block_chart_22 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_chart['filters_enabled'] >
+		,
+		ReturnType< $shm_hitalama_check_list['value'] >
+	>
+	type $mol_pick__trigger_content_shm_hitalama_board_block_chart_23 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_pick['trigger_content'] >
+	>
+	type $mol_pick__bubble_content_shm_hitalama_board_block_chart_24 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_pick['bubble_content'] >
+	>
+	type $mol_list__sub_shm_hitalama_board_block_chart_25 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_list['sub'] >
+	>
+	type $shm_hitalama_check_list__options_shm_hitalama_board_block_chart_26 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_chart['filter_options'] >
+		,
+		ReturnType< $shm_hitalama_check_list['options'] >
+	>
+	type $shm_hitalama_check_list__value_shm_hitalama_board_block_chart_27 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_chart['filter_options_checked'] >
+		,
+		ReturnType< $shm_hitalama_check_list['value'] >
+	>
+	type $mol_pick__trigger_content_shm_hitalama_board_block_chart_28 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_pick['trigger_content'] >
+	>
+	type $mol_pick__bubble_content_shm_hitalama_board_block_chart_29 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_pick['bubble_content'] >
 	>
 	export class $shm_hitalama_board_block_chart extends $shm_hitalama_board_block_float {
 		names( ): readonly(any)[]
@@ -16830,12 +17164,23 @@ declare namespace $ {
 		groups( next?: readonly(any)[] ): readonly(any)[]
 		Groups( ): $mol_select_list
 		Groups_field( ): $mol_form_field
-		Form( ): $mol_form
+		Form( ): $mol_list
+		filters_enabled( next?: readonly(any)[] ): readonly(any)[]
+		filter_enabled( id: any, next?: ReturnType< ReturnType< $shm_hitalama_board_block_chart['Checks'] >['checked'] > ): ReturnType< ReturnType< $shm_hitalama_board_block_chart['Checks'] >['checked'] >
+		Checks( ): $shm_hitalama_check_list
+		Filter_select( ): $mol_pick
+		filters( ): readonly(any)[]
+		Filters( ): $mol_list
+		filter_title( id: any): string
+		filter_options( id: any): readonly(any)[]
+		filter_options_checked( id: any, next?: readonly(any)[] ): readonly(any)[]
+		Filter_options( id: any): $shm_hitalama_check_list
 		drag_body( ): readonly(any)[]
 		width_min( ): number
 		height_min( ): number
 		tools( ): readonly(any)[]
 		side_body( ): readonly(any)[]
+		Filter_content( id: any): $mol_pick
 	}
 	
 }
@@ -16851,11 +17196,21 @@ declare namespace $.$$ {
         values_title(next?: string): any;
         groups(next?: (any)[]): (any)[];
         names(): string[];
+        filters_enabled(next?: string[]): any[];
+        filters(): $.$mol_pick[];
+        filter_title(id: any): string;
+        filter_options(id: any): readonly (any)[];
+        filter_options_checked(id: string, next?: string[]): readonly any[];
+        row_included({ field, value }: {
+            field: string;
+            value: any;
+        }): boolean;
         series_y(group_name: any): readonly (any)[];
         labels(): readonly (string)[];
         traversed(): {
             by_group: Map<string, Map<string, number>>;
             labels: Set<string>;
+            field_options: Map<string, Set<string | number>>;
         };
     }
 }
@@ -16865,7 +17220,7 @@ declare namespace $.$$ {
 
 declare namespace $ {
 
-	type _shm_hitalama_board_block_any_1 = $mol_type_enforce<
+	type __shm_hitalama_board_block_any_1 = $mol_type_enforce<
 		Parameters< $shm_hitalama_board_block_any['editing'] >[0]
 		,
 		Parameters< ReturnType< $shm_hitalama_board_block_any['Sub'] >['editing'] >[0]
@@ -17095,12 +17450,12 @@ declare namespace $ {
 		,
 		ReturnType< $mol_button_minor['click'] >
 	>
-	type _shm_hitalama_board_page_12 = $mol_type_enforce<
+	type __shm_hitalama_board_page_12 = $mol_type_enforce<
 		Parameters< $shm_hitalama_board_page['select_start'] >[0]
 		,
 		Parameters< ReturnType< $shm_hitalama_board_page['Pane'] >['select_start'] >[0]
 	>
-	type _shm_hitalama_board_page_13 = $mol_type_enforce<
+	type __shm_hitalama_board_page_13 = $mol_type_enforce<
 		Parameters< $shm_hitalama_board_page['client_pos_to_pane_pos'] >[0]
 		,
 		Parameters< ReturnType< $shm_hitalama_board_page['Pane'] >['client_pos_to_pane_pos'] >[0]
@@ -17130,37 +17485,37 @@ declare namespace $ {
 		,
 		ReturnType< $shm_hitalama_contextmenu['showed'] >
 	>
-	type _shm_hitalama_board_page_19 = $mol_type_enforce<
+	type __shm_hitalama_board_page_19 = $mol_type_enforce<
 		Parameters< $shm_hitalama_board_page['block_height'] >[0]
 		,
 		Parameters< $shm_hitalama_board_page['Block'] >[0]
 	>
-	type _shm_hitalama_board_page_20 = $mol_type_enforce<
+	type __shm_hitalama_board_page_20 = $mol_type_enforce<
 		Parameters< $shm_hitalama_board_page['block_width'] >[0]
 		,
 		Parameters< $shm_hitalama_board_page['Block'] >[0]
 	>
-	type _shm_hitalama_board_page_21 = $mol_type_enforce<
+	type __shm_hitalama_board_page_21 = $mol_type_enforce<
 		Parameters< $shm_hitalama_board_page['block_top'] >[0]
 		,
 		Parameters< $shm_hitalama_board_page['Block'] >[0]
 	>
-	type _shm_hitalama_board_page_22 = $mol_type_enforce<
+	type __shm_hitalama_board_page_22 = $mol_type_enforce<
 		Parameters< $shm_hitalama_board_page['block_left'] >[0]
 		,
 		Parameters< $shm_hitalama_board_page['Block'] >[0]
 	>
-	type _shm_hitalama_board_page_23 = $mol_type_enforce<
+	type __shm_hitalama_board_page_23 = $mol_type_enforce<
 		Parameters< $shm_hitalama_board_page['editing'] >[0]
 		,
 		Parameters< $shm_hitalama_board_page['Block'] >[0]
 	>
-	type _shm_hitalama_board_page_24 = $mol_type_enforce<
+	type __shm_hitalama_board_page_24 = $mol_type_enforce<
 		Parameters< $shm_hitalama_board_page['editing'] >[1]
 		,
 		Parameters< $shm_hitalama_board_page['Block'] >[0]
 	>
-	type _shm_hitalama_board_page_25 = $mol_type_enforce<
+	type __shm_hitalama_board_page_25 = $mol_type_enforce<
 		Parameters< $shm_hitalama_board_page['Block_contextmenu_body'] >[0]
 		,
 		Parameters< $shm_hitalama_board_page['Block'] >[0]
@@ -17689,10 +18044,10 @@ declare namespace $ {
 		,
 		ReturnType< $shm_hitalama_board_page['Open_in_new'] >
 	>
-	type $shm_hitalama_board_page__Cut_shm_hitalama_app_13 = $mol_type_enforce<
-		any
+	type $shm_hitalama_board_page__tools_shm_hitalama_app_13 = $mol_type_enforce<
+		readonly(any)[]
 		,
-		ReturnType< $shm_hitalama_board_page['Cut'] >
+		ReturnType< $shm_hitalama_board_page['tools'] >
 	>
 	export class $shm_hitalama_app extends $mol_book2_catalog {
 		Theme( ): $mol_theme_auto

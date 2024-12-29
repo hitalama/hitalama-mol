@@ -135,12 +135,16 @@
     "$mol_storage",
     "$mol_mem_persist",
     "$mol_file",
+    "$mol_file_base",
+    "$mol_action",
+    "$mol_lock",
+    "$mol_compare_array",
     "$mol_charset_decode",
     "$mol_charset",
     "$mol_charset_encoding",
     "$mol_charset_encode",
-    "$mol_action",
-    "$mol_compare_array",
+    "$mol_file_transaction",
+    "$node_modules",
     "$mol_string",
     "$mol_icon_close",
     "$mol_icon",
@@ -441,6 +445,11 @@
     "$shm_hitalama_chart",
     "$shm_hitalama_chart_line_pane",
     "$mol_select_list",
+    "$shm_hitalama_check_list",
+    "$shm_hitalama_check",
+    "$mol_check_group",
+    "$mol_icon_check_all",
+    "$mol_icon_check",
     "$shm_hitalama_board_pane",
     "$shm_hitalama_profile_enter",
     "$shm_hitalama_profile_register",
@@ -450,7 +459,6 @@
   ],
   "dependencies": {
     "jsdom": "*",
-    "chokidar": "*",
     "pg": "*"
   }
 }
