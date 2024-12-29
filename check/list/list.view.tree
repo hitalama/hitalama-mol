@@ -1,0 +1,12 @@
+$shm_hitalama_check_list $mol_list
+	options /string
+	value? /string
+	rows /
+		<= All $mol_check_group
+			title \Все
+			checks <= checks
+		<= Checks $mol_list
+			rows <= checks /
+	Check* $mol_check_box
+		title <= check_title* \
+		checked? <=> checked*? false
