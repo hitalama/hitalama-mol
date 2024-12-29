@@ -67,7 +67,7 @@ namespace $.$$ {
 
 		@ $mol_mem
 		ratio() {
-			if( !this.image() ) return null
+			if( !this.image() ) return 0
 			const img = this.Image()
 			return img.natural_width() / img.natural_height()
 		}

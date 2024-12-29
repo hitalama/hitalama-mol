@@ -21,6 +21,9 @@ namespace $.$$ {
 			background: {
 				color: $mol_theme.back,
 			},
+			flex: {
+				direction: 'column',
+			},
 		},
 
 		Form: {
@@ -28,6 +31,20 @@ namespace $.$$ {
 				color: $mol_theme.card,
 			},
 			padding: $mol_gap.block,
+			gap: $mol_gap.space,
+		},
+
+		Filters: {
+			background: {
+				color: $mol_theme.card,
+			},
+			padding: $mol_gap.block,
+			box: {
+				shadow: [
+					{ inset: false, x: 0, y: '-1px', blur: 0, spread: 0, color: $mol_theme.line, },
+				],
+			},
+			gap: $mol_gap.space,
 		},
 
 		// Table: {

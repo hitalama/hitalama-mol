@@ -12,8 +12,8 @@ $shm_hitalama_board_block_chart $shm_hitalama_board_block_float
 		<= Delete
 		<= Ref_copy
 	side_body /
-		<= Form $mol_form
-			form_fields /
+		<= Form $mol_list
+			sub /
 				<= Axis_field $mol_form_field
 					name \Ось
 					Content <= Axis $mol_select
@@ -34,3 +34,21 @@ $shm_hitalama_board_block_chart $shm_hitalama_board_block_float
 					Content <= Groups $mol_select_list
 						value? <=> groups? /
 						options <= head /
+		<= Filters $mol_list
+			sub /
+				<= Filter_select $mol_pick
+					trigger_content /
+						\Фильтры
+					bubble_content /
+						<= Checks $shm_hitalama_check_list
+							options <= head /
+							value? <=> filters_enabled? /
+							checked*? => filter_enabled*?
+				^ filters /
+	Filter_content* $mol_pick
+		trigger_content /
+			<= filter_title* \
+		bubble_content /
+			<= Filter_options* $shm_hitalama_check_list
+				options <= filter_options* /
+				value? <=> filter_options_checked*? /

@@ -8,6 +8,10 @@ namespace $ {
 		Values: $hyoo_crus_atom_jsan,
 		Groups: $hyoo_crus_atom_jsan,
 
+		Filters_enabled: $hyoo_crus_atom_jsan,
+
+		Filters_options: $hyoo_crus_dict_to( $hyoo_crus_atom_jsan ),
+
 	}){
 
 		@ $mol_mem

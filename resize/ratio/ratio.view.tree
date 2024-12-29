@@ -1,4 +1,5 @@
 $shm_hitalama_resize_ratio $shm_hitalama_resize
+	ratio 0
 	edges_ratio /
 		<= Left_top_edge_ratio $shm_hitalama_resize_edge
 			on_drag_start? <=> resize_start?
