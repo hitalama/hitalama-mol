@@ -50,13 +50,10 @@ namespace $.$$ {
 		Sidebar: {
 			position: 'absolute',
 			top: 0,
-			right: 0,
+			right: '-5px',
 			transform: 'translateX(100%)',
 			overflow: 'visible',
-			zIndex: $mol_layer.popup,
-			padding: {
-				bottom: $mol_gap.space,
-			},
+			// zIndex: $mol_layer.popup,
 			pointerEvents: 'none',
 			['$mol_view']: {
 				pointerEvents: 'auto',

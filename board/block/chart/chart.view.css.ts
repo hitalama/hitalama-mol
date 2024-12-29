@@ -13,11 +13,11 @@ namespace $.$$ {
 		},
 
 		Sidebar: {
-			boxShadow: '0 0 1rem hsla(0,0%,0%,.5)',
+			outline: 'solid 1px var(--mol_theme_line)',
+			// boxShadow: '0 0 1rem hsla(0,0%,0%,.5)',
 			border: {
 				radius: $mol_gap.round,
 			},
-			zIndex: $mol_layer.popup,
 			background: {
 				color: $mol_theme.back,
 			},
