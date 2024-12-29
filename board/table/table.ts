@@ -10,7 +10,8 @@ namespace $ {
 		Rows: $hyoo_crus_atom_jsan,
 		Rows_method: $hyoo_crus_atom_str,
 
-		Col_widths: $hyoo_crus_atom_jsan,
+		Col_widths: $hyoo_crus_atom_jsan, //date, any
+		Col_types: $hyoo_crus_atom_jsan,
 
 	}){
 
@@ -43,6 +44,52 @@ namespace $ {
 			const res = func.call( { next, board: this.board() } )
 
 			return this.Rows(res)?.val( res )
+		}
+
+		@ $mol_mem
+		col_types() {
+			return this.Col_types()?.val() ?? this.table_head()?.map( title => title == 'Дата' ? 'date' : 'any' ) ?? []
+		}
+
+		@ $mol_mem
+		head_calculated() {
+			const head = this.table_head()!
+			const date_cols = this.col_types().flatMap( (type, i)=> type == 'date' ? [i] : [] )
+			return date_cols.flatMap( col_i => {
+				const title = head[ col_i ]
+				return [ {
+					title: `${title} (месяц)`,
+					calc: ( row: any[] )=> {
+						const dd_mm_yyyy = row[ col_i ]
+						const [ day, month, year ] = dd_mm_yyyy.split('.')
+						return month + '.' + year
+					},
+				}, {
+					title: `${title} (год)`,
+					calc: ( row: any[] )=> {
+						const dd_mm_yyyy = row[ col_i ]
+						const [ day, month, year ] = dd_mm_yyyy.split('.')
+						return year
+					},
+				} ]
+			} )
+		}
+
+		@ $mol_mem
+		head_extended() {
+			return [ ...this.table_head() ?? [], ...this.head_calculated().map( h => h.title ) ]
+		}
+
+		@ $mol_mem
+		rows_extended() {
+			const head_calculated = this.head_calculated()
+			const rows = this.table_rows()
+			return rows?.map( ( row: any ) => {
+				const calculated = head_calculated.map( ({ title, calc })=> {
+					return calc( row )
+				} )
+				return [ ...row, ...calculated ]
+			} )
 		}
 		
 	}

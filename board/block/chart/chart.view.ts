@@ -4,14 +4,14 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		rows() {
-			const rows = this.block().table_rows() ?? []
+			const rows = this.block().Table()?.remote()?.rows_extended() ?? []
 			if( rows?.length == 0 ) return [ this.head().map( _ => '' ) ]
 			return rows
 		}
 
 		@ $mol_mem
 		head() {
-			return this.block().table_head() ?? []
+			return this.block().Table()?.remote()?.head_extended() ?? []
 		}
 		
 		col_head_content( id : string ) {
@@ -96,8 +96,15 @@ namespace $.$$ {
 			
 			const fields = this.head()
 			const group_indexes =  this.groups().map( g => fields.indexOf( g ) )
+
 			const value_i = fields.indexOf( this.values_title() )
+			const row_value = ( row: any[] ) => {
+				return row[ value_i ]
+			}
 			const axis_i = fields.indexOf( this.axis() )
+			const row_label = ( row: any[] ) => {
+				return row[ axis_i ]
+			}
 
 			this.rows().forEach( ( row: any[] ) => {
 				let included = true
@@ -113,12 +120,11 @@ namespace $.$$ {
 				if( !included ) return
 
 				const group_name = group_indexes.map( i => row[i] ).join(', ') ?? ''
-
 				const by_label = by_group.get( group_name ) ?? new Map
 				by_group.set( group_name, by_label )
 
-				const label = row[ axis_i ]
-				by_label.set( label, (by_label.get( label ) ?? 0) + Number( row[ value_i ] ) )
+				const label = row_label( row )
+				by_label.set( label, (by_label.get( label ) ?? 0) + Number( row_value( row ) ) )
 
 				labels.add( label )
 			} )
