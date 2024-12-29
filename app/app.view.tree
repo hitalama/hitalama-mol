@@ -41,4 +41,5 @@ $shm_hitalama_app $mol_book2_catalog
 	Board $shm_hitalama_board_page
 		entity <= board $shm_hitalama_board
 		Open_in_new null
-		Cut null
+		tools /
+			<= Lights
