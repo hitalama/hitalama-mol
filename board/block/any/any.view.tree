@@ -25,3 +25,4 @@ $shm_hitalama_board_block_any $mol_ghost
 		table <= Table $shm_hitalama_board_block_table
 		code <= Code $shm_hitalama_board_block_code
 		chart <= Chart $shm_hitalama_board_block_chart
+		customdom <= Customdom $shm_hitalama_board_block_customdom

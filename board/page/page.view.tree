@@ -18,7 +18,8 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 		<= shift_pressed? false
 		<= pull_drags_synced null
 	selected_refs? /
-	body_content / <= Pane
+	body_content /
+		<= Pane
 	contextmenu_body? /
 	Back_contextmenu_body $mol_list
 		sub /
@@ -34,6 +35,12 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 			<= Form_add $mol_button_minor
 				title \Добавить виджет: Сбор 1% выгрузки БА
 				click? <=> form_add? null
+			<= Deckgl_example_add $mol_button_minor
+				title \Добавить deck.gl example
+				click? <=> deckgl_example_add? null
+			<= Echarts_example_add $mol_button_minor
+				title \Добавить ECharts example
+				click? <=> echarts_example_add? null
 	Pane $shm_hitalama_board_pane
 		select_start? => select_start?
 		select_rect_pos => select_rect_pos

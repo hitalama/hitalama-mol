@@ -38,8 +38,7 @@ namespace $.$$ {
 		}
 
 		logo_uri() {
-			return ( $.$mol_dom_context.document?.location.host == 'hitalama.github.io'
-				? '/hitalama-mol' : '' ) + super.logo_uri()
+			return $shm_hitalama_app_ghpages_fix_link( super.logo_uri() )
 		}
 		
 		@ $mol_mem
@@ -56,6 +55,11 @@ namespace $.$$ {
 			return $hyoo_crus_glob.Node( $hyoo_crus_ref( id ), $shm_hitalama_board )
 		}
 
+	}
+
+	export function $shm_hitalama_app_ghpages_fix_link( link: string ) {
+		return ( $.$mol_dom_context.document?.location.host == 'hitalama.github.io'
+			? '/hitalama-mol' : '' ) + link
 	}
 
 }

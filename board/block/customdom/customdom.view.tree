@@ -1,0 +1,15 @@
+$shm_hitalama_board_block_customdom $shm_hitalama_board_block_float
+	content /
+		<= Drag_view
+		- <= Dom_wrapper $mol_view
+			sub /
+		<= Dom null
+	tools /
+		<= Top
+		<= Bottom
+		<= Add_code $mol_button_minor
+			hint \Код
+			sub /
+				<= Add_code_icon $mol_icon_code_braces
+			click? <=> add_code_block? null
+		<= Delete

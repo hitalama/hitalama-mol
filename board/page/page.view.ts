@@ -176,7 +176,6 @@ namespace $.$$ {
 
 		@ $mol_action
 		text_add() {
-			console.log('text_add')
 			const block = this.board().block_add( 'text', this.contextmenu_pos() )
 			block?.Text(null)?.value( 'text' )
 			this.contextmenu_showed( false )
@@ -211,9 +210,28 @@ namespace $.$$ {
 
 			const code_pos = [ form_pos[0], form_pos[1] + 790 ] as const
 			const code = this.board().block_add( 'code', code_pos, 1220, 680 )
-			code?.Text(null)?.value( "const block = board.table_add( page.get_pointer_pos(), 800, 780 )\n\nblock.table_head( [ 'Дата', 'Кол-во', 'Позитив', 'Негатив', 'Запрос', 'Минус', 'Область поиска', 'Страна', 'Язык' ] )\n\nconst rows = []\n\nboard.search_statistics().forEach( s => {\n	if( !s.query() ) return\n\n	s.File_mass_media()?.remote()?.File()?.remote()?.str()?.split('\\n')?.forEach( line => {\n		const [ date, count, positive, negative ] = line.split(';')\n		if( isNaN( Number( count ) ) ) return\n		rows.push( [ date, count, positive, negative, s.query(), s.excluded_words(), 'СМИ', s.country(), s.language() ] )\n	} )\n\n	s.File_social_media()?.remote()?.File()?.remote()?.str()?.split('\\n')?.forEach( line => {\n		console.log(line)\n		const [ date, count, positive, negative ] = line.split(';')\n		if( isNaN( Number( count ) ) ) return\n		rows.push( [ date, count, positive, negative, s.query(), s.excluded_words(), 'Соц.медиа', s.country(), s.language() ] )\n	} )\n\n} )\n\nblock.table_rows( rows )\n" )
+			const code_str = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( 'shm/hitalama/board/snippets/_table.js' ) )
+			code?.Text(null)?.value( code_str )
 
 			this.contextmenu_showed( false )
+		}
+
+		@ $mol_action
+		deckgl_example_add() {
+			const block = this.board().block_add( 'customdom', this.contextmenu_pos(), 700, 700 )
+			const code_str = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( 'shm/hitalama/board/snippets/_deckgl_example.js' ) )
+			block?.Text(null)?.value( code_str )
+			this.contextmenu_showed( false )
+			return block
+		}
+
+		@ $mol_action
+		echarts_example_add() {
+			const block = this.board().block_add( 'customdom', this.contextmenu_pos(), 700, 500 )
+			const code_str = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( 'shm/hitalama/board/snippets/_echarts_example.js' ) )
+			block?.Text(null)?.value( code_str )
+			this.contextmenu_showed( false )
+			return block
 		}
 
 		@ $mol_action

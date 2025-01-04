@@ -8,6 +8,7 @@ namespace $ {
 		'table',
 		'code',
 		'chart',
+		'customdom',
 	] as const
 
 	class $shm_hitalama_board_block_type extends $hyoo_crus_atom_enum( $shm_hitalama_board_block_types ){}
@@ -26,15 +27,23 @@ namespace $ {
 		Board: $hyoo_crus_atom_ref_to( ()=> $shm_hitalama_board ),
 
 		Image: $hyoo_crus_file,
-		Src: $hyoo_crus_atom_str,
-		Text: $hyoo_crus_text,
 		Color: $hyoo_crus_atom_str,
 		Font_size: $hyoo_crus_atom_real,
 
+		//iframe
+		Src: $hyoo_crus_atom_str,
+
+		//text|code|customdom
+		Text: $hyoo_crus_text,
+		Use_text_from: $hyoo_crus_atom_ref_to( ()=> $shm_hitalama_board_block ),
+
+		//form
 		Form: $shm_hitalama_board_form,
 
+		//table|chart
 		Table: $hyoo_crus_atom_ref_to( ()=> $shm_hitalama_board_table ),
 
+		//chart
 		Chart: $shm_hitalama_board_chart,
 
 	}){

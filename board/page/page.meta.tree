@@ -1,0 +1,3 @@
+deploy \shm/hitalama/board/snippets/_table.js
+deploy \shm/hitalama/board/snippets/_deckgl_example.js
+deploy \shm/hitalama/board/snippets/_echarts_example.js
