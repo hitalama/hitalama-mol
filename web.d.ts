@@ -478,6 +478,16 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    class $mol_after_timeout extends $mol_object2 {
+        delay: number;
+        task: () => void;
+        id: any;
+        constructor(delay: number, task: () => void);
+        destructor(): void;
+    }
+}
+
+declare namespace $ {
     type $mol_type_pick<Input, Upper> = Pick<Input, $mol_type_keys_extract<Input, Upper>>;
 }
 
@@ -934,16 +944,6 @@ declare namespace $.$$ {
 
 declare namespace $ {
     let $mol_mem_cached: typeof $mol_wire_probe;
-}
-
-declare namespace $ {
-    class $mol_after_timeout extends $mol_object2 {
-        delay: number;
-        task: () => void;
-        id: any;
-        constructor(delay: number, task: () => void);
-        destructor(): void;
-    }
 }
 
 declare namespace $ {
@@ -21022,6 +21022,7 @@ declare namespace $.$$ {
         form_add(): void;
         image_add(blob: Blob): $shm_hitalama_board_block | undefined;
         paste_text(text: string): $shm_hitalama_board_block | undefined;
+        get_pointer_pos(): readonly any[];
         shift_pressed(next?: boolean): boolean;
         keydown_listener(): $mol_dom_listener;
         keyup_listener(): $mol_dom_listener;

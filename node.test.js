@@ -3197,6 +3197,9 @@ var $;
             const win = this.$.$mol_dom_context;
             if (win.parent !== win.self && !win.document.hasFocus())
                 return;
+            new this.$.$mol_after_timeout(0, () => {
+                this.focused(true);
+            });
         }
         destructor() {
             const node = $mol_wire_probe(() => this.dom_node());
@@ -3702,7 +3705,6 @@ var $;
                             left: p.offsetLeft + p.offsetWidth - b.offsetWidth,
                             behavior: 'smooth',
                         });
-                        new this.$.$mol_after_timeout(1000, () => n.bring());
                     });
                     break;
                 }
@@ -7047,7 +7049,6 @@ var $;
             maxHeight: per(100),
             boxSizing: 'border-box',
             color: $mol_theme.text,
-            backdropFilter: blur(`3px`),
             ':focus': {
                 outline: 'none',
             },
@@ -11608,6 +11609,8 @@ var $;
             const head = sand.head();
             const units = this.sand_ordered({ head, peer }).filter(unit => unit.tip() !== 'nil');
             const seat = units.indexOf(sand);
+            if (seat < 0)
+                return sand;
             return this.post(seat ? units[seat - 1].self() : '', head, sand.self(), null, 'term');
         }
         broadcast() {
@@ -31325,7 +31328,7 @@ var $;
                 block_table.Table(null)?.ensure(block_table.land())?.Rows_method(null)?.val("return board.search_statistics().map( s => [\n	s.query(),\n	s.excluded_words(),\n	s.prediod(),\n	s.country(),\n	s.language(),\n	s.mass_media_title(),\n	s.social_media_title(),\n	s.type(),\n	s.tags(),\n	s.category(),\n] )");
                 const code_pos = [form_pos[0], form_pos[1] + 790];
                 const code = this.board().block_add('code', code_pos, 1220, 680);
-                code?.Text(null)?.value("const block = board.table_add( page.pointer_pos(), 800, 780 )\n\nblock.table_head( [ 'Дата', 'Кол-во', 'Позитив', 'Негатив', 'Запрос', 'Минус', 'Область поиска', 'Страна', 'Язык' ] )\n\nconst rows = []\n\nboard.search_statistics().forEach( s => {\n	if( !s.query() ) return\n\n	s.File_mass_media()?.remote()?.File()?.remote()?.str()?.split('\\n')?.forEach( line => {\n		const [ date, count, positive, negative ] = line.split(';')\n		if( isNaN( Number( count ) ) ) return\n		rows.push( [ date, count, positive, negative, s.query(), s.excluded_words(), 'СМИ', s.country(), s.language() ] )\n	} )\n\n	s.File_social_media()?.remote()?.File()?.remote()?.str()?.split('\\n')?.forEach( line => {\n		console.log(line)\n		const [ date, count, positive, negative ] = line.split(';')\n		if( isNaN( Number( count ) ) ) return\n		rows.push( [ date, count, positive, negative, s.query(), s.excluded_words(), 'Соц.медиа', s.country(), s.language() ] )\n	} )\n\n} )\n\nblock.table_rows( rows )\n");
+                code?.Text(null)?.value("const block = board.table_add( page.get_pointer_pos(), 800, 780 )\n\nblock.table_head( [ 'Дата', 'Кол-во', 'Позитив', 'Негатив', 'Запрос', 'Минус', 'Область поиска', 'Страна', 'Язык' ] )\n\nconst rows = []\n\nboard.search_statistics().forEach( s => {\n	if( !s.query() ) return\n\n	s.File_mass_media()?.remote()?.File()?.remote()?.str()?.split('\\n')?.forEach( line => {\n		const [ date, count, positive, negative ] = line.split(';')\n		if( isNaN( Number( count ) ) ) return\n		rows.push( [ date, count, positive, negative, s.query(), s.excluded_words(), 'СМИ', s.country(), s.language() ] )\n	} )\n\n	s.File_social_media()?.remote()?.File()?.remote()?.str()?.split('\\n')?.forEach( line => {\n		console.log(line)\n		const [ date, count, positive, negative ] = line.split(';')\n		if( isNaN( Number( count ) ) ) return\n		rows.push( [ date, count, positive, negative, s.query(), s.excluded_words(), 'Соц.медиа', s.country(), s.language() ] )\n	} )\n\n} )\n\nblock.table_rows( rows )\n");
                 this.contextmenu_showed(false);
             }
             image_add(blob) {
@@ -31339,6 +31342,9 @@ var $;
                 const block = this.board().block_add('text', pos);
                 block?.Text(null)?.value(text);
                 return block;
+            }
+            get_pointer_pos() {
+                return this.pointer_pos();
             }
             shift_pressed(next) {
                 return next ?? false;
@@ -31457,6 +31463,9 @@ var $;
         __decorate([
             $mol_action
         ], $shm_hitalama_board_page.prototype, "paste_text", null);
+        __decorate([
+            $mol_action
+        ], $shm_hitalama_board_page.prototype, "get_pointer_pos", null);
         __decorate([
             $mol_mem
         ], $shm_hitalama_board_page.prototype, "shift_pressed", null);

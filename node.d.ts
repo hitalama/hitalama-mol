@@ -17694,6 +17694,7 @@ declare namespace $.$$ {
         form_add(): void;
         image_add(blob: Blob): $shm_hitalama_board_block | undefined;
         paste_text(text: string): $shm_hitalama_board_block | undefined;
+        get_pointer_pos(): readonly any[];
         shift_pressed(next?: boolean): boolean;
         keydown_listener(): $mol_dom_listener;
         keyup_listener(): $mol_dom_listener;
