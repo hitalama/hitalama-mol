@@ -86,6 +86,10 @@
 	deploy \/shm/hitalama/token/logo/logo_vk.svg
 \/shm/hitalama/duckdb/page
 	deploy \/shm/hitalama/duckdb/parquet/demo.parquet
+\/shm/hitalama/board/page
+	deploy \shm/hitalama/board/snippets/_table.js
+	deploy \shm/hitalama/board/snippets/_deckgl_example.js
+	deploy \shm/hitalama/board/snippets/_echarts_example.js
 \/shm/hitalama/app
 	include \/shm/hitalama/log
 	deploy \/shm/hitalama/app/foot/foot_logo.png

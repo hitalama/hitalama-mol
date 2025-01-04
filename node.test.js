@@ -17396,6 +17396,7 @@ var $;
         'table',
         'code',
         'chart',
+        'customdom',
     ];
     class $shm_hitalama_board_block_type extends $hyoo_crus_atom_enum($.$shm_hitalama_board_block_types) {
     }
@@ -17410,10 +17411,11 @@ var $;
         Type: $shm_hitalama_board_block_type,
         Board: $hyoo_crus_atom_ref_to(() => $shm_hitalama_board),
         Image: $hyoo_crus_file,
-        Src: $hyoo_crus_atom_str,
-        Text: $hyoo_crus_text,
         Color: $hyoo_crus_atom_str,
         Font_size: $hyoo_crus_atom_real,
+        Src: $hyoo_crus_atom_str,
+        Text: $hyoo_crus_text,
+        Use_text_from: $hyoo_crus_atom_ref_to(() => $shm_hitalama_board_block),
         Form: $shm_hitalama_board_form,
         Table: $hyoo_crus_atom_ref_to(() => $shm_hitalama_board_table),
         Chart: $shm_hitalama_board_chart,
@@ -29585,14 +29587,21 @@ var $;
     var $$;
     (function ($$) {
         class $shm_hitalama_board_block_code extends $.$shm_hitalama_board_block_code {
+            block_with_text() {
+                const use_from = this.block().Use_text_from()?.remote();
+                return use_from ?? this.block();
+            }
             code(next) {
-                return this.block().Text(next)?.text(next) ?? '';
+                return this.block_with_text().Text(next)?.text(next) ?? '';
             }
             run() {
                 const func = new Function('const board = this.board;\nconst page = this.page;\n' + this.code());
                 func.call({ page: this.Board_page(), board: this.board() });
             }
         }
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_block_code.prototype, "block_with_text", null);
         __decorate([
             $mol_mem
         ], $shm_hitalama_board_block_code.prototype, "code", null);
@@ -30506,6 +30515,108 @@ var $;
 })($ || ($ = {}));
 
 ;
+	($.$mol_icon_code_braces) = class $mol_icon_code_braces extends ($.$mol_icon) {
+		path(){
+			return "M8,3A2,2 0 0,0 6,5V9A2,2 0 0,1 4,11H3V13H4A2,2 0 0,1 6,15V19A2,2 0 0,0 8,21H10V19H8V14A2,2 0 0,0 6,12A2,2 0 0,0 8,10V5H10V3M16,3A2,2 0 0,1 18,5V9A2,2 0 0,0 20,11H21V13H20A2,2 0 0,0 18,15V19A2,2 0 0,1 16,21H14V19H16V14A2,2 0 0,1 18,12A2,2 0 0,1 16,10V5H14V3H16Z";
+		}
+	};
+
+
+;
+"use strict";
+
+;
+	($.$shm_hitalama_board_block_customdom) = class $shm_hitalama_board_block_customdom extends ($.$shm_hitalama_board_block_float) {
+		Dom(){
+			return null;
+		}
+		Add_code_icon(){
+			const obj = new this.$.$mol_icon_code_braces();
+			return obj;
+		}
+		add_code_block(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Add_code(){
+			const obj = new this.$.$mol_button_minor();
+			(obj.hint) = () => ("Код");
+			(obj.sub) = () => ([(this.Add_code_icon())]);
+			(obj.click) = (next) => ((this.add_code_block(next)));
+			return obj;
+		}
+		content(){
+			return [(this.Drag_view()), (this.Dom())];
+		}
+		tools(){
+			return [
+				(this.Top()), 
+				(this.Bottom()), 
+				(this.Add_code()), 
+				(this.Delete())
+			];
+		}
+	};
+	($mol_mem(($.$shm_hitalama_board_block_customdom.prototype), "Add_code_icon"));
+	($mol_mem(($.$shm_hitalama_board_block_customdom.prototype), "add_code_block"));
+	($mol_mem(($.$shm_hitalama_board_block_customdom.prototype), "Add_code"));
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $shm_hitalama_board_block_customdom extends $.$shm_hitalama_board_block_customdom {
+            code(next) {
+                return this.block().Text(next)?.text(next) ?? '';
+            }
+            Dom() {
+                const func = new Function('const board = this.board;\nconst page = this.page;\n' + this.code());
+                const res = func.call({ page: this.Board_page(), board: this.board() });
+                return res;
+            }
+            add_code_block() {
+                const left = this.left() + this.width();
+                const top = this.top();
+                const code = this.board().block_add('code', [left, top], 1220, 680);
+                code?.Use_text_from(null)?.remote(this.block());
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_block_customdom.prototype, "code", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_block_customdom.prototype, "Dom", null);
+        __decorate([
+            $mol_action
+        ], $shm_hitalama_board_block_customdom.prototype, "add_code_block", null);
+        $$.$shm_hitalama_board_block_customdom = $shm_hitalama_board_block_customdom;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        $mol_style_define($shm_hitalama_board_block_customdom, {
+            Drag_view: {
+                position: 'absolute',
+                width: '100%',
+                height: '100%',
+            },
+        });
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
 	($.$shm_hitalama_board_block_any) = class $shm_hitalama_board_block_any extends ($.$mol_ghost) {
 		height(){
 			return (this.Sub().height());
@@ -30591,6 +30702,10 @@ var $;
 			const obj = new this.$.$shm_hitalama_board_block_chart();
 			return obj;
 		}
+		Customdom(){
+			const obj = new this.$.$shm_hitalama_board_block_customdom();
+			return obj;
+		}
 		Sub(){
 			const obj = new this.$.$shm_hitalama_board_block_float();
 			(obj.block) = () => ((this.block()));
@@ -30614,7 +30729,8 @@ var $;
 				"form": (this.Form()), 
 				"table": (this.Table()), 
 				"code": (this.Code()), 
-				"chart": (this.Chart())
+				"chart": (this.Chart()), 
+				"customdom": (this.Customdom())
 			};
 		}
 	};
@@ -30630,6 +30746,7 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Table"));
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Code"));
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Chart"));
+	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Customdom"));
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Sub"));
 
 
@@ -30950,6 +31067,26 @@ var $;
 			(obj.click) = (next) => ((this.form_add(next)));
 			return obj;
 		}
+		deckgl_example_add(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Deckgl_example_add(){
+			const obj = new this.$.$mol_button_minor();
+			(obj.title) = () => ("Добавить deck.gl example");
+			(obj.click) = (next) => ((this.deckgl_example_add(next)));
+			return obj;
+		}
+		echarts_example_add(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Echarts_example_add(){
+			const obj = new this.$.$mol_button_minor();
+			(obj.title) = () => ("Добавить ECharts example");
+			(obj.click) = (next) => ((this.echarts_example_add(next)));
+			return obj;
+		}
 		select_start(next){
 			return (this.Pane().select_start(next));
 		}
@@ -31110,7 +31247,9 @@ var $;
 				(this.Text_add()), 
 				(this.Input_add()), 
 				(this.Iframe_add()), 
-				(this.Form_add())
+				(this.Form_add()), 
+				(this.Deckgl_example_add()), 
+				(this.Echarts_example_add())
 			]);
 			return obj;
 		}
@@ -31136,6 +31275,10 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Iframe_add"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "form_add"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Form_add"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "deckgl_example_add"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "Deckgl_example_add"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "echarts_example_add"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "Echarts_example_add"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "back_event_pointerdown"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "back_event_contextmenu"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Back"));
@@ -31153,6 +31296,162 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Back_contextmenu_body"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Pane"));
 
+
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_fetch_response extends $mol_object2 {
+        native;
+        constructor(native) {
+            super();
+            this.native = native;
+        }
+        status() {
+            const types = ['unknown', 'inform', 'success', 'redirect', 'wrong', 'failed'];
+            return types[Math.floor(this.native.status / 100)];
+        }
+        code() {
+            return this.native.status;
+        }
+        message() {
+            return this.native.statusText || `HTTP Error ${this.code()}`;
+        }
+        headers() {
+            return this.native.headers;
+        }
+        mime() {
+            return this.headers().get('content-type');
+        }
+        stream() {
+            return this.native.body;
+        }
+        text() {
+            const buffer = this.buffer();
+            const native = this.native;
+            const mime = native.headers.get('content-type') || '';
+            const [, charset] = /charset=(.*)/.exec(mime) || [, 'utf-8'];
+            const decoder = new TextDecoder(charset);
+            return decoder.decode(buffer);
+        }
+        json() {
+            return $mol_wire_sync(this.native).json();
+        }
+        blob() {
+            return $mol_wire_sync(this.native).blob();
+        }
+        buffer() {
+            return $mol_wire_sync(this.native).arrayBuffer();
+        }
+        xml() {
+            return $mol_dom_parse(this.text(), 'application/xml');
+        }
+        xhtml() {
+            return $mol_dom_parse(this.text(), 'application/xhtml+xml');
+        }
+        html() {
+            return $mol_dom_parse(this.text(), 'text/html');
+        }
+    }
+    __decorate([
+        $mol_action
+    ], $mol_fetch_response.prototype, "stream", null);
+    __decorate([
+        $mol_action
+    ], $mol_fetch_response.prototype, "text", null);
+    __decorate([
+        $mol_action
+    ], $mol_fetch_response.prototype, "xml", null);
+    __decorate([
+        $mol_action
+    ], $mol_fetch_response.prototype, "xhtml", null);
+    __decorate([
+        $mol_action
+    ], $mol_fetch_response.prototype, "html", null);
+    $.$mol_fetch_response = $mol_fetch_response;
+    class $mol_fetch extends $mol_object2 {
+        static request(input, init = {}) {
+            const controller = new AbortController();
+            let done = false;
+            const promise = fetch(input, {
+                ...init,
+                signal: controller.signal,
+            }).finally(() => {
+                done = true;
+            });
+            return Object.assign(promise, {
+                destructor: () => {
+                    if (!done && !controller.signal.aborted)
+                        controller.abort();
+                },
+            });
+        }
+        static response(input, init) {
+            return new $mol_fetch_response($mol_wire_sync(this).request(input, init));
+        }
+        static success(input, init) {
+            const response = this.response(input, init);
+            if (response.status() === 'success')
+                return response;
+            throw new Error(response.message(), { cause: response });
+        }
+        static stream(input, init) {
+            return this.success(input, init).stream();
+        }
+        static text(input, init) {
+            return this.success(input, init).text();
+        }
+        static json(input, init) {
+            return this.success(input, init).json();
+        }
+        static blob(input, init) {
+            return this.success(input, init).blob();
+        }
+        static buffer(input, init) {
+            return this.success(input, init).buffer();
+        }
+        static xml(input, init) {
+            return this.success(input, init).xml();
+        }
+        static xhtml(input, init) {
+            return this.success(input, init).xhtml();
+        }
+        static html(input, init) {
+            return this.success(input, init).html();
+        }
+    }
+    __decorate([
+        $mol_action
+    ], $mol_fetch, "response", null);
+    __decorate([
+        $mol_action
+    ], $mol_fetch, "success", null);
+    __decorate([
+        $mol_action
+    ], $mol_fetch, "stream", null);
+    __decorate([
+        $mol_action
+    ], $mol_fetch, "text", null);
+    __decorate([
+        $mol_action
+    ], $mol_fetch, "json", null);
+    __decorate([
+        $mol_action
+    ], $mol_fetch, "blob", null);
+    __decorate([
+        $mol_action
+    ], $mol_fetch, "buffer", null);
+    __decorate([
+        $mol_action
+    ], $mol_fetch, "xml", null);
+    __decorate([
+        $mol_action
+    ], $mol_fetch, "xhtml", null);
+    __decorate([
+        $mol_action
+    ], $mol_fetch, "html", null);
+    $.$mol_fetch = $mol_fetch;
+})($ || ($ = {}));
 
 ;
 "use strict";
@@ -31301,7 +31600,6 @@ var $;
                 return this.contextmenu_showed() ? super.contextmenu_visible() : [];
             }
             text_add() {
-                console.log('text_add');
                 const block = this.board().block_add('text', this.contextmenu_pos());
                 block?.Text(null)?.value('text');
                 this.contextmenu_showed(false);
@@ -31328,8 +31626,23 @@ var $;
                 block_table.Table(null)?.ensure(block_table.land())?.Rows_method(null)?.val("return board.search_statistics().map( s => [\n	s.query(),\n	s.excluded_words(),\n	s.prediod(),\n	s.country(),\n	s.language(),\n	s.mass_media_title(),\n	s.social_media_title(),\n	s.type(),\n	s.tags(),\n	s.category(),\n] )");
                 const code_pos = [form_pos[0], form_pos[1] + 790];
                 const code = this.board().block_add('code', code_pos, 1220, 680);
-                code?.Text(null)?.value("const block = board.table_add( page.get_pointer_pos(), 800, 780 )\n\nblock.table_head( [ 'Дата', 'Кол-во', 'Позитив', 'Негатив', 'Запрос', 'Минус', 'Область поиска', 'Страна', 'Язык' ] )\n\nconst rows = []\n\nboard.search_statistics().forEach( s => {\n	if( !s.query() ) return\n\n	s.File_mass_media()?.remote()?.File()?.remote()?.str()?.split('\\n')?.forEach( line => {\n		const [ date, count, positive, negative ] = line.split(';')\n		if( isNaN( Number( count ) ) ) return\n		rows.push( [ date, count, positive, negative, s.query(), s.excluded_words(), 'СМИ', s.country(), s.language() ] )\n	} )\n\n	s.File_social_media()?.remote()?.File()?.remote()?.str()?.split('\\n')?.forEach( line => {\n		console.log(line)\n		const [ date, count, positive, negative ] = line.split(';')\n		if( isNaN( Number( count ) ) ) return\n		rows.push( [ date, count, positive, negative, s.query(), s.excluded_words(), 'Соц.медиа', s.country(), s.language() ] )\n	} )\n\n} )\n\nblock.table_rows( rows )\n");
+                const code_str = this.$.$mol_fetch.text($shm_hitalama_app_ghpages_fix_link('shm/hitalama/board/snippets/_table.js'));
+                code?.Text(null)?.value(code_str);
                 this.contextmenu_showed(false);
+            }
+            deckgl_example_add() {
+                const block = this.board().block_add('customdom', this.contextmenu_pos(), 700, 700);
+                const code_str = this.$.$mol_fetch.text($shm_hitalama_app_ghpages_fix_link('shm/hitalama/board/snippets/_deckgl_example.js'));
+                block?.Text(null)?.value(code_str);
+                this.contextmenu_showed(false);
+                return block;
+            }
+            echarts_example_add() {
+                const block = this.board().block_add('customdom', this.contextmenu_pos(), 700, 500);
+                const code_str = this.$.$mol_fetch.text($shm_hitalama_app_ghpages_fix_link('shm/hitalama/board/snippets/_echarts_example.js'));
+                block?.Text(null)?.value(code_str);
+                this.contextmenu_showed(false);
+                return block;
             }
             image_add(blob) {
                 const pos = this.pointer_pos();
@@ -31457,6 +31770,12 @@ var $;
         __decorate([
             $mol_action
         ], $shm_hitalama_board_page.prototype, "form_add", null);
+        __decorate([
+            $mol_action
+        ], $shm_hitalama_board_page.prototype, "deckgl_example_add", null);
+        __decorate([
+            $mol_action
+        ], $shm_hitalama_board_page.prototype, "echarts_example_add", null);
         __decorate([
             $mol_action
         ], $shm_hitalama_board_page.prototype, "image_add", null);
@@ -32123,8 +32442,7 @@ var $;
                 ];
             }
             logo_uri() {
-                return ($.$mol_dom_context.document?.location.host == 'hitalama.github.io'
-                    ? '/hitalama-mol' : '') + super.logo_uri();
+                return $shm_hitalama_app_ghpages_fix_link(super.logo_uri());
             }
             profiles() {
                 $mol_wire_solid();
@@ -32147,6 +32465,11 @@ var $;
             $mol_mem
         ], $shm_hitalama_app.prototype, "board", null);
         $$.$shm_hitalama_app = $shm_hitalama_app;
+        function $shm_hitalama_app_ghpages_fix_link(link) {
+            return ($.$mol_dom_context.document?.location.host == 'hitalama.github.io'
+                ? '/hitalama-mol' : '') + link;
+        }
+        $$.$shm_hitalama_app_ghpages_fix_link = $shm_hitalama_app_ghpages_fix_link;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
 

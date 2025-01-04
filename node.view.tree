@@ -2840,6 +2840,24 @@ $shm_hitalama_board_block_chart $shm_hitalama_board_block_float
 				options <= filter_options* /
 				value? <=> filter_options_checked*? /
 
+$mol_icon_code_braces $mol_icon path \M8,3A2,2 0 0,0 6,5V9A2,2 0 0,1 4,11H3V13H4A2,2 0 0,1 6,15V19A2,2 0 0,0 8,21H10V19H8V14A2,2 0 0,0 6,12A2,2 0 0,0 8,10V5H10V3M16,3A2,2 0 0,1 18,5V9A2,2 0 0,0 20,11H21V13H20A2,2 0 0,0 18,15V19A2,2 0 0,1 16,21H14V19H16V14A2,2 0 0,1 18,12A2,2 0 0,1 16,10V5H14V3H16Z
+
+$shm_hitalama_board_block_customdom $shm_hitalama_board_block_float
+	content /
+		<= Drag_view
+		- <= Dom_wrapper $mol_view
+			sub /
+		<= Dom null
+	tools /
+		<= Top
+		<= Bottom
+		<= Add_code $mol_button_minor
+			hint \Код
+			sub /
+				<= Add_code_icon $mol_icon_code_braces
+			click? <=> add_code_block? null
+		<= Delete
+
 $shm_hitalama_board_block_any $mol_ghost
 	Sub $shm_hitalama_board_block_float
 		height => height
@@ -2867,6 +2885,7 @@ $shm_hitalama_board_block_any $mol_ghost
 		table <= Table $shm_hitalama_board_block_table
 		code <= Code $shm_hitalama_board_block_code
 		chart <= Chart $shm_hitalama_board_block_chart
+		customdom <= Customdom $shm_hitalama_board_block_customdom
 
 $shm_hitalama_board_pane $mol_view
 	attr *
@@ -2915,7 +2934,8 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 		<= shift_pressed? false
 		<= pull_drags_synced null
 	selected_refs? /
-	body_content / <= Pane
+	body_content /
+		<= Pane
 	contextmenu_body? /
 	Back_contextmenu_body $mol_list
 		sub /
@@ -2931,6 +2951,12 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 			<= Form_add $mol_button_minor
 				title \Добавить виджет: Сбор 1% выгрузки БА
 				click? <=> form_add? null
+			<= Deckgl_example_add $mol_button_minor
+				title \Добавить deck.gl example
+				click? <=> deckgl_example_add? null
+			<= Echarts_example_add $mol_button_minor
+				title \Добавить ECharts example
+				click? <=> echarts_example_add? null
 	Pane $shm_hitalama_board_pane
 		select_start? => select_start?
 		select_rect_pos => select_rect_pos
