@@ -210,7 +210,7 @@ namespace $.$$ {
 
 			const code_pos = [ form_pos[0], form_pos[1] + 790 ] as const
 			const code = this.board().block_add( 'code', code_pos, 1220, 680 )
-			const code_str = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( 'shm/hitalama/board/snippets/_table.js' ) )
+			const code_str = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( '/shm/hitalama/board/snippets/_table.js' ) )
 			code?.Text(null)?.value( code_str )
 
 			this.contextmenu_showed( false )
@@ -219,7 +219,7 @@ namespace $.$$ {
 		@ $mol_action
 		deckgl_example_add() {
 			const block = this.board().block_add( 'customdom', this.contextmenu_pos(), 700, 700 )
-			const code_str = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( 'shm/hitalama/board/snippets/_deckgl_example.js' ) )
+			const code_str = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( '/shm/hitalama/board/snippets/_deckgl_example.js' ) )
 			block?.Text(null)?.value( code_str )
 			this.contextmenu_showed( false )
 			return block
@@ -228,7 +228,7 @@ namespace $.$$ {
 		@ $mol_action
 		echarts_example_add() {
 			const block = this.board().block_add( 'customdom', this.contextmenu_pos(), 700, 500 )
-			const code_str = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( 'shm/hitalama/board/snippets/_echarts_example.js' ) )
+			const code_str = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( '/shm/hitalama/board/snippets/_echarts_example.js' ) )
 			block?.Text(null)?.value( code_str )
 			this.contextmenu_showed( false )
 			return block
