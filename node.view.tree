@@ -2088,8 +2088,8 @@ $shm_hitalama_resize $mol_view
 				x? <=> right_edge_x? 0
 	resizing? false
 	-
-	height_min 100
-	width_min 100
+	height_min 20
+	width_min 20
 	-
 	height 0
 	width 0
@@ -2394,9 +2394,6 @@ $shm_hitalama_board_block_text $shm_hitalama_board_block_float
 				pointerup? <=> pointerup? null
 		^ image / <= Image $mol_image
 			uri <= image_uri \
-	auto /
-		^
-		<= image_size_auto null
 
 $mol_form $mol_list
 	submit_allowed true

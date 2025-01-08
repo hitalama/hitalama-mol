@@ -3777,7 +3777,7 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    function $mol_reconcile<Prev, Next>({ prev, from, to, next, equal, drop, insert, update, }: {
+    function $mol_reconcile<Prev, Next>({ prev, from, to, next, equal, drop, insert, update, replace, }: {
         prev: readonly Prev[];
         from: number;
         to: number;
@@ -3786,6 +3786,7 @@ declare namespace $ {
         drop: (prev: Prev, lead: Prev | null) => Prev | null;
         insert: (next: Next, lead: Prev | null) => Prev;
         update?: (next: Next, prev: Prev, lead: Prev | null) => Prev;
+        replace?: (next: Next, prev: Prev, lead: Prev | null) => Prev;
     }): void;
 }
 
@@ -18982,10 +18983,8 @@ declare namespace $ {
 		image_uri( ): string
 		Image( ): $mol_image
 		image( ): readonly(any)[]
-		image_size_auto( ): any
 		sub( ): readonly(any)[]
 		drag_body( ): readonly(any)[]
-		auto( ): readonly(any)[]
 	}
 	
 }
@@ -19004,7 +19003,6 @@ declare namespace $.$$ {
         image_uri(): string;
         image(): readonly any[];
         ratio(): number;
-        image_size_auto(): void;
     }
 }
 
@@ -21212,6 +21210,10 @@ declare namespace $.$$ {
         form_add(): void;
         deckgl_example_add(): $shm_hitalama_board_block | undefined;
         echarts_example_add(): $shm_hitalama_board_block | undefined;
+        image_blob_size(blob: Blob): Promise<{
+            width: number;
+            height: number;
+        }>;
         image_add(blob: Blob): $shm_hitalama_board_block | undefined;
         paste_text(text: string): $shm_hitalama_board_block | undefined;
         get_pointer_pos(): readonly any[];

@@ -12287,9 +12287,11 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    function $mol_reconcile({ prev, from, to, next, equal, drop, insert, update, }) {
+    function $mol_reconcile({ prev, from, to, next, equal, drop, insert, update, replace, }) {
         if (!update)
-            update = (next, prev, lead) => insert(next, drop(prev, lead));
+            update = (next, prev, lead) => prev;
+        if (!replace)
+            replace = (next, prev, lead) => insert(next, drop(prev, lead));
         if (to > prev.length)
             to = prev.length;
         if (from > to)
@@ -12299,7 +12301,7 @@ var $;
         let lead = p ? prev[p - 1] : null;
         while (p < to || n < next.length) {
             if (p < to && n < next.length && equal(next[n], prev[p])) {
-                lead = prev[p];
+                lead = update(next[n], prev[p], lead);
                 ++p;
                 ++n;
             }
@@ -12312,7 +12314,7 @@ var $;
                 ++p;
             }
             else {
-                lead = update(next[n], prev[p], lead);
+                lead = replace(next[n], prev[p], lead);
                 ++p;
                 ++n;
             }
@@ -12344,7 +12346,7 @@ var $;
                 equal: (next, prev) => $mol_compare_deep(this.land().sand_decode(prev), next),
                 drop: (prev, lead) => this.land().post(lead?.self() ?? '', prev.head(), prev.self(), null),
                 insert: (next, lead) => this.land().post(lead?.self() ?? '', this.head(), land.self_make(), next, tag),
-                update: (next, prev, lead) => this.land().post(lead?.self() ?? '', prev.head(), prev.self(), next, prev.tag()),
+                replace: (next, prev, lead) => this.land().post(lead?.self() ?? '', prev.head(), prev.self(), next, prev.tag()),
             });
         }
         find(vary) {
@@ -16993,28 +16995,25 @@ var $;
             ],
             'link': /\b(https?:\/\/[^\s,.;:!?")]+(?:[,.;:!?")][^\s,.;:!?")]+)+)/,
             'Word': [
+                [char_only(' ', 0xA0)],
                 repeat_greedy(char_only([
                     unicode_only('General_Category', 'Uppercase_Letter'),
                     unicode_only('Diacritic'),
                     unicode_only('General_Category', 'Number'),
-                    0xA0,
                 ]), 1),
                 repeat_greedy(char_only([
                     unicode_only('General_Category', 'Lowercase_Letter'),
                     unicode_only('Diacritic'),
                     unicode_only('General_Category', 'Number'),
-                    0xA0,
                 ])),
-                [char_only(' ')],
             ],
             'word': [
+                [char_only(' ', 0xA0)],
                 repeat_greedy(char_only([
                     unicode_only('General_Category', 'Lowercase_Letter'),
                     unicode_only('Diacritic'),
                     unicode_only('General_Category', 'Number'),
-                    0xA0,
                 ]), 1),
-                [char_only(' ')],
             ],
             'spaces': [
                 forbid_after(line_end),
@@ -17033,6 +17032,7 @@ var $;
                 ]),
             ],
             'others': [
+                [char_only(' ', 0xA0)],
                 repeat_greedy(char_except([
                     unicode_only('General_Category', 'Uppercase_Letter'),
                     unicode_only('General_Category', 'Lowercase_Letter'),
@@ -17040,7 +17040,6 @@ var $;
                     unicode_only('General_Category', 'Number'),
                     unicode_only('White_Space'),
                 ]), 1),
-                [char_only(' ')],
             ],
         },
     });
@@ -17074,7 +17073,7 @@ var $;
                         land.Node($hyoo_crus_text).Item(sand.self()).str(next);
                         return sand;
                     },
-                    update: (next, prev, lead) => {
+                    replace: (next, prev, lead) => {
                         land.Node($hyoo_crus_text).Item(prev.self()).str(next);
                         return prev;
                     },
@@ -25652,10 +25651,10 @@ var $;
 			return false;
 		}
 		height_min(){
-			return 100;
+			return 20;
 		}
 		width_min(){
-			return 100;
+			return 20;
 		}
 		height(){
 			return 0;
@@ -27111,7 +27110,6 @@ var $;
                 return this.font_size() + 'px';
             }
             color(next) {
-                console.log('next', next);
                 if (next === undefined)
                     return this.block().Color()?.val() || 'var(--mol_theme_text)';
                 const color = next || 'var(--mol_theme_text)';
@@ -27525,9 +27523,6 @@ var $;
 		image(){
 			return [(this.Image())];
 		}
-		image_size_auto(){
-			return null;
-		}
 		sub(){
 			return [
 				(this.Text()), 
@@ -27538,9 +27533,6 @@ var $;
 		}
 		drag_body(){
 			return [...(this.blocker()), ...(this.image())];
-		}
-		auto(){
-			return [...(super.auto()), (this.image_size_auto())];
 		}
 	};
 	($mol_mem(($.$shm_hitalama_board_block_text.prototype), "text"));
@@ -27632,20 +27624,6 @@ var $;
                 const img = this.Image();
                 return img.natural_width() / img.natural_height();
             }
-            image_size_auto() {
-                if (!this.image() || this.width() != 0 || this.height() != 0)
-                    return;
-                const img = this.Image();
-                const width = img.natural_width();
-                const height = img.natural_height();
-                if (!width || !height)
-                    return;
-                this.block().Bottom_edge_y(null)?.val(height);
-                this.block().Right_edge_x(null)?.val(width);
-                this.block().Body_x(null)?.val(this.block().Body_x()?.val() - width / 2);
-                this.block().Body_y(null)?.val(this.block().Body_y()?.val() - height / 2);
-                this.vals_to_sticks();
-            }
         }
         __decorate([
             $mol_memo.field
@@ -27671,9 +27649,6 @@ var $;
         __decorate([
             $mol_mem
         ], $shm_hitalama_board_block_text.prototype, "ratio", null);
-        __decorate([
-            $mol_mem
-        ], $shm_hitalama_board_block_text.prototype, "image_size_auto", null);
         $$.$shm_hitalama_board_block_text = $shm_hitalama_board_block_text;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
@@ -31644,9 +31619,16 @@ var $;
                 this.contextmenu_showed(false);
                 return block;
             }
+            async image_blob_size(blob) {
+                const bmp = await createImageBitmap(blob);
+                const { width, height } = bmp;
+                bmp.close();
+                return { width, height };
+            }
             image_add(blob) {
-                const pos = this.pointer_pos();
-                const block = this.board().block_add('text', pos, 0, 0);
+                const pos = this.get_pointer_pos();
+                const size = this.$.$mol_wire_sync(this).image_blob_size(blob);
+                const block = this.board().block_add('text', pos, size.width, size.height);
                 block?.Image(null)?.blob(blob);
                 return block;
             }
@@ -36438,7 +36420,7 @@ var $;
                 equal: (next, prev) => prev.textContent === next,
                 drop: (prev, lead) => list.removeChild(prev),
                 insert: (next, lead) => list.insertBefore($mol_jsx("p", { "data-rev": "new" }, next), lead ? lead.nextSibling : list.firstChild),
-                update: (next, prev, lead) => {
+                replace: (next, prev, lead) => {
                     prev.textContent = next;
                     prev.setAttribute('data-rev', 'up');
                     return prev;
@@ -36463,7 +36445,7 @@ var $;
                 equal: (next, prev) => prev.textContent === next,
                 drop: (prev, lead) => list.removeChild(prev),
                 insert: (next, lead) => list.insertBefore($mol_jsx("p", { "data-rev": "new" }, next), lead ? lead.nextSibling : list.firstChild),
-                update: (next, prev, lead) => {
+                replace: (next, prev, lead) => {
                     prev.textContent = next;
                     prev.setAttribute('data-rev', 'up');
                     return prev;
@@ -36488,7 +36470,7 @@ var $;
                 equal: (next, prev) => prev.textContent === next,
                 drop: (prev, lead) => list.removeChild(prev),
                 insert: (next, lead) => list.insertBefore($mol_jsx("p", { "data-rev": "new" }, next), lead ? lead.nextSibling : list.firstChild),
-                update: (next, prev, lead) => {
+                replace: (next, prev, lead) => {
                     prev.textContent = next;
                     prev.setAttribute('data-rev', 'up');
                     return prev;
@@ -36512,7 +36494,7 @@ var $;
                 equal: (next, prev) => prev.textContent === next,
                 drop: (prev, lead) => list.removeChild(prev),
                 insert: (next, lead) => list.insertBefore($mol_jsx("p", { "data-rev": "new" }, next), lead ? lead.nextSibling : list.firstChild),
-                update: (next, prev, lead) => {
+                replace: (next, prev, lead) => {
                     prev.textContent = next;
                     prev.setAttribute('data-rev', 'up');
                     return prev;
@@ -36540,7 +36522,7 @@ var $;
                 equal: (next, prev) => prev.textContent === next,
                 drop: (prev, lead) => list.removeChild(prev),
                 insert: (next, lead) => list.insertBefore($mol_jsx("p", { "data-rev": "new" }, next), lead ? lead.nextSibling : list.firstChild),
-                update: (next, prev, lead) => {
+                replace: (next, prev, lead) => {
                     prev.textContent = next;
                     prev.setAttribute('data-rev', 'up');
                     return prev;
@@ -36566,7 +36548,7 @@ var $;
                 equal: (next, prev) => prev.textContent === next,
                 drop: (prev, lead) => list.removeChild(prev),
                 insert: (next, lead) => list.insertBefore($mol_jsx("p", { "data-rev": "new" }, next), lead ? lead.nextSibling : list.firstChild),
-                update: (next, prev, lead) => {
+                replace: (next, prev, lead) => {
                     prev.textContent = next;
                     prev.setAttribute('data-rev', 'up');
                     return prev;
@@ -37604,7 +37586,7 @@ var $;
             $mol_assert_equal('👩🏿‍🤝‍🧑🏿👩🏿‍🤝‍🧑🏿'.match($hyoo_crus_text_tokens), ['👩🏿‍🤝‍🧑🏿', '👩🏿‍🤝‍🧑🏿']);
         },
         'word with spaces'() {
-            $mol_assert_equal('foo1  bar2'.match($hyoo_crus_text_tokens), ['foo1 ', ' ', 'bar2']);
+            $mol_assert_equal('foo1  bar2'.match($hyoo_crus_text_tokens), ['foo1', ' ', ' bar2']);
         },
         'word with diactric'() {
             $mol_assert_equal('Е́е́'.match($hyoo_crus_text_tokens), ['Е́е́']);
@@ -37634,22 +37616,22 @@ var $;
             $mol_assert_equal(list.items_vary(), ['foo']);
             text.str('foo bar');
             $mol_assert_equal(text.str(), 'foo bar');
-            $mol_assert_equal(list.items_vary(), ['foo ', 'bar']);
+            $mol_assert_equal(list.items_vary(), ['foo', ' bar']);
             text.str('foo lol bar');
             $mol_assert_equal(text.str(), 'foo lol bar');
-            $mol_assert_equal(list.items_vary(), ['foo ', 'lol ', 'bar']);
+            $mol_assert_equal(list.items_vary(), ['foo', ' lol', ' bar']);
             text.str('lol bar');
             $mol_assert_equal(text.str(), 'lol bar');
-            $mol_assert_equal(list.items_vary(), ['lol ', 'bar']);
+            $mol_assert_equal(list.items_vary(), ['lol', ' bar']);
             text.str('foo bar');
             $mol_assert_equal(text.str(), 'foo bar');
-            $mol_assert_equal(list.items_vary(), ['foo ', 'bar']);
+            $mol_assert_equal(list.items_vary(), ['foo', ' bar']);
             text.str('foo  bar');
             $mol_assert_equal(text.str(), 'foo  bar');
-            $mol_assert_equal(list.items_vary(), ['foo ', ' ', 'bar']);
+            $mol_assert_equal(list.items_vary(), ['foo', ' ', ' bar']);
             text.str('foo  BarBar');
             $mol_assert_equal(text.str(), 'foo  BarBar');
-            $mol_assert_equal(list.items_vary(), ['foo ', ' ', 'Bar', 'Bar']);
+            $mol_assert_equal(list.items_vary(), ['foo', ' ', ' Bar', 'Bar']);
         },
         async 'str: Offset <=> Point'($) {
             const land = $hyoo_crus_land.make({ $ });
