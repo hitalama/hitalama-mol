@@ -15,6 +15,11 @@ namespace $.$$ {
 		board_id() {
 			return this.board().ref().description!
 		}
+
+		@ $mol_mem
+		description( next?: string ): string {
+			return this.board().Description(next)?.val( next ) ?? ''
+		}
 		
 		@ $mol_action
 		board_cut() {

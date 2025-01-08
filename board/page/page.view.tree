@@ -1,16 +1,6 @@
 $shm_hitalama_board_page $shm_hitalama_entity_page
 	board $shm_hitalama_board
 	cut_title \Удалить карту
-	head /
-		<= Open_in_new $mol_link_iconed 
-			sub /
-				<= Open_in_new_icon $mol_icon_open_in_new
-			arg *
-				section \board
-				board <= board_id \
-			external true
-		<= Title
-		<= Tools
 	auto /
 		<= keydown_listener null
 		<= keyup_listener null
@@ -18,6 +8,35 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 		<= shift_pressed? false
 		<= pull_drags_synced null
 	selected_refs? /
+	sub /
+		<= Head_panel $mol_view
+			sub /
+				<= Open_in_new $mol_link_iconed 
+					sub /
+						<= Open_in_new_icon $mol_icon_open_in_new
+					arg *
+						section \board
+						board <= board_id \
+					external true
+				<= Title $mol_view
+					sub / <= title
+				<= Settings $mol_pick
+					hint \Click to show settings
+					trigger_content /
+						<= Settings_trigger_icon $mol_icon_dots_vertical
+					bubble_content /
+						<= Settings_content $mol_list
+							sub /
+								<= Title_field $mol_form_field
+									name \Наименование
+									Content <= Title_edit $mol_string
+										value? <=> title?
+								<= Description_field $mol_form_field
+									name \Описание
+									Content <= Description_edit $mol_textarea
+										value? <=> description? \
+								<= Cut
+		<= Body
 	body_content /
 		<= Pane
 	contextmenu_body? /

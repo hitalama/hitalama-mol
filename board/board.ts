@@ -8,6 +8,8 @@ namespace $ {
 
 		Files: $hyoo_crus_list_ref_to( ()=> $shm_hitalama_file ),
 
+		Description: $hyoo_crus_atom_str,
+
 	}){
 		
 		@ $mol_mem_key
