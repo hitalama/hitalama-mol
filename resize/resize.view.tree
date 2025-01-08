@@ -55,8 +55,8 @@ $shm_hitalama_resize $mol_view
 				x? <=> right_edge_x? 0
 	resizing? false
 	-
-	height_min 100
-	width_min 100
+	height_min 20
+	width_min 20
 	-
 	height 0
 	width 0

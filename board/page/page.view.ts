@@ -234,10 +234,19 @@ namespace $.$$ {
 			return block
 		}
 
+		async image_blob_size( blob: Blob ) {
+			const bmp = await createImageBitmap( blob )
+			const { width, height } = bmp
+			bmp.close() // free memory
+			return { width, height }
+		}
+
 		@ $mol_action
 		image_add( blob: Blob ) {
-			const pos =  this.pointer_pos()
-			const block = this.board().block_add( 'text', pos, 0, 0 )
+			const pos =  this.get_pointer_pos()
+			const size = this.$.$mol_wire_sync( this ).image_blob_size( blob )
+
+			const block = this.board().block_add( 'text', pos, size.width, size.height )
 			block?.Image(null)?.blob( blob )
 			return block
 		}

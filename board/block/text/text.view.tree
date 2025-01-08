@@ -17,6 +17,3 @@ $shm_hitalama_board_block_text $shm_hitalama_board_block_float
 				pointerup? <=> pointerup? null
 		^ image / <= Image $mol_image
 			uri <= image_uri \
-	auto /
-		^
-		<= image_size_auto null

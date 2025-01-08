@@ -63,7 +63,6 @@ namespace $.$$ {
 
 		@ $mol_mem
 		color( next?: string ) {
-			console.log('next', next)
 			if( next === undefined ) return this.block().Color()?.val() || 'var(--mol_theme_text)'
 			const color = next || 'var(--mol_theme_text)'
 			return this.block().Color(null)?.val(color)!

@@ -71,23 +71,6 @@ namespace $.$$ {
 			const img = this.Image()
 			return img.natural_width() / img.natural_height()
 		}
-
-		@ $mol_mem
-		image_size_auto() {
-			if( !this.image() || this.width() != 0 || this.height() != 0 ) return
-
-			const img = this.Image()
-			const width = img.natural_width()
-			const height = img.natural_height()
-
-			if( !width || !height ) return
-
-			this.block().Bottom_edge_y(null)?.val( height )
-			this.block().Right_edge_x(null)?.val( width )
-			this.block().Body_x(null)?.val( this.block().Body_x()?.val()! - width/2 )
-			this.block().Body_y(null)?.val( this.block().Body_y()?.val()! - height/2 )
-			this.vals_to_sticks()
-		}
 		
 	}
 
