@@ -5,6 +5,8 @@ namespace $ {
 		Block: $hyoo_crus_atom_ref_to( ()=> $shm_hitalama_board_block ),
 
 		Axis: $hyoo_crus_atom_str,
+		Axis_details: $hyoo_crus_dict_to( $hyoo_crus_atom_str ), //'day'|'month'|'year' for Date
+
 		Values: $hyoo_crus_atom_jsan,
 		Groups: $hyoo_crus_atom_jsan,
 
@@ -71,6 +73,11 @@ namespace $ {
 
 			return options.includes( value )
 		}
+
+		@ $mol_mem_key
+		date_axis_details( axis: string, next?: string ) {
+			return this.Axis_details(next)?.key( axis, next )?.val( next ) ?? 'day'
+		}
 		
 		@ $mol_mem
 		traversed() {
@@ -86,12 +93,14 @@ namespace $ {
 			const row_value = ( row: any[] ) => {
 				return row[ value_i ]
 			}
+			
 			const axis_i = fields.indexOf( this.axis() )
+			const axis_details = this.date_axis_details( this.axis() )
 			const row_label = ( row: any[] ) => {
+				if( axis_details ) return dd_mm_yyyy_transform[ axis_details ]( row[ axis_i ] )
 				return row[ axis_i ]
 			}
 
-			console.log('this.rows()', this.rows())
 			this.rows().forEach( ( row: any[] ) => {
 				let included = true
 
@@ -115,10 +124,24 @@ namespace $ {
 				labels.add( label )
 			} )
 
-			console.log('{ by_group, labels, field_options }', { by_group, labels, field_options })
+			// console.log('{ by_group, labels, field_options }', { by_group, labels, field_options })
 			return { by_group, labels, field_options }
 		}
 		
+	}
+
+	const dd_mm_yyyy_transform: Record< string, ( str: string )=> string > = {
+		'month': function ( dd_mm_yyyy: string ) {
+			const [ day, month, year ] = dd_mm_yyyy.split('.')
+			return month + '.' + year
+		},
+		'year': function ( dd_mm_yyyy: string ) {
+			const [ day, month, year ] = dd_mm_yyyy.split('.')
+			return year
+		},
+		'day': function ( dd_mm_yyyy: string ) {
+			return dd_mm_yyyy
+		},
 	}
 
 }

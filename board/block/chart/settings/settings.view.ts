@@ -32,6 +32,15 @@ namespace $.$$ {
 		groups( next?: ( any )[] ): ( any )[] {
 			return this.chart().groups( next )
 		}
+
+		axis_details_visible() {
+			return this.axis() == 'Дата' ? super.axis_details_visible() : []
+		}
+
+		@ $mol_mem
+		axis_details( next?: string ): string {
+			return this.chart().date_axis_details( this.axis(), next )
+		}
 		
 	}
 }

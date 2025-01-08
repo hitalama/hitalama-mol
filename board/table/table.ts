@@ -52,37 +52,41 @@ namespace $ {
 		}
 
 		@ $mol_mem
-		head_calculated() {
-			const head = this.table_head()!
-			const date_cols = this.col_types().flatMap( (type, i)=> type == 'date' ? [i] : [] )
-			return date_cols.flatMap( col_i => {
-				const title = head[ col_i ]
-				return [ {
-					title: `${title} (месяц)`,
-					calc: ( row: any[] )=> {
-						const dd_mm_yyyy = row[ col_i ]
-						const [ day, month, year ] = dd_mm_yyyy.split('.')
-						return month + '.' + year
-					},
-				}, {
-					title: `${title} (год)`,
-					calc: ( row: any[] )=> {
-						const dd_mm_yyyy = row[ col_i ]
-						const [ day, month, year ] = dd_mm_yyyy.split('.')
-						return year
-					},
-				} ]
-			} )
+		head_computeds(): { title: string, calc: ( row: any[] )=> any }[] {
+			return []
+			// const head = this.table_head()!
+			// const date_cols = this.col_types().flatMap( (type, i)=> type == 'date' ? [i] : [] )
+			// return date_cols.flatMap( col_i => {
+			// 	const title = head[ col_i ]
+			// 	return [
+			// 		{
+			// 			title: `${title} (месяц)`,
+			// 			calc: ( row: any[] )=> {
+			// 				const dd_mm_yyyy = row[ col_i ]
+			// 				const [ day, month, year ] = dd_mm_yyyy.split('.')
+			// 				return month + '.' + year
+			// 			},
+			// 		},
+			// 		{
+			// 			title: `${title} (год)`,
+			// 			calc: ( row: any[] )=> {
+			// 				const dd_mm_yyyy = row[ col_i ]
+			// 				const [ day, month, year ] = dd_mm_yyyy.split('.')
+			// 				return year
+			// 			},
+			// 		},
+			// 	]
+			// } )
 		}
 
 		@ $mol_mem
 		head_extended() {
-			return [ ...this.table_head() ?? [], ...this.head_calculated().map( h => h.title ) ]
+			return [ ...this.table_head() ?? [], ...this.head_computeds().map( h => h.title ) ]
 		}
 
 		@ $mol_mem
 		rows_extended() {
-			const head_calculated = this.head_calculated()
+			const head_calculated = this.head_computeds()
 			const rows = this.table_rows()
 			return rows?.map( ( row: any ) => {
 				const calculated = head_calculated.map( ({ title, calc })=> {
