@@ -17301,33 +17301,14 @@ var $;
         col_types() {
             return this.Col_types()?.val() ?? this.table_head()?.map(title => title == 'Дата' ? 'date' : 'any') ?? [];
         }
-        head_calculated() {
-            const head = this.table_head();
-            const date_cols = this.col_types().flatMap((type, i) => type == 'date' ? [i] : []);
-            return date_cols.flatMap(col_i => {
-                const title = head[col_i];
-                return [{
-                        title: `${title} (месяц)`,
-                        calc: (row) => {
-                            const dd_mm_yyyy = row[col_i];
-                            const [day, month, year] = dd_mm_yyyy.split('.');
-                            return month + '.' + year;
-                        },
-                    }, {
-                        title: `${title} (год)`,
-                        calc: (row) => {
-                            const dd_mm_yyyy = row[col_i];
-                            const [day, month, year] = dd_mm_yyyy.split('.');
-                            return year;
-                        },
-                    }];
-            });
+        head_computeds() {
+            return [];
         }
         head_extended() {
-            return [...this.table_head() ?? [], ...this.head_calculated().map(h => h.title)];
+            return [...this.table_head() ?? [], ...this.head_computeds().map(h => h.title)];
         }
         rows_extended() {
-            const head_calculated = this.head_calculated();
+            const head_calculated = this.head_computeds();
             const rows = this.table_rows();
             return rows?.map((row) => {
                 const calculated = head_calculated.map(({ title, calc }) => {
@@ -17351,7 +17332,7 @@ var $;
     ], $shm_hitalama_board_table.prototype, "col_types", null);
     __decorate([
         $mol_mem
-    ], $shm_hitalama_board_table.prototype, "head_calculated", null);
+    ], $shm_hitalama_board_table.prototype, "head_computeds", null);
     __decorate([
         $mol_mem
     ], $shm_hitalama_board_table.prototype, "head_extended", null);
@@ -17368,6 +17349,7 @@ var $;
     class $shm_hitalama_board_chart extends $hyoo_crus_entity.with({
         Block: $hyoo_crus_atom_ref_to(() => $shm_hitalama_board_block),
         Axis: $hyoo_crus_atom_str,
+        Axis_details: $hyoo_crus_dict_to($hyoo_crus_atom_str),
         Values: $hyoo_crus_atom_jsan,
         Groups: $hyoo_crus_atom_jsan,
         Filters_enabled: $hyoo_crus_atom_jsan,
@@ -17403,6 +17385,9 @@ var $;
                 return true;
             return options.includes(value);
         }
+        date_axis_details(axis, next) {
+            return this.Axis_details(next)?.key(axis, next)?.val(next) ?? 'day';
+        }
         traversed() {
             const field_options = new Map;
             const by_group = new Map;
@@ -17414,10 +17399,12 @@ var $;
                 return row[value_i];
             };
             const axis_i = fields.indexOf(this.axis());
+            const axis_details = this.date_axis_details(this.axis());
             const row_label = (row) => {
+                if (axis_details)
+                    return dd_mm_yyyy_transform[axis_details](row[axis_i]);
                 return row[axis_i];
             };
-            console.log('this.rows()', this.rows());
             this.rows().forEach((row) => {
                 let included = true;
                 row.forEach((value, i) => {
@@ -17435,7 +17422,6 @@ var $;
                 by_label.set(label, (by_label.get(label) ?? 0) + Number(row_value(row)));
                 labels.add(label);
             });
-            console.log('{ by_group, labels, field_options }', { by_group, labels, field_options });
             return { by_group, labels, field_options };
         }
     }
@@ -17464,9 +17450,25 @@ var $;
         $mol_mem_key
     ], $shm_hitalama_board_chart.prototype, "row_included", null);
     __decorate([
+        $mol_mem_key
+    ], $shm_hitalama_board_chart.prototype, "date_axis_details", null);
+    __decorate([
         $mol_mem
     ], $shm_hitalama_board_chart.prototype, "traversed", null);
     $.$shm_hitalama_board_chart = $shm_hitalama_board_chart;
+    const dd_mm_yyyy_transform = {
+        'month': function (dd_mm_yyyy) {
+            const [day, month, year] = dd_mm_yyyy.split('.');
+            return month + '.' + year;
+        },
+        'year': function (dd_mm_yyyy) {
+            const [day, month, year] = dd_mm_yyyy.split('.');
+            return year;
+        },
+        'day': function (dd_mm_yyyy) {
+            return dd_mm_yyyy;
+        },
+    };
 })($ || ($ = {}));
 
 ;
@@ -30259,10 +30261,33 @@ var $;
 			(obj.value) = (next) => ((this.axis(next)));
 			return obj;
 		}
+		axis_details(next){
+			if(next !== undefined) return next;
+			return "day";
+		}
+		Axis_details(){
+			const obj = new this.$.$mol_select();
+			(obj.Filter) = () => (null);
+			(obj.dictionary) = () => ({
+				"day": "День", 
+				"month": "Месяц", 
+				"year": "Год"
+			});
+			(obj.value) = (next) => ((this.axis_details(next)));
+			return obj;
+		}
+		axis_details_visible(){
+			return [(this.Axis_details())];
+		}
+		Axis_content(){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => ([(this.Axis()), ...(this.axis_details_visible())]);
+			return obj;
+		}
 		Axis_field(){
 			const obj = new this.$.$mol_form_field();
 			(obj.name) = () => ("Ось");
-			(obj.Content) = () => ((this.Axis()));
+			(obj.Content) = () => ((this.Axis_content()));
 			return obj;
 		}
 		values_title(next){
@@ -30328,6 +30353,9 @@ var $;
 	};
 	($mol_mem(($.$shm_hitalama_board_block_chart_settings.prototype), "axis"));
 	($mol_mem(($.$shm_hitalama_board_block_chart_settings.prototype), "Axis"));
+	($mol_mem(($.$shm_hitalama_board_block_chart_settings.prototype), "axis_details"));
+	($mol_mem(($.$shm_hitalama_board_block_chart_settings.prototype), "Axis_details"));
+	($mol_mem(($.$shm_hitalama_board_block_chart_settings.prototype), "Axis_content"));
 	($mol_mem(($.$shm_hitalama_board_block_chart_settings.prototype), "Axis_field"));
 	($mol_mem(($.$shm_hitalama_board_block_chart_settings.prototype), "values_title"));
 	($mol_mem(($.$shm_hitalama_board_block_chart_settings.prototype), "Values"));
@@ -30370,6 +30398,12 @@ var $;
             groups(next) {
                 return this.chart().groups(next);
             }
+            axis_details_visible() {
+                return this.axis() == 'Дата' ? super.axis_details_visible() : [];
+            }
+            axis_details(next) {
+                return this.chart().date_axis_details(this.axis(), next);
+            }
         }
         __decorate([
             $mol_mem
@@ -30380,6 +30414,9 @@ var $;
         __decorate([
             $mol_mem
         ], $shm_hitalama_board_block_chart_settings.prototype, "head", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_block_chart_settings.prototype, "axis_details", null);
         $$.$shm_hitalama_board_block_chart_settings = $shm_hitalama_board_block_chart_settings;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));

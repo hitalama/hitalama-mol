@@ -11962,7 +11962,7 @@ declare namespace $ {
         table_head(next?: any): any[] | null | undefined;
         table_rows(next?: any): any[] | null | undefined;
         col_types(): any[];
-        head_calculated(): {
+        head_computeds(): {
             title: string;
             calc: (row: any[]) => any;
         }[];
@@ -12026,6 +12026,47 @@ declare namespace $ {
             [$mol_ambient_ref]: $;
         } | null;
         readonly Axis: (auto?: any) => $hyoo_crus_atom_str | null;
+        readonly Axis_details: (auto?: any) => {
+            Value: typeof $hyoo_crus_atom_str;
+            key(key: $hyoo_crus_vary_type, auto?: any): $hyoo_crus_atom_str;
+            keys(): readonly $hyoo_crus_vary_type[];
+            dive<Node_1 extends typeof $hyoo_crus_node>(key: $hyoo_crus_vary_type, Node: Node_1, auto?: any): InstanceType<Node_1> | null;
+            [$mol_dev_format_head](): any[];
+            items_vary(next?: readonly $hyoo_crus_vary_type[], tag?: keyof typeof $hyoo_crus_sand_tag): readonly $hyoo_crus_vary_type[];
+            splice(next: readonly $hyoo_crus_vary_type[], from?: number, to?: number, tag?: keyof typeof $hyoo_crus_sand_tag): void;
+            find(vary: $hyoo_crus_vary_type): $hyoo_crus_sand | null;
+            has(vary: $hyoo_crus_vary_type, next?: boolean, tag?: keyof typeof $hyoo_crus_sand_tag): boolean;
+            add(vary: $hyoo_crus_vary_type, tag?: keyof typeof $hyoo_crus_sand_tag): void;
+            cut(vary: $hyoo_crus_vary_type): void;
+            move(from: number, to: number): void;
+            wipe(seat: number): void;
+            node_make<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1, vary: $hyoo_crus_vary_type, tag?: keyof typeof $hyoo_crus_sand_tag): InstanceType<Node_1>;
+            land(): $hyoo_crus_land;
+            head(): string;
+            land_ref(): symbol & {
+                $hyoo_crus_ref: symbol;
+            };
+            ref(): symbol & {
+                $hyoo_crus_ref: symbol;
+            };
+            toJSON(): string | undefined;
+            cast<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1): InstanceType<Node_1>;
+            nodes<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+            units(): $hyoo_crus_sand[];
+            units_of(peer: string | null): $hyoo_crus_sand[];
+            filled(): boolean;
+            can_change(): boolean;
+            last_change(): $mol_time_moment | null;
+            author_peers(): string[];
+            author_lords(): (symbol & {
+                $hyoo_crus_ref: symbol;
+            })[];
+            $: $;
+            destructor(): void;
+            toString(): string;
+            [Symbol.toStringTag]: string;
+            [$mol_ambient_ref]: $;
+        } | null;
         readonly Values: (auto?: any) => $hyoo_crus_atom_jsan | null;
         readonly Groups: (auto?: any) => $hyoo_crus_atom_jsan | null;
         readonly Filters_enabled: (auto?: any) => $hyoo_crus_atom_jsan | null;
@@ -12138,6 +12179,66 @@ declare namespace $ {
                 [Symbol.toPrimitive](): any;
             };
             readonly Axis: typeof $hyoo_crus_atom_str;
+            readonly Axis_details: {
+                new (): {
+                    Value: typeof $hyoo_crus_atom_str;
+                    key(key: $hyoo_crus_vary_type, auto?: any): $hyoo_crus_atom_str;
+                    keys(): readonly $hyoo_crus_vary_type[];
+                    dive<Node_1 extends typeof $hyoo_crus_node>(key: $hyoo_crus_vary_type, Node: Node_1, auto?: any): InstanceType<Node_1> | null;
+                    [$mol_dev_format_head](): any[];
+                    items_vary(next?: readonly $hyoo_crus_vary_type[], tag?: keyof typeof $hyoo_crus_sand_tag): readonly $hyoo_crus_vary_type[];
+                    splice(next: readonly $hyoo_crus_vary_type[], from?: number, to?: number, tag?: keyof typeof $hyoo_crus_sand_tag): void;
+                    find(vary: $hyoo_crus_vary_type): $hyoo_crus_sand | null;
+                    has(vary: $hyoo_crus_vary_type, next?: boolean, tag?: keyof typeof $hyoo_crus_sand_tag): boolean;
+                    add(vary: $hyoo_crus_vary_type, tag?: keyof typeof $hyoo_crus_sand_tag): void;
+                    cut(vary: $hyoo_crus_vary_type): void;
+                    move(from: number, to: number): void;
+                    wipe(seat: number): void;
+                    node_make<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1, vary: $hyoo_crus_vary_type, tag?: keyof typeof $hyoo_crus_sand_tag): InstanceType<Node_1>;
+                    land(): $hyoo_crus_land;
+                    head(): string;
+                    land_ref(): symbol & {
+                        $hyoo_crus_ref: symbol;
+                    };
+                    ref(): symbol & {
+                        $hyoo_crus_ref: symbol;
+                    };
+                    toJSON(): string | undefined;
+                    cast<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1): InstanceType<Node_1>;
+                    nodes<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+                    units(): $hyoo_crus_sand[];
+                    units_of(peer: string | null): $hyoo_crus_sand[];
+                    filled(): boolean;
+                    can_change(): boolean;
+                    last_change(): $mol_time_moment | null;
+                    author_peers(): string[];
+                    author_lords(): (symbol & {
+                        $hyoo_crus_ref: symbol;
+                    })[];
+                    $: $;
+                    destructor(): void;
+                    toString(): string;
+                    [Symbol.toStringTag]: string;
+                    [$mol_ambient_ref]: $;
+                };
+                toString(): any;
+                tag: keyof typeof $hyoo_crus_sand_tag;
+                schema: Record<string, typeof $hyoo_crus_node>;
+                with<This extends typeof $hyoo_crus_dict, const Schema extends Record<string, {
+                    tag: keyof typeof $hyoo_crus_sand_tag;
+                    new (): {};
+                }>>(this: This, schema: Schema): Omit<This, "prototype"> & (new (...args: any[]) => $mol_type_override<InstanceType<This>, { readonly [Key in keyof Schema]: (auto?: any) => InstanceType<Schema[Key]> | null; }>) & {
+                    schema: {
+                        [x: string]: typeof $hyoo_crus_node;
+                    } & Schema;
+                };
+                make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
+                $: $;
+                create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
+                toJSON(): any;
+                destructor(): void;
+                [Symbol.toPrimitive](): any;
+            };
             readonly Values: typeof $hyoo_crus_atom_jsan;
             readonly Groups: typeof $hyoo_crus_atom_jsan;
             readonly Filters_enabled: typeof $hyoo_crus_atom_jsan;
@@ -12212,6 +12313,7 @@ declare namespace $ {
         groups(next?: (any)[]): (any)[];
         rows(): any[][];
         row_included([field, value]: [string, any]): boolean;
+        date_axis_details(axis: string, next?: string): string;
         traversed(): {
             by_group: Map<string, Map<string, number>>;
             labels: Set<string>;
@@ -20618,50 +20720,54 @@ declare namespace $ {
 		,
 		ReturnType< $mol_select['value'] >
 	>
-	type $mol_form_field__name_shm_hitalama_board_block_chart_settings_4 = $mol_type_enforce<
-		string
-		,
-		ReturnType< $mol_form_field['name'] >
-	>
-	type $mol_form_field__Content_shm_hitalama_board_block_chart_settings_5 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_chart_settings['Axis'] >
-		,
-		ReturnType< $mol_form_field['Content'] >
-	>
-	type $mol_select__Filter_shm_hitalama_board_block_chart_settings_6 = $mol_type_enforce<
+	type $mol_select__Filter_shm_hitalama_board_block_chart_settings_4 = $mol_type_enforce<
 		any
 		,
 		ReturnType< $mol_select['Filter'] >
 	>
-	type $mol_select__options_shm_hitalama_board_block_chart_settings_7 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_chart_settings['head'] >
+	type $mol_select__dictionary_shm_hitalama_board_block_chart_settings_5 = $mol_type_enforce<
+		({ 
+			'day': string,
+			'month': string,
+			'year': string,
+		}) 
 		,
-		ReturnType< $mol_select['options'] >
+		ReturnType< $mol_select['dictionary'] >
 	>
-	type $mol_select__value_shm_hitalama_board_block_chart_settings_8 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_chart_settings['values_title'] >
+	type $mol_select__value_shm_hitalama_board_block_chart_settings_6 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_chart_settings['axis_details'] >
 		,
 		ReturnType< $mol_select['value'] >
 	>
-	type $mol_form_field__name_shm_hitalama_board_block_chart_settings_9 = $mol_type_enforce<
+	type $mol_view__sub_shm_hitalama_board_block_chart_settings_7 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_view['sub'] >
+	>
+	type $mol_form_field__name_shm_hitalama_board_block_chart_settings_8 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_form_field['name'] >
 	>
-	type $mol_form_field__Content_shm_hitalama_board_block_chart_settings_10 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_chart_settings['Values'] >
+	type $mol_form_field__Content_shm_hitalama_board_block_chart_settings_9 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_chart_settings['Axis_content'] >
 		,
 		ReturnType< $mol_form_field['Content'] >
 	>
-	type $mol_select_list__value_shm_hitalama_board_block_chart_settings_11 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_chart_settings['groups'] >
+	type $mol_select__Filter_shm_hitalama_board_block_chart_settings_10 = $mol_type_enforce<
+		any
 		,
-		ReturnType< $mol_select_list['value'] >
+		ReturnType< $mol_select['Filter'] >
 	>
-	type $mol_select_list__options_shm_hitalama_board_block_chart_settings_12 = $mol_type_enforce<
+	type $mol_select__options_shm_hitalama_board_block_chart_settings_11 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_chart_settings['head'] >
 		,
-		ReturnType< $mol_select_list['options'] >
+		ReturnType< $mol_select['options'] >
+	>
+	type $mol_select__value_shm_hitalama_board_block_chart_settings_12 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_chart_settings['values_title'] >
+		,
+		ReturnType< $mol_select['value'] >
 	>
 	type $mol_form_field__name_shm_hitalama_board_block_chart_settings_13 = $mol_type_enforce<
 		string
@@ -20669,11 +20775,31 @@ declare namespace $ {
 		ReturnType< $mol_form_field['name'] >
 	>
 	type $mol_form_field__Content_shm_hitalama_board_block_chart_settings_14 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_chart_settings['Values'] >
+		,
+		ReturnType< $mol_form_field['Content'] >
+	>
+	type $mol_select_list__value_shm_hitalama_board_block_chart_settings_15 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_chart_settings['groups'] >
+		,
+		ReturnType< $mol_select_list['value'] >
+	>
+	type $mol_select_list__options_shm_hitalama_board_block_chart_settings_16 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_chart_settings['head'] >
+		,
+		ReturnType< $mol_select_list['options'] >
+	>
+	type $mol_form_field__name_shm_hitalama_board_block_chart_settings_17 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_form_field['name'] >
+	>
+	type $mol_form_field__Content_shm_hitalama_board_block_chart_settings_18 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_chart_settings['Groups'] >
 		,
 		ReturnType< $mol_form_field['Content'] >
 	>
-	type $mol_list__sub_shm_hitalama_board_block_chart_settings_15 = $mol_type_enforce<
+	type $mol_list__sub_shm_hitalama_board_block_chart_settings_19 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_list['sub'] >
@@ -20682,6 +20808,10 @@ declare namespace $ {
 		head( ): readonly(any)[]
 		axis( next?: string ): string
 		Axis( ): $mol_select
+		axis_details( next?: string ): string
+		Axis_details( ): $mol_select
+		axis_details_visible( ): readonly(any)[]
+		Axis_content( ): $mol_view
 		Axis_field( ): $mol_form_field
 		values_title( next?: string ): string
 		Values( ): $mol_select
@@ -20711,6 +20841,8 @@ declare namespace $.$$ {
         values(next?: (any)[]): (any)[];
         values_title(next?: string): any;
         groups(next?: (any)[]): (any)[];
+        axis_details_visible(): readonly any[];
+        axis_details(next?: string): string;
     }
 }
 

@@ -2806,10 +2806,19 @@ $shm_hitalama_board_block_chart_settings $shm_hitalama_board_block_float
 			sub /
 				<= Axis_field $mol_form_field
 					name \Ось
-					Content <= Axis $mol_select
-						Filter null
-						options <= head /
-						value? <=> axis? \
+					Content <= Axis_content $mol_view
+						sub /
+							<= Axis $mol_select
+								Filter null
+								options <= head /
+								value? <=> axis? \
+							^ axis_details_visible / <= Axis_details $mol_select
+								Filter null
+								dictionary *
+									day \День
+									month \Месяц
+									year \Год
+								value? <=> axis_details? \day
 				<= Values_field $mol_form_field
 					name \Значения
 					Content <= Values $mol_select
