@@ -27464,6 +27464,17 @@ var $;
 			(obj.uri) = () => ((this.src()));
 			return obj;
 		}
+		tg_post_script(){
+			return [];
+		}
+		Tg_post_dom(){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => ([...(this.tg_post_script())]);
+			return obj;
+		}
+		iframe_visible(){
+			return [(this.Iframe()), (this.Tg_post_dom())];
+		}
 		Blocker(){
 			const obj = new this.$.$mol_view();
 			return obj;
@@ -27491,7 +27502,7 @@ var $;
 		sub(){
 			return [
 				(this.Drag_view()), 
-				(this.Iframe()), 
+				...(this.iframe_visible()), 
 				...(this.blocker()), 
 				...(this.edges()), 
 				...(this.toolbar())
@@ -27508,6 +27519,7 @@ var $;
 		}
 	};
 	($mol_mem(($.$shm_hitalama_board_block_iframe.prototype), "Iframe"));
+	($mol_mem(($.$shm_hitalama_board_block_iframe.prototype), "Tg_post_dom"));
 	($mol_mem(($.$shm_hitalama_board_block_iframe.prototype), "Blocker"));
 	($mol_mem(($.$shm_hitalama_board_block_iframe.prototype), "src"));
 	($mol_mem(($.$shm_hitalama_board_block_iframe.prototype), "Src"));
@@ -27533,6 +27545,24 @@ var $;
             editing() {
                 return this.src_focused();
             }
+            tg_post() {
+                const match = this.src().match(/https:\/\/t\.me\/(.+)/);
+                return match?.[1];
+            }
+            tg_post_script() {
+                const tg_post = this.tg_post();
+                if (!tg_post)
+                    return [];
+                const script = document.createElement('script');
+                script.setAttribute('src', 'https://telegram.org/js/telegram-widget.js?22');
+                script.setAttribute('data-telegram-post', tg_post);
+                script.setAttribute('data-width', '100%');
+                script.setAttribute('async', '');
+                return [script];
+            }
+            iframe_visible() {
+                return this.tg_post() ? [this.Tg_post_dom()] : [this.Iframe()];
+            }
         }
         __decorate([
             $mol_mem
@@ -27543,6 +27573,15 @@ var $;
         __decorate([
             $mol_mem
         ], $shm_hitalama_board_block_iframe.prototype, "editing", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_block_iframe.prototype, "tg_post", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_block_iframe.prototype, "tg_post_script", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_block_iframe.prototype, "iframe_visible", null);
         $$.$shm_hitalama_board_block_iframe = $shm_hitalama_board_block_iframe;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
@@ -27573,6 +27612,11 @@ var $;
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
                 display: 'block',
+            },
+            Tg_post_dom: {
+                flex: {
+                    grow: 1,
+                },
             },
         });
     })($$ = $.$$ || ($.$$ = {}));
