@@ -43,10 +43,16 @@ namespace $.$$ {
 
 		@ $mol_action
 		chart_add() {
-			const block = this.board().block_add( 'chart', this.Board_page().contextmenu_pos(), 600, 400 )
-			block?.Table(null)?.remote( this.block().table() )
+			const chart_pos = this.Board_page().contextmenu_pos()
+			const chart_block = this.board().block_add( 'chart', chart_pos, 600, 400 )
+			chart_block?.Table(null)?.remote( this.block().table() )
+			const chart = chart_block?.Chart(null)
+			chart?.Block(null)?.remote( chart_block )
+
+			const settings = this.board().block_add( 'chart_settings', [ chart_pos[0] + 600, chart_pos[1] ], 180, 290 )
+			settings?.Use_chart_from(null)?.remote( chart_block )
+
 			this.Board_page().contextmenu_showed( false )
-			return block
 		}
 		
 	}

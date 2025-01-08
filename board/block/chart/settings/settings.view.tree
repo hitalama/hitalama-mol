@@ -1,0 +1,52 @@
+$shm_hitalama_board_block_chart_settings $shm_hitalama_board_block_float
+	tools /
+		<= Top
+		<= Bottom
+		<= Delete
+		<= Ref_copy
+	sub /
+		^ content
+		^ edges
+		^ toolbar
+	content /
+		<= Drag_view
+		<= Form $mol_list
+			sub /
+				<= Axis_field $mol_form_field
+					name \Ось
+					Content <= Axis $mol_select
+						Filter null
+						options <= head /
+						value? <=> axis? \
+				<= Values_field $mol_form_field
+					name \Значения
+					Content <= Values $mol_select
+						Filter null
+						options <= head /
+						value? <=> values_title? \
+					- Content <= Values $mol_select_list
+						value? <=> values? /
+						options <= head /
+				<= Groups_field $mol_form_field
+					name \Группировка
+					Content <= Groups $mol_select_list
+						value? <=> groups? /
+						options <= head /
+		- <= Filters $mol_list
+			sub /
+				<= Filter_select $mol_pick
+					trigger_content /
+						\Фильтры
+					bubble_content /
+						<= Checks $shm_hitalama_check_list
+							options <= head /
+							value? <=> filters_enabled? /
+							checked*? => filter_enabled*?
+				^ filters /
+	- Filter_content* $mol_pick
+		trigger_content /
+			<= filter_title* \
+		bubble_content /
+			<= Filter_options* $shm_hitalama_check_list
+				options <= filter_options* /
+				value? <=> filter_options_checked*? /

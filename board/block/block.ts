@@ -8,6 +8,7 @@ namespace $ {
 		'table',
 		'code',
 		'chart',
+		'chart_settings',
 		'customdom',
 	] as const
 
@@ -45,6 +46,7 @@ namespace $ {
 
 		//chart
 		Chart: $shm_hitalama_board_chart,
+		Use_chart_from: $hyoo_crus_atom_ref_to( ()=> $shm_hitalama_board_block ),
 
 	}){
 
