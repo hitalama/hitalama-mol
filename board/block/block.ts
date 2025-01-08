@@ -9,6 +9,7 @@ namespace $ {
 		'code',
 		'chart',
 		'chart_settings',
+		'chart_filter',
 		'customdom',
 	] as const
 

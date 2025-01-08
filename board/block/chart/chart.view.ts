@@ -40,6 +40,25 @@ namespace $.$$ {
 			this.Board_page().contextmenu_showed( false )
 		}
 
+		@ $mol_action
+		filter_add( name: string ) {
+			const pos = this.Board_page().get_pointer_pos()
+
+			const block = this.board().block_add( 'chart_filter', pos, 180, 290 )
+			block?.text( name )
+			block?.Use_chart_from(null)?.remote( this.block() )
+
+			this.Board_page().contextmenu_showed( false )
+		}
+
+		filter_buttons() {
+			return this.chart().table_head().map( name => this.Filter_add( name ) )
+		}
+
+		filter_name( id: any ): string {
+			return id
+		}
+
 	}
 
 }

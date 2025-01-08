@@ -44,15 +44,15 @@ namespace $ {
 			return this.Groups(next)?.val( next ) ?? []
 		}
 
-		@ $mol_mem
-		filters_enabled( next?: string[] ) {
-			return this.Filters_enabled(next)?.val( next ) ?? []
-		}
+		// @ $mol_mem
+		// filters_enabled( next?: string[] ) {
+		// 	return this.Filters_enabled(next)?.val( next ) ?? []
+		// }
 
-		@ $mol_mem_key
-		filter_enabled( field: string ) {
-			return this.filters_enabled().includes( field )
-		}
+		// @ $mol_mem_key
+		// filter_enabled( field: string ) {
+		// 	return this.filters_enabled().includes( field )
+		// }
 
 		@ $mol_mem
 		rows() {
@@ -63,8 +63,8 @@ namespace $ {
 
 		@ $mol_mem_key
 		row_included( [ field, value ]: [ string, any ] ) {
-			const filter_enabled = this.filter_enabled( field )
-			if( !filter_enabled ) return true
+			// const filter_enabled = this.filter_enabled( field )
+			// if( !filter_enabled ) return true
 
 			const options = this.Filters_options()?.key( field )?.val()
 			if( !options ) return true
@@ -80,7 +80,6 @@ namespace $ {
 			const labels = new Set< string >
 			
 			const fields = this.table_head()
-			console.log('fields', fields)
 			const group_indexes =  this.groups().map( g => fields.indexOf( g ) )
 
 			const value_i = fields.indexOf( this.values_title() )

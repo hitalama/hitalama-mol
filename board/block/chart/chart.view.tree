@@ -16,3 +16,13 @@ $shm_hitalama_board_block_chart $shm_hitalama_board_block_float
 			<= Settings_add $mol_button_minor
 				title \Добавить виджет настроек
 				click? <=> settings_add? null
+			<= Filters_add $mol_pop_over
+				align \right_bottom
+				Anchor <= Filters_add_anchor $mol_button_minor
+					title \Добавить фильтр
+				bubble_content /
+					<= Filters $mol_list
+						sub <= filter_buttons /
+							<= Filter_add*0 $mol_button_minor
+								title <= filter_name* \
+								click? <=> filter_add*? null

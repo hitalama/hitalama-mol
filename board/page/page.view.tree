@@ -21,6 +21,7 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 	body_content /
 		<= Pane
 	contextmenu_body? /
+	get_pointer_pos /
 	Back_contextmenu_body $mol_list
 		sub /
 			<= Text_add $mol_button_minor

@@ -1,0 +1,15 @@
+$shm_hitalama_board_block_chart_filter $shm_hitalama_board_block_float
+	tools /
+		<= Top
+		<= Bottom
+		<= Delete
+		<= Ref_copy
+	content /
+		<= Drag_view
+		<= Form $mol_list
+			sub /
+				<= Field $mol_form_field
+					name <= name \
+					Content <= Filter_options $shm_hitalama_check_list
+						options <= filter_options /
+						value? <=> filter_options_checked? /

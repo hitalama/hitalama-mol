@@ -12,6 +12,10 @@ namespace $.$$ {
 			height: '100%',
 		},
 
+		Filters_add: {
+			width: 'fit-content',
+		},
+
 	} )
 	
 }
