@@ -8919,15 +8919,27 @@ declare namespace $ {
     };
     export class $shm_hitalama_board_chart extends $shm_hitalama_board_chart_base {
         table(): $shm_hitalama_board_table;
+        table_head(): any[];
+        axis(next?: string): any;
+        values(next?: (any)[]): (any)[];
+        values_title(next?: string): any;
+        groups(next?: (any)[]): (any)[];
+        rows(): any[][];
+        row_included([field, value]: [string, any]): boolean;
+        traversed(): {
+            by_group: Map<string, Map<string, number>>;
+            labels: Set<string>;
+            field_options: Map<string, Set<string | number>>;
+        };
     }
     export {};
 }
 
 declare namespace $ {
-    export const $shm_hitalama_board_block_types: readonly ["text", "input", "iframe", "form", "table", "code", "chart", "customdom"];
+    export const $shm_hitalama_board_block_types: readonly ["text", "input", "iframe", "form", "table", "code", "chart", "chart_settings", "chart_filter", "customdom"];
     const $shm_hitalama_board_block_type_base: (abstract new () => {
-        val(next?: "text" | "input" | "iframe" | "form" | "table" | "code" | "chart" | "customdom" | undefined): "text" | "input" | "iframe" | "form" | "table" | "code" | "chart" | "customdom" | null;
-        val_of(peer: string | null, next?: "text" | "input" | "iframe" | "form" | "table" | "code" | "chart" | "customdom" | undefined): "text" | "input" | "iframe" | "form" | "table" | "code" | "chart" | "customdom" | null;
+        val(next?: "text" | "input" | "iframe" | "form" | "table" | "code" | "chart" | "chart_settings" | "chart_filter" | "customdom" | undefined): "text" | "input" | "iframe" | "form" | "table" | "code" | "chart" | "chart_settings" | "chart_filter" | "customdom" | null;
+        val_of(peer: string | null, next?: "text" | "input" | "iframe" | "form" | "table" | "code" | "chart" | "chart_settings" | "chart_filter" | "customdom" | undefined): "text" | "input" | "iframe" | "form" | "table" | "code" | "chart" | "chart_settings" | "chart_filter" | "customdom" | null;
         pick_unit(peer: string | null): $hyoo_crus_sand | undefined;
         vary(next?: $hyoo_crus_vary_type): $hyoo_crus_vary_type;
         vary_of(peer: string | null, next?: $hyoo_crus_vary_type): $hyoo_crus_vary_type;
@@ -8958,7 +8970,7 @@ declare namespace $ {
         [Symbol.toStringTag]: string;
         [$mol_ambient_ref]: $;
     }) & {
-        options: readonly ["text", "input", "iframe", "form", "table", "code", "chart", "customdom"];
+        options: readonly ["text", "input", "iframe", "form", "table", "code", "chart", "chart_settings", "chart_filter", "customdom"];
         toString(): any;
         tag: keyof typeof $hyoo_crus_sand_tag;
         make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
@@ -9139,6 +9151,57 @@ declare namespace $ {
             [$mol_ambient_ref]: $;
         } | null;
         readonly Chart: (auto?: any) => $shm_hitalama_board_chart | null;
+        readonly Use_chart_from: (auto?: any) => {
+            Value: Value;
+            remote(next?: $shm_hitalama_board_block | null | undefined): $shm_hitalama_board_block | null;
+            remote_of(peer: string | null, next?: $shm_hitalama_board_block | null | undefined): $shm_hitalama_board_block | null;
+            ensure(config?: null | $hyoo_crus_rank_preset | $hyoo_crus_land): $shm_hitalama_board_block | null;
+            ensure_of(peer: string | null, config?: null | $hyoo_crus_rank_preset | $hyoo_crus_land): $shm_hitalama_board_block | null;
+            ensure_here(peer: string | null): void;
+            ensure_area(peer: string | null, land: $hyoo_crus_land): void;
+            ensure_lord(peer: string | null, preset: $hyoo_crus_rank_preset): void;
+            remote_ensure(preset?: $hyoo_crus_rank_preset): $shm_hitalama_board_block | null;
+            local_ensure(): $shm_hitalama_board_block | null;
+            val(next?: (symbol & {
+                $hyoo_crus_ref: symbol;
+            }) | null | undefined): (symbol & {
+                $hyoo_crus_ref: symbol;
+            }) | null;
+            val_of(peer: string | null, next?: (symbol & {
+                $hyoo_crus_ref: symbol;
+            }) | null | undefined): (symbol & {
+                $hyoo_crus_ref: symbol;
+            }) | null;
+            pick_unit(peer: string | null): $hyoo_crus_sand | undefined;
+            vary(next?: $hyoo_crus_vary_type): $hyoo_crus_vary_type;
+            vary_of(peer: string | null, next?: $hyoo_crus_vary_type): $hyoo_crus_vary_type;
+            [$mol_dev_format_head](): any[];
+            land(): $hyoo_crus_land;
+            head(): string;
+            land_ref(): symbol & {
+                $hyoo_crus_ref: symbol;
+            };
+            ref(): symbol & {
+                $hyoo_crus_ref: symbol;
+            };
+            toJSON(): string | undefined;
+            cast<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1): InstanceType<Node_1>;
+            nodes<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+            units(): $hyoo_crus_sand[];
+            units_of(peer: string | null): $hyoo_crus_sand[];
+            filled(): boolean;
+            can_change(): boolean;
+            last_change(): $mol_time_moment | null;
+            author_peers(): string[];
+            author_lords(): (symbol & {
+                $hyoo_crus_ref: symbol;
+            })[];
+            $: $;
+            destructor(): void;
+            toString(): string;
+            [Symbol.toStringTag]: string;
+            [$mol_ambient_ref]: $;
+        } | null;
     }>) & {
         schema: {
             [x: string]: typeof $hyoo_crus_node;
@@ -9347,6 +9410,69 @@ declare namespace $ {
                 [Symbol.toPrimitive](): any;
             };
             readonly Chart: typeof $shm_hitalama_board_chart;
+            readonly Use_chart_from: {
+                new (): {
+                    Value: () => typeof $shm_hitalama_board_block;
+                    remote(next?: $shm_hitalama_board_block | null | undefined): $shm_hitalama_board_block | null;
+                    remote_of(peer: string | null, next?: $shm_hitalama_board_block | null | undefined): $shm_hitalama_board_block | null;
+                    ensure(config?: null | $hyoo_crus_rank_preset | $hyoo_crus_land): $shm_hitalama_board_block | null;
+                    ensure_of(peer: string | null, config?: null | $hyoo_crus_rank_preset | $hyoo_crus_land): $shm_hitalama_board_block | null;
+                    ensure_here(peer: string | null): void;
+                    ensure_area(peer: string | null, land: $hyoo_crus_land): void;
+                    ensure_lord(peer: string | null, preset: $hyoo_crus_rank_preset): void;
+                    remote_ensure(preset?: $hyoo_crus_rank_preset): $shm_hitalama_board_block | null;
+                    local_ensure(): $shm_hitalama_board_block | null;
+                    val(next?: (symbol & {
+                        $hyoo_crus_ref: symbol;
+                    }) | null | undefined): (symbol & {
+                        $hyoo_crus_ref: symbol;
+                    }) | null;
+                    val_of(peer: string | null, next?: (symbol & {
+                        $hyoo_crus_ref: symbol;
+                    }) | null | undefined): (symbol & {
+                        $hyoo_crus_ref: symbol;
+                    }) | null;
+                    pick_unit(peer: string | null): $hyoo_crus_sand | undefined;
+                    vary(next?: $hyoo_crus_vary_type): $hyoo_crus_vary_type;
+                    vary_of(peer: string | null, next?: $hyoo_crus_vary_type): $hyoo_crus_vary_type;
+                    [$mol_dev_format_head](): any[];
+                    land(): $hyoo_crus_land;
+                    head(): string;
+                    land_ref(): symbol & {
+                        $hyoo_crus_ref: symbol;
+                    };
+                    ref(): symbol & {
+                        $hyoo_crus_ref: symbol;
+                    };
+                    toJSON(): string | undefined;
+                    cast<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1): InstanceType<Node_1>;
+                    nodes<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+                    units(): $hyoo_crus_sand[];
+                    units_of(peer: string | null): $hyoo_crus_sand[];
+                    filled(): boolean;
+                    can_change(): boolean;
+                    last_change(): $mol_time_moment | null;
+                    author_peers(): string[];
+                    author_lords(): (symbol & {
+                        $hyoo_crus_ref: symbol;
+                    })[];
+                    $: $;
+                    destructor(): void;
+                    toString(): string;
+                    [Symbol.toStringTag]: string;
+                    [$mol_ambient_ref]: $;
+                };
+                toString(): any;
+                Value: typeof $hyoo_crus_dict;
+                parse: typeof $hyoo_crus_vary_cast_ref;
+                tag: keyof typeof $hyoo_crus_sand_tag;
+                make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
+                $: $;
+                create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
+                toJSON(): any;
+                destructor(): void;
+                [Symbol.toPrimitive](): any;
+            };
         };
     };
     export class $shm_hitalama_board_block extends $shm_hitalama_board_block_base {
@@ -16714,7 +16840,7 @@ declare namespace $.$$ {
         col_width_px(id: any): string;
         col_width(col: number, next?: number): any;
         col_width_rows(): $mol_view[];
-        chart_add(): $shm_hitalama_board_block | undefined;
+        chart_add(): void;
     }
 }
 
@@ -16918,6 +17044,118 @@ declare namespace $.$$ {
 
 declare namespace $ {
 
+	type $shm_hitalama_chart_line__names_shm_hitalama_board_block_chart_1 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_chart['names'] >
+		,
+		ReturnType< $shm_hitalama_chart_line['names'] >
+	>
+	type $shm_hitalama_chart_line__labels_shm_hitalama_board_block_chart_2 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_chart['labels'] >
+		,
+		ReturnType< $shm_hitalama_chart_line['labels'] >
+	>
+	type $shm_hitalama_chart_line__series_y_shm_hitalama_board_block_chart_3 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_chart['series_y'] >
+		,
+		ReturnType< $shm_hitalama_chart_line['series_y'] >
+	>
+	type $mol_button_minor__title_shm_hitalama_board_block_chart_4 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_button_minor['title'] >
+	>
+	type $mol_button_minor__click_shm_hitalama_board_block_chart_5 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_chart['settings_add'] >
+		,
+		ReturnType< $mol_button_minor['click'] >
+	>
+	type $mol_button_minor__title_shm_hitalama_board_block_chart_6 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_button_minor['title'] >
+	>
+	type $mol_button_minor__title_shm_hitalama_board_block_chart_7 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_chart['filter_name'] >
+		,
+		ReturnType< $mol_button_minor['title'] >
+	>
+	type $mol_button_minor__click_shm_hitalama_board_block_chart_8 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_chart['filter_add'] >
+		,
+		ReturnType< $mol_button_minor['click'] >
+	>
+	type $mol_list__sub_shm_hitalama_board_block_chart_9 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_chart['filter_buttons'] >
+		,
+		ReturnType< $mol_list['sub'] >
+	>
+	type $mol_pop_over__align_shm_hitalama_board_block_chart_10 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_pop_over['align'] >
+	>
+	type $mol_pop_over__Anchor_shm_hitalama_board_block_chart_11 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_chart['Filters_add_anchor'] >
+		,
+		ReturnType< $mol_pop_over['Anchor'] >
+	>
+	type $mol_pop_over__bubble_content_shm_hitalama_board_block_chart_12 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_pop_over['bubble_content'] >
+	>
+	type $mol_list__sub_shm_hitalama_board_block_chart_13 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_list['sub'] >
+	>
+	export class $shm_hitalama_board_block_chart extends $shm_hitalama_board_block_float {
+		names( ): readonly(any)[]
+		labels( ): readonly(string)[]
+		series_y( id: any): readonly(any)[]
+		Chart( ): $shm_hitalama_chart_line
+		settings_add( next?: any ): any
+		Settings_add( ): $mol_button_minor
+		Filters_add_anchor( ): $mol_button_minor
+		filter_name( id: any): string
+		filter_add( id: any, next?: any ): any
+		Filter_add( id: any): $mol_button_minor
+		filter_buttons( ): readonly(any)[]
+		Filters( ): $mol_list
+		Filters_add( ): $mol_pop_over
+		drag_body( ): readonly(any)[]
+		width_min( ): number
+		height_min( ): number
+		tools( ): readonly(any)[]
+		Contextmenu_body( ): $mol_list
+	}
+	
+}
+
+//# sourceMappingURL=chart.view.tree.d.ts.map
+declare namespace $.$$ {
+    class $shm_hitalama_board_block_chart extends $.$shm_hitalama_board_block_chart {
+        chart(): $shm_hitalama_board_chart;
+        names(): string[];
+        series_y(group_name: any): readonly (any)[];
+        labels(): readonly (string)[];
+        traversed(): {
+            by_group: Map<string, Map<string, number>>;
+            labels: Set<string>;
+            field_options: Map<string, Set<string | number>>;
+        };
+        settings_add(): void;
+        filter_add(name: string): void;
+        filter_buttons(): $mol_button_minor[];
+        filter_name(id: any): string;
+    }
+}
+
+declare namespace $.$$ {
+}
+
+declare namespace $ {
+
 	type __mol_select_list_1 = $mol_type_enforce<
 		Parameters< $mol_select_list['filter_pattern'] >[0]
 		,
@@ -17037,6 +17275,122 @@ declare namespace $.$$ {
 
 declare namespace $ {
 
+	type $mol_select__Filter_shm_hitalama_board_block_chart_settings_1 = $mol_type_enforce<
+		any
+		,
+		ReturnType< $mol_select['Filter'] >
+	>
+	type $mol_select__options_shm_hitalama_board_block_chart_settings_2 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_chart_settings['head'] >
+		,
+		ReturnType< $mol_select['options'] >
+	>
+	type $mol_select__value_shm_hitalama_board_block_chart_settings_3 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_chart_settings['axis'] >
+		,
+		ReturnType< $mol_select['value'] >
+	>
+	type $mol_form_field__name_shm_hitalama_board_block_chart_settings_4 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_form_field['name'] >
+	>
+	type $mol_form_field__Content_shm_hitalama_board_block_chart_settings_5 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_chart_settings['Axis'] >
+		,
+		ReturnType< $mol_form_field['Content'] >
+	>
+	type $mol_select__Filter_shm_hitalama_board_block_chart_settings_6 = $mol_type_enforce<
+		any
+		,
+		ReturnType< $mol_select['Filter'] >
+	>
+	type $mol_select__options_shm_hitalama_board_block_chart_settings_7 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_chart_settings['head'] >
+		,
+		ReturnType< $mol_select['options'] >
+	>
+	type $mol_select__value_shm_hitalama_board_block_chart_settings_8 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_chart_settings['values_title'] >
+		,
+		ReturnType< $mol_select['value'] >
+	>
+	type $mol_form_field__name_shm_hitalama_board_block_chart_settings_9 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_form_field['name'] >
+	>
+	type $mol_form_field__Content_shm_hitalama_board_block_chart_settings_10 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_chart_settings['Values'] >
+		,
+		ReturnType< $mol_form_field['Content'] >
+	>
+	type $mol_select_list__value_shm_hitalama_board_block_chart_settings_11 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_chart_settings['groups'] >
+		,
+		ReturnType< $mol_select_list['value'] >
+	>
+	type $mol_select_list__options_shm_hitalama_board_block_chart_settings_12 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_chart_settings['head'] >
+		,
+		ReturnType< $mol_select_list['options'] >
+	>
+	type $mol_form_field__name_shm_hitalama_board_block_chart_settings_13 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_form_field['name'] >
+	>
+	type $mol_form_field__Content_shm_hitalama_board_block_chart_settings_14 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_chart_settings['Groups'] >
+		,
+		ReturnType< $mol_form_field['Content'] >
+	>
+	type $mol_list__sub_shm_hitalama_board_block_chart_settings_15 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_list['sub'] >
+	>
+	export class $shm_hitalama_board_block_chart_settings extends $shm_hitalama_board_block_float {
+		head( ): readonly(any)[]
+		axis( next?: string ): string
+		Axis( ): $mol_select
+		Axis_field( ): $mol_form_field
+		values_title( next?: string ): string
+		Values( ): $mol_select
+		Values_field( ): $mol_form_field
+		groups( next?: readonly(any)[] ): readonly(any)[]
+		Groups( ): $mol_select_list
+		Groups_field( ): $mol_form_field
+		Form( ): $mol_list
+		tools( ): readonly(any)[]
+		sub( ): readonly(any)[]
+		content( ): readonly(any)[]
+	}
+	
+}
+
+//# sourceMappingURL=settings.view.tree.d.ts.map
+declare namespace $.$$ {
+    class $shm_hitalama_board_block_chart_settings extends $.$shm_hitalama_board_block_chart_settings {
+        chart(): $shm_hitalama_board_chart;
+        traversed(): {
+            by_group: Map<string, Map<string, number>>;
+            labels: Set<string>;
+            field_options: Map<string, Set<string | number>>;
+        };
+        head(): any[];
+        axis(next?: string): any;
+        values(next?: (any)[]): (any)[];
+        values_title(next?: string): any;
+        groups(next?: (any)[]): (any)[];
+    }
+}
+
+declare namespace $.$$ {
+}
+
+declare namespace $ {
+
 	export class $mol_icon_check extends $mol_icon {
 		path( ): string
 	}
@@ -17126,214 +17480,56 @@ declare namespace $.$$ {
 
 declare namespace $ {
 
-	type $shm_hitalama_chart_line__names_shm_hitalama_board_block_chart_1 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_chart['names'] >
+	type $shm_hitalama_check_list__options_shm_hitalama_board_block_chart_filter_1 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_chart_filter['filter_options'] >
 		,
-		ReturnType< $shm_hitalama_chart_line['names'] >
+		ReturnType< $shm_hitalama_check_list['options'] >
 	>
-	type $shm_hitalama_chart_line__labels_shm_hitalama_board_block_chart_2 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_chart['labels'] >
+	type $shm_hitalama_check_list__value_shm_hitalama_board_block_chart_filter_2 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_chart_filter['filter_options_checked'] >
 		,
-		ReturnType< $shm_hitalama_chart_line['labels'] >
+		ReturnType< $shm_hitalama_check_list['value'] >
 	>
-	type $shm_hitalama_chart_line__series_y_shm_hitalama_board_block_chart_3 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_chart['series_y'] >
-		,
-		ReturnType< $shm_hitalama_chart_line['series_y'] >
-	>
-	type $mol_select__Filter_shm_hitalama_board_block_chart_4 = $mol_type_enforce<
-		any
-		,
-		ReturnType< $mol_select['Filter'] >
-	>
-	type $mol_select__options_shm_hitalama_board_block_chart_5 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_chart['head'] >
-		,
-		ReturnType< $mol_select['options'] >
-	>
-	type $mol_select__value_shm_hitalama_board_block_chart_6 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_chart['axis'] >
-		,
-		ReturnType< $mol_select['value'] >
-	>
-	type $mol_form_field__name_shm_hitalama_board_block_chart_7 = $mol_type_enforce<
-		string
+	type $mol_form_field__name_shm_hitalama_board_block_chart_filter_3 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_chart_filter['name'] >
 		,
 		ReturnType< $mol_form_field['name'] >
 	>
-	type $mol_form_field__Content_shm_hitalama_board_block_chart_8 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_chart['Axis'] >
+	type $mol_form_field__Content_shm_hitalama_board_block_chart_filter_4 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_chart_filter['Filter_options'] >
 		,
 		ReturnType< $mol_form_field['Content'] >
 	>
-	type $mol_select__Filter_shm_hitalama_board_block_chart_9 = $mol_type_enforce<
-		any
-		,
-		ReturnType< $mol_select['Filter'] >
-	>
-	type $mol_select__options_shm_hitalama_board_block_chart_10 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_chart['head'] >
-		,
-		ReturnType< $mol_select['options'] >
-	>
-	type $mol_select__value_shm_hitalama_board_block_chart_11 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_chart['values_title'] >
-		,
-		ReturnType< $mol_select['value'] >
-	>
-	type $mol_form_field__name_shm_hitalama_board_block_chart_12 = $mol_type_enforce<
-		string
-		,
-		ReturnType< $mol_form_field['name'] >
-	>
-	type $mol_form_field__Content_shm_hitalama_board_block_chart_13 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_chart['Values'] >
-		,
-		ReturnType< $mol_form_field['Content'] >
-	>
-	type $mol_select_list__value_shm_hitalama_board_block_chart_14 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_chart['groups'] >
-		,
-		ReturnType< $mol_select_list['value'] >
-	>
-	type $mol_select_list__options_shm_hitalama_board_block_chart_15 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_chart['head'] >
-		,
-		ReturnType< $mol_select_list['options'] >
-	>
-	type $mol_form_field__name_shm_hitalama_board_block_chart_16 = $mol_type_enforce<
-		string
-		,
-		ReturnType< $mol_form_field['name'] >
-	>
-	type $mol_form_field__Content_shm_hitalama_board_block_chart_17 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_chart['Groups'] >
-		,
-		ReturnType< $mol_form_field['Content'] >
-	>
-	type $mol_list__sub_shm_hitalama_board_block_chart_18 = $mol_type_enforce<
+	type $mol_list__sub_shm_hitalama_board_block_chart_filter_5 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_list['sub'] >
 	>
-	type __shm_hitalama_board_block_chart_19 = $mol_type_enforce<
-		Parameters< $shm_hitalama_board_block_chart['filter_enabled'] >[0]
-		,
-		Parameters< ReturnType< $shm_hitalama_board_block_chart['Checks'] >['checked'] >[0]
-	>
-	type __shm_hitalama_board_block_chart_20 = $mol_type_enforce<
-		Parameters< $shm_hitalama_board_block_chart['filter_enabled'] >[1]
-		,
-		Parameters< ReturnType< $shm_hitalama_board_block_chart['Checks'] >['checked'] >[1]
-	>
-	type $shm_hitalama_check_list__options_shm_hitalama_board_block_chart_21 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_chart['head'] >
-		,
-		ReturnType< $shm_hitalama_check_list['options'] >
-	>
-	type $shm_hitalama_check_list__value_shm_hitalama_board_block_chart_22 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_chart['filters_enabled'] >
-		,
-		ReturnType< $shm_hitalama_check_list['value'] >
-	>
-	type $mol_pick__trigger_content_shm_hitalama_board_block_chart_23 = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_pick['trigger_content'] >
-	>
-	type $mol_pick__bubble_content_shm_hitalama_board_block_chart_24 = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_pick['bubble_content'] >
-	>
-	type $mol_list__sub_shm_hitalama_board_block_chart_25 = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_list['sub'] >
-	>
-	type $shm_hitalama_check_list__options_shm_hitalama_board_block_chart_26 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_chart['filter_options'] >
-		,
-		ReturnType< $shm_hitalama_check_list['options'] >
-	>
-	type $shm_hitalama_check_list__value_shm_hitalama_board_block_chart_27 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_chart['filter_options_checked'] >
-		,
-		ReturnType< $shm_hitalama_check_list['value'] >
-	>
-	type $mol_pick__trigger_content_shm_hitalama_board_block_chart_28 = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_pick['trigger_content'] >
-	>
-	type $mol_pick__bubble_content_shm_hitalama_board_block_chart_29 = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_pick['bubble_content'] >
-	>
-	export class $shm_hitalama_board_block_chart extends $shm_hitalama_board_block_float {
-		names( ): readonly(any)[]
-		labels( ): readonly(string)[]
-		series_y( id: any): readonly(any)[]
-		Chart( ): $shm_hitalama_chart_line
-		head( ): readonly(any)[]
-		axis( next?: string ): string
-		Axis( ): $mol_select
-		Axis_field( ): $mol_form_field
-		values_title( next?: string ): string
-		Values( ): $mol_select
-		Values_field( ): $mol_form_field
-		groups( next?: readonly(any)[] ): readonly(any)[]
-		Groups( ): $mol_select_list
-		Groups_field( ): $mol_form_field
+	export class $shm_hitalama_board_block_chart_filter extends $shm_hitalama_board_block_float {
+		name( ): string
+		filter_options( ): readonly(any)[]
+		filter_options_checked( next?: readonly(any)[] ): readonly(any)[]
+		Filter_options( ): $shm_hitalama_check_list
+		Field( ): $mol_form_field
 		Form( ): $mol_list
-		filters_enabled( next?: readonly(any)[] ): readonly(any)[]
-		filter_enabled( id: any, next?: ReturnType< ReturnType< $shm_hitalama_board_block_chart['Checks'] >['checked'] > ): ReturnType< ReturnType< $shm_hitalama_board_block_chart['Checks'] >['checked'] >
-		Checks( ): $shm_hitalama_check_list
-		Filter_select( ): $mol_pick
-		filters( ): readonly(any)[]
-		Filters( ): $mol_list
-		filter_title( id: any): string
-		filter_options( id: any): readonly(any)[]
-		filter_options_checked( id: any, next?: readonly(any)[] ): readonly(any)[]
-		Filter_options( id: any): $shm_hitalama_check_list
-		drag_body( ): readonly(any)[]
-		width_min( ): number
-		height_min( ): number
 		tools( ): readonly(any)[]
-		side_body( ): readonly(any)[]
-		Filter_content( id: any): $mol_pick
+		content( ): readonly(any)[]
 	}
 	
 }
 
-//# sourceMappingURL=chart.view.tree.d.ts.map
+//# sourceMappingURL=filter.view.tree.d.ts.map
 declare namespace $.$$ {
-    class $shm_hitalama_board_block_chart extends $.$shm_hitalama_board_block_chart {
-        rows(): any[][];
-        head(): any[];
-        col_head_content(id: string): any[];
-        axis(next?: string): any;
-        values(next?: (any)[]): (any)[];
-        values_title(next?: string): any;
-        groups(next?: (any)[]): (any)[];
-        names(): string[];
-        filters_enabled(next?: string[]): any[];
-        filters(): $.$mol_pick[];
-        filter_title(id: any): string;
-        filter_options(id: any): readonly (any)[];
-        filter_options_checked(id: string, next?: string[]): readonly any[];
-        row_included({ field, value }: {
-            field: string;
-            value: any;
-        }): boolean;
-        series_y(group_name: any): readonly (any)[];
-        labels(): readonly (string)[];
+    class $shm_hitalama_board_block_chart_filter extends $.$shm_hitalama_board_block_chart_filter {
+        chart(): $shm_hitalama_board_chart;
         traversed(): {
             by_group: Map<string, Map<string, number>>;
             labels: Set<string>;
             field_options: Map<string, Set<string | number>>;
         };
+        name(): string;
+        filter_options(): readonly (any)[];
+        filter_options_checked(next?: string[]): readonly any[];
     }
 }
 
@@ -17476,6 +17672,8 @@ declare namespace $ {
 		Table( ): $shm_hitalama_board_block_table
 		Code( ): $shm_hitalama_board_block_code
 		Chart( ): $shm_hitalama_board_block_chart
+		Chart_settings( ): $shm_hitalama_board_block_chart_settings
+		Chart_filter( ): $shm_hitalama_board_block_chart_filter
 		Customdom( ): $shm_hitalama_board_block_customdom
 		Sub( ): $shm_hitalama_board_block_float
 		blocks( ): ({ 
@@ -17486,6 +17684,8 @@ declare namespace $ {
 			'table': ReturnType< $shm_hitalama_board_block_any['Table'] >,
 			'code': ReturnType< $shm_hitalama_board_block_any['Code'] >,
 			'chart': ReturnType< $shm_hitalama_board_block_any['Chart'] >,
+			'chart_settings': ReturnType< $shm_hitalama_board_block_any['Chart_settings'] >,
+			'chart_filter': ReturnType< $shm_hitalama_board_block_any['Chart_filter'] >,
 			'customdom': ReturnType< $shm_hitalama_board_block_any['Customdom'] >,
 		}) 
 	}
@@ -17495,7 +17695,7 @@ declare namespace $ {
 //# sourceMappingURL=any.view.tree.d.ts.map
 declare namespace $.$$ {
     class $shm_hitalama_board_block_any extends $.$shm_hitalama_board_block_any {
-        Sub(): $.$shm_hitalama_board_block_input | $.$shm_hitalama_board_block_iframe | $.$shm_hitalama_board_block_text | $.$shm_hitalama_board_block_form | $.$shm_hitalama_board_block_table | $.$shm_hitalama_board_block_code | $.$shm_hitalama_board_block_chart | $.$shm_hitalama_board_block_customdom;
+        Sub(): $.$shm_hitalama_board_block_input | $.$shm_hitalama_board_block_iframe | $.$shm_hitalama_board_block_text | $.$shm_hitalama_board_block_form | $.$shm_hitalama_board_block_table | $.$shm_hitalama_board_block_code | $.$shm_hitalama_board_block_chart | $.$shm_hitalama_board_block_chart_settings | $.$shm_hitalama_board_block_chart_filter | $.$shm_hitalama_board_block_customdom;
     }
 }
 
@@ -17877,6 +18077,7 @@ declare namespace $ {
 		selected_refs( next?: readonly(any)[] ): readonly(any)[]
 		body_content( ): readonly(any)[]
 		contextmenu_body( next?: readonly(any)[] ): readonly(any)[]
+		get_pointer_pos( ): readonly(any)[]
 		Back_contextmenu_body( ): $mol_list
 		Pane( ): $shm_hitalama_board_pane
 	}

@@ -17385,10 +17385,96 @@ var $;
         table() {
             return this.Block()?.remote()?.table();
         }
+        table_head() {
+            return this.table()?.head_extended() ?? [];
+        }
+        axis(next) {
+            return this.Axis(next)?.val(next) ?? this.table_head()[0];
+        }
+        values(next) {
+            return this.Values(next)?.val(next) ?? [];
+        }
+        values_title(next) {
+            return this.Values(next)?.val(next ? [next] : undefined)?.at(0) ?? this.table_head()[1];
+        }
+        groups(next) {
+            return this.Groups(next)?.val(next) ?? [];
+        }
+        rows() {
+            const rows = this.table()?.rows_extended() ?? [];
+            if (rows?.length == 0)
+                return [this.table_head().map(_ => '')];
+            return rows;
+        }
+        row_included([field, value]) {
+            const options = this.Filters_options()?.key(field)?.val();
+            if (!options)
+                return true;
+            return options.includes(value);
+        }
+        traversed() {
+            const field_options = new Map;
+            const by_group = new Map;
+            const labels = new Set;
+            const fields = this.table_head();
+            const group_indexes = this.groups().map(g => fields.indexOf(g));
+            const value_i = fields.indexOf(this.values_title());
+            const row_value = (row) => {
+                return row[value_i];
+            };
+            const axis_i = fields.indexOf(this.axis());
+            const row_label = (row) => {
+                return row[axis_i];
+            };
+            console.log('this.rows()', this.rows());
+            this.rows().forEach((row) => {
+                let included = true;
+                row.forEach((value, i) => {
+                    const set = field_options.get(fields[i]) ?? new Set;
+                    field_options.set(fields[i], set);
+                    set.add(value);
+                    included = included == false ? false : this.row_included([fields[i], value]);
+                });
+                if (!included)
+                    return;
+                const group_name = group_indexes.map(i => row[i]).join(', ') ?? '';
+                const by_label = by_group.get(group_name) ?? new Map;
+                by_group.set(group_name, by_label);
+                const label = row_label(row);
+                by_label.set(label, (by_label.get(label) ?? 0) + Number(row_value(row)));
+                labels.add(label);
+            });
+            console.log('{ by_group, labels, field_options }', { by_group, labels, field_options });
+            return { by_group, labels, field_options };
+        }
     }
     __decorate([
         $mol_mem
     ], $shm_hitalama_board_chart.prototype, "table", null);
+    __decorate([
+        $mol_mem
+    ], $shm_hitalama_board_chart.prototype, "table_head", null);
+    __decorate([
+        $mol_mem
+    ], $shm_hitalama_board_chart.prototype, "axis", null);
+    __decorate([
+        $mol_mem
+    ], $shm_hitalama_board_chart.prototype, "values", null);
+    __decorate([
+        $mol_mem
+    ], $shm_hitalama_board_chart.prototype, "values_title", null);
+    __decorate([
+        $mol_mem
+    ], $shm_hitalama_board_chart.prototype, "groups", null);
+    __decorate([
+        $mol_mem
+    ], $shm_hitalama_board_chart.prototype, "rows", null);
+    __decorate([
+        $mol_mem_key
+    ], $shm_hitalama_board_chart.prototype, "row_included", null);
+    __decorate([
+        $mol_mem
+    ], $shm_hitalama_board_chart.prototype, "traversed", null);
     $.$shm_hitalama_board_chart = $shm_hitalama_board_chart;
 })($ || ($ = {}));
 
@@ -17404,6 +17490,8 @@ var $;
         'table',
         'code',
         'chart',
+        'chart_settings',
+        'chart_filter',
         'customdom',
     ];
     class $shm_hitalama_board_block_type extends $hyoo_crus_atom_enum($.$shm_hitalama_board_block_types) {
@@ -17427,6 +17515,7 @@ var $;
         Form: $shm_hitalama_board_form,
         Table: $hyoo_crus_atom_ref_to(() => $shm_hitalama_board_table),
         Chart: $shm_hitalama_board_chart,
+        Use_chart_from: $hyoo_crus_atom_ref_to(() => $shm_hitalama_board_block),
     }) {
         text(next) {
             return this.Text(next)?.value(next) ?? '';
@@ -29453,10 +29542,14 @@ var $;
                 return this.head().map((_, i) => this.Col_width_row(i));
             }
             chart_add() {
-                const block = this.board().block_add('chart', this.Board_page().contextmenu_pos(), 600, 400);
-                block?.Table(null)?.remote(this.block().table());
+                const chart_pos = this.Board_page().contextmenu_pos();
+                const chart_block = this.board().block_add('chart', chart_pos, 600, 400);
+                chart_block?.Table(null)?.remote(this.block().table());
+                const chart = chart_block?.Chart(null);
+                chart?.Block(null)?.remote(chart_block);
+                const settings = this.board().block_add('chart_settings', [chart_pos[0] + 600, chart_pos[1]], 180, 290);
+                settings?.Use_chart_from(null)?.remote(chart_block);
                 this.Board_page().contextmenu_showed(false);
-                return block;
             }
         }
         __decorate([
@@ -29786,6 +29879,190 @@ var $;
 })($ || ($ = {}));
 
 ;
+	($.$shm_hitalama_board_block_chart) = class $shm_hitalama_board_block_chart extends ($.$shm_hitalama_board_block_float) {
+		names(){
+			return [];
+		}
+		labels(){
+			return [];
+		}
+		series_y(id){
+			return [];
+		}
+		Chart(){
+			const obj = new this.$.$shm_hitalama_chart_line();
+			(obj.names) = () => ((this.names()));
+			(obj.labels) = () => ((this.labels()));
+			(obj.series_y) = (id) => ((this.series_y(id)));
+			return obj;
+		}
+		settings_add(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Settings_add(){
+			const obj = new this.$.$mol_button_minor();
+			(obj.title) = () => ("Добавить виджет настроек");
+			(obj.click) = (next) => ((this.settings_add(next)));
+			return obj;
+		}
+		Filters_add_anchor(){
+			const obj = new this.$.$mol_button_minor();
+			(obj.title) = () => ("Добавить фильтр");
+			return obj;
+		}
+		filter_name(id){
+			return "";
+		}
+		filter_add(id, next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Filter_add(id){
+			const obj = new this.$.$mol_button_minor();
+			(obj.title) = () => ((this.filter_name(id)));
+			(obj.click) = (next) => ((this.filter_add(id, next)));
+			return obj;
+		}
+		filter_buttons(){
+			return [(this.Filter_add("0"))];
+		}
+		Filters(){
+			const obj = new this.$.$mol_list();
+			(obj.sub) = () => ((this.filter_buttons()));
+			return obj;
+		}
+		Filters_add(){
+			const obj = new this.$.$mol_pop_over();
+			(obj.align) = () => ("right_bottom");
+			(obj.Anchor) = () => ((this.Filters_add_anchor()));
+			(obj.bubble_content) = () => ([(this.Filters())]);
+			return obj;
+		}
+		drag_body(){
+			return [(this.Chart())];
+		}
+		width_min(){
+			return 200;
+		}
+		height_min(){
+			return 200;
+		}
+		tools(){
+			return [
+				(this.Top()), 
+				(this.Bottom()), 
+				(this.Delete()), 
+				(this.Ref_copy())
+			];
+		}
+		Contextmenu_body(){
+			const obj = new this.$.$mol_list();
+			(obj.sub) = () => ([(this.Settings_add()), (this.Filters_add())]);
+			return obj;
+		}
+	};
+	($mol_mem(($.$shm_hitalama_board_block_chart.prototype), "Chart"));
+	($mol_mem(($.$shm_hitalama_board_block_chart.prototype), "settings_add"));
+	($mol_mem(($.$shm_hitalama_board_block_chart.prototype), "Settings_add"));
+	($mol_mem(($.$shm_hitalama_board_block_chart.prototype), "Filters_add_anchor"));
+	($mol_mem_key(($.$shm_hitalama_board_block_chart.prototype), "filter_add"));
+	($mol_mem_key(($.$shm_hitalama_board_block_chart.prototype), "Filter_add"));
+	($mol_mem(($.$shm_hitalama_board_block_chart.prototype), "Filters"));
+	($mol_mem(($.$shm_hitalama_board_block_chart.prototype), "Filters_add"));
+	($mol_mem(($.$shm_hitalama_board_block_chart.prototype), "Contextmenu_body"));
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $shm_hitalama_board_block_chart extends $.$shm_hitalama_board_block_chart {
+            chart() {
+                return this.block().Chart(null);
+            }
+            names() {
+                return [...this.traversed().by_group.keys()];
+            }
+            series_y(group_name) {
+                const labels = this.labels();
+                const by_label = this.traversed().by_group.get(group_name);
+                return labels.map(l => Number(by_label?.get(l)));
+            }
+            labels() {
+                return [...this.traversed().labels];
+            }
+            traversed() {
+                return this.chart().traversed();
+            }
+            settings_add() {
+                const left = this.left() + this.width();
+                const top = this.top();
+                const settings = this.board().block_add('chart_settings', [left, top], 180, 290);
+                settings?.Use_chart_from(null)?.remote(this.block());
+                this.Board_page().contextmenu_showed(false);
+            }
+            filter_add(name) {
+                const pos = this.Board_page().get_pointer_pos();
+                const block = this.board().block_add('chart_filter', pos, 180, 290);
+                block?.text(name);
+                block?.Use_chart_from(null)?.remote(this.block());
+                this.Board_page().contextmenu_showed(false);
+            }
+            filter_buttons() {
+                return this.chart().table_head().map(name => this.Filter_add(name));
+            }
+            filter_name(id) {
+                return id;
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_block_chart.prototype, "chart", null);
+        __decorate([
+            $mol_mem_key
+        ], $shm_hitalama_board_block_chart.prototype, "series_y", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_block_chart.prototype, "traversed", null);
+        __decorate([
+            $mol_action
+        ], $shm_hitalama_board_block_chart.prototype, "settings_add", null);
+        __decorate([
+            $mol_action
+        ], $shm_hitalama_board_block_chart.prototype, "filter_add", null);
+        $$.$shm_hitalama_board_block_chart = $shm_hitalama_board_block_chart;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        $mol_style_define($shm_hitalama_board_block_chart, {
+            background: {
+                color: $mol_theme.card,
+            },
+            Drag_view: {
+                position: 'absolute',
+                width: '100%',
+                height: '100%',
+            },
+            Filters_add: {
+                width: 'fit-content',
+            },
+        });
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
 	($.$mol_select_list) = class $mol_select_list extends ($.$mol_view) {
 		Badges(){
 			return [];
@@ -29976,6 +30253,170 @@ var $;
 })($ || ($ = {}));
 
 ;
+	($.$shm_hitalama_board_block_chart_settings) = class $shm_hitalama_board_block_chart_settings extends ($.$shm_hitalama_board_block_float) {
+		head(){
+			return [];
+		}
+		axis(next){
+			if(next !== undefined) return next;
+			return "";
+		}
+		Axis(){
+			const obj = new this.$.$mol_select();
+			(obj.Filter) = () => (null);
+			(obj.options) = () => ((this.head()));
+			(obj.value) = (next) => ((this.axis(next)));
+			return obj;
+		}
+		Axis_field(){
+			const obj = new this.$.$mol_form_field();
+			(obj.name) = () => ("Ось");
+			(obj.Content) = () => ((this.Axis()));
+			return obj;
+		}
+		values_title(next){
+			if(next !== undefined) return next;
+			return "";
+		}
+		Values(){
+			const obj = new this.$.$mol_select();
+			(obj.Filter) = () => (null);
+			(obj.options) = () => ((this.head()));
+			(obj.value) = (next) => ((this.values_title(next)));
+			return obj;
+		}
+		Values_field(){
+			const obj = new this.$.$mol_form_field();
+			(obj.name) = () => ("Значения");
+			(obj.Content) = () => ((this.Values()));
+			return obj;
+		}
+		groups(next){
+			if(next !== undefined) return next;
+			return [];
+		}
+		Groups(){
+			const obj = new this.$.$mol_select_list();
+			(obj.value) = (next) => ((this.groups(next)));
+			(obj.options) = () => ((this.head()));
+			return obj;
+		}
+		Groups_field(){
+			const obj = new this.$.$mol_form_field();
+			(obj.name) = () => ("Группировка");
+			(obj.Content) = () => ((this.Groups()));
+			return obj;
+		}
+		Form(){
+			const obj = new this.$.$mol_list();
+			(obj.sub) = () => ([
+				(this.Axis_field()), 
+				(this.Values_field()), 
+				(this.Groups_field())
+			]);
+			return obj;
+		}
+		tools(){
+			return [
+				(this.Top()), 
+				(this.Bottom()), 
+				(this.Delete()), 
+				(this.Ref_copy())
+			];
+		}
+		sub(){
+			return [
+				...(this.content()), 
+				...(this.edges()), 
+				...(this.toolbar())
+			];
+		}
+		content(){
+			return [(this.Drag_view()), (this.Form())];
+		}
+	};
+	($mol_mem(($.$shm_hitalama_board_block_chart_settings.prototype), "axis"));
+	($mol_mem(($.$shm_hitalama_board_block_chart_settings.prototype), "Axis"));
+	($mol_mem(($.$shm_hitalama_board_block_chart_settings.prototype), "Axis_field"));
+	($mol_mem(($.$shm_hitalama_board_block_chart_settings.prototype), "values_title"));
+	($mol_mem(($.$shm_hitalama_board_block_chart_settings.prototype), "Values"));
+	($mol_mem(($.$shm_hitalama_board_block_chart_settings.prototype), "Values_field"));
+	($mol_mem(($.$shm_hitalama_board_block_chart_settings.prototype), "groups"));
+	($mol_mem(($.$shm_hitalama_board_block_chart_settings.prototype), "Groups"));
+	($mol_mem(($.$shm_hitalama_board_block_chart_settings.prototype), "Groups_field"));
+	($mol_mem(($.$shm_hitalama_board_block_chart_settings.prototype), "Form"));
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $shm_hitalama_board_block_chart_settings extends $.$shm_hitalama_board_block_chart_settings {
+            chart() {
+                const block = this.block().Use_chart_from()?.remote();
+                return block.Chart();
+            }
+            traversed() {
+                return this.chart().traversed();
+            }
+            head() {
+                return this.chart().table_head();
+            }
+            axis(next) {
+                return this.chart().axis(next);
+            }
+            values(next) {
+                return this.chart().values(next);
+            }
+            values_title(next) {
+                return this.chart().values_title(next);
+            }
+            groups(next) {
+                return this.chart().groups(next);
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_block_chart_settings.prototype, "chart", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_block_chart_settings.prototype, "traversed", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_block_chart_settings.prototype, "head", null);
+        $$.$shm_hitalama_board_block_chart_settings = $shm_hitalama_board_block_chart_settings;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        $mol_style_define($shm_hitalama_board_block_chart_settings, {
+            background: {
+                color: $mol_theme.card,
+            },
+            Drag_view: {
+                position: 'absolute',
+                height: '100%',
+                width: '100%',
+            },
+            Form: {
+                padding: $mol_gap.block,
+                gap: $mol_gap.space,
+            },
+        });
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
 	($.$mol_check_group) = class $mol_check_group extends ($.$mol_check_box) {
 		checks(){
 			return [];
@@ -30144,136 +30585,33 @@ var $;
 })($ || ($ = {}));
 
 ;
-	($.$shm_hitalama_board_block_chart) = class $shm_hitalama_board_block_chart extends ($.$shm_hitalama_board_block_float) {
-		names(){
-			return [];
-		}
-		labels(){
-			return [];
-		}
-		series_y(id){
-			return [];
-		}
-		Chart(){
-			const obj = new this.$.$shm_hitalama_chart_line();
-			(obj.names) = () => ((this.names()));
-			(obj.labels) = () => ((this.labels()));
-			(obj.series_y) = (id) => ((this.series_y(id)));
-			return obj;
-		}
-		head(){
-			return [];
-		}
-		axis(next){
-			if(next !== undefined) return next;
+	($.$shm_hitalama_board_block_chart_filter) = class $shm_hitalama_board_block_chart_filter extends ($.$shm_hitalama_board_block_float) {
+		name(){
 			return "";
 		}
-		Axis(){
-			const obj = new this.$.$mol_select();
-			(obj.Filter) = () => (null);
-			(obj.options) = () => ((this.head()));
-			(obj.value) = (next) => ((this.axis(next)));
-			return obj;
+		filter_options(){
+			return [];
 		}
-		Axis_field(){
-			const obj = new this.$.$mol_form_field();
-			(obj.name) = () => ("Ось");
-			(obj.Content) = () => ((this.Axis()));
-			return obj;
-		}
-		values_title(next){
-			if(next !== undefined) return next;
-			return "";
-		}
-		Values(){
-			const obj = new this.$.$mol_select();
-			(obj.Filter) = () => (null);
-			(obj.options) = () => ((this.head()));
-			(obj.value) = (next) => ((this.values_title(next)));
-			return obj;
-		}
-		Values_field(){
-			const obj = new this.$.$mol_form_field();
-			(obj.name) = () => ("Значения");
-			(obj.Content) = () => ((this.Values()));
-			return obj;
-		}
-		groups(next){
+		filter_options_checked(next){
 			if(next !== undefined) return next;
 			return [];
 		}
-		Groups(){
-			const obj = new this.$.$mol_select_list();
-			(obj.value) = (next) => ((this.groups(next)));
-			(obj.options) = () => ((this.head()));
+		Filter_options(){
+			const obj = new this.$.$shm_hitalama_check_list();
+			(obj.options) = () => ((this.filter_options()));
+			(obj.value) = (next) => ((this.filter_options_checked(next)));
 			return obj;
 		}
-		Groups_field(){
+		Field(){
 			const obj = new this.$.$mol_form_field();
-			(obj.name) = () => ("Группировка");
-			(obj.Content) = () => ((this.Groups()));
+			(obj.name) = () => ((this.name()));
+			(obj.Content) = () => ((this.Filter_options()));
 			return obj;
 		}
 		Form(){
 			const obj = new this.$.$mol_list();
-			(obj.sub) = () => ([
-				(this.Axis_field()), 
-				(this.Values_field()), 
-				(this.Groups_field())
-			]);
+			(obj.sub) = () => ([(this.Field())]);
 			return obj;
-		}
-		filters_enabled(next){
-			if(next !== undefined) return next;
-			return [];
-		}
-		filter_enabled(id, next){
-			return (this.Checks().checked(id, next));
-		}
-		Checks(){
-			const obj = new this.$.$shm_hitalama_check_list();
-			(obj.options) = () => ((this.head()));
-			(obj.value) = (next) => ((this.filters_enabled(next)));
-			return obj;
-		}
-		Filter_select(){
-			const obj = new this.$.$mol_pick();
-			(obj.trigger_content) = () => (["Фильтры"]);
-			(obj.bubble_content) = () => ([(this.Checks())]);
-			return obj;
-		}
-		filters(){
-			return [];
-		}
-		Filters(){
-			const obj = new this.$.$mol_list();
-			(obj.sub) = () => ([(this.Filter_select()), ...(this.filters())]);
-			return obj;
-		}
-		filter_title(id){
-			return "";
-		}
-		filter_options(id){
-			return [];
-		}
-		filter_options_checked(id, next){
-			if(next !== undefined) return next;
-			return [];
-		}
-		Filter_options(id){
-			const obj = new this.$.$shm_hitalama_check_list();
-			(obj.options) = () => ((this.filter_options(id)));
-			(obj.value) = (next) => ((this.filter_options_checked(id, next)));
-			return obj;
-		}
-		drag_body(){
-			return [(this.Chart())];
-		}
-		width_min(){
-			return 200;
-		}
-		height_min(){
-			return 200;
 		}
 		tools(){
 			return [
@@ -30283,34 +30621,14 @@ var $;
 				(this.Ref_copy())
 			];
 		}
-		side_body(){
-			return [(this.Form()), (this.Filters())];
-		}
-		Filter_content(id){
-			const obj = new this.$.$mol_pick();
-			(obj.trigger_content) = () => ([(this.filter_title(id))]);
-			(obj.bubble_content) = () => ([(this.Filter_options(id))]);
-			return obj;
+		content(){
+			return [(this.Drag_view()), (this.Form())];
 		}
 	};
-	($mol_mem(($.$shm_hitalama_board_block_chart.prototype), "Chart"));
-	($mol_mem(($.$shm_hitalama_board_block_chart.prototype), "axis"));
-	($mol_mem(($.$shm_hitalama_board_block_chart.prototype), "Axis"));
-	($mol_mem(($.$shm_hitalama_board_block_chart.prototype), "Axis_field"));
-	($mol_mem(($.$shm_hitalama_board_block_chart.prototype), "values_title"));
-	($mol_mem(($.$shm_hitalama_board_block_chart.prototype), "Values"));
-	($mol_mem(($.$shm_hitalama_board_block_chart.prototype), "Values_field"));
-	($mol_mem(($.$shm_hitalama_board_block_chart.prototype), "groups"));
-	($mol_mem(($.$shm_hitalama_board_block_chart.prototype), "Groups"));
-	($mol_mem(($.$shm_hitalama_board_block_chart.prototype), "Groups_field"));
-	($mol_mem(($.$shm_hitalama_board_block_chart.prototype), "Form"));
-	($mol_mem(($.$shm_hitalama_board_block_chart.prototype), "filters_enabled"));
-	($mol_mem(($.$shm_hitalama_board_block_chart.prototype), "Checks"));
-	($mol_mem(($.$shm_hitalama_board_block_chart.prototype), "Filter_select"));
-	($mol_mem(($.$shm_hitalama_board_block_chart.prototype), "Filters"));
-	($mol_mem_key(($.$shm_hitalama_board_block_chart.prototype), "filter_options_checked"));
-	($mol_mem_key(($.$shm_hitalama_board_block_chart.prototype), "Filter_options"));
-	($mol_mem_key(($.$shm_hitalama_board_block_chart.prototype), "Filter_content"));
+	($mol_mem(($.$shm_hitalama_board_block_chart_filter.prototype), "filter_options_checked"));
+	($mol_mem(($.$shm_hitalama_board_block_chart_filter.prototype), "Filter_options"));
+	($mol_mem(($.$shm_hitalama_board_block_chart_filter.prototype), "Field"));
+	($mol_mem(($.$shm_hitalama_board_block_chart_filter.prototype), "Form"));
 
 
 ;
@@ -30322,129 +30640,38 @@ var $;
 (function ($) {
     var $$;
     (function ($$) {
-        class $shm_hitalama_board_block_chart extends $.$shm_hitalama_board_block_chart {
-            rows() {
-                const rows = this.block().Table()?.remote()?.rows_extended() ?? [];
-                if (rows?.length == 0)
-                    return [this.head().map(_ => '')];
-                return rows;
-            }
-            head() {
-                return this.block().Table()?.remote()?.head_extended() ?? [];
-            }
-            col_head_content(id) {
-                return [this.head()?.[Number(id)] ?? ''];
-            }
-            axis(next) {
-                return this.block().Chart(next)?.Axis(next)?.val(next) ?? this.head()[0];
-            }
-            values(next) {
-                return this.block().Chart(next)?.Values(next)?.val(next) ?? [];
-            }
-            values_title(next) {
-                return this.block().Chart(next)?.Values(next)?.val(next ? [next] : undefined)?.at(0) ?? this.head()[1];
-            }
-            groups(next) {
-                return this.block().Chart(next)?.Groups(next)?.val(next) ?? [];
-            }
-            names() {
-                return [...this.traversed().by_group.keys()];
-            }
-            filters_enabled(next) {
-                return this.block().Chart(next)?.Filters_enabled(next)?.val(next) ?? [];
-            }
-            filters() {
-                const enabled = this.block().Chart()?.Filters_enabled()?.val() ?? [];
-                return enabled.map(t => this.Filter_content(t));
-            }
-            filter_title(id) {
-                return id;
-            }
-            filter_options(id) {
-                return [...this.traversed().field_options.get(id) ?? []];
-            }
-            filter_options_checked(id, next) {
-                return this.block().Chart()?.Filters_options(next)?.key(id, next)?.val(next) ?? this.filter_options(id);
-            }
-            row_included({ field, value }) {
-                const filter_enabled = this.filter_enabled(field);
-                if (!filter_enabled)
-                    return true;
-                const options = this.block().Chart()?.Filters_options()?.key(field)?.val();
-                if (!options)
-                    return true;
-                return options.includes(value);
-            }
-            series_y(group_name) {
-                const labels = this.labels();
-                const by_label = this.traversed().by_group.get(group_name);
-                return labels.map(l => Number(by_label?.get(l)));
-            }
-            labels() {
-                return [...this.traversed().labels];
+        class $shm_hitalama_board_block_chart_filter extends $.$shm_hitalama_board_block_chart_filter {
+            chart() {
+                const block = this.block().Use_chart_from()?.remote();
+                return block.Chart();
             }
             traversed() {
-                const field_options = new Map;
-                const by_group = new Map;
-                const labels = new Set;
-                const fields = this.head();
-                const group_indexes = this.groups().map(g => fields.indexOf(g));
-                const value_i = fields.indexOf(this.values_title());
-                const row_value = (row) => {
-                    return row[value_i];
-                };
-                const axis_i = fields.indexOf(this.axis());
-                const row_label = (row) => {
-                    return row[axis_i];
-                };
-                this.rows().forEach((row) => {
-                    let included = true;
-                    row.forEach((value, i) => {
-                        const set = field_options.get(fields[i]) ?? new Set;
-                        field_options.set(fields[i], set);
-                        set.add(value);
-                        included = included == false ? false : this.row_included({ field: fields[i], value });
-                    });
-                    if (!included)
-                        return;
-                    const group_name = group_indexes.map(i => row[i]).join(', ') ?? '';
-                    const by_label = by_group.get(group_name) ?? new Map;
-                    by_group.set(group_name, by_label);
-                    const label = row_label(row);
-                    by_label.set(label, (by_label.get(label) ?? 0) + Number(row_value(row)));
-                    labels.add(label);
-                });
-                return { by_group, labels, field_options };
+                return this.chart().traversed();
+            }
+            name() {
+                return this.block().text();
+            }
+            filter_options() {
+                return [...this.traversed().field_options.get(this.name()) ?? []];
+            }
+            filter_options_checked(next) {
+                const name = this.name();
+                return this.chart()?.Filters_options(next)?.key(name, next)?.val(next) ?? this.filter_options();
             }
         }
         __decorate([
             $mol_mem
-        ], $shm_hitalama_board_block_chart.prototype, "rows", null);
+        ], $shm_hitalama_board_block_chart_filter.prototype, "chart", null);
         __decorate([
             $mol_mem
-        ], $shm_hitalama_board_block_chart.prototype, "head", null);
+        ], $shm_hitalama_board_block_chart_filter.prototype, "traversed", null);
         __decorate([
             $mol_mem
-        ], $shm_hitalama_board_block_chart.prototype, "filters_enabled", null);
+        ], $shm_hitalama_board_block_chart_filter.prototype, "filter_options", null);
         __decorate([
             $mol_mem
-        ], $shm_hitalama_board_block_chart.prototype, "filters", null);
-        __decorate([
-            $mol_mem_key
-        ], $shm_hitalama_board_block_chart.prototype, "filter_options", null);
-        __decorate([
-            $mol_mem_key
-        ], $shm_hitalama_board_block_chart.prototype, "filter_options_checked", null);
-        __decorate([
-            $mol_mem_key
-        ], $shm_hitalama_board_block_chart.prototype, "row_included", null);
-        __decorate([
-            $mol_mem_key
-        ], $shm_hitalama_board_block_chart.prototype, "series_y", null);
-        __decorate([
-            $mol_mem
-        ], $shm_hitalama_board_block_chart.prototype, "traversed", null);
-        $$.$shm_hitalama_board_block_chart = $shm_hitalama_board_block_chart;
+        ], $shm_hitalama_board_block_chart_filter.prototype, "filter_options_checked", null);
+        $$.$shm_hitalama_board_block_chart_filter = $shm_hitalama_board_block_chart_filter;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
 
@@ -30454,44 +30681,20 @@ var $;
 (function ($) {
     var $$;
     (function ($$) {
-        $mol_style_define($shm_hitalama_board_block_chart, {
+        $mol_style_define($shm_hitalama_board_block_chart_filter, {
             background: {
                 color: $mol_theme.card,
             },
             Drag_view: {
                 position: 'absolute',
-                width: '100%',
                 height: '100%',
-            },
-            Sidebar: {
-                outline: 'solid 1px var(--mol_theme_line)',
-                border: {
-                    radius: $mol_gap.round,
-                },
-                background: {
-                    color: $mol_theme.back,
-                },
-                flex: {
-                    direction: 'column',
-                },
+                width: '100%',
             },
             Form: {
-                background: {
-                    color: $mol_theme.card,
-                },
                 padding: $mol_gap.block,
                 gap: $mol_gap.space,
             },
-            Filters: {
-                background: {
-                    color: $mol_theme.card,
-                },
-                padding: $mol_gap.block,
-                box: {
-                    shadow: [
-                        { inset: false, x: 0, y: '-1px', blur: 0, spread: 0, color: $mol_theme.line, },
-                    ],
-                },
+            Field: {
                 gap: $mol_gap.space,
             },
         });
@@ -30686,6 +30889,14 @@ var $;
 			const obj = new this.$.$shm_hitalama_board_block_chart();
 			return obj;
 		}
+		Chart_settings(){
+			const obj = new this.$.$shm_hitalama_board_block_chart_settings();
+			return obj;
+		}
+		Chart_filter(){
+			const obj = new this.$.$shm_hitalama_board_block_chart_filter();
+			return obj;
+		}
 		Customdom(){
 			const obj = new this.$.$shm_hitalama_board_block_customdom();
 			return obj;
@@ -30714,6 +30925,8 @@ var $;
 				"table": (this.Table()), 
 				"code": (this.Code()), 
 				"chart": (this.Chart()), 
+				"chart_settings": (this.Chart_settings()), 
+				"chart_filter": (this.Chart_filter()), 
 				"customdom": (this.Customdom())
 			};
 		}
@@ -30730,6 +30943,8 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Table"));
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Code"));
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Chart"));
+	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Chart_settings"));
+	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Chart_filter"));
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Customdom"));
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Sub"));
 
@@ -31223,6 +31438,9 @@ var $;
 		}
 		contextmenu_body(next){
 			if(next !== undefined) return next;
+			return [];
+		}
+		get_pointer_pos(){
 			return [];
 		}
 		Back_contextmenu_body(){
