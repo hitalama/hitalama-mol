@@ -25,6 +25,12 @@ namespace $.$$ {
 			overflow: 'hidden',
 			display: 'block',
 		},
+
+		Tg_post_dom: {
+			flex: {
+				grow: 1,
+			},
+		},
 		
 	} )
 	

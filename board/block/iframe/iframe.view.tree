@@ -1,8 +1,11 @@
 $shm_hitalama_board_block_iframe $shm_hitalama_board_block_float
 	sub /
 		<= Drag_view
-		<= Iframe $mol_frame
-			uri <= src
+		^ iframe_visible /
+			<= Iframe $mol_frame
+				uri <= src
+			<= Tg_post_dom $mol_view
+				sub / ^ tg_post_script /
 		^ blocker / <= Blocker $mol_view
 		^ edges
 		^ toolbar
