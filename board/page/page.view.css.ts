@@ -26,6 +26,9 @@ namespace $.$$ {
 			position: 'absolute',
 			zIndex: $mol_layer.float
 		},
+		Title_view: {
+			padding: $mol_gap.text,
+		},
 
 		Settings_content: {
 			padding: $mol_gap.block,

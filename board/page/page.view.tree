@@ -19,7 +19,7 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 						section \board
 						board <= board_id \
 					external true
-				<= Title $mol_view
+				<= Title_view $mol_view
 					sub / <= title
 				<= Settings $mol_pick
 					hint \Click to show settings
