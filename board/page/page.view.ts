@@ -286,7 +286,7 @@ namespace $.$$ {
 
 		@ $mol_action
 		paste_text( text: string ) {
-			const pos =  this.pointer_pos()
+			const pos =  this.get_pointer_pos()
 			const block = this.board().block_add( 'text', pos )
 			block?.Text(null)?.value( text )
 			return block
@@ -294,7 +294,7 @@ namespace $.$$ {
 
 		@ $mol_action
 		get_pointer_pos() {
-			return this.pointer_pos()
+			return this.to_real_pos( this.pointer_pos() )
 		}
 
 		@ $mol_mem
