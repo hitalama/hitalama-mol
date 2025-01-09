@@ -17558,6 +17558,7 @@ var $;
         Blocks: $hyoo_crus_list_ref_to(() => $shm_hitalama_board_block),
         Search_statistics: $hyoo_crus_list_ref_to(() => $shm_hitalama_board_form),
         Files: $hyoo_crus_list_ref_to(() => $shm_hitalama_file),
+        Description: $hyoo_crus_atom_str,
     }) {
         block(ref) {
             return $hyoo_crus_glob.Node($hyoo_crus_ref(ref), $shm_hitalama_board_block);
@@ -25224,29 +25225,61 @@ var $;
 "use strict";
 
 ;
-	($.$shm_hitalama_board_back) = class $shm_hitalama_board_back extends ($.$mol_view) {
-		event_pointerdown(next){
-			if(next !== undefined) return next;
+	($.$mol_form_field) = class $mol_form_field extends ($.$mol_labeler) {
+		name(){
+			return "";
+		}
+		bid(){
+			return "";
+		}
+		Bid(){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => ([(this.bid())]);
+			return obj;
+		}
+		control(){
 			return null;
 		}
-		event_contextmenu(next){
-			if(next !== undefined) return next;
-			return null;
+		bids(){
+			return [];
 		}
-		event(){
-			return {
-				...(super.event()), 
-				"pointerdown": (next) => (this.event_pointerdown(next)), 
-				"contextmenu": (next) => (this.event_contextmenu(next))
-			};
+		label(){
+			return [(this.name()), (this.Bid())];
+		}
+		content(){
+			return [(this.control())];
 		}
 	};
-	($mol_mem(($.$shm_hitalama_board_back.prototype), "event_pointerdown"));
-	($mol_mem(($.$shm_hitalama_board_back.prototype), "event_contextmenu"));
+	($mol_mem(($.$mol_form_field.prototype), "Bid"));
 
 
 ;
 "use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $mol_form_field extends $.$mol_form_field {
+            bid() {
+                return this.bids().filter(Boolean)[0] ?? '';
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $mol_form_field.prototype, "bid", null);
+        $$.$mol_form_field = $mol_form_field;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_style_attach("mol/form/field/field.view.css", "[mol_form_field] {\n\talign-items: stretch;\n}\n\n[mol_form_field_bid] {\n\tcolor: var(--mol_theme_focus);\n\tdisplay: inline-block;\n\ttext-shadow: 0 0;\n}\n\n[mol_form_field_content] {\n\tborder-radius: var(--mol_gap_round);\n}\n");
+})($ || ($ = {}));
 
 ;
 	($.$shm_hitalama_contextmenu) = class $shm_hitalama_contextmenu extends ($.$mol_view) {
@@ -25547,6 +25580,12 @@ var $;
 		drags_synced(){
 			return [];
 		}
+		repos_x(id){
+			return 1;
+		}
+		repos_y(id){
+			return 1;
+		}
 		Drag(){
 			const obj = new this.$.$shm_hitalama_drag();
 			(obj.on_drag_start) = (next) => ((this.on_drag_start(next)));
@@ -25555,6 +25594,8 @@ var $;
 			(obj.y) = (next) => ((this.y(next)));
 			(obj.x) = (next) => ((this.x(next)));
 			(obj.drags_synced) = () => ((this.drags_synced()));
+			(obj.repos_x) = (id) => ((this.repos_x(id)));
+			(obj.repos_y) = (id) => ((this.repos_y(id)));
 			return obj;
 		}
 		plugins(){
@@ -25574,6 +25615,24 @@ var $;
 
 ;
 "use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $shm_hitalama_drag_view extends $.$shm_hitalama_drag_view {
+            repos_x(val) {
+                return val;
+            }
+            repos_y(val) {
+                return val;
+            }
+        }
+        $$.$shm_hitalama_drag_view = $shm_hitalama_drag_view;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
 
 ;
 	($.$shm_hitalama_resize) = class $shm_hitalama_resize extends ($.$mol_view) {
@@ -25605,6 +25664,12 @@ var $;
 		Drag(){
 			return (this.Drag_view().Drag());
 		}
+		repos_x(id){
+			return 1;
+		}
+		repos_y(id){
+			return 1;
+		}
 		Drag_view(){
 			const obj = new this.$.$shm_hitalama_drag_view();
 			(obj.sub) = () => ((this.drag_body()));
@@ -25613,6 +25678,8 @@ var $;
 			(obj.on_drag_start) = (next) => ((this.on_drag_start(next)));
 			(obj.on_drag_end) = (next) => ((this.on_drag_end(next)));
 			(obj.drags_synced) = () => ((this.drags_synced()));
+			(obj.repos_x) = (id) => ((this.repos_x(id)));
+			(obj.repos_y) = (id) => ((this.repos_y(id)));
 			return obj;
 		}
 		content(){
@@ -25646,6 +25713,8 @@ var $;
 		}
 		Top_edge(){
 			const obj = new this.$.$shm_hitalama_resize_edge();
+			(obj.repos_x) = (id) => ((this.repos_x(id)));
+			(obj.repos_y) = (id) => ((this.repos_y(id)));
 			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
 			(obj.on_drag_end) = (next) => ((this.resize_end(next)));
 			(obj.y) = (next) => ((this.top_edge_y(next)));
@@ -25657,6 +25726,8 @@ var $;
 		}
 		Left_edge(){
 			const obj = new this.$.$shm_hitalama_resize_edge();
+			(obj.repos_x) = (id) => ((this.repos_x(id)));
+			(obj.repos_y) = (id) => ((this.repos_y(id)));
 			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
 			(obj.on_drag_end) = (next) => ((this.resize_end(next)));
 			(obj.x) = (next) => ((this.left_edge_x(next)));
@@ -25668,6 +25739,8 @@ var $;
 		}
 		Bottom_edge(){
 			const obj = new this.$.$shm_hitalama_resize_edge();
+			(obj.repos_x) = (id) => ((this.repos_x(id)));
+			(obj.repos_y) = (id) => ((this.repos_y(id)));
 			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
 			(obj.on_drag_end) = (next) => ((this.resize_end(next)));
 			(obj.y) = (next) => ((this.bottom_edge_y(next)));
@@ -25679,6 +25752,8 @@ var $;
 		}
 		Right_edge(){
 			const obj = new this.$.$shm_hitalama_resize_edge();
+			(obj.repos_x) = (id) => ((this.repos_x(id)));
+			(obj.repos_y) = (id) => ((this.repos_y(id)));
 			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
 			(obj.on_drag_end) = (next) => ((this.resize_end(next)));
 			(obj.x) = (next) => ((this.right_edge_x(next)));
@@ -25686,6 +25761,8 @@ var $;
 		}
 		Top_left_edge(){
 			const obj = new this.$.$shm_hitalama_resize_edge();
+			(obj.repos_x) = (id) => ((this.repos_x(id)));
+			(obj.repos_y) = (id) => ((this.repos_y(id)));
 			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
 			(obj.on_drag_end) = (next) => ((this.resize_end(next)));
 			(obj.y) = (next) => ((this.top_edge_y(next)));
@@ -25694,6 +25771,8 @@ var $;
 		}
 		Top_right_edge(){
 			const obj = new this.$.$shm_hitalama_resize_edge();
+			(obj.repos_x) = (id) => ((this.repos_x(id)));
+			(obj.repos_y) = (id) => ((this.repos_y(id)));
 			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
 			(obj.on_drag_end) = (next) => ((this.resize_end(next)));
 			(obj.y) = (next) => ((this.top_edge_y(next)));
@@ -25702,6 +25781,8 @@ var $;
 		}
 		Bottom_left_edge(){
 			const obj = new this.$.$shm_hitalama_resize_edge();
+			(obj.repos_x) = (id) => ((this.repos_x(id)));
+			(obj.repos_y) = (id) => ((this.repos_y(id)));
 			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
 			(obj.on_drag_end) = (next) => ((this.resize_end(next)));
 			(obj.y) = (next) => ((this.bottom_edge_y(next)));
@@ -25710,6 +25791,8 @@ var $;
 		}
 		Bottom_right_edge(){
 			const obj = new this.$.$shm_hitalama_resize_edge();
+			(obj.repos_x) = (id) => ((this.repos_x(id)));
+			(obj.repos_y) = (id) => ((this.repos_y(id)));
 			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
 			(obj.on_drag_end) = (next) => ((this.resize_end(next)));
 			(obj.y) = (next) => ((this.bottom_edge_y(next)));
@@ -25855,6 +25938,12 @@ var $;
     var $$;
     (function ($$) {
         class $shm_hitalama_resize extends $.$shm_hitalama_resize {
+            repos_x(val) {
+                return val;
+            }
+            repos_y(val) {
+                return val;
+            }
             to_stick(sticks, val, shift) {
                 for (const stick of sticks) {
                     const to_stick = stick - (val + shift);
@@ -26131,6 +26220,8 @@ var $;
 		}
 		Left_top_edge_ratio(){
 			const obj = new this.$.$shm_hitalama_resize_edge();
+			(obj.repos_x) = (id) => ((this.repos_x(id)));
+			(obj.repos_y) = (id) => ((this.repos_y(id)));
 			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
 			(obj.on_drag_end) = (next) => ((this.resize_end(next)));
 			(obj.x) = (next) => ((this.left_top_edge_ratio_x(next)));
@@ -26142,6 +26233,8 @@ var $;
 		}
 		Left_bottom_edge_ratio(){
 			const obj = new this.$.$shm_hitalama_resize_edge();
+			(obj.repos_x) = (id) => ((this.repos_x(id)));
+			(obj.repos_y) = (id) => ((this.repos_y(id)));
 			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
 			(obj.on_drag_end) = (next) => ((this.resize_end(next)));
 			(obj.x) = (next) => ((this.left_bottom_edge_ratio_x(next)));
@@ -26153,6 +26246,8 @@ var $;
 		}
 		Right_bottom_edge_ratio(){
 			const obj = new this.$.$shm_hitalama_resize_edge();
+			(obj.repos_x) = (id) => ((this.repos_x(id)));
+			(obj.repos_y) = (id) => ((this.repos_y(id)));
 			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
 			(obj.on_drag_end) = (next) => ((this.resize_end(next)));
 			(obj.x) = (next) => ((this.right_bottom_edge_ratio_x(next)));
@@ -26164,6 +26259,8 @@ var $;
 		}
 		Right_top_edge_ratio(){
 			const obj = new this.$.$shm_hitalama_resize_edge();
+			(obj.repos_x) = (id) => ((this.repos_x(id)));
+			(obj.repos_y) = (id) => ((this.repos_y(id)));
 			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
 			(obj.on_drag_end) = (next) => ((this.resize_end(next)));
 			(obj.x) = (next) => ((this.right_top_edge_ratio_x(next)));
@@ -26175,6 +26272,8 @@ var $;
 		}
 		Top_left_edge_ratio(){
 			const obj = new this.$.$shm_hitalama_resize_edge();
+			(obj.repos_x) = (id) => ((this.repos_x(id)));
+			(obj.repos_y) = (id) => ((this.repos_y(id)));
 			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
 			(obj.on_drag_end) = (next) => ((this.resize_end(next)));
 			(obj.y) = (next) => ((this.top_left_edge_ratio_y(next)));
@@ -26186,6 +26285,8 @@ var $;
 		}
 		Top_right_edge_ratio(){
 			const obj = new this.$.$shm_hitalama_resize_edge();
+			(obj.repos_x) = (id) => ((this.repos_x(id)));
+			(obj.repos_y) = (id) => ((this.repos_y(id)));
 			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
 			(obj.on_drag_end) = (next) => ((this.resize_end(next)));
 			(obj.y) = (next) => ((this.top_right_edge_ratio_y(next)));
@@ -26197,6 +26298,8 @@ var $;
 		}
 		Bottom_left_edge_ratio(){
 			const obj = new this.$.$shm_hitalama_resize_edge();
+			(obj.repos_x) = (id) => ((this.repos_x(id)));
+			(obj.repos_y) = (id) => ((this.repos_y(id)));
 			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
 			(obj.on_drag_end) = (next) => ((this.resize_end(next)));
 			(obj.y) = (next) => ((this.bottom_left_edge_ratio_y(next)));
@@ -26208,6 +26311,8 @@ var $;
 		}
 		Bottom_right_edge_ratio(){
 			const obj = new this.$.$shm_hitalama_resize_edge();
+			(obj.repos_x) = (id) => ((this.repos_x(id)));
+			(obj.repos_y) = (id) => ((this.repos_y(id)));
 			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
 			(obj.on_drag_end) = (next) => ((this.resize_end(next)));
 			(obj.y) = (next) => ((this.bottom_right_edge_ratio_y(next)));
@@ -26938,6 +27043,9 @@ var $;
 			if(next !== undefined) return next;
 			return false;
 		}
+		toolbar_transform(){
+			return "";
+		}
 		color(next){
 			if(next !== undefined) return next;
 			return "var(--mol_theme_text)";
@@ -26959,6 +27067,7 @@ var $;
 		}
 		Font_size(){
 			const obj = new this.$.$mol_number();
+			(obj.minimal_width) = () => (64);
 			(obj.value) = (next) => ((this.font_size(next)));
 			(obj.Dec) = () => (null);
 			(obj.Inc) = () => (null);
@@ -27058,6 +27167,7 @@ var $;
 		}
 		Toolbar(){
 			const obj = new this.$.$mol_view();
+			(obj.style) = () => ({"transform": (this.toolbar_transform())});
 			(obj.sub) = () => ((this.tools()));
 			return obj;
 		}
@@ -27071,6 +27181,14 @@ var $;
 			return (this.transition_smooth());
 		}
 		event_contextmenu(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		pointerenter(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		pointerleave(next){
 			if(next !== undefined) return next;
 			return null;
 		}
@@ -27090,6 +27208,9 @@ var $;
 			const obj = new this.$.$shm_hitalama_board_page();
 			return obj;
 		}
+		zoom(){
+			return 1;
+		}
 		sub(){
 			return [
 				(this.Content()), 
@@ -27108,6 +27229,9 @@ var $;
 			if(next !== undefined) return next;
 			return 1;
 		}
+		has_scrollbar(){
+			return false;
+		}
 		style(){
 			return {
 				...(super.style()), 
@@ -27119,7 +27243,16 @@ var $;
 			return "";
 		}
 		event(){
-			return {...(super.event()), "contextmenu": (next) => (this.event_contextmenu(next))};
+			return {
+				...(super.event()), 
+				"contextmenu": (next) => (this.event_contextmenu(next)), 
+				"pointerenter": (next) => (this.pointerenter(next)), 
+				"pointerleave": (next) => (this.pointerleave(next))
+			};
+		}
+		hovered(next){
+			if(next !== undefined) return next;
+			return false;
 		}
 		Contextmenu_body(){
 			return null;
@@ -27155,11 +27288,14 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "Ref_copy"));
 	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "Toolbar"));
 	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "event_contextmenu"));
+	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "pointerenter"));
+	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "pointerleave"));
 	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "selected"));
 	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "block"));
 	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "board"));
 	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "Board_page"));
 	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "opacity"));
+	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "hovered"));
 
 
 ;
@@ -27172,6 +27308,12 @@ var $;
     var $$;
     (function ($$) {
         class $shm_hitalama_board_block_float extends $.$shm_hitalama_board_block_float {
+            repos_x(val) {
+                return val / this.zoom();
+            }
+            repos_y(val) {
+                return val / this.zoom();
+            }
             body_x_stick(next) {
                 return this.block().Body_x(next)?.val(next) ?? 0;
             }
@@ -27224,12 +27366,25 @@ var $;
             toolbar() {
                 return this.selected() ? super.toolbar() : [];
             }
+            toolbar_transform() {
+                return `translateY(-100%) scale(${1 / this.zoom()})`;
+            }
             transition() {
                 return (this.dragged() || this.resizing()) ? 'none' : this.transition_smooth();
             }
             on_drag_start(event) {
                 super.on_drag_start(event);
                 this.selected(true);
+            }
+            has_scrollbar() {
+                const el = this.Content().dom_node_actual();
+                return el.scrollHeight > el.clientHeight;
+            }
+            pointerenter(next) {
+                this.hovered(true);
+            }
+            pointerleave(next) {
+                this.hovered(false);
             }
         }
         __decorate([
@@ -27267,7 +27422,13 @@ var $;
         ], $shm_hitalama_board_block_float.prototype, "color", null);
         __decorate([
             $mol_mem
+        ], $shm_hitalama_board_block_float.prototype, "toolbar_transform", null);
+        __decorate([
+            $mol_mem
         ], $shm_hitalama_board_block_float.prototype, "transition", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_block_float.prototype, "has_scrollbar", null);
         $$.$shm_hitalama_board_block_float = $shm_hitalama_board_block_float;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
@@ -27303,7 +27464,8 @@ var $;
                 position: 'absolute',
                 top: 0,
                 width: '100%',
-                transform: 'translateY(-100%)',
+                transformOrigin: '0 100%',
+                transition: 'none',
                 overflow: 'visible',
                 zIndex: $mol_layer.popup,
                 padding: {
@@ -27900,63 +28062,6 @@ var $;
 	($mol_mem(($.$mol_form.prototype), "Foot"));
 	($mol_mem(($.$mol_form.prototype), "submit"));
 
-
-;
-	($.$mol_form_field) = class $mol_form_field extends ($.$mol_labeler) {
-		name(){
-			return "";
-		}
-		bid(){
-			return "";
-		}
-		Bid(){
-			const obj = new this.$.$mol_view();
-			(obj.sub) = () => ([(this.bid())]);
-			return obj;
-		}
-		control(){
-			return null;
-		}
-		bids(){
-			return [];
-		}
-		label(){
-			return [(this.name()), (this.Bid())];
-		}
-		content(){
-			return [(this.control())];
-		}
-	};
-	($mol_mem(($.$mol_form_field.prototype), "Bid"));
-
-
-;
-"use strict";
-
-;
-"use strict";
-var $;
-(function ($) {
-    var $$;
-    (function ($$) {
-        class $mol_form_field extends $.$mol_form_field {
-            bid() {
-                return this.bids().filter(Boolean)[0] ?? '';
-            }
-        }
-        __decorate([
-            $mol_mem
-        ], $mol_form_field.prototype, "bid", null);
-        $$.$mol_form_field = $mol_form_field;
-    })($$ = $.$$ || ($.$$ = {}));
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
-    $mol_style_attach("mol/form/field/field.view.css", "[mol_form_field] {\n\talign-items: stretch;\n}\n\n[mol_form_field_bid] {\n\tcolor: var(--mol_theme_focus);\n\tdisplay: inline-block;\n\ttext-shadow: 0 0;\n}\n\n[mol_form_field_content] {\n\tborder-radius: var(--mol_gap_round);\n}\n");
-})($ || ($ = {}));
 
 ;
 "use strict";
@@ -30929,8 +31034,15 @@ var $;
 			if(next !== undefined) return next;
 			return false;
 		}
+		hovered(next){
+			if(next !== undefined) return next;
+			return false;
+		}
 		editing(next){
 			return (this.Sub().editing(next));
+		}
+		has_scrollbar(){
+			return (this.Sub().has_scrollbar());
 		}
 		drags_synced(){
 			return [];
@@ -30941,6 +31053,9 @@ var $;
 		}
 		Contextmenu_body(){
 			return (this.Sub().Contextmenu_body());
+		}
+		zoom(){
+			return 1;
 		}
 		Input(){
 			const obj = new this.$.$shm_hitalama_board_block_input();
@@ -30993,8 +31108,10 @@ var $;
 			(obj.sticks_y) = () => ((this.sticks_y()));
 			(obj.sticks_x) = () => ((this.sticks_x()));
 			(obj.selected) = (next) => ((this.selected(next)));
+			(obj.hovered) = (next) => ((this.hovered(next)));
 			(obj.drags_synced) = () => ((this.drags_synced()));
 			(obj.event_contextmenu) = (next) => ((this.event_contextmenu(next)));
+			(obj.zoom) = () => ((this.zoom()));
 			return obj;
 		}
 		blocks(){
@@ -31016,6 +31133,7 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "board"));
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Board_page"));
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "selected"));
+	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "hovered"));
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "event_contextmenu"));
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Input"));
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Iframe"));
@@ -31052,8 +31170,10 @@ var $;
                 obj.sticks_y = () => this.sticks_y();
                 obj.sticks_x = () => this.sticks_x();
                 obj.selected = (next) => this.selected(next);
+                obj.hovered = (next) => this.hovered(next);
                 obj.drags_synced = () => this.drags_synced();
                 obj.event_contextmenu = (next) => this.event_contextmenu(next);
+                obj.zoom = () => this.zoom();
                 return obj;
             }
         }
@@ -31065,13 +31185,100 @@ var $;
 })($ || ($ = {}));
 
 ;
+	($.$shm_hitalama_board_back) = class $shm_hitalama_board_back extends ($.$mol_view) {
+		event_pointerdown(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		event_contextmenu(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		event(){
+			return {
+				...(super.event()), 
+				"pointerdown": (next) => (this.event_pointerdown(next)), 
+				"contextmenu": (next) => (this.event_contextmenu(next))
+			};
+		}
+	};
+	($mol_mem(($.$shm_hitalama_board_back.prototype), "event_pointerdown"));
+	($mol_mem(($.$shm_hitalama_board_back.prototype), "event_contextmenu"));
+
+
+;
+"use strict";
+
+;
 	($.$shm_hitalama_board_pane) = class $shm_hitalama_board_pane extends ($.$mol_view) {
 		selecting(next){
 			if(next !== undefined) return next;
 			return false;
 		}
+		keydown_listener(){
+			return null;
+		}
+		keyup_listener(){
+			return null;
+		}
+		back_event_pointerdown(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		back_event_contextmenu(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Back(){
+			const obj = new this.$.$shm_hitalama_board_back();
+			(obj.event_pointerdown) = (next) => ((this.back_event_pointerdown(next)));
+			(obj.event_contextmenu) = (next) => ((this.back_event_contextmenu(next)));
+			return obj;
+		}
+		outside(){
+			return [];
+		}
 		body(){
 			return [];
+		}
+		content_view_rect(){
+			return (this.Content().view_rect());
+		}
+		transform(){
+			return "";
+		}
+		Content(){
+			const obj = new this.$.$mol_view();
+			(obj.minimal_height) = () => (0);
+			(obj.minimal_width) = () => (0);
+			(obj.sub) = () => ((this.body()));
+			(obj.style) = () => ({"transform": (this.transform())});
+			return obj;
+		}
+		shift_limit(){
+			return (this.Pane().shift_limit());
+		}
+		shift(next){
+			if(next !== undefined) return next;
+			const obj = new this.$.$mol_vector_2d(0, 0);
+			return obj;
+		}
+		zoom(next){
+			if(next !== undefined) return next;
+			return 1;
+		}
+		pane_pointer_events(){
+			return "";
+		}
+		Pane(){
+			const obj = new this.$.$mol_plot_pane();
+			(obj.gap_hor) = () => (0);
+			(obj.gap_vert) = () => (0);
+			(obj.allow_draw) = () => (false);
+			(obj.shift) = (next) => ((this.shift(next)));
+			(obj.zoom) = (next) => ((this.zoom(next)));
+			(obj.style) = () => ({"pointerEvents": (this.pane_pointer_events())});
+			return obj;
 		}
 		select_rect_left(next){
 			if(next !== undefined) return next;
@@ -31106,14 +31313,46 @@ var $;
 			if(next !== undefined) return next;
 			return null;
 		}
+		wheel(next){
+			if(next !== undefined) return next;
+			return null;
+		}
 		attr(){
 			return {...(super.attr()), "selecting": (this.selecting())};
 		}
 		pointer_pos(){
 			return [];
 		}
+		real_pointer_pos(){
+			return [];
+		}
+		to_real_pos(id){
+			return null;
+		}
+		ctrl_pressed(next){
+			if(next !== undefined) return next;
+			return false;
+		}
+		shift_pressed(next){
+			if(next !== undefined) return next;
+			return false;
+		}
+		auto(){
+			return [
+				(this.keydown_listener()), 
+				(this.keyup_listener()), 
+				(this.ctrl_pressed()), 
+				(this.shift_pressed())
+			];
+		}
 		sub(){
-			return [...(this.body()), ...(this.select_rect())];
+			return [
+				(this.Back()), 
+				...(this.outside()), 
+				(this.Content()), 
+				(this.Pane()), 
+				...(this.select_rect())
+			];
 		}
 		select_rect_start_x(next){
 			if(next !== undefined) return next;
@@ -31148,23 +31387,42 @@ var $;
 		client_pos_to_pane_pos(id){
 			return null;
 		}
+		prevent_zoom(next){
+			if(next !== undefined) return next;
+			return false;
+		}
 		event(){
-			return {...(super.event()), "pointermove": (next) => (this.pointer_move(next))};
+			return {
+				...(super.event()), 
+				"pointermove": (next) => (this.pointer_move(next)), 
+				"wheel": (next) => (this.wheel(next))
+			};
 		}
 	};
 	($mol_mem(($.$shm_hitalama_board_pane.prototype), "selecting"));
+	($mol_mem(($.$shm_hitalama_board_pane.prototype), "back_event_pointerdown"));
+	($mol_mem(($.$shm_hitalama_board_pane.prototype), "back_event_contextmenu"));
+	($mol_mem(($.$shm_hitalama_board_pane.prototype), "Back"));
+	($mol_mem(($.$shm_hitalama_board_pane.prototype), "Content"));
+	($mol_mem(($.$shm_hitalama_board_pane.prototype), "shift"));
+	($mol_mem(($.$shm_hitalama_board_pane.prototype), "zoom"));
+	($mol_mem(($.$shm_hitalama_board_pane.prototype), "Pane"));
 	($mol_mem(($.$shm_hitalama_board_pane.prototype), "select_rect_left"));
 	($mol_mem(($.$shm_hitalama_board_pane.prototype), "select_rect_top"));
 	($mol_mem(($.$shm_hitalama_board_pane.prototype), "select_rect_width"));
 	($mol_mem(($.$shm_hitalama_board_pane.prototype), "select_rect_height"));
 	($mol_mem(($.$shm_hitalama_board_pane.prototype), "Select_rect"));
 	($mol_mem(($.$shm_hitalama_board_pane.prototype), "pointer_move"));
+	($mol_mem(($.$shm_hitalama_board_pane.prototype), "wheel"));
+	($mol_mem(($.$shm_hitalama_board_pane.prototype), "ctrl_pressed"));
+	($mol_mem(($.$shm_hitalama_board_pane.prototype), "shift_pressed"));
 	($mol_mem(($.$shm_hitalama_board_pane.prototype), "select_rect_start_x"));
 	($mol_mem(($.$shm_hitalama_board_pane.prototype), "select_rect_start_y"));
 	($mol_mem(($.$shm_hitalama_board_pane.prototype), "select_rect_end_x"));
 	($mol_mem(($.$shm_hitalama_board_pane.prototype), "select_rect_end_y"));
 	($mol_mem(($.$shm_hitalama_board_pane.prototype), "select_start"));
 	($mol_mem(($.$shm_hitalama_board_pane.prototype), "select_resize"));
+	($mol_mem(($.$shm_hitalama_board_pane.prototype), "prevent_zoom"));
 
 
 ;
@@ -31201,9 +31459,23 @@ var $;
             pointer_pos() {
                 return this.client_pos_to_pane_pos(this.pointer_client_pos);
             }
+            real_pointer_pos() {
+                const [x, y] = this.client_pos_to_pane_pos(this.pointer_client_pos);
+                return this.to_real_pos([x, y]);
+            }
+            to_real_pos([x, y]) {
+                const shift = this.shift();
+                const zoom = this.zoom();
+                return [
+                    (x - shift[0]) / zoom,
+                    (y - shift[1]) / zoom,
+                ];
+            }
             client_pos_to_pane_pos(client_pos) {
                 const { left, top } = this.dom_node().getBoundingClientRect();
-                return [client_pos[0] - left, client_pos[1] - top];
+                let x = client_pos[0] - left;
+                let y = client_pos[1] - top;
+                return [x, y];
             }
             select_rect() {
                 return this.selecting() ? super.select_rect() : [];
@@ -31232,6 +31504,60 @@ var $;
             select_rect_height() {
                 return this.select_rect_size()[1] + 'px';
             }
+            transform() {
+                const [shift_x, shift_y] = this.shift();
+                const scale = this.zoom();
+                const pos_x = shift_x;
+                const pos_y = shift_y;
+                return `translate3d(${pos_x}px,${pos_y}px,0px) scale(${scale})`;
+            }
+            zoom(next) {
+                return this.$.$mol_state_local.value(this.toString() + 'zoom', next) ?? 1;
+            }
+            shift(next) {
+                if (next === undefined)
+                    return new this.$.$mol_vector_2d(...(this.$.$mol_state_local.value(this.toString() + 'shift') ?? [0, 0]));
+                return this.$.$mol_state_local.value(this.toString() + 'shift', next) ?? super.shift();
+            }
+            keydown_listener() {
+                return new $mol_dom_listener(this.$.$mol_dom_context.document, 'keydown', $mol_wire_async(event => {
+                    if (event.key == 'Control') {
+                        this.ctrl_pressed(true);
+                    }
+                    else if (event.key == 'Shift') {
+                        this.shift_pressed(true);
+                    }
+                }));
+            }
+            keyup_listener() {
+                return new $mol_dom_listener(this.$.$mol_dom_context.document, 'keyup', $mol_wire_async(event => {
+                    if (event.key == 'Control') {
+                        this.ctrl_pressed(false);
+                    }
+                    else if (event.key == 'Shift') {
+                        this.shift_pressed(false);
+                    }
+                }));
+            }
+            wheel(event) {
+                if (this.ctrl_pressed())
+                    return;
+                if (this.prevent_zoom())
+                    return;
+                const shift = this.shift();
+                if (this.shift_pressed() && (Math.abs(event.deltaX) == 0)) {
+                    this.shift(new this.$.$mol_vector_2d(shift.x - event.deltaY, shift.y));
+                }
+                else {
+                    this.shift(new this.$.$mol_vector_2d(shift.x - event.deltaX, shift.y - event.deltaY));
+                }
+            }
+            content_pointer_events() {
+                return this.ctrl_pressed() ? 'none' : 'auto';
+            }
+            pane_pointer_events() {
+                return this.ctrl_pressed() ? 'auto' : 'none';
+            }
         }
         __decorate([
             $mol_mem
@@ -31245,6 +31571,27 @@ var $;
         __decorate([
             $mol_mem
         ], $shm_hitalama_board_pane.prototype, "select_rect_height", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_pane.prototype, "transform", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_pane.prototype, "zoom", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_pane.prototype, "shift", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_pane.prototype, "keydown_listener", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_pane.prototype, "keyup_listener", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_pane.prototype, "content_pointer_events", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_pane.prototype, "pane_pointer_events", null);
         $$.$shm_hitalama_board_pane = $shm_hitalama_board_pane;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
@@ -31262,6 +31609,19 @@ var $;
                     pointerEvents: 'none',
                 },
             },
+            Back: {
+                position: 'absolute',
+                width: '100%',
+                height: '100%',
+                outline: '1px solid gray'
+            },
+            Content: {
+                position: 'absolute',
+                transition: 'none',
+                width: 0,
+                height: 0,
+                transformOrigin: '0 0',
+            },
             Select_rect: {
                 position: 'absolute',
                 transition: 'none',
@@ -31271,26 +31631,20 @@ var $;
                 },
                 outline: '1px solid #70A6DB'
             },
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            Pane: {
+                position: 'absolute',
+                width: '100%',
+                height: '100%',
+            },
         });
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
 
 ;
 	($.$shm_hitalama_board_page) = class $shm_hitalama_board_page extends ($.$shm_hitalama_entity_page) {
-		Open_in_new_icon(){
-			const obj = new this.$.$mol_icon_open_in_new();
-			return obj;
-		}
-		board_id(){
-			return "";
-		}
-		Open_in_new(){
-			const obj = new this.$.$mol_link_iconed();
-			(obj.sub) = () => ([(this.Open_in_new_icon())]);
-			(obj.arg) = () => ({"section": "board", "board": (this.board_id())});
-			(obj.external) = () => (true);
-			return obj;
-		}
 		keydown_listener(){
 			return null;
 		}
@@ -31306,6 +31660,98 @@ var $;
 		}
 		pull_drags_synced(){
 			return null;
+		}
+		hovered_ref(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Open_in_new_icon(){
+			const obj = new this.$.$mol_icon_open_in_new();
+			return obj;
+		}
+		board_id(){
+			return "";
+		}
+		Open_in_new(){
+			const obj = new this.$.$mol_link_iconed();
+			(obj.sub) = () => ([(this.Open_in_new_icon())]);
+			(obj.arg) = () => ({"section": "board", "board": (this.board_id())});
+			(obj.external) = () => (true);
+			return obj;
+		}
+		Title_view(){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => ([(this.title())]);
+			return obj;
+		}
+		Settings_trigger_icon(){
+			const obj = new this.$.$mol_icon_dots_vertical();
+			return obj;
+		}
+		Title_edit(){
+			const obj = new this.$.$mol_string();
+			(obj.value) = (next) => ((this.title(next)));
+			return obj;
+		}
+		Title_field(){
+			const obj = new this.$.$mol_form_field();
+			(obj.name) = () => ("Наименование");
+			(obj.Content) = () => ((this.Title_edit()));
+			return obj;
+		}
+		description(next){
+			if(next !== undefined) return next;
+			return "";
+		}
+		Description_edit(){
+			const obj = new this.$.$mol_textarea();
+			(obj.value) = (next) => ((this.description(next)));
+			return obj;
+		}
+		Description_field(){
+			const obj = new this.$.$mol_form_field();
+			(obj.name) = () => ("Описание");
+			(obj.Content) = () => ((this.Description_edit()));
+			return obj;
+		}
+		Settings_content(){
+			const obj = new this.$.$mol_list();
+			(obj.sub) = () => ([
+				(this.Title_field()), 
+				(this.Description_field()), 
+				(this.Cut())
+			]);
+			return obj;
+		}
+		Settings(){
+			const obj = new this.$.$mol_pick();
+			(obj.hint) = () => ("Click to show settings");
+			(obj.trigger_content) = () => ([(this.Settings_trigger_icon())]);
+			(obj.bubble_content) = () => ([(this.Settings_content())]);
+			return obj;
+		}
+		scale_percent(){
+			return "100%";
+		}
+		reset_scale(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Scale(){
+			const obj = new this.$.$mol_button_minor();
+			(obj.title) = () => ((this.scale_percent()));
+			(obj.click) = (next) => ((this.reset_scale(next)));
+			return obj;
+		}
+		Head_panel(){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => ([
+				(this.Open_in_new()), 
+				(this.Title_view()), 
+				(this.Settings()), 
+				(this.Scale())
+			]);
+			return obj;
 		}
 		text_add(next){
 			if(next !== undefined) return next;
@@ -31379,8 +31825,17 @@ var $;
 		select_resize(){
 			return null;
 		}
+		zoom(next){
+			return (this.Pane().zoom(next));
+		}
 		pointer_pos(){
 			return (this.Pane().pointer_pos());
+		}
+		real_pointer_pos(){
+			return (this.Pane().real_pointer_pos());
+		}
+		to_real_pos(id){
+			return (this.Pane().to_real_pos(id));
 		}
 		client_pos_to_pane_pos(id){
 			return (this.Pane().client_pos_to_pane_pos(id));
@@ -31393,11 +31848,8 @@ var $;
 			if(next !== undefined) return next;
 			return null;
 		}
-		Back(){
-			const obj = new this.$.$shm_hitalama_board_back();
-			(obj.event_pointerdown) = (next) => ((this.back_event_pointerdown(next)));
-			(obj.event_contextmenu) = (next) => ((this.back_event_contextmenu(next)));
-			return obj;
+		prevent_zoom(){
+			return false;
 		}
 		contextmenu_pos(next){
 			if(next !== undefined) return next;
@@ -31456,6 +31908,13 @@ var $;
 			if(next !== undefined) return next;
 			return false;
 		}
+		hovered(id, next){
+			if(next !== undefined) return next;
+			return false;
+		}
+		has_scrollbar(id){
+			return (this.Block(id).has_scrollbar());
+		}
 		editing(id, next){
 			return (this.Block(id).editing(next));
 		}
@@ -31477,9 +31936,11 @@ var $;
 			(obj.delete) = () => ((this.block_delete(id)));
 			(obj.to_top) = () => ((this.block_to_top(id)));
 			(obj.to_bottom) = () => ((this.block_to_bottom(id)));
+			(obj.zoom) = () => ((this.zoom()));
 			(obj.sticks_y) = () => ((this.sticks_y(id)));
 			(obj.sticks_x) = () => ((this.sticks_x(id)));
 			(obj.selected) = (next) => ((this.selected(id, next)));
+			(obj.hovered) = (next) => ((this.hovered(id, next)));
 			(obj.drags_synced) = () => ((this.drags_synced(id)));
 			(obj.event_contextmenu) = (next) => ((this.block_event_contextmenu(id, next)));
 			return obj;
@@ -31494,25 +31955,22 @@ var $;
 		cut_title(){
 			return "Удалить карту";
 		}
-		head(){
-			return [
-				(this.Open_in_new()), 
-				(this.Title()), 
-				(this.Tools())
-			];
-		}
 		auto(){
 			return [
 				(this.keydown_listener()), 
 				(this.keyup_listener()), 
 				(this.paste_listener()), 
 				(this.shift_pressed()), 
-				(this.pull_drags_synced())
+				(this.pull_drags_synced()), 
+				(this.hovered_ref())
 			];
 		}
 		selected_refs(next){
 			if(next !== undefined) return next;
 			return [];
+		}
+		sub(){
+			return [(this.Head_panel()), (this.Body())];
 		}
 		body_content(){
 			return [(this.Pane())];
@@ -31539,17 +31997,30 @@ var $;
 		Pane(){
 			const obj = new this.$.$shm_hitalama_board_pane();
 			(obj.select_resize) = () => ((this.select_resize()));
-			(obj.body) = () => ([
-				(this.Back()), 
-				...(this.contextmenu_visible()), 
-				...(this.blocks())
-			]);
+			(obj.back_event_pointerdown) = (next) => ((this.back_event_pointerdown(next)));
+			(obj.back_event_contextmenu) = (next) => ((this.back_event_contextmenu(next)));
+			(obj.prevent_zoom) = () => ((this.prevent_zoom()));
+			(obj.outside) = () => ([...(this.contextmenu_visible())]);
+			(obj.body) = () => ([...(this.blocks())]);
 			return obj;
 		}
 	};
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "shift_pressed"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "hovered_ref"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Open_in_new_icon"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Open_in_new"));
-	($mol_mem(($.$shm_hitalama_board_page.prototype), "shift_pressed"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "Title_view"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "Settings_trigger_icon"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "Title_edit"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "Title_field"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "description"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "Description_edit"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "Description_field"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "Settings_content"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "Settings"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "reset_scale"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "Scale"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "Head_panel"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "text_add"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Text_add"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "input_add"));
@@ -31564,13 +32035,13 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Echarts_example_add"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "back_event_pointerdown"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "back_event_contextmenu"));
-	($mol_mem(($.$shm_hitalama_board_page.prototype), "Back"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "contextmenu_pos"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "contextmenu_showed"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Context_menu"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Board_page"));
 	($mol_mem_key(($.$shm_hitalama_board_page.prototype), "block_by_ref"));
 	($mol_mem_key(($.$shm_hitalama_board_page.prototype), "selected"));
+	($mol_mem_key(($.$shm_hitalama_board_page.prototype), "hovered"));
 	($mol_mem_key(($.$shm_hitalama_board_page.prototype), "block_event_contextmenu"));
 	($mol_mem_key(($.$shm_hitalama_board_page.prototype), "Block"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "board"));
@@ -31755,6 +32226,9 @@ var $;
             board_id() {
                 return this.board().ref().description;
             }
+            description(next) {
+                return this.board().Description(next)?.val(next) ?? '';
+            }
             board_cut() {
                 $shm_hitalama_profile.current()?.boards()?.cut(this.board().ref());
             }
@@ -31837,9 +32311,29 @@ var $;
                 }
                 return next;
             }
+            reset_scale() {
+                this.zoom(1);
+            }
+            hovered(ref, next) {
+                if (next == true)
+                    this.hovered_ref(ref);
+                if (next == false && this.hovered_ref() == ref)
+                    this.hovered_ref(null);
+                return next ?? false;
+            }
+            prevent_zoom() {
+                const ref = this.hovered_ref();
+                if (!ref)
+                    return false;
+                return this.has_scrollbar(ref) ?? false;
+            }
             select_resize() {
-                const [left, top] = this.select_rect_pos();
-                const [width, height] = this.select_rect_size();
+                let [left, top] = this.select_rect_pos();
+                [left, top] = this.to_real_pos([left, top]);
+                let [width, height] = this.select_rect_size();
+                const zoom = this.zoom();
+                width /= zoom;
+                height /= zoom;
                 const blocks = this.blocks().filter(b => {
                     if (left + width < b.Sub().left())
                         return;
@@ -31879,29 +32373,32 @@ var $;
             contextmenu_pos(next) {
                 return next ?? [0, 0];
             }
+            contextmenu_real_pos() {
+                return this.to_real_pos(this.contextmenu_pos());
+            }
             contextmenu_visible() {
                 return this.contextmenu_showed() ? super.contextmenu_visible() : [];
             }
             text_add() {
-                const block = this.board().block_add('text', this.contextmenu_pos());
+                const block = this.board().block_add('text', this.contextmenu_real_pos());
                 block?.Text(null)?.value('text');
                 this.contextmenu_showed(false);
                 return block;
             }
             input_add() {
-                const block = this.board().block_add('input', this.contextmenu_pos());
+                const block = this.board().block_add('input', this.contextmenu_real_pos());
                 block?.Text(null)?.value('Hello');
                 this.contextmenu_showed(false);
                 return block;
             }
             iframe_add() {
-                const block = this.board().block_add('iframe', this.contextmenu_pos(), 500, 700);
+                const block = this.board().block_add('iframe', this.contextmenu_real_pos(), 500, 700);
                 block?.Src(null)?.val('https://www.google.com/search?igu=1');
                 this.contextmenu_showed(false);
                 return block;
             }
             form_add() {
-                const form_pos = this.contextmenu_pos();
+                const form_pos = this.contextmenu_real_pos();
                 const form = this.board().block_add('form', form_pos, 450, 780);
                 const table_pos = [form_pos[0] + 460, form_pos[1]];
                 const block_table = this.board().table_add(table_pos, 1000, 780);
@@ -31914,14 +32411,14 @@ var $;
                 this.contextmenu_showed(false);
             }
             deckgl_example_add() {
-                const block = this.board().block_add('customdom', this.contextmenu_pos(), 700, 700);
+                const block = this.board().block_add('customdom', this.contextmenu_real_pos(), 700, 700);
                 const code_str = this.$.$mol_fetch.text($shm_hitalama_app_ghpages_fix_link('/shm/hitalama/board/snippets/_deckgl_example.js'));
                 block?.Text(null)?.value(code_str);
                 this.contextmenu_showed(false);
                 return block;
             }
             echarts_example_add() {
-                const block = this.board().block_add('customdom', this.contextmenu_pos(), 700, 500);
+                const block = this.board().block_add('customdom', this.contextmenu_real_pos(), 700, 500);
                 const code_str = this.$.$mol_fetch.text($shm_hitalama_app_ghpages_fix_link('/shm/hitalama/board/snippets/_echarts_example.js'));
                 block?.Text(null)?.value(code_str);
                 this.contextmenu_showed(false);
@@ -31951,6 +32448,9 @@ var $;
             }
             shift_pressed(next) {
                 return next ?? false;
+            }
+            scale_percent() {
+                return (this.zoom() * 100).toFixed(2) + '%';
             }
             keydown_listener() {
                 return new $mol_dom_listener(this.$.$mol_dom_context.document, 'keydown', $mol_wire_async(event => {
@@ -32001,6 +32501,9 @@ var $;
             $mol_mem
         ], $shm_hitalama_board_page.prototype, "board_id", null);
         __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_page.prototype, "description", null);
+        __decorate([
             $mol_action
         ], $shm_hitalama_board_page.prototype, "board_cut", null);
         __decorate([
@@ -32044,10 +32547,19 @@ var $;
         ], $shm_hitalama_board_page.prototype, "selected", null);
         __decorate([
             $mol_mem_key
+        ], $shm_hitalama_board_page.prototype, "hovered", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_page.prototype, "prevent_zoom", null);
+        __decorate([
+            $mol_mem_key
         ], $shm_hitalama_board_page.prototype, "block_event_contextmenu", null);
         __decorate([
             $mol_mem
         ], $shm_hitalama_board_page.prototype, "contextmenu_pos", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_page.prototype, "contextmenu_real_pos", null);
         __decorate([
             $mol_action
         ], $shm_hitalama_board_page.prototype, "text_add", null);
@@ -32080,6 +32592,9 @@ var $;
         ], $shm_hitalama_board_page.prototype, "shift_pressed", null);
         __decorate([
             $mol_mem
+        ], $shm_hitalama_board_page.prototype, "scale_percent", null);
+        __decorate([
+            $mol_mem
         ], $shm_hitalama_board_page.prototype, "keydown_listener", null);
         __decorate([
             $mol_mem
@@ -32098,10 +32613,37 @@ var $;
     var $$;
     (function ($$) {
         $mol_style_define($shm_hitalama_board_page, {
-            Back: {
+            background: {
+                color: 'transparent',
+            },
+            Head: {},
+            Head_panel: {
+                padding: $mol_gap.block,
+                background: {
+                    color: $mol_theme.card,
+                },
+                border: {
+                    radius: $mol_gap.round,
+                },
+                box: {
+                    shadow: [[0, `0.5rem`, `0.5rem`, `-0.5rem`, $mol_style_func.hsla(0, 0, 0, .25)]],
+                },
                 position: 'absolute',
-                height: '9999px',
-                width: '9999px',
+                zIndex: $mol_layer.float
+            },
+            Title_view: {
+                padding: $mol_gap.text,
+            },
+            Settings_content: {
+                padding: $mol_gap.block,
+            },
+            Cut: {
+                margin: {
+                    top: '1rem',
+                },
+            },
+            Body: {
+                overflow: 'hidden',
             },
         });
     })($$ = $.$$ || ($.$$ = {}));
