@@ -23440,7 +23440,7 @@ declare namespace $.$$ {
         }>;
         image_add(blob: Blob): $shm_hitalama_board_block | undefined;
         paste_text(text: string): $shm_hitalama_board_block | undefined;
-        get_pointer_pos(): readonly any[];
+        get_pointer_pos(): any;
         shift_pressed(next?: boolean): boolean;
         scale_percent(): string;
         keydown_listener(): $mol_dom_listener;

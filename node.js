@@ -32438,13 +32438,13 @@ var $;
                 return block;
             }
             paste_text(text) {
-                const pos = this.pointer_pos();
+                const pos = this.get_pointer_pos();
                 const block = this.board().block_add('text', pos);
                 block?.Text(null)?.value(text);
                 return block;
             }
             get_pointer_pos() {
-                return this.pointer_pos();
+                return this.to_real_pos(this.pointer_pos());
             }
             shift_pressed(next) {
                 return next ?? false;
