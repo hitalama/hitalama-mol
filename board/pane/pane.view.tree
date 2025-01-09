@@ -3,8 +3,38 @@ $shm_hitalama_board_pane $mol_view
 		^
 		selecting <= selecting? false
 	pointer_pos /
+	real_pointer_pos /
+	to_real_pos* null
+	ctrl_pressed? false
+	shift_pressed? false
+	auto /
+		<= keydown_listener null
+		<= keyup_listener null
+		<= ctrl_pressed
+		<= shift_pressed
 	sub /
-		^ body /
+		<= Back $shm_hitalama_board_back
+			event_pointerdown? <=> back_event_pointerdown? null
+			event_contextmenu? <=> back_event_contextmenu? null
+		^ outside /
+		<= Content $mol_view
+			minimal_height 0
+			minimal_width 0
+			sub <= body /
+			view_rect => content_view_rect
+			style *
+				transform <= transform \
+		<= Pane $mol_plot_pane
+			gap_hor 0
+			gap_vert 0
+			allow_draw false
+			shift_limit => shift_limit
+			shift? <=> shift? $mol_vector_2d<number> /
+				0
+				0
+			zoom? <=> zoom? 1
+			style *
+				pointerEvents <= pane_pointer_events \
 		^ select_rect /
 			<= Select_rect $mol_view
 				style *
@@ -21,6 +51,8 @@ $shm_hitalama_board_pane $mol_view
 	select_start? null
 	select_resize? null
 	client_pos_to_pane_pos* null
+	prevent_zoom? false
 	event *
 		^
 		pointermove? <=> pointer_move? null
+		wheel? <=> wheel? null

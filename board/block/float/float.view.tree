@@ -2,6 +2,7 @@ $shm_hitalama_board_block_float $shm_hitalama_resize_ratio
 	block $shm_hitalama_board_block
 	board $shm_hitalama_board
 	Board_page $shm_hitalama_board_page
+	zoom 1
 	sub /
 		<= Content
 		^ edges
@@ -14,6 +15,8 @@ $shm_hitalama_board_block_float $shm_hitalama_resize_ratio
 		<= editing? false
 	toolbar /
 		<= Toolbar $mol_view
+			style *
+				transform <= toolbar_transform \
 			sub <= tools /
 				- <= Copy $mol_button_minor sub /
 					<= Copy_icon $mol_icon_content_copy
@@ -25,6 +28,7 @@ $shm_hitalama_board_block_float $shm_hitalama_resize_ratio
 					<= Color $shm_hitalama_color_pick
 						color? <=> color? \var(--mol_theme_text)
 					<= Font_size $mol_number
+						minimal_width 64
 						value? <=> font_size? 10
 						event_dec? => font_size_dec?
 						event_inc? => font_size_inc?
@@ -59,6 +63,7 @@ $shm_hitalama_board_block_float $shm_hitalama_resize_ratio
 					title <= ref_str \
 					text <= ref_code \
 	opacity? 1
+	has_scrollbar false
 	style *
 		^
 		opacity <= opacity_str \1
@@ -67,6 +72,9 @@ $shm_hitalama_board_block_float $shm_hitalama_resize_ratio
 	event *
 		^
 		contextmenu? <=> event_contextmenu? null
+		pointerenter? <=> pointerenter? null
+		pointerleave? <=> pointerleave? null
+	hovered? false
 	Contextmenu_body null
 	attr *
 		^

@@ -35,7 +35,9 @@ namespace $.$$ {
 			position: 'absolute',
 			top: 0,
 			width: '100%',
-			transform: 'translateY(-100%)',
+			// transform: 'translateY(-100%)',
+			transformOrigin: '0 100%',
+			transition: 'none',
 			overflow: 'visible',
 			zIndex: $mol_layer.popup,
 			padding: {

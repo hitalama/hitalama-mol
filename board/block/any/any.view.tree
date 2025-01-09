@@ -13,10 +13,13 @@ $shm_hitalama_board_block_any $mol_ghost
 		sticks_y <= sticks_y / 0
 		sticks_x <= sticks_x / 0
 		selected? <=> selected? false
+		hovered? <=> hovered? false
 		editing? => editing?
+		has_scrollbar? => has_scrollbar?
 		drags_synced <= drags_synced /$shm_hitalama_drag
 		event_contextmenu? <=> event_contextmenu? null
 		Contextmenu_body => Contextmenu_body
+		zoom <= zoom 1
 	blocks *
 		input <= Input $shm_hitalama_board_block_input
 		iframe <= Iframe $shm_hitalama_board_block_iframe

@@ -2,6 +2,14 @@ namespace $.$$ {
 
 	export class $shm_hitalama_board_block_float extends $.$shm_hitalama_board_block_float {
 
+		repos_x( val: number ): number {
+			return val / this.zoom()
+		}
+		
+		repos_y( val: number ): number {
+			return val / this.zoom()
+		}
+		
 		@ $mol_mem
 		body_x_stick( next?: number ) {
 			return this.block().Body_x(next)?.val(next) ?? 0
@@ -81,6 +89,11 @@ namespace $.$$ {
 		}
 
 		@ $mol_mem
+		toolbar_transform() {
+			return `translateY(-100%) scale(${ 1 / this.zoom() })`
+		}
+
+		@ $mol_mem
 		transition() {
 			return ( this.dragged() || this.resizing() ) ? 'none' : this.transition_smooth()
 		}
@@ -88,6 +101,20 @@ namespace $.$$ {
 		on_drag_start( event: PointerEvent ) {
 			super.on_drag_start( event )
 			this.selected( true )
+		}
+		
+		@ $mol_mem
+		has_scrollbar() {
+			const el = this.Content().dom_node_actual()
+			return el.scrollHeight > el.clientHeight
+		}
+		
+		pointerenter( next?: any ) {
+			this.hovered( true )
+		}
+
+		pointerleave( next?: any ) {
+			this.hovered( false )
 		}
 		
 	}

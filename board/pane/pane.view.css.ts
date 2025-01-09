@@ -2,12 +2,28 @@ namespace $.$$ {
 	
 	$mol_style_define( $shm_hitalama_board_pane, {
 
-		// userSelect: 'none',
 		'[selecting]': {
 			true: {
 				userSelect: 'none',
 				pointerEvents: 'none',
 			},
+		},
+
+		Back: {
+			position: 'absolute',
+			width: '100%',
+			height: '100%',
+			outline: '1px solid gray'
+		},
+
+		Content: {
+			position: 'absolute',
+			transition: 'none',
+			
+			width: 0,
+			height: 0,
+
+			transformOrigin: '0 0',
 		},
 
 		Select_rect: {
@@ -18,7 +34,15 @@ namespace $.$$ {
 				color: $mol_style_func.rgba( 112, 166, 219, 0.1 ),		
 			},
 			outline: '1px solid #70A6DB'
-			// opacity: 0.5,
+		},
+
+		position: 'absolute',
+		width: '100%',
+		height: '100%',
+		Pane: {
+			position: 'absolute',
+			width: '100%',
+			height: '100%',
 		},
 		
 	} )

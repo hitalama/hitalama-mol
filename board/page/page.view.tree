@@ -7,6 +7,7 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 		<= paste_listener null
 		<= shift_pressed? false
 		<= pull_drags_synced null
+		<= hovered_ref? null
 	selected_refs? /
 	sub /
 		<= Head_panel $mol_view
@@ -36,6 +37,9 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 									Content <= Description_edit $mol_textarea
 										value? <=> description? \
 								<= Cut
+				<= Scale $mol_button_minor
+					title <= scale_percent \100%
+					click? <=> reset_scale? null
 		<= Body
 	body_content /
 		<= Pane
@@ -66,17 +70,21 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 		select_rect_pos => select_rect_pos
 		select_rect_size => select_rect_size
 		select_resize <= select_resize null
+		zoom? => zoom?
 		pointer_pos => pointer_pos
+		real_pointer_pos => real_pointer_pos
+		to_real_pos* => to_real_pos*
 		client_pos_to_pane_pos* => client_pos_to_pane_pos*
-		body /
-			<= Back $shm_hitalama_board_back
-				event_pointerdown? <=> back_event_pointerdown? null
-				event_contextmenu? <=> back_event_contextmenu? null
+		back_event_pointerdown? <=> back_event_pointerdown? null
+		back_event_contextmenu? <=> back_event_contextmenu? null
+		prevent_zoom <= prevent_zoom false
+		outside /
 			^ contextmenu_visible /
 				<= Context_menu $shm_hitalama_contextmenu
 					body <= contextmenu_body
 					pos? <=> contextmenu_pos? /
 					showed? <=> contextmenu_showed? false
+		body /
 			^ blocks /
 				<= Block* $shm_hitalama_board_block_any
 					Board_page <= Board_page $shm_hitalama_board_page
@@ -89,9 +97,12 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 					width => block_width*
 					top => block_top*
 					left => block_left*
+					zoom <= zoom
 					sticks_y <= sticks_y* / 0
 					sticks_x <= sticks_x* / 0
 					selected? <=> selected*? false
+					hovered? <=> hovered*? false
+					has_scrollbar => has_scrollbar* false
 					editing? => editing*? false
 					drags_synced <= drags_synced* /$shm_hitalama_drag
 					event_contextmenu? <=> block_event_contextmenu*? null

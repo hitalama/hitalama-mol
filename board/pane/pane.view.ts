@@ -39,9 +39,26 @@ namespace $.$$ {
 			return this.client_pos_to_pane_pos( this.pointer_client_pos )
 		}
 
+		real_pointer_pos(): readonly ( any )[] {
+			const [x,y] = this.client_pos_to_pane_pos( this.pointer_client_pos )
+			return this.to_real_pos( [x,y] )
+		}
+
+		to_real_pos( [x,y]: [number, number] ) {
+			const shift = this.shift()
+			const zoom = this.zoom()
+			return [
+				(x - shift[0])/zoom,
+				(y - shift[1])/zoom,
+			]
+		}
+
 		client_pos_to_pane_pos( client_pos: readonly [ number, number ] | readonly number[] ) {
 			const { left, top } = this.dom_node().getBoundingClientRect()
-			return [ client_pos[0] - left, client_pos[1] - top ] as const
+			let x = client_pos[0] - left
+			let y = client_pos[1] - top
+
+			return [ x, y ] as const
 		}
 	
 		select_rect() {
@@ -80,6 +97,83 @@ namespace $.$$ {
 		@ $mol_mem
 		select_rect_height(): string {
 			return this.select_rect_size()[1] + 'px'
+		}
+
+		@ $mol_mem
+		transform() {
+			const [ shift_x, shift_y ] = this.shift()
+			const scale = this.zoom()
+			const pos_x = shift_x
+			const pos_y = shift_y
+			return `translate3d(${ pos_x }px,${ pos_y }px,0px) scale(${ scale })`
+		}
+
+		@ $mol_mem
+		zoom( next?: number ) {
+			return this.$.$mol_state_local.value( this.toString() + 'zoom', next ) ?? 1
+		}
+
+		@ $mol_mem
+		shift( next?: $mol_vector_2d<number> ): $mol_vector_2d<number> {
+			if( next === undefined ) return new this.$.$mol_vector_2d( 
+				... (this.$.$mol_state_local.value( this.toString() + 'shift' ) ?? [0,0]) as [number, number] 
+			)
+			return this.$.$mol_state_local.value( this.toString() + 'shift', next ) ?? super.shift()
+		}
+		
+		@ $mol_mem
+		keydown_listener() {
+			return new $mol_dom_listener(
+				this.$.$mol_dom_context.document,
+				'keydown',
+				$mol_wire_async( event => {
+					if( event.key == 'Control' ) {
+						this.ctrl_pressed( true )
+					}
+					else if( event.key == 'Shift' ) {
+						this.shift_pressed( true )
+					}
+				} ),
+			)
+		}
+
+		@ $mol_mem
+		keyup_listener() {
+			return new $mol_dom_listener(
+				this.$.$mol_dom_context.document,
+				'keyup',
+				$mol_wire_async( event => {
+					if( event.key == 'Control' ) {
+						this.ctrl_pressed( false )
+					}
+					else if( event.key == 'Shift' ) {
+						this.shift_pressed( false )
+					}
+				} ),
+			)
+		}
+
+		wheel( event: WheelEvent ) {
+			if( this.ctrl_pressed() ) return
+			if( this.prevent_zoom() ) return
+
+			const shift = this.shift()
+
+			if( this.shift_pressed() && (Math.abs(event.deltaX) == 0) ) {
+				this.shift( new this.$.$mol_vector_2d( shift.x - event.deltaY, shift.y ) )
+			} else {
+				this.shift( new this.$.$mol_vector_2d( shift.x - event.deltaX, shift.y - event.deltaY ) )
+			}
+		}
+
+		@ $mol_mem
+		content_pointer_events(): string {
+			return this.ctrl_pressed() ? 'none' : 'auto'
+		}
+
+		@ $mol_mem
+		pane_pointer_events(): string {
+			return this.ctrl_pressed() ? 'auto' : 'none'
 		}
 
 	}

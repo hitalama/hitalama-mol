@@ -17,8 +17,10 @@ namespace $.$$ {
 			obj.sticks_y = () => this.sticks_y()
 			obj.sticks_x = () => this.sticks_x()
 			obj.selected = (next) => this.selected(next)
+			obj.hovered = (next) => this.hovered(next)
 			obj.drags_synced = () => this.drags_synced()
 			obj.event_contextmenu = (next) => this.event_contextmenu(next)
+			obj.zoom = () => this.zoom()
 
 			return obj
 			

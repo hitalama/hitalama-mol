@@ -6,12 +6,6 @@ namespace $.$$ {
 			color: 'transparent',
 		},
 
-		Back: {
-			position: 'absolute',
-			height: '9999px',
-			width: '9999px',
-		},
-
 		Head: {
 		},
 
@@ -41,6 +35,10 @@ namespace $.$$ {
 			margin: {
 				top: '1rem',
 			},
+		},
+
+		Body: {
+			overflow: 'hidden',
 		},
 		
 	} )

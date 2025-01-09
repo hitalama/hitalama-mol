@@ -128,9 +128,32 @@ namespace $.$$ {
 			return next
 		}
 
+		reset_scale() {
+			this.zoom( 1 )
+		}
+
+		@ $mol_mem_key
+		hovered( ref: $hyoo_crus_ref, next?: boolean ): boolean {
+			if( next == true ) this.hovered_ref( ref )
+			if( next == false && this.hovered_ref() == ref ) this.hovered_ref( null )
+			return next ?? false
+		}
+
+		@ $mol_mem
+		prevent_zoom() {
+			const ref = this.hovered_ref()
+			if( !ref ) return false
+			return this.has_scrollbar( ref ) ?? false
+		}
+
 		select_resize() {
-			const [left, top] = this.select_rect_pos()
-			const [width, height] = this.select_rect_size()
+			let [left, top] = this.select_rect_pos()
+			;[left, top] = this.to_real_pos( [left, top] )
+
+			let [width, height] = this.select_rect_size()
+			const zoom = this.zoom()
+			;width /= zoom
+			;height /= zoom
 
 			const blocks = this.blocks().filter( b => {
 				if( left + width < b.Sub().left() ) return
@@ -174,6 +197,11 @@ namespace $.$$ {
 		contextmenu_pos( next?: readonly [number, number] ) {
 			return next ?? [0,0]
 		}
+
+		@ $mol_mem
+		contextmenu_real_pos() {
+			return this.to_real_pos( this.contextmenu_pos() )
+		}
 		
 		contextmenu_visible(): readonly ( any )[] {
 			return this.contextmenu_showed() ? super.contextmenu_visible() : []
@@ -181,7 +209,7 @@ namespace $.$$ {
 
 		@ $mol_action
 		text_add() {
-			const block = this.board().block_add( 'text', this.contextmenu_pos() )
+			const block = this.board().block_add( 'text', this.contextmenu_real_pos() )
 			block?.Text(null)?.value( 'text' )
 			this.contextmenu_showed( false )
 			return block
@@ -189,7 +217,7 @@ namespace $.$$ {
 
 		@ $mol_action
 		input_add() {
-			const block = this.board().block_add( 'input', this.contextmenu_pos() )
+			const block = this.board().block_add( 'input', this.contextmenu_real_pos() )
 			block?.Text(null)?.value( 'Hello' )
 			this.contextmenu_showed( false )
 			return block
@@ -197,7 +225,7 @@ namespace $.$$ {
 
 		@ $mol_action
 		iframe_add() {
-			const block = this.board().block_add( 'iframe', this.contextmenu_pos(), 500, 700 )
+			const block = this.board().block_add( 'iframe', this.contextmenu_real_pos(), 500, 700 )
 			block?.Src(null)?.val( 'https://www.google.com/search?igu=1' )
 			this.contextmenu_showed( false )
 			return block
@@ -205,7 +233,7 @@ namespace $.$$ {
 
 		@ $mol_action
 		form_add() {
-			const form_pos = this.contextmenu_pos()
+			const form_pos = this.contextmenu_real_pos()
 			const form = this.board().block_add( 'form', form_pos, 450, 780 )
 			
 			const table_pos = [ form_pos[0] + 460, form_pos[1]] as const
@@ -223,7 +251,7 @@ namespace $.$$ {
 
 		@ $mol_action
 		deckgl_example_add() {
-			const block = this.board().block_add( 'customdom', this.contextmenu_pos(), 700, 700 )
+			const block = this.board().block_add( 'customdom', this.contextmenu_real_pos(), 700, 700 )
 			const code_str = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( '/shm/hitalama/board/snippets/_deckgl_example.js' ) )
 			block?.Text(null)?.value( code_str )
 			this.contextmenu_showed( false )
@@ -232,7 +260,7 @@ namespace $.$$ {
 
 		@ $mol_action
 		echarts_example_add() {
-			const block = this.board().block_add( 'customdom', this.contextmenu_pos(), 700, 500 )
+			const block = this.board().block_add( 'customdom', this.contextmenu_real_pos(), 700, 500 )
 			const code_str = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( '/shm/hitalama/board/snippets/_echarts_example.js' ) )
 			block?.Text(null)?.value( code_str )
 			this.contextmenu_showed( false )
@@ -272,6 +300,11 @@ namespace $.$$ {
 		@ $mol_mem
 		shift_pressed( next?: boolean ) {
 			return next ?? false
+		}
+
+		@ $mol_mem
+		scale_percent() {
+			return (this.zoom() * 100).toFixed(2) + '%'
 		}
 
 		@ $mol_mem
