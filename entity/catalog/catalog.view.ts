@@ -9,7 +9,7 @@ namespace $.$$ {
 
 		@ $mol_action
 		add() {
-			const entity = this.list()?.make( {'': $hyoo_crus_rank.get} )
+			const entity = this.list()?.make( {'': $hyoo_crus_rank_read} )
 			entity?.title( this.title_default() )
 			this.spread( entity.ref().description )
 			return entity

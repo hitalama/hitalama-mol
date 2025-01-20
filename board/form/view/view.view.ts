@@ -71,7 +71,7 @@ namespace $.$$ {
 		}
 
 		submit() {
-			const form = this.board().Search_statistics(null)?.make( {'': $hyoo_crus_rank.get} )
+			const form = this.board().Search_statistics(null)?.make( {'': $hyoo_crus_rank_read} )
 
 			form?.query( this.query() )
 			form?.excluded_words( this.excluded_words() )

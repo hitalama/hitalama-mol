@@ -15,7 +15,7 @@ namespace $ {
 
 		@ $mol_mem
 		static current() {
-			const profile = this.$.$hyoo_crus_glob!.home().hall_by( $shm_hitalama_profile, { '': $hyoo_crus_rank.get } )
+			const profile = this.$.$hyoo_crus_glob!.home().hall_by( $shm_hitalama_profile, { '': $hyoo_crus_rank_read } )
 			return profile
 		}
 

@@ -8,10 +8,10 @@ namespace $.$$ {
 		}
 
 		attach_new( files: File[] ) {
-			const file = this.project().Files(null)?.make( {'': $hyoo_crus_rank.get} )
+			const file = this.project().Files(null)?.make( {'': $hyoo_crus_rank_read} )
 			file?.title( files[0].name )
 			file?.Size(null)?.val( files[0].size )
-			file?.File(null)?.ensure( {'':$hyoo_crus_rank.get} )?.blob( files[0] )
+			file?.File(null)?.ensure( {'':$hyoo_crus_rank_read} )?.blob( files[0] )
 			return files
 		}
 
