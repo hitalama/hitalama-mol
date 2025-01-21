@@ -39110,7 +39110,7 @@ var $;
 		Color(){
 			const obj = new this.$.$shm_hitalama_color_pick();
 			(obj.color) = (next) => ((this.color(next)));
-			(obj.hint) = () => ("Цвет текста");
+			(obj.hint) = () => ((this.$.$mol_locale.text("$shm_hitalama_board_block_float_Color_hint")));
 			return obj;
 		}
 		font_size_selected(next){
@@ -39134,6 +39134,7 @@ var $;
 		}
 		Font_size_tool(){
 			const obj = new this.$.$mol_search();
+			(obj.hint) = () => ((this.$.$mol_locale.text("$shm_hitalama_board_block_float_Font_size_tool_hint")));
 			(obj.query) = (next) => ((this.font_size_selected(next)));
 			(obj.anchor_content) = () => ([(this.Font_size())]);
 			(obj.suggests) = () => ((this.font_size_suggests()));
@@ -39149,6 +39150,7 @@ var $;
 		}
 		Inc(){
 			const obj = new this.$.$mol_button_minor();
+			(obj.hint) = () => ((this.$.$mol_locale.text("$shm_hitalama_board_block_float_Inc_hint")));
 			(obj.minimal_height) = () => (20);
 			(obj.minimal_width) = () => (20);
 			(obj.event_click) = (next) => ((this.font_size_inc(next)));
@@ -39165,6 +39167,7 @@ var $;
 		}
 		Dec(){
 			const obj = new this.$.$mol_button_minor();
+			(obj.hint) = () => ((this.$.$mol_locale.text("$shm_hitalama_board_block_float_Dec_hint")));
 			(obj.minimal_height) = () => (20);
 			(obj.minimal_width) = () => (20);
 			(obj.event_click) = (next) => ((this.font_size_dec(next)));
@@ -39193,6 +39196,7 @@ var $;
 		}
 		Top(){
 			const obj = new this.$.$mol_button_minor();
+			(obj.hint) = () => ((this.$.$mol_locale.text("$shm_hitalama_board_block_float_Top_hint")));
 			(obj.sub) = () => ([(this.Top_icon())]);
 			(obj.click) = (next) => ((this.to_top(next)));
 			return obj;
@@ -39207,6 +39211,7 @@ var $;
 		}
 		Bottom(){
 			const obj = new this.$.$mol_button_minor();
+			(obj.hint) = () => ((this.$.$mol_locale.text("$shm_hitalama_board_block_float_Bottom_hint")));
 			(obj.sub) = () => ([(this.Bottom_icon())]);
 			(obj.click) = (next) => ((this.to_bottom(next)));
 			return obj;
@@ -39221,7 +39226,7 @@ var $;
 		}
 		Delete(){
 			const obj = new this.$.$mol_button_minor();
-			(obj.hint) = () => ("Delete");
+			(obj.hint) = () => ((this.$.$mol_locale.text("$shm_hitalama_board_block_float_Delete_hint")));
 			(obj.sub) = () => ([(this.Delete_icon())]);
 			(obj.click) = (next) => ((this.delete(next)));
 			return obj;
@@ -41759,7 +41764,7 @@ var $;
 		}
 		Settings_pop(){
 			const obj = new this.$.$mol_pick();
-			(obj.hint) = () => ("Click to show options menu");
+			(obj.hint) = () => ((this.$.$mol_locale.text("$shm_hitalama_board_block_table_Settings_pop_hint")));
 			(obj.trigger_content) = () => ([(this.Settings_trigger_icon())]);
 			(obj.bubble_content) = () => ([(this.Settings_content())]);
 			return obj;
