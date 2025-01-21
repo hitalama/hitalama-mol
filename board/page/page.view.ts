@@ -317,6 +317,34 @@ namespace $.$$ {
 			return (this.zoom() * 100).toFixed(2) + '%'
 		}
 
+		@ $mol_action
+		file_add( file: File, pos: [ number, number ] ) {
+			const board_file = this.board().Files(null)?.make( this.board().land() )!
+			board_file?.title( file.name )
+			board_file?.Size(null)?.val( file.size )
+			board_file?.File(null)!.ensure( this.board().land() )!.blob( file )
+
+			const block = this.board().block_add( 'file', pos )!
+			block!.File(null)!.remote( board_file )
+			return block
+		}
+
+		@ $mol_action
+		drop_file( event: DragEvent ) {
+			event.preventDefault()
+
+			const file_list = event.dataTransfer?.files
+			if( !file_list ) return
+
+			const files = [ ...file_list ].map( ( _, i ) => file_list.item( i )! )
+			if( files.length == 0 ) return
+
+			$mol_wire_async( ()=> {
+				const pos = this.to_real_pos( this.client_pos_to_pane_pos( [ event.clientX, event.clientY ] ) )
+				files.forEach( ( f, i ) => this.file_add( f, [ pos[0] + i*20, pos[1] + i*20 ] ) )
+			} )()
+		}
+
 		@ $mol_mem
 		keydown_listener() {
 			return new $mol_dom_listener(

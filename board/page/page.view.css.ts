@@ -42,7 +42,7 @@ namespace $.$$ {
 			},
 		},
 
-		Body: {
+		Pane: {
 			overflow: 'hidden',
 		},
 		

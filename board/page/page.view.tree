@@ -35,9 +35,9 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 				<= Scale $mol_button_minor
 					title <= scale_percent \100%
 					click? <=> reset_scale? null
-		<= Body
-	body_content /
-		<= Pane
+		<= Drop $mol_drop
+			Sub <= Pane
+			drop? <=> drop_file? null
 	contextmenu_body? /
 	get_pointer_pos /
 	contextmenu_real_pos /

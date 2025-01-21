@@ -1,0 +1,17 @@
+$shm_hitalama_board_block_file $shm_hitalama_board_block_float
+	sub /
+		<= Drag_view
+		^ edges
+		^ toolbar
+	font_tools /
+	drag_body /
+		<= Title $mol_paragraph
+			dom_name <= title_dom_name \h1
+			title <= name \
+	Contextmenu_body $mol_list
+		sub <= contextmenu_body /
+	contextmenu_for *any
+		csv /
+			<= Unpacking $mol_button_minor
+				title \Распаковка
+				click? <=> unpacking? null

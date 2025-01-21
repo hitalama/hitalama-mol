@@ -11,6 +11,7 @@ namespace $ {
 		'chart_settings',
 		'chart_filter',
 		'customdom',
+		'file',
 	] as const
 
 	class $shm_hitalama_board_block_type extends $hyoo_crus_atom_enum( $shm_hitalama_board_block_types ){}
@@ -49,6 +50,9 @@ namespace $ {
 		Chart: $shm_hitalama_board_chart,
 		Use_chart_from: $hyoo_crus_atom_ref_to( ()=> $shm_hitalama_board_block ),
 
+		//file
+		File: $hyoo_crus_atom_ref_to( ()=> $shm_hitalama_file ),
+
 	}){
 
 		text( next?: string ) {
@@ -76,6 +80,11 @@ namespace $ {
 		@ $mol_mem
 		table_rows( next?: any ) {
 			return this.table()?.table_rows( next )
+		}
+
+		@ $mol_mem
+		file_str() {
+			return this.File()?.remote()?.File()?.remote()?.str()
 		}
 
 	}
