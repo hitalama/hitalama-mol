@@ -3062,8 +3062,7 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 						section \board
 						board <= board_id \
 					external true
-				<= Title_view $mol_view
-					sub / <= title
+				<= Title
 				<= Settings $mol_pick
 					hint \Click to show settings
 					trigger_content /
@@ -3071,10 +3070,6 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 					bubble_content /
 						<= Settings_content $mol_list
 							sub /
-								<= Title_field $mol_form_field
-									name \Наименование
-									Content <= Title_edit $mol_string
-										value? <=> title?
 								<= Description_field $mol_form_field
 									name \Описание
 									Content <= Description_edit $mol_textarea

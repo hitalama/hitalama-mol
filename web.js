@@ -43817,24 +43817,8 @@ var $;
 			(obj.external) = () => (true);
 			return obj;
 		}
-		Title_view(){
-			const obj = new this.$.$mol_view();
-			(obj.sub) = () => ([(this.title())]);
-			return obj;
-		}
 		Settings_trigger_icon(){
 			const obj = new this.$.$mol_icon_dots_vertical();
-			return obj;
-		}
-		Title_edit(){
-			const obj = new this.$.$mol_string();
-			(obj.value) = (next) => ((this.title(next)));
-			return obj;
-		}
-		Title_field(){
-			const obj = new this.$.$mol_form_field();
-			(obj.name) = () => ("Наименование");
-			(obj.Content) = () => ((this.Title_edit()));
 			return obj;
 		}
 		description(next){
@@ -43854,11 +43838,7 @@ var $;
 		}
 		Settings_content(){
 			const obj = new this.$.$mol_list();
-			(obj.sub) = () => ([
-				(this.Title_field()), 
-				(this.Description_field()), 
-				(this.Cut())
-			]);
+			(obj.sub) = () => ([(this.Description_field()), (this.Cut())]);
 			return obj;
 		}
 		Settings(){
@@ -43885,7 +43865,7 @@ var $;
 			const obj = new this.$.$mol_view();
 			(obj.sub) = () => ([
 				(this.Open_in_new()), 
-				(this.Title_view()), 
+				(this.Title()), 
 				(this.Settings()), 
 				(this.Scale())
 			]);
@@ -44150,10 +44130,7 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "hovered_ref"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Open_in_new_icon"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Open_in_new"));
-	($mol_mem(($.$shm_hitalama_board_page.prototype), "Title_view"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Settings_trigger_icon"));
-	($mol_mem(($.$shm_hitalama_board_page.prototype), "Title_edit"));
-	($mol_mem(($.$shm_hitalama_board_page.prototype), "Title_field"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "description"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Description_edit"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Description_field"));
@@ -44634,8 +44611,9 @@ var $;
                 position: 'absolute',
                 zIndex: $mol_layer.float
             },
-            Title_view: {
-                padding: $mol_gap.text,
+            Title: {
+                ['fieldSizing']: 'content',
+                maxWidth: '30rem',
             },
             Settings_content: {
                 padding: $mol_gap.block,
