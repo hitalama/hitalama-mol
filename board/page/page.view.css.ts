@@ -26,8 +26,10 @@ namespace $.$$ {
 			position: 'absolute',
 			zIndex: $mol_layer.float
 		},
-		Title_view: {
-			padding: $mol_gap.text,
+
+		Title: {
+			['fieldSizing' as any]: 'content',
+			maxWidth: '30rem',
 		},
 
 		Settings_content: {
