@@ -227,8 +227,10 @@ $mol_search $mol_pop
 				sub /
 					<= Clear_icon $mol_icon_close
 	bubble_content /$mol_view_content
-		<= Menu $mol_list
-			rows <= menu_items /$mol_view
+		<= Bubble_pane $mol_scroll
+			sub /
+				<= Menu $mol_list
+					rows <= menu_items /$mol_view
 	Suggest* $mol_button_minor
 		click?event <=> suggest_select*?event null
 		sub <= suggest_content* /$mol_view_content
@@ -2001,6 +2003,10 @@ $shm_hitalama_drag $mol_plugin
 	drag_start? null
 	drag_end? null
 	-
+	use_buttons /
+		0 - \left
+		-\ 1 - \right
+		-\ 2 - \middle
 	event *
 		^
 		pointerdown? <=> pointerdown? null
@@ -2371,8 +2377,10 @@ $shm_hitalama_board_block_float $shm_hitalama_resize_ratio
 	event *
 		^
 		contextmenu? <=> event_contextmenu? null
+		pointerdown? <=> pointerdown? null
 		pointerenter? <=> pointerenter? null
 		pointerleave? <=> pointerleave? null
+	on_contextmenu? null
 	hovered? false
 	Contextmenu_body null
 	attr *
@@ -2941,7 +2949,7 @@ $shm_hitalama_board_block_any $mol_ghost
 		editing? => editing?
 		has_scrollbar => has_scrollbar
 		drags_synced <= drags_synced /$shm_hitalama_drag
-		event_contextmenu? <=> event_contextmenu? null
+		on_contextmenu? <=> on_contextmenu? null
 		Contextmenu_body => Contextmenu_body
 		zoom <= zoom 1
 	blocks *
@@ -2955,6 +2963,8 @@ $shm_hitalama_board_block_any $mol_ghost
 		chart_settings <= Chart_settings $shm_hitalama_board_block_chart_settings
 		chart_filter <= Chart_filter $shm_hitalama_board_block_chart_filter
 		customdom <= Customdom $shm_hitalama_board_block_customdom
+
+$shm_hitalama_board_touch $mol_touch
 
 $shm_hitalama_board_back $mol_view
 	event *
@@ -2977,13 +2987,24 @@ $shm_hitalama_board_pane $mol_view
 	pointer_pos /
 	real_pointer_pos /
 	to_real_pos* null
-	ctrl_pressed? false
-	shift_pressed? false
 	auto /
 		<= keydown_listener null
 		<= keyup_listener null
-		<= ctrl_pressed
-		<= shift_pressed
+		<= ctrl_pressed? false
+		<= shift_pressed? false
+		<= viewport_shifting? false
+	plugins /
+		^
+		<= Touch $shm_hitalama_board_touch
+			zoom? <=> zoom? 1
+			pan? <=> shift? $mol_vector_2d<number> /
+				0
+				0
+			pointer_center => cursor_position
+			allow_draw false
+			allow_zoom <= allow_zoom true
+			action_type => action_type
+			action_point => action_point
 	sub /
 		<= Back $shm_hitalama_board_back
 			event_pointerdown? <=> back_event_pointerdown? null
@@ -2996,17 +3017,6 @@ $shm_hitalama_board_pane $mol_view
 			view_rect => content_view_rect
 			style *
 				transform <= transform \
-		<= Pane $mol_plot_pane
-			gap_hor 0
-			gap_vert 0
-			allow_draw false
-			shift_limit => shift_limit
-			shift? <=> shift? $mol_vector_2d<number> /
-				0
-				0
-			zoom? <=> zoom? 1
-			style *
-				pointerEvents <= pane_pointer_events \
 		^ select_rect /
 			<= Select_rect $mol_view
 				style *
@@ -3027,6 +3037,8 @@ $shm_hitalama_board_pane $mol_view
 	event *
 		^
 		pointermove? <=> pointer_move? null
+		pointerdown? <=> pointer_down? null
+		pointerup? <=> pointer_up? null
 		wheel? <=> wheel? null
 
 $shm_hitalama_board_page $shm_hitalama_entity_page
@@ -3076,6 +3088,7 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 		<= Pane
 	contextmenu_body? /
 	get_pointer_pos /
+	contextmenu_real_pos /
 	Back_contextmenu_body $mol_list
 		sub /
 			<= Text_add $mol_button_minor
@@ -3136,7 +3149,7 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 					has_scrollbar => has_scrollbar* false
 					editing? => editing*? false
 					drags_synced <= drags_synced* /$shm_hitalama_drag
-					event_contextmenu? <=> block_event_contextmenu*? null
+					on_contextmenu? <=> block_event_contextmenu*? null
 					Contextmenu_body => Block_contextmenu_body* /
 
 $shm_hitalama_board_catalog $shm_hitalama_entity_catalog

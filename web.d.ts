@@ -2045,32 +2045,37 @@ declare namespace $ {
 		,
 		ReturnType< $mol_list['rows'] >
 	>
-	type $mol_dimmer__haystack_mol_search_14 = $mol_type_enforce<
+	type $mol_scroll__sub_mol_search_14 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_scroll['sub'] >
+	>
+	type $mol_dimmer__haystack_mol_search_15 = $mol_type_enforce<
 		ReturnType< $mol_search['suggest_label'] >
 		,
 		ReturnType< $mol_dimmer['haystack'] >
 	>
-	type $mol_dimmer__needle_mol_search_15 = $mol_type_enforce<
+	type $mol_dimmer__needle_mol_search_16 = $mol_type_enforce<
 		ReturnType< $mol_search['query'] >
 		,
 		ReturnType< $mol_dimmer['needle'] >
 	>
-	type $mol_search_plugins__16 = $mol_type_enforce<
+	type $mol_search_plugins__17 = $mol_type_enforce<
 		ReturnType< $mol_pop['plugins'] >[number]
 		,
 		$mol_plugin
 	>
-	type $mol_view__sub_mol_search_17 = $mol_type_enforce<
+	type $mol_view__sub_mol_search_18 = $mol_type_enforce<
 		ReturnType< $mol_search['anchor_content'] >
 		,
 		ReturnType< $mol_view['sub'] >
 	>
-	type $mol_button_minor__click_mol_search_18 = $mol_type_enforce<
+	type $mol_button_minor__click_mol_search_19 = $mol_type_enforce<
 		ReturnType< $mol_search['suggest_select'] >
 		,
 		ReturnType< $mol_button_minor['click'] >
 	>
-	type $mol_button_minor__sub_mol_search_19 = $mol_type_enforce<
+	type $mol_button_minor__sub_mol_search_20 = $mol_type_enforce<
 		ReturnType< $mol_search['suggest_content'] >
 		,
 		ReturnType< $mol_button_minor['sub'] >
@@ -2095,6 +2100,7 @@ declare namespace $ {
 		anchor_content( ): readonly(any)[]
 		menu_items( ): readonly($mol_view)[]
 		Menu( ): $mol_list
+		Bubble_pane( ): $mol_scroll
 		suggest_select( id: any, next?: any ): any
 		suggest_label( id: any): string
 		Suggest_label( id: any): $mol_dimmer
@@ -2149,6 +2155,7 @@ declare namespace $ {
         static make_link(next: {
             [key: string]: string | null;
         }): string;
+        static commit(): void;
         static go(next: {
             [key: string]: string | null;
         }): void;
@@ -2300,7 +2307,7 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
-    function $mol_match_text<Variant>(query: string, values: (variant: Variant) => string[]): (variant: Variant) => boolean;
+    function $mol_match_text<Variant>(query: string, values: (variant: Variant) => readonly string[]): (variant: Variant) => boolean;
 }
 
 declare namespace $ {
@@ -3125,6 +3132,110 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    type $mol_type_unary_func = ((param: any) => any);
+    type $mol_type_unary_class = new (param: any) => any;
+    type $mol_type_unary = $mol_type_unary_func | $mol_type_unary_class;
+}
+
+declare namespace $ {
+    type $mol_type_param<Func, Index extends number> = Func extends (...params: infer Params) => any ? Params[Index] : Func extends new (...params: infer Params2) => any ? Params2[Index] : never;
+}
+
+declare namespace $ {
+    function $mol_data_setup<Value extends $mol_data_value, Config = never>(value: Value, config: Config): Value & {
+        config: Config;
+        Value: ReturnType<Value>;
+    };
+}
+
+declare namespace $ {
+    function $mol_func_is_class<Func extends Function>(func: Func): func is Func & (new (...args: any[]) => any);
+}
+
+declare namespace $ {
+    type $mol_type_result<Func> = Func extends (...params: any) => infer Result ? Result : Func extends new (...params: any) => infer Result ? Result : never;
+}
+
+declare namespace $ {
+    type Guard_value<Funcs extends $mol_type_unary[], Index extends keyof Funcs> = $mol_type_param<Index extends keyof $mol_type_tail<Funcs> ? $mol_type_tail<Funcs>[Index] : any, 0>;
+    type Guard<Funcs extends $mol_type_unary[]> = {
+        [Index in keyof Funcs]: (Funcs[Index] extends $mol_type_unary_func ? (input: $mol_type_param<Funcs[Index], 0>) => Guard_value<Funcs, Index> : new (input: $mol_type_param<Funcs[Index], 0>) => Guard_value<Funcs, Index>);
+    };
+    export function $mol_data_pipe<Funcs extends $mol_type_unary[]>(...funcs: Funcs & Guard<Funcs>): ((this: any, input: $mol_type_param<Funcs[0], 0>) => $mol_type_result<$mol_type_foot<Funcs>>) & {
+        config: {
+            funcs: Funcs & Guard<Funcs>;
+        };
+        Value: $mol_type_result<$mol_type_foot<Funcs>>;
+    };
+    export {};
+}
+
+declare namespace $ {
+    class $mol_error_mix<Cause extends {} = {}> extends AggregateError {
+        readonly cause: Cause;
+        name: string;
+        constructor(message: string, cause?: Cause, ...errors: Error[]);
+        static [Symbol.toPrimitive](): string;
+        static toString(): string;
+        static make(...params: ConstructorParameters<typeof $mol_error_mix>): $mol_error_mix<{}>;
+    }
+}
+
+declare namespace $ {
+    class $mol_data_error extends $mol_error_mix {
+    }
+}
+
+declare namespace $ {
+    let $mol_data_number: (val: number) => number;
+}
+
+declare namespace $ {
+    function $mol_data_integer(val: number): number;
+}
+
+declare namespace $ {
+    const $hyoo_crus_rank: {
+        Value: number & {
+            $hyoo_crus_rank: number;
+        };
+    } & ((val: number & {}) => number & {
+        $hyoo_crus_rank: number;
+    });
+    function $hyoo_crus_rank_make(tier: keyof typeof $hyoo_crus_rank_tier, fame: keyof typeof $hyoo_crus_rank_rate): typeof $hyoo_crus_rank.Value;
+    enum $hyoo_crus_rank_tier {
+        deny = 0,
+        read = 16,
+        join = 48,
+        post = 112,
+        rule = 240
+    }
+    enum $hyoo_crus_rank_rate {
+        late = 0,
+        long = 3,
+        slow = 7,
+        fast = 11,
+        just = 15
+    }
+    const $hyoo_crus_rank_deny: number & {
+        $hyoo_crus_rank: number;
+    };
+    const $hyoo_crus_rank_read: number & {
+        $hyoo_crus_rank: number;
+    };
+    const $hyoo_crus_rank_rule: number & {
+        $hyoo_crus_rank: number;
+    };
+    function $hyoo_crus_rank_join(rate: keyof typeof $hyoo_crus_rank_rate): number & {
+        $hyoo_crus_rank: number;
+    };
+    function $hyoo_crus_rank_post(rate: keyof typeof $hyoo_crus_rank_rate): number & {
+        $hyoo_crus_rank: number;
+    };
+    type $hyoo_crus_rank_preset = Record<string, typeof $hyoo_crus_rank.Value>;
+}
+
+declare namespace $ {
     function $mol_base64_url_encode(buffer: Uint8Array): string;
     function $mol_base64_url_decode(str: string): Uint8Array<ArrayBuffer>;
 }
@@ -3205,21 +3316,6 @@ declare namespace $ {
         clear(): void;
         item(key: Key, next?: Value | null): NonNullable<Value> | null;
     }
-}
-
-declare namespace $ {
-    enum $hyoo_crus_rank {
-        nil = 0,
-        get = 1,
-        reg = 3,
-        mod = 7,
-        law = 15
-    }
-    type $hyoo_crus_rank_preset = Record<string, $hyoo_crus_rank>;
-    let $hyoo_crus_rank_private: $hyoo_crus_rank_preset;
-    let $hyoo_crus_rank_public: $hyoo_crus_rank_preset;
-    let $hyoo_crus_rank_lobby: $hyoo_crus_rank_preset;
-    let $hyoo_crus_rank_orgy: $hyoo_crus_rank_preset;
 }
 
 declare namespace $ {
@@ -3376,10 +3472,6 @@ declare namespace $ {
     class $mol_tree2_empty extends $mol_tree2 {
         constructor();
     }
-}
-
-declare namespace $ {
-    type $mol_type_result<Func> = Func extends (...params: any) => infer Result ? Result : Func extends new (...params: any) => infer Result ? Result : never;
 }
 
 declare namespace $ {
@@ -3587,7 +3679,7 @@ declare namespace $ {
             $hyoo_crus_ref: symbol;
         }, $hyoo_crus_gift>;
         sand: $mol_wire_dict<string, $mol_wire_dict<string, $mol_wire_dict<string, $hyoo_crus_sand>>>;
-        self_all: $mol_wire_set<string>;
+        self_all: $mol_wire_dict<string, $hyoo_crus_sand | null>;
         self_make(idea?: number): string;
         home(): $hyoo_crus_home;
         area_make(idea?: number): $hyoo_crus_land;
@@ -3599,8 +3691,10 @@ declare namespace $ {
             $hyoo_crus_ref: symbol;
         })[];
         key(): $hyoo_crus_auth | null;
-        lord_rank(lord: $hyoo_crus_ref, next?: $hyoo_crus_rank): $hyoo_crus_rank;
-        peer_rank(peer: string): $hyoo_crus_rank;
+        lord_rank(lord: $hyoo_crus_ref, next?: typeof $hyoo_crus_rank.Value): typeof $hyoo_crus_rank.Value;
+        peer_rank(peer: string): number & {
+            $hyoo_crus_rank: number;
+        };
         unit_sort(units: readonly $hyoo_crus_unit[]): $hyoo_crus_unit[];
         delta_unit(face?: $hyoo_crus_face_map): $hyoo_crus_unit[];
         delta_pack(face?: $hyoo_crus_face_map): $hyoo_crus_pack | null;
@@ -3619,15 +3713,13 @@ declare namespace $ {
         apply_unit_trust(delta: readonly $hyoo_crus_unit[], skip_check?: 'skip_check'): ("" | "Need reg rank to join" | "Need law rank to change rank" | "Need mod rank to post data")[];
         apply_land(land: $hyoo_crus_land): string[];
         recheck(): void;
-        fork(preset?: {
-            '': $hyoo_crus_rank;
-        }): $hyoo_crus_land;
+        fork(preset?: $hyoo_crus_rank_preset): $hyoo_crus_land;
         sand_ordered({ head, peer }: {
             head: string;
             peer: string | null;
         }): $hyoo_crus_sand[];
         join(): $hyoo_crus_pass;
-        give(dest: $hyoo_crus_auth | $hyoo_crus_ref | null, rank: $hyoo_crus_rank): $hyoo_crus_gift;
+        give(dest: $hyoo_crus_auth | $hyoo_crus_ref | null, rank: typeof $hyoo_crus_rank.Value): $hyoo_crus_gift;
         post(lead: string, head: string, self: string, vary: $hyoo_crus_vary_type, tag?: keyof typeof $hyoo_crus_sand_tag): $hyoo_crus_sand;
         sand_move(sand: $hyoo_crus_sand, head: string, seat: number, peer?: string | null): $hyoo_crus_sand | undefined;
         sand_wipe(sand: $hyoo_crus_sand, peer?: string | null): $hyoo_crus_sand;
@@ -3675,7 +3767,7 @@ declare namespace $ {
             gift: (unit: $hyoo_crus_gift) => Res;
             sand: (unit: $hyoo_crus_sand) => Res;
         }): Res;
-        narrow(): $hyoo_crus_sand | $hyoo_crus_gift | $hyoo_crus_pass;
+        narrow(): $hyoo_crus_sand | $hyoo_crus_pass | $hyoo_crus_gift;
         key(): string;
         id6(offset: number, next?: string): string;
         id12(offset: number, next?: $hyoo_crus_ref): symbol & {
@@ -3688,6 +3780,10 @@ declare namespace $ {
         mix(mixin: Uint8Array): void;
         sign(next?: ArrayLike<number>): Uint8Array<ArrayBuffer>;
         signed(): boolean;
+        work(): number;
+        rank_min(): number & {
+            $hyoo_crus_rank: number;
+        };
         _land: null | $hyoo_crus_land;
         dump(): {};
     }
@@ -3695,7 +3791,6 @@ declare namespace $ {
 
 declare namespace $ {
     class $hyoo_crus_pass extends $hyoo_crus_unit {
-        work(): number;
         _lord: $hyoo_crus_ref;
         lord(next?: $hyoo_crus_ref): symbol & {
             $hyoo_crus_ref: symbol;
@@ -3706,13 +3801,18 @@ declare namespace $ {
             kind: "pass" | "gift" | "sand";
             lord: string;
         };
+        rank_min(): number & {
+            $hyoo_crus_rank: number;
+        };
         [$mol_dev_format_head](): any[];
     }
 }
 
 declare namespace $ {
     class $hyoo_crus_gift extends $hyoo_crus_unit {
-        rank(next?: $hyoo_crus_rank): $hyoo_crus_rank;
+        rank(next?: typeof $hyoo_crus_rank.Value): number & {
+            $hyoo_crus_rank: number;
+        };
         time(next?: number): number;
         free(): Uint8Array<ArrayBuffer>;
         _dest: $hyoo_crus_ref;
@@ -3726,8 +3826,12 @@ declare namespace $ {
             kind: "pass" | "gift" | "sand";
             peer: string;
             dest: string;
-            rank: string;
+            tier: string;
+            work: number;
             time: string;
+        };
+        rank_min(): number & {
+            $hyoo_crus_rank: number;
         };
         [$mol_dev_format_head](): any[];
     }
@@ -3771,6 +3875,9 @@ declare namespace $ {
             tag: "keys" | "term" | "solo" | "vals";
             size: number;
             time: string;
+        };
+        rank_min(): number & {
+            $hyoo_crus_rank: number;
         };
         [$mol_dev_format_head](): any[];
     }
@@ -5873,7 +5980,7 @@ declare namespace $ {
             Indexes: {};
         }>>;
         static units_save(land: $hyoo_crus_ref, units: readonly $hyoo_crus_unit[]): Promise<void>;
-        static units_load(land: $hyoo_crus_ref): Promise<($hyoo_crus_sand | $hyoo_crus_gift | $hyoo_crus_pass)[]>;
+        static units_load(land: $hyoo_crus_ref): Promise<($hyoo_crus_sand | $hyoo_crus_pass | $hyoo_crus_gift)[]>;
         static db_sync(): $mol_db_database<{
             Rock: {
                 Key: [hash: Uint8Array<ArrayBuffer>];
@@ -7574,57 +7681,6 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    type $mol_type_unary_func = ((param: any) => any);
-    type $mol_type_unary_class = new (param: any) => any;
-    type $mol_type_unary = $mol_type_unary_func | $mol_type_unary_class;
-}
-
-declare namespace $ {
-    type $mol_type_param<Func, Index extends number> = Func extends (...params: infer Params) => any ? Params[Index] : Func extends new (...params: infer Params2) => any ? Params2[Index] : never;
-}
-
-declare namespace $ {
-    function $mol_data_setup<Value extends $mol_data_value, Config = never>(value: Value, config: Config): Value & {
-        config: Config;
-        Value: ReturnType<Value>;
-    };
-}
-
-declare namespace $ {
-    function $mol_func_is_class<Func extends Function>(func: Func): func is Func & (new (...args: any[]) => any);
-}
-
-declare namespace $ {
-    type Guard_value<Funcs extends $mol_type_unary[], Index extends keyof Funcs> = $mol_type_param<Index extends keyof $mol_type_tail<Funcs> ? $mol_type_tail<Funcs>[Index] : any, 0>;
-    type Guard<Funcs extends $mol_type_unary[]> = {
-        [Index in keyof Funcs]: (Funcs[Index] extends $mol_type_unary_func ? (input: $mol_type_param<Funcs[Index], 0>) => Guard_value<Funcs, Index> : new (input: $mol_type_param<Funcs[Index], 0>) => Guard_value<Funcs, Index>);
-    };
-    export function $mol_data_pipe<Funcs extends $mol_type_unary[]>(...funcs: Funcs & Guard<Funcs>): ((this: any, input: $mol_type_param<Funcs[0], 0>) => $mol_type_result<$mol_type_foot<Funcs>>) & {
-        config: {
-            funcs: Funcs & Guard<Funcs>;
-        };
-        Value: $mol_type_result<$mol_type_foot<Funcs>>;
-    };
-    export {};
-}
-
-declare namespace $ {
-    class $mol_error_mix<Cause extends {} = {}> extends AggregateError {
-        readonly cause: Cause;
-        name: string;
-        constructor(message: string, cause?: Cause, ...errors: Error[]);
-        static [Symbol.toPrimitive](): string;
-        static toString(): string;
-        static make(...params: ConstructorParameters<typeof $mol_error_mix>): $mol_error_mix<{}>;
-    }
-}
-
-declare namespace $ {
-    class $mol_data_error extends $mol_error_mix {
-    }
-}
-
-declare namespace $ {
     function $mol_data_variant<Sub extends $mol_data_value[]>(...sub: Sub): ((val: Parameters<Sub[number]>[0]) => ReturnType<Sub[number]>) & {
         config: Sub;
         Value: ReturnType<Sub[number]>;
@@ -7633,14 +7689,6 @@ declare namespace $ {
 
 declare namespace $ {
     let $mol_data_string: (val: string) => string;
-}
-
-declare namespace $ {
-    let $mol_data_number: (val: number) => number;
-}
-
-declare namespace $ {
-    function $mol_data_integer(val: number): number;
 }
 
 declare namespace $ {
@@ -14339,6 +14387,159 @@ declare namespace $ {
             [Symbol.toStringTag]: string;
             [$mol_ambient_ref]: $;
         } | null;
+        readonly Block_by_name: (auto?: any) => {
+            Value: {
+                new (): {
+                    Value: () => typeof $shm_hitalama_board_block;
+                    remote(next?: $shm_hitalama_board_block | null | undefined): $shm_hitalama_board_block | null;
+                    remote_of(peer: string | null, next?: $shm_hitalama_board_block | null | undefined): $shm_hitalama_board_block | null;
+                    ensure(config?: null | $hyoo_crus_rank_preset | $hyoo_crus_land): $shm_hitalama_board_block | null;
+                    ensure_of(peer: string | null, config?: null | $hyoo_crus_rank_preset | $hyoo_crus_land): $shm_hitalama_board_block | null;
+                    ensure_here(peer: string | null): void;
+                    ensure_area(peer: string | null, land: $hyoo_crus_land): void;
+                    ensure_lord(peer: string | null, preset: $hyoo_crus_rank_preset): void;
+                    remote_ensure(preset?: $hyoo_crus_rank_preset): $shm_hitalama_board_block | null;
+                    local_ensure(): $shm_hitalama_board_block | null;
+                    val(next?: (symbol & {
+                        $hyoo_crus_ref: symbol;
+                    }) | null | undefined): (symbol & {
+                        $hyoo_crus_ref: symbol;
+                    }) | null;
+                    val_of(peer: string | null, next?: (symbol & {
+                        $hyoo_crus_ref: symbol;
+                    }) | null | undefined): (symbol & {
+                        $hyoo_crus_ref: symbol;
+                    }) | null;
+                    pick_unit(peer: string | null): $hyoo_crus_sand | undefined;
+                    vary(next?: $hyoo_crus_vary_type): $hyoo_crus_vary_type;
+                    vary_of(peer: string | null, next?: $hyoo_crus_vary_type): $hyoo_crus_vary_type;
+                    [$mol_dev_format_head](): any[];
+                    land(): $hyoo_crus_land;
+                    head(): string;
+                    land_ref(): symbol & {
+                        $hyoo_crus_ref: symbol;
+                    };
+                    ref(): symbol & {
+                        $hyoo_crus_ref: symbol;
+                    };
+                    toJSON(): string | undefined;
+                    cast<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1): InstanceType<Node_1>;
+                    nodes<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+                    units(): $hyoo_crus_sand[];
+                    units_of(peer: string | null): $hyoo_crus_sand[];
+                    filled(): boolean;
+                    can_change(): boolean;
+                    last_change(): $mol_time_moment | null;
+                    author_peers(): string[];
+                    author_lords(): (symbol & {
+                        $hyoo_crus_ref: symbol;
+                    })[];
+                    $: $;
+                    destructor(): void;
+                    toString(): string;
+                    [Symbol.toStringTag]: string;
+                    [$mol_ambient_ref]: $;
+                };
+                toString(): any;
+                Value: typeof $hyoo_crus_dict;
+                parse: typeof $hyoo_crus_vary_cast_ref;
+                tag: keyof typeof $hyoo_crus_sand_tag;
+                make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
+                $: $;
+                create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
+                toJSON(): any;
+                destructor(): void;
+                [Symbol.toPrimitive](): any;
+            };
+            key(key: $hyoo_crus_vary_type, auto?: any): {
+                Value: Value;
+                remote(next?: $shm_hitalama_board_block | null | undefined): $shm_hitalama_board_block | null;
+                remote_of(peer: string | null, next?: $shm_hitalama_board_block | null | undefined): $shm_hitalama_board_block | null;
+                ensure(config?: null | $hyoo_crus_rank_preset | $hyoo_crus_land): $shm_hitalama_board_block | null;
+                ensure_of(peer: string | null, config?: null | $hyoo_crus_rank_preset | $hyoo_crus_land): $shm_hitalama_board_block | null;
+                ensure_here(peer: string | null): void;
+                ensure_area(peer: string | null, land: $hyoo_crus_land): void;
+                ensure_lord(peer: string | null, preset: $hyoo_crus_rank_preset): void;
+                remote_ensure(preset?: $hyoo_crus_rank_preset): $shm_hitalama_board_block | null;
+                local_ensure(): $shm_hitalama_board_block | null;
+                val(next?: (symbol & {
+                    $hyoo_crus_ref: symbol;
+                }) | null | undefined): (symbol & {
+                    $hyoo_crus_ref: symbol;
+                }) | null;
+                val_of(peer: string | null, next?: (symbol & {
+                    $hyoo_crus_ref: symbol;
+                }) | null | undefined): (symbol & {
+                    $hyoo_crus_ref: symbol;
+                }) | null;
+                pick_unit(peer: string | null): $hyoo_crus_sand | undefined;
+                vary(next?: $hyoo_crus_vary_type): $hyoo_crus_vary_type;
+                vary_of(peer: string | null, next?: $hyoo_crus_vary_type): $hyoo_crus_vary_type;
+                [$mol_dev_format_head](): any[];
+                land(): $hyoo_crus_land;
+                head(): string;
+                land_ref(): symbol & {
+                    $hyoo_crus_ref: symbol;
+                };
+                ref(): symbol & {
+                    $hyoo_crus_ref: symbol;
+                };
+                toJSON(): string | undefined;
+                cast<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1): InstanceType<Node_1>;
+                nodes<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+                units(): $hyoo_crus_sand[];
+                units_of(peer: string | null): $hyoo_crus_sand[];
+                filled(): boolean;
+                can_change(): boolean;
+                last_change(): $mol_time_moment | null;
+                author_peers(): string[];
+                author_lords(): (symbol & {
+                    $hyoo_crus_ref: symbol;
+                })[];
+                $: $;
+                destructor(): void;
+                toString(): string;
+                [Symbol.toStringTag]: string;
+                [$mol_ambient_ref]: $;
+            };
+            keys(): readonly $hyoo_crus_vary_type[];
+            dive<Node_1 extends typeof $hyoo_crus_node>(key: $hyoo_crus_vary_type, Node: Node_1, auto?: any): InstanceType<Node_1> | null;
+            [$mol_dev_format_head](): any[];
+            items_vary(next?: readonly $hyoo_crus_vary_type[], tag?: keyof typeof $hyoo_crus_sand_tag): readonly $hyoo_crus_vary_type[];
+            splice(next: readonly $hyoo_crus_vary_type[], from?: number, to?: number, tag?: keyof typeof $hyoo_crus_sand_tag): void;
+            find(vary: $hyoo_crus_vary_type): $hyoo_crus_sand | null;
+            has(vary: $hyoo_crus_vary_type, next?: boolean, tag?: keyof typeof $hyoo_crus_sand_tag): boolean;
+            add(vary: $hyoo_crus_vary_type, tag?: keyof typeof $hyoo_crus_sand_tag): void;
+            cut(vary: $hyoo_crus_vary_type): void;
+            move(from: number, to: number): void;
+            wipe(seat: number): void;
+            node_make<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1, vary: $hyoo_crus_vary_type, tag?: keyof typeof $hyoo_crus_sand_tag): InstanceType<Node_1>;
+            land(): $hyoo_crus_land;
+            head(): string;
+            land_ref(): symbol & {
+                $hyoo_crus_ref: symbol;
+            };
+            ref(): symbol & {
+                $hyoo_crus_ref: symbol;
+            };
+            toJSON(): string | undefined;
+            cast<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1): InstanceType<Node_1>;
+            nodes<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+            units(): $hyoo_crus_sand[];
+            units_of(peer: string | null): $hyoo_crus_sand[];
+            filled(): boolean;
+            can_change(): boolean;
+            last_change(): $mol_time_moment | null;
+            author_peers(): string[];
+            author_lords(): (symbol & {
+                $hyoo_crus_ref: symbol;
+            })[];
+            $: $;
+            destructor(): void;
+            toString(): string;
+            [Symbol.toStringTag]: string;
+            [$mol_ambient_ref]: $;
+        } | null;
         readonly Search_statistics: (auto?: any) => {
             remote_list(next?: readonly $shm_hitalama_board_form[] | undefined): readonly $shm_hitalama_board_form[];
             remote_add(item: $shm_hitalama_board_form): void;
@@ -14497,6 +14698,178 @@ declare namespace $ {
                 destructor(): void;
                 [Symbol.toPrimitive](): any;
             };
+            readonly Block_by_name: {
+                new (): {
+                    Value: {
+                        new (): {
+                            Value: () => typeof $shm_hitalama_board_block;
+                            remote(next?: $shm_hitalama_board_block | null | undefined): $shm_hitalama_board_block | null;
+                            remote_of(peer: string | null, next?: $shm_hitalama_board_block | null | undefined): $shm_hitalama_board_block | null;
+                            ensure(config?: null | $hyoo_crus_rank_preset | $hyoo_crus_land): $shm_hitalama_board_block | null;
+                            ensure_of(peer: string | null, config?: null | $hyoo_crus_rank_preset | $hyoo_crus_land): $shm_hitalama_board_block | null;
+                            ensure_here(peer: string | null): void;
+                            ensure_area(peer: string | null, land: $hyoo_crus_land): void;
+                            ensure_lord(peer: string | null, preset: $hyoo_crus_rank_preset): void;
+                            remote_ensure(preset?: $hyoo_crus_rank_preset): $shm_hitalama_board_block | null;
+                            local_ensure(): $shm_hitalama_board_block | null;
+                            val(next?: (symbol & {
+                                $hyoo_crus_ref: symbol;
+                            }) | null | undefined): (symbol & {
+                                $hyoo_crus_ref: symbol;
+                            }) | null;
+                            val_of(peer: string | null, next?: (symbol & {
+                                $hyoo_crus_ref: symbol;
+                            }) | null | undefined): (symbol & {
+                                $hyoo_crus_ref: symbol;
+                            }) | null;
+                            pick_unit(peer: string | null): $hyoo_crus_sand | undefined;
+                            vary(next?: $hyoo_crus_vary_type): $hyoo_crus_vary_type;
+                            vary_of(peer: string | null, next?: $hyoo_crus_vary_type): $hyoo_crus_vary_type;
+                            [$mol_dev_format_head](): any[];
+                            land(): $hyoo_crus_land;
+                            head(): string;
+                            land_ref(): symbol & {
+                                $hyoo_crus_ref: symbol;
+                            };
+                            ref(): symbol & {
+                                $hyoo_crus_ref: symbol;
+                            };
+                            toJSON(): string | undefined;
+                            cast<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1): InstanceType<Node_1>;
+                            nodes<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+                            units(): $hyoo_crus_sand[];
+                            units_of(peer: string | null): $hyoo_crus_sand[];
+                            filled(): boolean;
+                            can_change(): boolean;
+                            last_change(): $mol_time_moment | null;
+                            author_peers(): string[];
+                            author_lords(): (symbol & {
+                                $hyoo_crus_ref: symbol;
+                            })[];
+                            $: $;
+                            destructor(): void;
+                            toString(): string;
+                            [Symbol.toStringTag]: string;
+                            [$mol_ambient_ref]: $;
+                        };
+                        toString(): any;
+                        Value: typeof $hyoo_crus_dict;
+                        parse: typeof $hyoo_crus_vary_cast_ref;
+                        tag: keyof typeof $hyoo_crus_sand_tag;
+                        make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
+                        $: $;
+                        create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
+                        toJSON(): any;
+                        destructor(): void;
+                        [Symbol.toPrimitive](): any;
+                    };
+                    key(key: $hyoo_crus_vary_type, auto?: any): {
+                        Value: Value_1;
+                        remote(next?: $shm_hitalama_board_block | null | undefined): $shm_hitalama_board_block | null;
+                        remote_of(peer: string | null, next?: $shm_hitalama_board_block | null | undefined): $shm_hitalama_board_block | null;
+                        ensure(config?: null | $hyoo_crus_rank_preset | $hyoo_crus_land): $shm_hitalama_board_block | null;
+                        ensure_of(peer: string | null, config?: null | $hyoo_crus_rank_preset | $hyoo_crus_land): $shm_hitalama_board_block | null;
+                        ensure_here(peer: string | null): void;
+                        ensure_area(peer: string | null, land: $hyoo_crus_land): void;
+                        ensure_lord(peer: string | null, preset: $hyoo_crus_rank_preset): void;
+                        remote_ensure(preset?: $hyoo_crus_rank_preset): $shm_hitalama_board_block | null;
+                        local_ensure(): $shm_hitalama_board_block | null;
+                        val(next?: (symbol & {
+                            $hyoo_crus_ref: symbol;
+                        }) | null | undefined): (symbol & {
+                            $hyoo_crus_ref: symbol;
+                        }) | null;
+                        val_of(peer: string | null, next?: (symbol & {
+                            $hyoo_crus_ref: symbol;
+                        }) | null | undefined): (symbol & {
+                            $hyoo_crus_ref: symbol;
+                        }) | null;
+                        pick_unit(peer: string | null): $hyoo_crus_sand | undefined;
+                        vary(next?: $hyoo_crus_vary_type): $hyoo_crus_vary_type;
+                        vary_of(peer: string | null, next?: $hyoo_crus_vary_type): $hyoo_crus_vary_type;
+                        [$mol_dev_format_head](): any[];
+                        land(): $hyoo_crus_land;
+                        head(): string;
+                        land_ref(): symbol & {
+                            $hyoo_crus_ref: symbol;
+                        };
+                        ref(): symbol & {
+                            $hyoo_crus_ref: symbol;
+                        };
+                        toJSON(): string | undefined;
+                        cast<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1): InstanceType<Node_1>;
+                        nodes<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+                        units(): $hyoo_crus_sand[];
+                        units_of(peer: string | null): $hyoo_crus_sand[];
+                        filled(): boolean;
+                        can_change(): boolean;
+                        last_change(): $mol_time_moment | null;
+                        author_peers(): string[];
+                        author_lords(): (symbol & {
+                            $hyoo_crus_ref: symbol;
+                        })[];
+                        $: $;
+                        destructor(): void;
+                        toString(): string;
+                        [Symbol.toStringTag]: string;
+                        [$mol_ambient_ref]: $;
+                    };
+                    keys(): readonly $hyoo_crus_vary_type[];
+                    dive<Node_1 extends typeof $hyoo_crus_node>(key: $hyoo_crus_vary_type, Node: Node_1, auto?: any): InstanceType<Node_1> | null;
+                    [$mol_dev_format_head](): any[];
+                    items_vary(next?: readonly $hyoo_crus_vary_type[], tag?: keyof typeof $hyoo_crus_sand_tag): readonly $hyoo_crus_vary_type[];
+                    splice(next: readonly $hyoo_crus_vary_type[], from?: number, to?: number, tag?: keyof typeof $hyoo_crus_sand_tag): void;
+                    find(vary: $hyoo_crus_vary_type): $hyoo_crus_sand | null;
+                    has(vary: $hyoo_crus_vary_type, next?: boolean, tag?: keyof typeof $hyoo_crus_sand_tag): boolean;
+                    add(vary: $hyoo_crus_vary_type, tag?: keyof typeof $hyoo_crus_sand_tag): void;
+                    cut(vary: $hyoo_crus_vary_type): void;
+                    move(from: number, to: number): void;
+                    wipe(seat: number): void;
+                    node_make<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1, vary: $hyoo_crus_vary_type, tag?: keyof typeof $hyoo_crus_sand_tag): InstanceType<Node_1>;
+                    land(): $hyoo_crus_land;
+                    head(): string;
+                    land_ref(): symbol & {
+                        $hyoo_crus_ref: symbol;
+                    };
+                    ref(): symbol & {
+                        $hyoo_crus_ref: symbol;
+                    };
+                    toJSON(): string | undefined;
+                    cast<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1): InstanceType<Node_1>;
+                    nodes<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+                    units(): $hyoo_crus_sand[];
+                    units_of(peer: string | null): $hyoo_crus_sand[];
+                    filled(): boolean;
+                    can_change(): boolean;
+                    last_change(): $mol_time_moment | null;
+                    author_peers(): string[];
+                    author_lords(): (symbol & {
+                        $hyoo_crus_ref: symbol;
+                    })[];
+                    $: $;
+                    destructor(): void;
+                    toString(): string;
+                    [Symbol.toStringTag]: string;
+                    [$mol_ambient_ref]: $;
+                };
+                toString(): any;
+                tag: keyof typeof $hyoo_crus_sand_tag;
+                schema: Record<string, typeof $hyoo_crus_node>;
+                with<This extends typeof $hyoo_crus_dict, const Schema extends Record<string, {
+                    tag: keyof typeof $hyoo_crus_sand_tag;
+                    new (): {};
+                }>>(this: This, schema: Schema): Omit<This, "prototype"> & (new (...args: any[]) => $mol_type_override<InstanceType<This>, { readonly [Key in keyof Schema]: (auto?: any) => InstanceType<Schema[Key]> | null; }>) & {
+                    schema: {
+                        [x: string]: typeof $hyoo_crus_node;
+                    } & Schema;
+                };
+                make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
+                $: $;
+                create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
+                toJSON(): any;
+                destructor(): void;
+                [Symbol.toPrimitive](): any;
+            };
             readonly Search_statistics: {
                 new (): {
                     remote_list(next?: readonly $shm_hitalama_board_form[] | undefined): readonly $shm_hitalama_board_form[];
@@ -14620,8 +14993,8 @@ declare namespace $ {
     };
     export class $shm_hitalama_board extends $shm_hitalama_board_base {
         block(ref: string): $shm_hitalama_board_block;
-        block_add(type: (typeof $shm_hitalama_board_block_types)[number], pos?: readonly [number, number] | readonly number[], right_x?: number, bottom_x?: number): $shm_hitalama_board_block | undefined;
-        table_add(pos?: readonly [number, number] | readonly number[], right_x?: number, bottom_x?: number): $shm_hitalama_board_block | undefined;
+        block_add(type: (typeof $shm_hitalama_board_block_types)[number], pos?: readonly [number, number] | readonly number[], right_x?: number, bottom_x?: number, name?: string): $shm_hitalama_board_block | null | undefined;
+        table_add(pos?: readonly [number, number] | readonly number[], right_x?: number, bottom_x?: number, name?: string): $shm_hitalama_board_block | null | undefined;
         search_statistics(): readonly $shm_hitalama_board_form[];
     }
     export {};
@@ -19491,6 +19864,7 @@ declare namespace $ {
 		drag( next?: any ): any
 		drag_start( next?: any ): any
 		drag_end( next?: any ): any
+		use_buttons( ): readonly(any)[]
 		event( ): ({ 
 			pointerdown( next?: ReturnType< $shm_hitalama_drag['pointerdown'] > ): ReturnType< $shm_hitalama_drag['pointerdown'] >,
 		})  & ReturnType< $mol_plugin['event'] >
@@ -20655,6 +21029,7 @@ declare namespace $ {
 		transition_smooth( ): string
 		transition( ): ReturnType< $shm_hitalama_board_block_float['transition_smooth'] >
 		event_contextmenu( next?: any ): any
+		pointerdown( next?: any ): any
 		pointerenter( next?: any ): any
 		pointerleave( next?: any ): any
 		selected( next?: boolean ): boolean
@@ -20674,9 +21049,11 @@ declare namespace $ {
 		font_size_px( ): string
 		event( ): ({ 
 			contextmenu( next?: ReturnType< $shm_hitalama_board_block_float['event_contextmenu'] > ): ReturnType< $shm_hitalama_board_block_float['event_contextmenu'] >,
+			pointerdown( next?: ReturnType< $shm_hitalama_board_block_float['pointerdown'] > ): ReturnType< $shm_hitalama_board_block_float['pointerdown'] >,
 			pointerenter( next?: ReturnType< $shm_hitalama_board_block_float['pointerenter'] > ): ReturnType< $shm_hitalama_board_block_float['pointerenter'] >,
 			pointerleave( next?: ReturnType< $shm_hitalama_board_block_float['pointerleave'] > ): ReturnType< $shm_hitalama_board_block_float['pointerleave'] >,
 		})  & ReturnType< $shm_hitalama_resize_ratio['event'] >
+		on_contextmenu( next?: any ): any
 		hovered( next?: boolean ): boolean
 		Contextmenu_body( ): any
 		attr( ): ({ 
@@ -20712,6 +21089,9 @@ declare namespace $.$$ {
         transition(): string;
         on_drag_start(event: PointerEvent): void;
         has_scrollbar(): boolean;
+        pointerdown_last?: PointerEvent;
+        pointerdown(event: PointerEvent): void;
+        event_contextmenu(event: PointerEvent): void;
         pointerenter(next?: any): void;
         pointerleave(next?: any): void;
     }
@@ -22741,10 +23121,10 @@ declare namespace $ {
 		,
 		ReturnType< $shm_hitalama_board_block_float['drags_synced'] >
 	>
-	type $shm_hitalama_board_block_float__event_contextmenu_shm_hitalama_board_block_any_13 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_any['event_contextmenu'] >
+	type $shm_hitalama_board_block_float__on_contextmenu_shm_hitalama_board_block_any_13 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_any['on_contextmenu'] >
 		,
-		ReturnType< $shm_hitalama_board_block_float['event_contextmenu'] >
+		ReturnType< $shm_hitalama_board_block_float['on_contextmenu'] >
 	>
 	type $shm_hitalama_board_block_float__zoom_shm_hitalama_board_block_any_14 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_any['zoom'] >
@@ -22769,7 +23149,7 @@ declare namespace $ {
 		editing( next?: ReturnType< ReturnType< $shm_hitalama_board_block_any['Sub'] >['editing'] > ): ReturnType< ReturnType< $shm_hitalama_board_block_any['Sub'] >['editing'] >
 		has_scrollbar( ): ReturnType< ReturnType< $shm_hitalama_board_block_any['Sub'] >['has_scrollbar'] >
 		drags_synced( ): readonly($shm_hitalama_drag)[]
-		event_contextmenu( next?: any ): any
+		on_contextmenu( next?: any ): any
 		Contextmenu_body( ): ReturnType< ReturnType< $shm_hitalama_board_block_any['Sub'] >['Contextmenu_body'] >
 		zoom( ): number
 		Input( ): $shm_hitalama_board_block_input
@@ -22808,6 +23188,21 @@ declare namespace $.$$ {
 
 declare namespace $ {
 
+	export class $shm_hitalama_board_touch extends $mol_touch {
+	}
+	
+}
+
+//# sourceMappingURL=touch.view.tree.d.ts.map
+declare namespace $.$$ {
+    class $shm_hitalama_board_touch extends $.$shm_hitalama_board_touch {
+        event_wheel(event: WheelEvent): any;
+        event_start(event: PointerEvent): any;
+    }
+}
+
+declare namespace $ {
+
 	export class $shm_hitalama_board_back extends $mol_view {
 		event_pointerdown( next?: any ): any
 		event_contextmenu( next?: any ): any
@@ -22822,76 +23217,64 @@ declare namespace $ {
 //# sourceMappingURL=back.view.tree.d.ts.map
 declare namespace $ {
 
-	type $shm_hitalama_board_back__event_pointerdown_shm_hitalama_board_pane_1 = $mol_type_enforce<
+	type $mol_vector_2d__shm_hitalama_board_pane_1 = $mol_type_enforce<
+		[ number, number ]
+		,
+		ConstructorParameters< typeof $mol_vector_2d<number> >
+	>
+	type $shm_hitalama_board_touch__zoom_shm_hitalama_board_pane_2 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_pane['zoom'] >
+		,
+		ReturnType< $shm_hitalama_board_touch['zoom'] >
+	>
+	type $shm_hitalama_board_touch__pan_shm_hitalama_board_pane_3 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_pane['shift'] >
+		,
+		ReturnType< $shm_hitalama_board_touch['pan'] >
+	>
+	type $shm_hitalama_board_touch__allow_draw_shm_hitalama_board_pane_4 = $mol_type_enforce<
+		boolean
+		,
+		ReturnType< $shm_hitalama_board_touch['allow_draw'] >
+	>
+	type $shm_hitalama_board_touch__allow_zoom_shm_hitalama_board_pane_5 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_pane['allow_zoom'] >
+		,
+		ReturnType< $shm_hitalama_board_touch['allow_zoom'] >
+	>
+	type $shm_hitalama_board_back__event_pointerdown_shm_hitalama_board_pane_6 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_pane['back_event_pointerdown'] >
 		,
 		ReturnType< $shm_hitalama_board_back['event_pointerdown'] >
 	>
-	type $shm_hitalama_board_back__event_contextmenu_shm_hitalama_board_pane_2 = $mol_type_enforce<
+	type $shm_hitalama_board_back__event_contextmenu_shm_hitalama_board_pane_7 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_pane['back_event_contextmenu'] >
 		,
 		ReturnType< $shm_hitalama_board_back['event_contextmenu'] >
 	>
-	type $mol_view__minimal_height_shm_hitalama_board_pane_3 = $mol_type_enforce<
+	type $mol_view__minimal_height_shm_hitalama_board_pane_8 = $mol_type_enforce<
 		number
 		,
 		ReturnType< $mol_view['minimal_height'] >
 	>
-	type $mol_view__minimal_width_shm_hitalama_board_pane_4 = $mol_type_enforce<
+	type $mol_view__minimal_width_shm_hitalama_board_pane_9 = $mol_type_enforce<
 		number
 		,
 		ReturnType< $mol_view['minimal_width'] >
 	>
-	type $mol_view__sub_shm_hitalama_board_pane_5 = $mol_type_enforce<
+	type $mol_view__sub_shm_hitalama_board_pane_10 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_pane['body'] >
 		,
 		ReturnType< $mol_view['sub'] >
 	>
-	type $mol_view__style_shm_hitalama_board_pane_6 = $mol_type_enforce<
+	type $mol_view__style_shm_hitalama_board_pane_11 = $mol_type_enforce<
 		({ 
 			'transform': ReturnType< $shm_hitalama_board_pane['transform'] >,
 		}) 
 		,
 		ReturnType< $mol_view['style'] >
 	>
-	type $mol_vector_2d__shm_hitalama_board_pane_7 = $mol_type_enforce<
-		[ number, number ]
-		,
-		ConstructorParameters< typeof $mol_vector_2d<number> >
-	>
-	type $mol_plot_pane__gap_hor_shm_hitalama_board_pane_8 = $mol_type_enforce<
-		number
-		,
-		ReturnType< $mol_plot_pane['gap_hor'] >
-	>
-	type $mol_plot_pane__gap_vert_shm_hitalama_board_pane_9 = $mol_type_enforce<
-		number
-		,
-		ReturnType< $mol_plot_pane['gap_vert'] >
-	>
-	type $mol_plot_pane__allow_draw_shm_hitalama_board_pane_10 = $mol_type_enforce<
-		boolean
-		,
-		ReturnType< $mol_plot_pane['allow_draw'] >
-	>
-	type $mol_plot_pane__shift_shm_hitalama_board_pane_11 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_pane['shift'] >
-		,
-		ReturnType< $mol_plot_pane['shift'] >
-	>
-	type $mol_plot_pane__zoom_shm_hitalama_board_pane_12 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_pane['zoom'] >
-		,
-		ReturnType< $mol_plot_pane['zoom'] >
-	>
-	type $mol_plot_pane__style_shm_hitalama_board_pane_13 = $mol_type_enforce<
-		({ 
-			'pointerEvents': ReturnType< $shm_hitalama_board_pane['pane_pointer_events'] >,
-		}) 
-		,
-		ReturnType< $mol_plot_pane['style'] >
-	>
-	type $mol_view__style_shm_hitalama_board_pane_14 = $mol_type_enforce<
+	type $mol_view__style_shm_hitalama_board_pane_12 = $mol_type_enforce<
 		({ 
 			'left': ReturnType< $shm_hitalama_board_pane['select_rect_left'] >,
 			'top': ReturnType< $shm_hitalama_board_pane['select_rect_top'] >,
@@ -22905,6 +23288,16 @@ declare namespace $ {
 		selecting( next?: boolean ): boolean
 		keydown_listener( ): any
 		keyup_listener( ): any
+		ctrl_pressed( next?: boolean ): boolean
+		shift_pressed( next?: boolean ): boolean
+		viewport_shifting( next?: boolean ): boolean
+		zoom( next?: number ): number
+		shift( next?: $mol_vector_2d<number> ): $mol_vector_2d<number>
+		cursor_position( ): ReturnType< ReturnType< $shm_hitalama_board_pane['Touch'] >['pointer_center'] >
+		allow_zoom( ): boolean
+		action_type( ): ReturnType< ReturnType< $shm_hitalama_board_pane['Touch'] >['action_type'] >
+		action_point( ): ReturnType< ReturnType< $shm_hitalama_board_pane['Touch'] >['action_point'] >
+		Touch( ): $shm_hitalama_board_touch
 		back_event_pointerdown( next?: any ): any
 		back_event_contextmenu( next?: any ): any
 		Back( ): $shm_hitalama_board_back
@@ -22913,11 +23306,6 @@ declare namespace $ {
 		content_view_rect( ): ReturnType< ReturnType< $shm_hitalama_board_pane['Content'] >['view_rect'] >
 		transform( ): string
 		Content( ): $mol_view
-		shift_limit( ): ReturnType< ReturnType< $shm_hitalama_board_pane['Pane'] >['shift_limit'] >
-		shift( next?: $mol_vector_2d<number> ): $mol_vector_2d<number>
-		zoom( next?: number ): number
-		pane_pointer_events( ): string
-		Pane( ): $mol_plot_pane
 		select_rect_left( next?: string ): string
 		select_rect_top( next?: string ): string
 		select_rect_width( next?: string ): string
@@ -22925,6 +23313,8 @@ declare namespace $ {
 		Select_rect( ): $mol_view
 		select_rect( ): readonly(any)[]
 		pointer_move( next?: any ): any
+		pointer_down( next?: any ): any
+		pointer_up( next?: any ): any
 		wheel( next?: any ): any
 		attr( ): ({ 
 			'selecting': ReturnType< $shm_hitalama_board_pane['selecting'] >,
@@ -22932,9 +23322,8 @@ declare namespace $ {
 		pointer_pos( ): readonly(any)[]
 		real_pointer_pos( ): readonly(any)[]
 		to_real_pos( id: any): any
-		ctrl_pressed( next?: boolean ): boolean
-		shift_pressed( next?: boolean ): boolean
 		auto( ): readonly(any)[]
+		plugins( ): readonly(any)[]
 		sub( ): readonly(any)[]
 		select_rect_start_x( next?: number ): number
 		select_rect_start_y( next?: number ): number
@@ -22948,6 +23337,8 @@ declare namespace $ {
 		prevent_zoom( next?: boolean ): boolean
 		event( ): ({ 
 			pointermove( next?: ReturnType< $shm_hitalama_board_pane['pointer_move'] > ): ReturnType< $shm_hitalama_board_pane['pointer_move'] >,
+			pointerdown( next?: ReturnType< $shm_hitalama_board_pane['pointer_down'] > ): ReturnType< $shm_hitalama_board_pane['pointer_down'] >,
+			pointerup( next?: ReturnType< $shm_hitalama_board_pane['pointer_up'] > ): ReturnType< $shm_hitalama_board_pane['pointer_up'] >,
 			wheel( next?: ReturnType< $shm_hitalama_board_pane['wheel'] > ): ReturnType< $shm_hitalama_board_pane['wheel'] >,
 		})  & ReturnType< $mol_view['event'] >
 	}
@@ -22960,6 +23351,11 @@ declare namespace $.$$ {
         select_start(event: PointerEvent): void;
         pointer_client_pos: [number, number];
         pointer_move(event?: PointerEvent): void;
+        pointer_down(event?: PointerEvent): void;
+        ctrl_pressed(next?: boolean): boolean;
+        allow_zoom(): boolean;
+        pointer_up(event?: PointerEvent): void;
+        pane_contextmenu(event?: PointerEvent): void;
         pointer_pos(): readonly (any)[];
         real_pointer_pos(): readonly (any)[];
         to_real_pos([x, y]: [number, number]): number[];
@@ -22978,7 +23374,6 @@ declare namespace $.$$ {
         keyup_listener(): $mol_dom_listener;
         wheel(event: WheelEvent): void;
         content_pointer_events(): string;
-        pane_pointer_events(): string;
     }
 }
 
@@ -23270,10 +23665,10 @@ declare namespace $ {
 		,
 		ReturnType< $shm_hitalama_board_block_any['drags_synced'] >
 	>
-	type $shm_hitalama_board_block_any__event_contextmenu_shm_hitalama_board_page_57 = $mol_type_enforce<
+	type $shm_hitalama_board_block_any__on_contextmenu_shm_hitalama_board_page_57 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_page['block_event_contextmenu'] >
 		,
-		ReturnType< $shm_hitalama_board_block_any['event_contextmenu'] >
+		ReturnType< $shm_hitalama_board_block_any['on_contextmenu'] >
 	>
 	type $mol_list__sub_shm_hitalama_board_page_58 = $mol_type_enforce<
 		readonly(any)[]
@@ -23389,6 +23784,7 @@ declare namespace $ {
 		body_content( ): readonly(any)[]
 		contextmenu_body( next?: readonly(any)[] ): readonly(any)[]
 		get_pointer_pos( ): readonly(any)[]
+		contextmenu_real_pos( ): readonly(any)[]
 		Back_contextmenu_body( ): $mol_list
 		Pane( ): $shm_hitalama_board_pane
 	}
@@ -23422,24 +23818,26 @@ declare namespace $.$$ {
         prevent_zoom(): boolean;
         select_resize(): void;
         deselect_all(): void;
+        back_event_pointerdown_last?: PointerEvent;
         back_event_pointerdown(event: PointerEvent): void;
         back_event_contextmenu(event: PointerEvent): void;
         block_event_contextmenu(ref: $hyoo_crus_ref, event?: PointerEvent): void;
         contextmenu_pos(next?: readonly [number, number]): readonly [number, number];
         contextmenu_real_pos(): any;
         contextmenu_visible(): readonly (any)[];
-        text_add(): $shm_hitalama_board_block | undefined;
-        input_add(): $shm_hitalama_board_block | undefined;
-        iframe_add(): $shm_hitalama_board_block | undefined;
+        text_add(): $shm_hitalama_board_block | null | undefined;
+        input_add(): $shm_hitalama_board_block | null | undefined;
+        iframe_add(): $shm_hitalama_board_block | null | undefined;
+        guid_sync(): string;
         form_add(): void;
-        deckgl_example_add(): $shm_hitalama_board_block | undefined;
-        echarts_example_add(): $shm_hitalama_board_block | undefined;
+        deckgl_example_add(): $shm_hitalama_board_block | null | undefined;
+        echarts_example_add(): $shm_hitalama_board_block | null | undefined;
         image_blob_size(blob: Blob): Promise<{
             width: number;
             height: number;
         }>;
-        image_add(blob: Blob): $shm_hitalama_board_block | undefined;
-        paste_text(text: string): $shm_hitalama_board_block | undefined;
+        image_add(blob: Blob): $shm_hitalama_board_block | null | undefined;
+        paste_text(text: string): $shm_hitalama_board_block | null | undefined;
         get_pointer_pos(): any;
         shift_pressed(next?: boolean): boolean;
         scale_percent(): string;
