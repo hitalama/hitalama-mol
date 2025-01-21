@@ -39,11 +39,6 @@ namespace $.$$ {
 		position: 'absolute',
 		width: '100%',
 		height: '100%',
-		Pane: {
-			position: 'absolute',
-			width: '100%',
-			height: '100%',
-		},
 		
 	} )
 	

@@ -43,7 +43,7 @@ namespace $.$$ {
 
 		@ $mol_action
 		chart_add() {
-			const chart_pos = this.Board_page().contextmenu_pos()
+			const chart_pos = this.Board_page().contextmenu_real_pos()
 			const chart_block = this.board().block_add( 'chart', chart_pos, 600, 400 )
 			chart_block?.Table(null)?.remote( this.block().table() )
 			const chart = chart_block?.Chart(null)

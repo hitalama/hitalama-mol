@@ -26,7 +26,6 @@ namespace $.$$ {
 				this.$.$mol_dom_context.document,
 				'pointerdown',
 				$mol_wire_async( event => {
-					console.log('event', event)
 					if( !this.hovered() ) this.showed( false )
 				} ),
 			)

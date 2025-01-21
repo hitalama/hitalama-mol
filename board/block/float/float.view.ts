@@ -108,6 +108,21 @@ namespace $.$$ {
 			const el = this.Content().dom_node_actual()
 			return el.scrollHeight > el.clientHeight
 		}
+
+		pointerdown_last?: PointerEvent
+		pointerdown( event: PointerEvent ) {
+			this.pointerdown_last = event
+		}
+
+		event_contextmenu( event: PointerEvent ) {
+			event.preventDefault()
+
+			if( !this.pointerdown_last
+				|| is_panning( this.pointerdown_last, event )
+			) return
+			
+			this.on_contextmenu( event )
+		}
 		
 		pointerenter( next?: any ) {
 			this.hovered( true )
@@ -117,6 +132,17 @@ namespace $.$$ {
 			this.hovered( false )
 		}
 		
+	}
+
+	function is_panning( start: PointerEvent, end: PointerEvent ) {
+
+		if( end.timeStamp - start?.timeStamp > 500
+			|| Math.abs(end.x - start?.x) > 10
+			|| Math.abs(end.y - start?.y) > 10
+		) return true
+
+		return false
+
 	}
 
 }

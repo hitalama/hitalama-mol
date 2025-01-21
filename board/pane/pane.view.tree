@@ -5,13 +5,24 @@ $shm_hitalama_board_pane $mol_view
 	pointer_pos /
 	real_pointer_pos /
 	to_real_pos* null
-	ctrl_pressed? false
-	shift_pressed? false
 	auto /
 		<= keydown_listener null
 		<= keyup_listener null
-		<= ctrl_pressed
-		<= shift_pressed
+		<= ctrl_pressed? false
+		<= shift_pressed? false
+		<= viewport_shifting? false
+	plugins /
+		^
+		<= Touch $shm_hitalama_board_touch
+			zoom? <=> zoom? 1
+			pan? <=> shift? $mol_vector_2d<number> /
+				0
+				0
+			pointer_center => cursor_position
+			allow_draw false
+			allow_zoom <= allow_zoom true
+			action_type => action_type
+			action_point => action_point
 	sub /
 		<= Back $shm_hitalama_board_back
 			event_pointerdown? <=> back_event_pointerdown? null
@@ -24,17 +35,6 @@ $shm_hitalama_board_pane $mol_view
 			view_rect => content_view_rect
 			style *
 				transform <= transform \
-		<= Pane $mol_plot_pane
-			gap_hor 0
-			gap_vert 0
-			allow_draw false
-			shift_limit => shift_limit
-			shift? <=> shift? $mol_vector_2d<number> /
-				0
-				0
-			zoom? <=> zoom? 1
-			style *
-				pointerEvents <= pane_pointer_events \
 		^ select_rect /
 			<= Select_rect $mol_view
 				style *
@@ -55,4 +55,6 @@ $shm_hitalama_board_pane $mol_view
 	event *
 		^
 		pointermove? <=> pointer_move? null
+		pointerdown? <=> pointer_down? null
+		pointerup? <=> pointer_up? null
 		wheel? <=> wheel? null

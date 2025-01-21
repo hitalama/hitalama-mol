@@ -171,13 +171,20 @@ namespace $.$$ {
 			blocks.forEach( b => this.selected( b.ref(), false ) )
 		}
 
+		back_event_pointerdown_last?: PointerEvent
 		back_event_pointerdown( event: PointerEvent ) {
+			this.back_event_pointerdown_last = event
 			this.deselect_all()
 			this.select_start( event )
 		}
 
 		back_event_contextmenu( event: PointerEvent ) {
 			event.preventDefault()
+
+			if( !this.back_event_pointerdown_last
+				|| is_panning( this.back_event_pointerdown_last, event )
+			) return
+			
 			this.contextmenu_body( [ this.Back_contextmenu_body() ] )
 			this.contextmenu_pos( [event.offsetX, event.offsetY] )
 			this.contextmenu_showed( true )
@@ -187,7 +194,6 @@ namespace $.$$ {
 		block_event_contextmenu( ref: $hyoo_crus_ref, event?: PointerEvent ) {
 			const Body = this.Block_contextmenu_body( ref )
 			if( !Body ) return
-			event!.preventDefault()
 			this.contextmenu_body( [ Body ] )
 			this.contextmenu_pos( this.client_pos_to_pane_pos( [event!.clientX, event!.clientY] ) )
 			this.contextmenu_showed( true )
@@ -374,6 +380,17 @@ namespace $.$$ {
 				} ),
 			)
 		}
+
+	}
+
+	function is_panning( start: PointerEvent, end: PointerEvent ) {
+
+		if( end.timeStamp - start?.timeStamp > 500
+			|| Math.abs(end.x - start?.x) > 10
+			|| Math.abs(end.y - start?.y) > 10
+		) return true
+
+		return false
 
 	}
 

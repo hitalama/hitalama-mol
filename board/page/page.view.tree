@@ -45,6 +45,7 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 		<= Pane
 	contextmenu_body? /
 	get_pointer_pos /
+	contextmenu_real_pos /
 	Back_contextmenu_body $mol_list
 		sub /
 			<= Text_add $mol_button_minor
@@ -105,5 +106,5 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 					has_scrollbar => has_scrollbar* false
 					editing? => editing*? false
 					drags_synced <= drags_synced* /$shm_hitalama_drag
-					event_contextmenu? <=> block_event_contextmenu*? null
+					on_contextmenu? <=> block_event_contextmenu*? null
 					Contextmenu_body => Block_contextmenu_body* /

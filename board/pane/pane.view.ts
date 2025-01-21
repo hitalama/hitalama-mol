@@ -3,6 +3,8 @@ namespace $.$$ {
 	export class $shm_hitalama_board_pane extends $.$shm_hitalama_board_pane {
 
 		select_start( event: PointerEvent ) {
+			if( event?.button == 2 ) return
+
 			this.selecting( true )
 			this.select_rect_start_x( event.clientX )
 			this.select_rect_start_y( event.clientY )
@@ -33,6 +35,28 @@ namespace $.$$ {
 		pointer_client_pos: [ number, number ] = [ 0, 0 ]
 		pointer_move( event?: PointerEvent ) {
 			this.pointer_client_pos = [ event!.clientX, event!.clientY ]
+		}
+
+		pointer_down( event?: PointerEvent ) {
+			if( event?.button == 2 ) {
+				this.viewport_shifting( true )
+			}
+		}
+
+		ctrl_pressed( next?: boolean ): boolean {
+			return this.viewport_shifting( next )
+		}
+
+		allow_zoom() {
+			return this.viewport_shifting() ? true : false
+		}
+
+		pointer_up( event?: PointerEvent ) {
+			if( event?.button == 2 ) this.viewport_shifting( false )
+		}
+
+		pane_contextmenu( event?: PointerEvent ) {
+			event?.preventDefault()
 		}
 
 		pointer_pos(): readonly ( any )[] {
@@ -154,7 +178,7 @@ namespace $.$$ {
 		}
 
 		wheel( event: WheelEvent ) {
-			if( this.ctrl_pressed() ) return
+			if( this.viewport_shifting() ) return
 			if( this.prevent_zoom() ) return
 
 			const shift = this.shift()
@@ -168,12 +192,7 @@ namespace $.$$ {
 
 		@ $mol_mem
 		content_pointer_events(): string {
-			return this.ctrl_pressed() ? 'none' : 'auto'
-		}
-
-		@ $mol_mem
-		pane_pointer_events(): string {
-			return this.ctrl_pressed() ? 'auto' : 'none'
+			return this.viewport_shifting() ? 'none' : 'auto'
 		}
 
 	}

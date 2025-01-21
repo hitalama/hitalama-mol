@@ -19,7 +19,7 @@ namespace $.$$ {
 			obj.selected = (next) => this.selected(next)
 			obj.hovered = (next) => this.hovered(next)
 			obj.drags_synced = () => this.drags_synced()
-			obj.event_contextmenu = (next) => this.event_contextmenu(next)
+			obj.on_contextmenu = (next) => this.on_contextmenu(next)
 			obj.zoom = () => this.zoom()
 
 			return obj

@@ -72,8 +72,10 @@ $shm_hitalama_board_block_float $shm_hitalama_resize_ratio
 	event *
 		^
 		contextmenu? <=> event_contextmenu? null
+		pointerdown? <=> pointerdown? null
 		pointerenter? <=> pointerenter? null
 		pointerleave? <=> pointerleave? null
+	on_contextmenu? null
 	hovered? false
 	Contextmenu_body null
 	attr *
