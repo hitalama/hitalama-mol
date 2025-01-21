@@ -13,7 +13,7 @@ $shm_hitalama_board_block_text $shm_hitalama_board_block_float
 	drag_body /
 		^ blocker / <= Blocker $mol_view
 			event *
-				pointerdown? <=> pointerdown? null
-				pointerup? <=> pointerup? null
+				pointerdown? <=> blocker_pointerdown? null
+				pointerup? <=> blocker_pointerup? null
 		^ image / <= Image $mol_image
 			uri <= image_uri \

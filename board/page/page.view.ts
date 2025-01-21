@@ -215,8 +215,7 @@ namespace $.$$ {
 
 		@ $mol_action
 		text_add() {
-			const block = this.board().block_add( 'text', this.contextmenu_real_pos() )
-			block?.Text(null)?.value( 'text' )
+			const block = this.board().text_add( this.contextmenu_real_pos() )
 			this.contextmenu_showed( false )
 			return block
 		}
@@ -299,8 +298,7 @@ namespace $.$$ {
 		@ $mol_action
 		paste_text( text: string ) {
 			const pos =  this.get_pointer_pos()
-			const block = this.board().block_add( 'text', pos )
-			block?.Text(null)?.value( text )
+			const block = this.board().text_add( pos, text )
 			return block
 		}
 

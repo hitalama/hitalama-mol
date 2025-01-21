@@ -5,6 +5,9 @@ namespace $ {
 		Blocks: $hyoo_crus_list_ref_to( ()=> $shm_hitalama_board_block ),
 		Block_by_name: $hyoo_crus_dict_to( $hyoo_crus_atom_ref_to( ()=> $shm_hitalama_board_block ) ),
 
+		Last_color: $hyoo_crus_atom_str,
+		Last_font_size: $hyoo_crus_atom_real,
+
 		Search_statistics: $hyoo_crus_list_ref_to( ()=> $shm_hitalama_board_form ),
 
 		Files: $hyoo_crus_list_ref_to( ()=> $shm_hitalama_file ),
@@ -50,6 +53,20 @@ namespace $ {
 		) {
 			const block = this.block_add( 'table', pos, right_x, bottom_x, name )
 			block?.table().Block(null)?.remote( block )
+			return block
+		}
+
+		@ $mol_action
+		text_add( 
+			pos: readonly [number, number] | readonly number[] = [0,0],
+			text = 'text',
+			right_x = 200, bottom_x = 100,
+		) {
+			const block = this.block_add( 'text', pos, right_x, bottom_x )
+			block?.table().Block(null)?.remote( block )
+			block?.Text(null)?.value( text )
+			block?.Font_size(null)?.val( this.Last_font_size()?.val() )
+			block?.Color(null)?.val( this.Last_color()?.val() )
 			return block
 		}
 

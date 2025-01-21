@@ -71,6 +71,10 @@ namespace $.$$ {
 		Font_size: {
 			width: '4rem',
 		},
+		Font_size_tool: {
+			flex: 'none',
+			alignSelf: 'auto',
+		},
 		Inc_dec: {
 			flex: {
 				direction: 'column',

@@ -20,15 +20,15 @@ namespace $.$$ {
 			return this.block().Text( next )?.text( next ) ?? ''
 		}
 
-		pointerdown_event?: PointerEvent
-		pointerdown( next?: any ) {
-			this.pointerdown_event = this.selected() ? next : undefined
+		blocker_pointerdown_last?: PointerEvent
+		blocker_pointerdown( next?: any ) {
+			this.blocker_pointerdown_last = this.selected() ? next : undefined
 		}
-		pointerup( next?: any ) {
-			if( !this.pointerdown_event ) return
-			const { x, y } = this.pointerdown_event
+		blocker_pointerup( next?: any ) {
+			if( !this.blocker_pointerdown_last ) return
+			const { x, y } = this.blocker_pointerdown_last
 
-			if( Math.abs( x - next.x ) < 5 && Math.abs( x - next.x ) < 5 ) {
+			if( Math.abs( x - next.x ) < 5 && Math.abs( y - next.y ) < 5 ) {
 				this.editing( true )
 				this.Text().Edit().focused(true)
 				;( this.Text().Edit().dom_node_actual() as HTMLTextAreaElement ).select()

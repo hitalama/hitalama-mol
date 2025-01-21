@@ -55,7 +55,8 @@ namespace $.$$ {
 
 		@ $mol_mem
 		font_size( next?: number ) {
-			return this.block().Font_size(next)?.val(next) ?? 16
+			this.board().Last_font_size(null)?.val(next)
+			return this.block().Font_size(next)?.val(next) ?? 14
 		}
 
 		@ $mol_mem
@@ -69,8 +70,29 @@ namespace $.$$ {
 			return this.font_size() + 'px'
 		}
 
+		font_size_inc() {
+			const current = this.font_size()
+			const options = this.font_size_options()
+			const next = options.find( n => n > current )
+			if( next ) this.font_size( next )
+		}
+
+		font_size_dec() {
+			const current = this.font_size()
+			const options = this.font_size_options()
+			const next = options.findLast( n => n < current )
+			if( next ) this.font_size( next )
+		}
+
+		font_size_selected( next?: string ): string {
+			if( next ) this.font_size( Number( next ) )
+			return next ?? ''
+		}
+
 		@ $mol_mem
 		color( next?: string ) {
+			this.board().Last_color(null)?.val(next)
+			
 			if( next === undefined ) return this.block().Color()?.val() || 'var(--mol_theme_text)'
 			const color = next || 'var(--mol_theme_text)'
 			return this.block().Color(null)?.val(color)!
