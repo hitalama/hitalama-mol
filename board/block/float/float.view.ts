@@ -70,6 +70,10 @@ namespace $.$$ {
 			return this.font_size() + 'px'
 		}
 
+		font_size_suggests(): readonly ( string )[] {
+			return this.font_size_options().map( n => n.toString() )
+		}
+
 		font_size_inc() {
 			const current = this.font_size()
 			const options = this.font_size_options()

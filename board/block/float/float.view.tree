@@ -13,6 +13,18 @@ $shm_hitalama_board_block_float $shm_hitalama_resize_ratio
 	auto /
 		^
 		<= editing? false
+	font_size_options /number
+		10
+		12
+		14
+		18
+		24
+		36
+		48
+		64
+		80
+		144
+		288
 	toolbar /
 		<= Toolbar $mol_view
 			style *
@@ -27,6 +39,7 @@ $shm_hitalama_board_block_float $shm_hitalama_resize_ratio
 				^ font_tools /
 					<= Color $shm_hitalama_color_pick
 						color? <=> color? \var(--mol_theme_text)
+						hint \Цвет текста
 					<= Font_size_tool $mol_search
 						query? <=> font_size_selected? \
 						anchor_content /
@@ -35,7 +48,7 @@ $shm_hitalama_board_block_float $shm_hitalama_resize_ratio
 								value? <=> font_size? 14
 								Dec null
 								Inc null
-						suggests /string
+						suggests <= font_size_suggests /string
 							\10
 							\12
 							\14
