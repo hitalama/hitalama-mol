@@ -3,6 +3,7 @@ namespace $ {
 	export class $shm_hitalama_board extends $hyoo_crus_entity.with({
 
 		Blocks: $hyoo_crus_list_ref_to( ()=> $shm_hitalama_board_block ),
+		Block_by_name: $hyoo_crus_dict_to( $hyoo_crus_atom_ref_to( ()=> $shm_hitalama_board_block ) ),
 
 		Search_statistics: $hyoo_crus_list_ref_to( ()=> $shm_hitalama_board_form ),
 
@@ -18,12 +19,20 @@ namespace $ {
 		}
 
 		@ $mol_action
-		block_add( 
+		block_add(
 			type: (typeof $shm_hitalama_board_block_types)[number], 
 			pos: readonly [number, number] | readonly number[] = [0,0],
 			right_x = 200, bottom_x = 100,
+			name?: string,
 		) {
+			if( name && this.Block_by_name(null)?.key( name ) ) {
+				return this.Block_by_name(null)?.key( name ).remote()
+			}
+
 			const block = this.Blocks(null)?.make( this.land() )
+			const title = name || block?.ref().description?.toString()!
+			this.Block_by_name(null)?.key( title, 'auto' ).remote( block )
+			block?.title(title)
 			block?.Board(null)?.remote( this )
 			block?.Type(null)?.val( type )
 			block?.Body_x(null)?.val( pos[0] )
@@ -37,8 +46,9 @@ namespace $ {
 		table_add( 
 			pos: readonly [number, number] | readonly number[] = [0,0],
 			right_x = 200, bottom_x = 100,
+			name?: string,
 		) {
-			const block = this.block_add( 'table', pos, right_x, bottom_x )
+			const block = this.block_add( 'table', pos, right_x, bottom_x, name )
 			block?.table().Block(null)?.remote( block )
 			return block
 		}

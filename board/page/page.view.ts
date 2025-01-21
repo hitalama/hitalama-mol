@@ -238,6 +238,11 @@ namespace $.$$ {
 		}
 
 		@ $mol_action
+		guid_sync() {
+			return $mol_guid()
+		}
+
+		@ $mol_action
 		form_add() {
 			const form_pos = this.contextmenu_real_pos()
 			const form = this.board().block_add( 'form', form_pos, 450, 780 )
@@ -250,6 +255,7 @@ namespace $.$$ {
 			const code_pos = [ form_pos[0], form_pos[1] + 790 ] as const
 			const code = this.board().block_add( 'code', code_pos, 1220, 680 )
 			const code_str = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( '/shm/hitalama/board/snippets/_table.js' ) )
+				.replace( 'BLOCK_TITLE', `'${ 'Table_' + this.guid_sync() }'` )
 			code?.Text(null)?.value( code_str )
 
 			this.contextmenu_showed( false )
