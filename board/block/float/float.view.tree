@@ -49,17 +49,6 @@ $shm_hitalama_board_block_float $shm_hitalama_resize_ratio
 								Dec null
 								Inc null
 						suggests <= font_size_suggests /string
-							\10
-							\12
-							\14
-							\18
-							\24
-							\36
-							\48
-							\64
-							\80
-							\144
-							\288
 					<= Inc_dec $mol_view
 						sub /
 							<= Inc $mol_button_minor
