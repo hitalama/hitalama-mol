@@ -27246,19 +27246,7 @@ var $;
 			return obj;
 		}
 		font_size_suggests(){
-			return [
-				"10", 
-				"12", 
-				"14", 
-				"18", 
-				"24", 
-				"36", 
-				"48", 
-				"64", 
-				"80", 
-				"144", 
-				"288"
-			];
+			return [];
 		}
 		Font_size_tool(){
 			const obj = new this.$.$mol_search();
