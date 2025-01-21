@@ -11,11 +11,14 @@ namespace $.$$ {
 		}
 
 		date_from( next?: string ) {
-			return this.form().Date_from(next)?.val(next) ?? ''
+			const now = new $mol_time_moment
+			const shifted = now.shift({ year: -1, day: -now.day! })
+			return this.form().Date_from(next)?.val(next) ?? shifted.toString('YYYY-MM-DD')
 		}
 
 		date_to( next?: string ) {
-			return this.form().Date_to(next)?.val(next) ?? ''
+			const now = new $mol_time_moment
+			return this.form().Date_to(next)?.val(next) ?? now.toString('YYYY-MM-DD')
 		}
 
 		country( next?: string ) {
