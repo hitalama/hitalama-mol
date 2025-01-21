@@ -2318,6 +2318,18 @@ $shm_hitalama_board_block_float $shm_hitalama_resize_ratio
 	auto /
 		^
 		<= editing? false
+	font_size_options /number
+		10
+		12
+		14
+		18
+		24
+		36
+		48
+		64
+		80
+		144
+		288
 	toolbar /
 		<= Toolbar $mol_view
 			style *
@@ -2332,24 +2344,38 @@ $shm_hitalama_board_block_float $shm_hitalama_resize_ratio
 				^ font_tools /
 					<= Color $shm_hitalama_color_pick
 						color? <=> color? \var(--mol_theme_text)
-					<= Font_size $mol_number
-						minimal_width 64
-						value? <=> font_size? 10
-						event_dec? => font_size_dec?
-						event_inc? => font_size_inc?
-						Dec null
-						Inc null
+						hint \Цвет текста
+					<= Font_size_tool $mol_search
+						query? <=> font_size_selected? \
+						anchor_content /
+							<= Font_size $mol_number
+								minimal_width 64
+								value? <=> font_size? 14
+								Dec null
+								Inc null
+						suggests <= font_size_suggests /string
+							\10
+							\12
+							\14
+							\18
+							\24
+							\36
+							\48
+							\64
+							\80
+							\144
+							\288
 					<= Inc_dec $mol_view
 						sub /
 							<= Inc $mol_button_minor
 								minimal_height 20
 								minimal_width 20
-								event_click? <=> font_size_inc?
+								event_click? <=> font_size_inc? null
 								sub / <= inc_icon $mol_icon_chevron_up
 							<= Dec $mol_button_minor
 								minimal_height 20
 								minimal_width 20
-								event_click? <=> font_size_dec?
+								event_click? <=> font_size_dec? null
 								sub / <= dec_icon $mol_icon_chevron_down
 				<= Top $mol_button_minor 
 					sub /
@@ -2439,8 +2465,8 @@ $shm_hitalama_board_block_text $shm_hitalama_board_block_float
 	drag_body /
 		^ blocker / <= Blocker $mol_view
 			event *
-				pointerdown? <=> pointerdown? null
-				pointerup? <=> pointerup? null
+				pointerdown? <=> blocker_pointerdown? null
+				pointerup? <=> blocker_pointerup? null
 		^ image / <= Image $mol_image
 			uri <= image_uri \
 

@@ -9886,6 +9886,8 @@ declare namespace $ {
             [Symbol.toStringTag]: string;
             [$mol_ambient_ref]: $;
         } | null;
+        readonly Last_color: (auto?: any) => $hyoo_crus_atom_str | null;
+        readonly Last_font_size: (auto?: any) => $hyoo_crus_atom_real | null;
         readonly Search_statistics: (auto?: any) => {
             remote_list(next?: readonly $shm_hitalama_board_form[] | undefined): readonly $shm_hitalama_board_form[];
             remote_add(item: $shm_hitalama_board_form): void;
@@ -10216,6 +10218,8 @@ declare namespace $ {
                 destructor(): void;
                 [Symbol.toPrimitive](): any;
             };
+            readonly Last_color: typeof $hyoo_crus_atom_str;
+            readonly Last_font_size: typeof $hyoo_crus_atom_real;
             readonly Search_statistics: {
                 new (): {
                     remote_list(next?: readonly $shm_hitalama_board_form[] | undefined): readonly $shm_hitalama_board_form[];
@@ -10341,6 +10345,7 @@ declare namespace $ {
         block(ref: string): $shm_hitalama_board_block;
         block_add(type: (typeof $shm_hitalama_board_block_types)[number], pos?: readonly [number, number] | readonly number[], right_x?: number, bottom_x?: number, name?: string): $shm_hitalama_board_block | null | undefined;
         table_add(pos?: readonly [number, number] | readonly number[], right_x?: number, bottom_x?: number, name?: string): $shm_hitalama_board_block | null | undefined;
+        text_add(pos?: readonly [number, number] | readonly number[], text?: string, right_x?: number, bottom_x?: number): $shm_hitalama_board_block | null | undefined;
         search_statistics(): readonly $shm_hitalama_board_form[];
     }
     export {};
@@ -16177,124 +16182,189 @@ declare namespace $ {
 		,
 		ReturnType< $shm_hitalama_color_pick['color'] >
 	>
-	type __shm_hitalama_board_block_float_3 = $mol_type_enforce<
-		Parameters< $shm_hitalama_board_block_float['font_size_dec'] >[0]
+	type $shm_hitalama_color_pick__hint_shm_hitalama_board_block_float_3 = $mol_type_enforce<
+		string
 		,
-		Parameters< ReturnType< $shm_hitalama_board_block_float['Font_size'] >['event_dec'] >[0]
+		ReturnType< $shm_hitalama_color_pick['hint'] >
 	>
-	type __shm_hitalama_board_block_float_4 = $mol_type_enforce<
-		Parameters< $shm_hitalama_board_block_float['font_size_inc'] >[0]
-		,
-		Parameters< ReturnType< $shm_hitalama_board_block_float['Font_size'] >['event_inc'] >[0]
-	>
-	type $mol_number__minimal_width_shm_hitalama_board_block_float_5 = $mol_type_enforce<
+	type $mol_number__minimal_width_shm_hitalama_board_block_float_4 = $mol_type_enforce<
 		number
 		,
 		ReturnType< $mol_number['minimal_width'] >
 	>
-	type $mol_number__value_shm_hitalama_board_block_float_6 = $mol_type_enforce<
+	type $mol_number__value_shm_hitalama_board_block_float_5 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_float['font_size'] >
 		,
 		ReturnType< $mol_number['value'] >
 	>
-	type $mol_number__Dec_shm_hitalama_board_block_float_7 = $mol_type_enforce<
+	type $mol_number__Dec_shm_hitalama_board_block_float_6 = $mol_type_enforce<
 		any
 		,
 		ReturnType< $mol_number['Dec'] >
 	>
-	type $mol_number__Inc_shm_hitalama_board_block_float_8 = $mol_type_enforce<
+	type $mol_number__Inc_shm_hitalama_board_block_float_7 = $mol_type_enforce<
 		any
 		,
 		ReturnType< $mol_number['Inc'] >
 	>
-	type $mol_button_minor__minimal_height_shm_hitalama_board_block_float_9 = $mol_type_enforce<
+	type $shm_hitalama_board_block_float_font_size_suggests__8 = $mol_type_enforce<
+		`10`
+		,
+		string
+	>
+	type $shm_hitalama_board_block_float_font_size_suggests__9 = $mol_type_enforce<
+		`12`
+		,
+		string
+	>
+	type $shm_hitalama_board_block_float_font_size_suggests__10 = $mol_type_enforce<
+		`14`
+		,
+		string
+	>
+	type $shm_hitalama_board_block_float_font_size_suggests__11 = $mol_type_enforce<
+		`18`
+		,
+		string
+	>
+	type $shm_hitalama_board_block_float_font_size_suggests__12 = $mol_type_enforce<
+		`24`
+		,
+		string
+	>
+	type $shm_hitalama_board_block_float_font_size_suggests__13 = $mol_type_enforce<
+		`36`
+		,
+		string
+	>
+	type $shm_hitalama_board_block_float_font_size_suggests__14 = $mol_type_enforce<
+		`48`
+		,
+		string
+	>
+	type $shm_hitalama_board_block_float_font_size_suggests__15 = $mol_type_enforce<
+		`64`
+		,
+		string
+	>
+	type $shm_hitalama_board_block_float_font_size_suggests__16 = $mol_type_enforce<
+		`80`
+		,
+		string
+	>
+	type $shm_hitalama_board_block_float_font_size_suggests__17 = $mol_type_enforce<
+		`144`
+		,
+		string
+	>
+	type $shm_hitalama_board_block_float_font_size_suggests__18 = $mol_type_enforce<
+		`288`
+		,
+		string
+	>
+	type $mol_search__query_shm_hitalama_board_block_float_19 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_float['font_size_selected'] >
+		,
+		ReturnType< $mol_search['query'] >
+	>
+	type $mol_search__anchor_content_shm_hitalama_board_block_float_20 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_search['anchor_content'] >
+	>
+	type $mol_search__suggests_shm_hitalama_board_block_float_21 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_float['font_size_suggests'] >
+		,
+		ReturnType< $mol_search['suggests'] >
+	>
+	type $mol_button_minor__minimal_height_shm_hitalama_board_block_float_22 = $mol_type_enforce<
 		number
 		,
 		ReturnType< $mol_button_minor['minimal_height'] >
 	>
-	type $mol_button_minor__minimal_width_shm_hitalama_board_block_float_10 = $mol_type_enforce<
+	type $mol_button_minor__minimal_width_shm_hitalama_board_block_float_23 = $mol_type_enforce<
 		number
 		,
 		ReturnType< $mol_button_minor['minimal_width'] >
 	>
-	type $mol_button_minor__event_click_shm_hitalama_board_block_float_11 = $mol_type_enforce<
+	type $mol_button_minor__event_click_shm_hitalama_board_block_float_24 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_float['font_size_inc'] >
 		,
 		ReturnType< $mol_button_minor['event_click'] >
 	>
-	type $mol_button_minor__sub_shm_hitalama_board_block_float_12 = $mol_type_enforce<
+	type $mol_button_minor__sub_shm_hitalama_board_block_float_25 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_button_minor['sub'] >
 	>
-	type $mol_button_minor__minimal_height_shm_hitalama_board_block_float_13 = $mol_type_enforce<
+	type $mol_button_minor__minimal_height_shm_hitalama_board_block_float_26 = $mol_type_enforce<
 		number
 		,
 		ReturnType< $mol_button_minor['minimal_height'] >
 	>
-	type $mol_button_minor__minimal_width_shm_hitalama_board_block_float_14 = $mol_type_enforce<
+	type $mol_button_minor__minimal_width_shm_hitalama_board_block_float_27 = $mol_type_enforce<
 		number
 		,
 		ReturnType< $mol_button_minor['minimal_width'] >
 	>
-	type $mol_button_minor__event_click_shm_hitalama_board_block_float_15 = $mol_type_enforce<
+	type $mol_button_minor__event_click_shm_hitalama_board_block_float_28 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_float['font_size_dec'] >
 		,
 		ReturnType< $mol_button_minor['event_click'] >
 	>
-	type $mol_button_minor__sub_shm_hitalama_board_block_float_16 = $mol_type_enforce<
+	type $mol_button_minor__sub_shm_hitalama_board_block_float_29 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_button_minor['sub'] >
 	>
-	type $mol_view__sub_shm_hitalama_board_block_float_17 = $mol_type_enforce<
+	type $mol_view__sub_shm_hitalama_board_block_float_30 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_view['sub'] >
 	>
-	type $mol_button_minor__sub_shm_hitalama_board_block_float_18 = $mol_type_enforce<
+	type $mol_button_minor__sub_shm_hitalama_board_block_float_31 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_button_minor['sub'] >
 	>
-	type $mol_button_minor__click_shm_hitalama_board_block_float_19 = $mol_type_enforce<
+	type $mol_button_minor__click_shm_hitalama_board_block_float_32 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_float['to_top'] >
 		,
 		ReturnType< $mol_button_minor['click'] >
 	>
-	type $mol_button_minor__sub_shm_hitalama_board_block_float_20 = $mol_type_enforce<
+	type $mol_button_minor__sub_shm_hitalama_board_block_float_33 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_button_minor['sub'] >
 	>
-	type $mol_button_minor__click_shm_hitalama_board_block_float_21 = $mol_type_enforce<
+	type $mol_button_minor__click_shm_hitalama_board_block_float_34 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_float['to_bottom'] >
 		,
 		ReturnType< $mol_button_minor['click'] >
 	>
-	type $mol_button_minor__hint_shm_hitalama_board_block_float_22 = $mol_type_enforce<
+	type $mol_button_minor__hint_shm_hitalama_board_block_float_35 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_button_minor['hint'] >
 	>
-	type $mol_button_minor__sub_shm_hitalama_board_block_float_23 = $mol_type_enforce<
+	type $mol_button_minor__sub_shm_hitalama_board_block_float_36 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_button_minor['sub'] >
 	>
-	type $mol_button_minor__click_shm_hitalama_board_block_float_24 = $mol_type_enforce<
+	type $mol_button_minor__click_shm_hitalama_board_block_float_37 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_float['delete'] >
 		,
 		ReturnType< $mol_button_minor['click'] >
 	>
-	type $mol_view__style_shm_hitalama_board_block_float_25 = $mol_type_enforce<
+	type $mol_view__style_shm_hitalama_board_block_float_38 = $mol_type_enforce<
 		({ 
 			'transform': ReturnType< $shm_hitalama_board_block_float['toolbar_transform'] >,
 		}) 
 		,
 		ReturnType< $mol_view['style'] >
 	>
-	type $mol_view__sub_shm_hitalama_board_block_float_26 = $mol_type_enforce<
+	type $mol_view__sub_shm_hitalama_board_block_float_39 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_float['tools'] >
 		,
 		ReturnType< $mol_view['sub'] >
@@ -16307,12 +16377,15 @@ declare namespace $ {
 		toolbar_transform( ): string
 		color( next?: string ): string
 		Color( ): $shm_hitalama_color_pick
+		font_size_selected( next?: string ): string
 		font_size( next?: number ): number
-		font_size_dec( next?: ReturnType< ReturnType< $shm_hitalama_board_block_float['Font_size'] >['event_dec'] > ): ReturnType< ReturnType< $shm_hitalama_board_block_float['Font_size'] >['event_dec'] >
-		font_size_inc( next?: ReturnType< ReturnType< $shm_hitalama_board_block_float['Font_size'] >['event_inc'] > ): ReturnType< ReturnType< $shm_hitalama_board_block_float['Font_size'] >['event_inc'] >
 		Font_size( ): $mol_number
+		font_size_suggests( ): readonly(string)[]
+		Font_size_tool( ): $mol_search
+		font_size_inc( next?: any ): any
 		inc_icon( ): $mol_icon_chevron_up
 		Inc( ): $mol_button_minor
+		font_size_dec( next?: any ): any
 		dec_icon( ): $mol_icon_chevron_down
 		Dec( ): $mol_button_minor
 		Inc_dec( ): $mol_view
@@ -16343,6 +16416,7 @@ declare namespace $ {
 		zoom( ): number
 		sub( ): readonly(any)[]
 		auto( ): readonly(any)[]
+		font_size_options( ): readonly(number)[]
 		toolbar( ): readonly(any)[]
 		opacity( next?: number ): number
 		has_scrollbar( ): boolean
@@ -16385,6 +16459,10 @@ declare namespace $.$$ {
         font_size(next?: number): number;
         font_tools(): readonly any[];
         font_size_px(): string;
+        font_size_suggests(): readonly (string)[];
+        font_size_inc(): void;
+        font_size_dec(): void;
+        font_size_selected(next?: string): string;
         color(next?: string): string;
         opacity_str(): string;
         edges(): readonly (any)[];
@@ -16536,8 +16614,8 @@ declare namespace $ {
 	>
 	type $mol_view__event_shm_hitalama_board_block_text_5 = $mol_type_enforce<
 		({ 
-			pointerdown( next?: ReturnType< $shm_hitalama_board_block_text['pointerdown'] > ): ReturnType< $shm_hitalama_board_block_text['pointerdown'] >,
-			pointerup( next?: ReturnType< $shm_hitalama_board_block_text['pointerup'] > ): ReturnType< $shm_hitalama_board_block_text['pointerup'] >,
+			pointerdown( next?: ReturnType< $shm_hitalama_board_block_text['blocker_pointerdown'] > ): ReturnType< $shm_hitalama_board_block_text['blocker_pointerdown'] >,
+			pointerup( next?: ReturnType< $shm_hitalama_board_block_text['blocker_pointerup'] > ): ReturnType< $shm_hitalama_board_block_text['blocker_pointerup'] >,
 		}) 
 		,
 		ReturnType< $mol_view['event'] >
@@ -16551,8 +16629,8 @@ declare namespace $ {
 		text( next?: string ): string
 		selection( next?: readonly(number)[] ): readonly(number)[]
 		Text( ): $mol_textarea
-		pointerdown( next?: any ): any
-		pointerup( next?: any ): any
+		blocker_pointerdown( next?: any ): any
+		blocker_pointerup( next?: any ): any
 		Blocker( ): $mol_view
 		blocker( ): readonly(any)[]
 		image_uri( ): string
@@ -16569,9 +16647,9 @@ declare namespace $.$$ {
     class $shm_hitalama_board_block_text extends $.$shm_hitalama_board_block_text {
         get $(): typeof $$;
         text(next?: string): string;
-        pointerdown_event?: PointerEvent;
-        pointerdown(next?: any): void;
-        pointerup(next?: any): void;
+        blocker_pointerdown_last?: PointerEvent;
+        blocker_pointerdown(next?: any): void;
+        blocker_pointerup(next?: any): void;
         editing(next?: boolean): boolean;
         blocker(): readonly (any)[];
         blob_uri(): Promise<string> | null;

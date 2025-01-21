@@ -17706,6 +17706,8 @@ var $;
     class $shm_hitalama_board extends $hyoo_crus_entity.with({
         Blocks: $hyoo_crus_list_ref_to(() => $shm_hitalama_board_block),
         Block_by_name: $hyoo_crus_dict_to($hyoo_crus_atom_ref_to(() => $shm_hitalama_board_block)),
+        Last_color: $hyoo_crus_atom_str,
+        Last_font_size: $hyoo_crus_atom_real,
         Search_statistics: $hyoo_crus_list_ref_to(() => $shm_hitalama_board_form),
         Files: $hyoo_crus_list_ref_to(() => $shm_hitalama_file),
         Description: $hyoo_crus_atom_str,
@@ -17734,6 +17736,14 @@ var $;
             block?.table().Block(null)?.remote(block);
             return block;
         }
+        text_add(pos = [0, 0], text = 'text', right_x = 200, bottom_x = 100) {
+            const block = this.block_add('text', pos, right_x, bottom_x);
+            block?.table().Block(null)?.remote(block);
+            block?.Text(null)?.value(text);
+            block?.Font_size(null)?.val(this.Last_font_size()?.val());
+            block?.Color(null)?.val(this.Last_color()?.val());
+            return block;
+        }
         search_statistics() {
             return this.Search_statistics()?.remote_list() ?? [];
         }
@@ -17747,6 +17757,9 @@ var $;
     __decorate([
         $mol_action
     ], $shm_hitalama_board.prototype, "table_add", null);
+    __decorate([
+        $mol_action
+    ], $shm_hitalama_board.prototype, "text_add", null);
     __decorate([
         $mol_mem
     ], $shm_hitalama_board.prototype, "search_statistics", null);
@@ -27213,17 +27226,16 @@ var $;
 		Color(){
 			const obj = new this.$.$shm_hitalama_color_pick();
 			(obj.color) = (next) => ((this.color(next)));
+			(obj.hint) = () => ("Цвет текста");
 			return obj;
+		}
+		font_size_selected(next){
+			if(next !== undefined) return next;
+			return "";
 		}
 		font_size(next){
 			if(next !== undefined) return next;
-			return 10;
-		}
-		font_size_dec(next){
-			return (this.Font_size().event_dec(next));
-		}
-		font_size_inc(next){
-			return (this.Font_size().event_inc(next));
+			return 14;
 		}
 		Font_size(){
 			const obj = new this.$.$mol_number();
@@ -27232,6 +27244,32 @@ var $;
 			(obj.Dec) = () => (null);
 			(obj.Inc) = () => (null);
 			return obj;
+		}
+		font_size_suggests(){
+			return [
+				"10", 
+				"12", 
+				"14", 
+				"18", 
+				"24", 
+				"36", 
+				"48", 
+				"64", 
+				"80", 
+				"144", 
+				"288"
+			];
+		}
+		Font_size_tool(){
+			const obj = new this.$.$mol_search();
+			(obj.query) = (next) => ((this.font_size_selected(next)));
+			(obj.anchor_content) = () => ([(this.Font_size())]);
+			(obj.suggests) = () => ((this.font_size_suggests()));
+			return obj;
+		}
+		font_size_inc(next){
+			if(next !== undefined) return next;
+			return null;
 		}
 		inc_icon(){
 			const obj = new this.$.$mol_icon_chevron_up();
@@ -27244,6 +27282,10 @@ var $;
 			(obj.event_click) = (next) => ((this.font_size_inc(next)));
 			(obj.sub) = () => ([(this.inc_icon())]);
 			return obj;
+		}
+		font_size_dec(next){
+			if(next !== undefined) return next;
+			return null;
 		}
 		dec_icon(){
 			const obj = new this.$.$mol_icon_chevron_down();
@@ -27265,7 +27307,7 @@ var $;
 		font_tools(){
 			return [
 				(this.Color()), 
-				(this.Font_size()), 
+				(this.Font_size_tool()), 
 				(this.Inc_dec())
 			];
 		}
@@ -27386,6 +27428,21 @@ var $;
 		auto(){
 			return [...(super.auto()), (this.editing())];
 		}
+		font_size_options(){
+			return [
+				10, 
+				12, 
+				14, 
+				18, 
+				24, 
+				36, 
+				48, 
+				64, 
+				80, 
+				144, 
+				288
+			];
+		}
 		toolbar(){
 			return [(this.Toolbar())];
 		}
@@ -27438,10 +27495,14 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "editing"));
 	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "color"));
 	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "Color"));
+	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "font_size_selected"));
 	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "font_size"));
 	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "Font_size"));
+	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "Font_size_tool"));
+	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "font_size_inc"));
 	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "inc_icon"));
 	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "Inc"));
+	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "font_size_dec"));
 	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "dec_icon"));
 	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "Dec"));
 	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "Inc_dec"));
@@ -27513,7 +27574,8 @@ var $;
                 return this.block().Opacity(next)?.val(next) ?? 1;
             }
             font_size(next) {
-                return this.block().Font_size(next)?.val(next) ?? 16;
+                this.board().Last_font_size(null)?.val(next);
+                return this.block().Font_size(next)?.val(next) ?? 14;
             }
             font_tools() {
                 const text = this.block().Text()?.value() || '';
@@ -27522,7 +27584,30 @@ var $;
             font_size_px() {
                 return this.font_size() + 'px';
             }
+            font_size_suggests() {
+                return this.font_size_options().map(n => n.toString());
+            }
+            font_size_inc() {
+                const current = this.font_size();
+                const options = this.font_size_options();
+                const next = options.find(n => n > current);
+                if (next)
+                    this.font_size(next);
+            }
+            font_size_dec() {
+                const current = this.font_size();
+                const options = this.font_size_options();
+                const next = options.findLast(n => n < current);
+                if (next)
+                    this.font_size(next);
+            }
+            font_size_selected(next) {
+                if (next)
+                    this.font_size(Number(next));
+                return next ?? '';
+            }
             color(next) {
+                this.board().Last_color(null)?.val(next);
                 if (next === undefined)
                     return this.block().Color()?.val() || 'var(--mol_theme_text)';
                 const color = next || 'var(--mol_theme_text)';
@@ -27678,6 +27763,10 @@ var $;
             },
             Font_size: {
                 width: '4rem',
+            },
+            Font_size_tool: {
+                flex: 'none',
+                alignSelf: 'auto',
             },
             Inc_dec: {
                 flex: {
@@ -27991,17 +28080,17 @@ var $;
 			(obj.style) = () => ({"color": (this.color()), "fontSize": (this.font_size_px())});
 			return obj;
 		}
-		pointerdown(next){
+		blocker_pointerdown(next){
 			if(next !== undefined) return next;
 			return null;
 		}
-		pointerup(next){
+		blocker_pointerup(next){
 			if(next !== undefined) return next;
 			return null;
 		}
 		Blocker(){
 			const obj = new this.$.$mol_view();
-			(obj.event) = () => ({"pointerdown": (next) => (this.pointerdown(next)), "pointerup": (next) => (this.pointerup(next))});
+			(obj.event) = () => ({"pointerdown": (next) => (this.blocker_pointerdown(next)), "pointerup": (next) => (this.blocker_pointerup(next))});
 			return obj;
 		}
 		blocker(){
@@ -28033,8 +28122,8 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_block_text.prototype), "text"));
 	($mol_mem(($.$shm_hitalama_board_block_text.prototype), "selection"));
 	($mol_mem(($.$shm_hitalama_board_block_text.prototype), "Text"));
-	($mol_mem(($.$shm_hitalama_board_block_text.prototype), "pointerdown"));
-	($mol_mem(($.$shm_hitalama_board_block_text.prototype), "pointerup"));
+	($mol_mem(($.$shm_hitalama_board_block_text.prototype), "blocker_pointerdown"));
+	($mol_mem(($.$shm_hitalama_board_block_text.prototype), "blocker_pointerup"));
 	($mol_mem(($.$shm_hitalama_board_block_text.prototype), "Blocker"));
 	($mol_mem(($.$shm_hitalama_board_block_text.prototype), "Image"));
 
@@ -28077,15 +28166,15 @@ var $;
             text(next) {
                 return this.block().Text(next)?.text(next) ?? '';
             }
-            pointerdown_event;
-            pointerdown(next) {
-                this.pointerdown_event = this.selected() ? next : undefined;
+            blocker_pointerdown_last;
+            blocker_pointerdown(next) {
+                this.blocker_pointerdown_last = this.selected() ? next : undefined;
             }
-            pointerup(next) {
-                if (!this.pointerdown_event)
+            blocker_pointerup(next) {
+                if (!this.blocker_pointerdown_last)
                     return;
-                const { x, y } = this.pointerdown_event;
-                if (Math.abs(x - next.x) < 5 && Math.abs(x - next.x) < 5) {
+                const { x, y } = this.blocker_pointerdown_last;
+                if (Math.abs(x - next.x) < 5 && Math.abs(y - next.y) < 5) {
                     this.editing(true);
                     this.Text().Edit().focused(true);
                     this.Text().Edit().dom_node_actual().select();
@@ -32618,8 +32707,7 @@ var $;
                 return this.contextmenu_showed() ? super.contextmenu_visible() : [];
             }
             text_add() {
-                const block = this.board().block_add('text', this.contextmenu_real_pos());
-                block?.Text(null)?.value('text');
+                const block = this.board().text_add(this.contextmenu_real_pos());
                 this.contextmenu_showed(false);
                 return block;
             }
@@ -32681,8 +32769,7 @@ var $;
             }
             paste_text(text) {
                 const pos = this.get_pointer_pos();
-                const block = this.board().block_add('text', pos);
-                block?.Text(null)?.value(text);
+                const block = this.board().text_add(pos, text);
                 return block;
             }
             get_pointer_pos() {
