@@ -1970,6 +1970,21 @@ $mol_form_field $mol_labeler
 			sub / <= bid \
 	content / <= control null
 
+$mol_drop $mol_ghost
+	enabled? true
+	event *
+		dragenter?event <=> enter?event null
+		dragover?event <=> move?event null
+		dragleave?event <=> leave?event null
+		drop?event <=> drop?event null
+	attr * mol_drop_status <= status? \ready
+	adopt?transfer *
+	receive?transfer null
+	allow /
+		\copy
+		\move
+		\link
+
 $shm_hitalama_contextmenu $mol_view
 	sub /
 		<= Body $mol_list
@@ -2950,6 +2965,24 @@ $shm_hitalama_board_block_customdom $shm_hitalama_board_block_float
 			click? <=> add_code_block? null
 		<= Delete
 
+$shm_hitalama_board_block_file $shm_hitalama_board_block_float
+	sub /
+		<= Drag_view
+		^ edges
+		^ toolbar
+	font_tools /
+	drag_body /
+		<= Title $mol_paragraph
+			dom_name <= title_dom_name \h1
+			title <= name \
+	Contextmenu_body $mol_list
+		sub <= contextmenu_body /
+	contextmenu_for *any
+		csv /
+			<= Unpacking $mol_button_minor
+				title \Распаковка
+				click? <=> unpacking? null
+
 $shm_hitalama_board_block_any $mol_ghost
 	Sub $shm_hitalama_board_block_float
 		height => height
@@ -2983,6 +3016,7 @@ $shm_hitalama_board_block_any $mol_ghost
 		chart_settings <= Chart_settings $shm_hitalama_board_block_chart_settings
 		chart_filter <= Chart_filter $shm_hitalama_board_block_chart_filter
 		customdom <= Customdom $shm_hitalama_board_block_customdom
+		file <= File $shm_hitalama_board_block_file
 
 $shm_hitalama_board_touch $mol_touch
 
@@ -3098,9 +3132,9 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 				<= Scale $mol_button_minor
 					title <= scale_percent \100%
 					click? <=> reset_scale? null
-		<= Body
-	body_content /
-		<= Pane
+		<= Drop $mol_drop
+			Sub <= Pane
+			drop? <=> drop_file? null
 	contextmenu_body? /
 	get_pointer_pos /
 	contextmenu_real_pos /

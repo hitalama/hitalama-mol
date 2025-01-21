@@ -17954,6 +17954,7 @@ var $;
         'chart_settings',
         'chart_filter',
         'customdom',
+        'file',
     ];
     class $shm_hitalama_board_block_type extends $hyoo_crus_atom_enum($.$shm_hitalama_board_block_types) {
     }
@@ -17977,6 +17978,7 @@ var $;
         Table: $hyoo_crus_atom_ref_to(() => $shm_hitalama_board_table),
         Chart: $shm_hitalama_board_chart,
         Use_chart_from: $hyoo_crus_atom_ref_to(() => $shm_hitalama_board_block),
+        File: $hyoo_crus_atom_ref_to(() => $shm_hitalama_file),
     }) {
         text(next) {
             return this.Text(next)?.value(next) ?? '';
@@ -17996,6 +17998,9 @@ var $;
         table_rows(next) {
             return this.table()?.table_rows(next);
         }
+        file_str() {
+            return this.File()?.remote()?.File()?.remote()?.str();
+        }
     }
     __decorate([
         $mol_mem
@@ -18006,6 +18011,9 @@ var $;
     __decorate([
         $mol_mem
     ], $shm_hitalama_board_block.prototype, "table_rows", null);
+    __decorate([
+        $mol_mem
+    ], $shm_hitalama_board_block.prototype, "file_str", null);
     $.$shm_hitalama_board_block = $shm_hitalama_board_block;
 })($ || ($ = {}));
 
@@ -37335,6 +37343,138 @@ var $;
 })($ || ($ = {}));
 
 ;
+	($.$mol_drop) = class $mol_drop extends ($.$mol_ghost) {
+		enter(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		move(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		leave(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		drop(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		status(next){
+			if(next !== undefined) return next;
+			return "ready";
+		}
+		enabled(next){
+			if(next !== undefined) return next;
+			return true;
+		}
+		event(){
+			return {
+				"dragenter": (next) => (this.enter(next)), 
+				"dragover": (next) => (this.move(next)), 
+				"dragleave": (next) => (this.leave(next)), 
+				"drop": (next) => (this.drop(next))
+			};
+		}
+		attr(){
+			return {"mol_drop_status": (this.status())};
+		}
+		adopt(next){
+			if(next !== undefined) return next;
+			return {};
+		}
+		receive(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		allow(){
+			return [
+				"copy", 
+				"move", 
+				"link"
+			];
+		}
+	};
+	($mol_mem(($.$mol_drop.prototype), "enter"));
+	($mol_mem(($.$mol_drop.prototype), "move"));
+	($mol_mem(($.$mol_drop.prototype), "leave"));
+	($mol_mem(($.$mol_drop.prototype), "drop"));
+	($mol_mem(($.$mol_drop.prototype), "status"));
+	($mol_mem(($.$mol_drop.prototype), "enabled"));
+	($mol_mem(($.$mol_drop.prototype), "adopt"));
+	($mol_mem(($.$mol_drop.prototype), "receive"));
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $mol_drop extends $.$mol_drop {
+            status(next = 'ready') { return next; }
+            _target = null;
+            enter(event) {
+                if (event.defaultPrevented)
+                    return;
+                if (!this.enabled())
+                    return;
+                const action = this.decide_action(event);
+                event.dataTransfer.dropEffect = action;
+                if (action !== 'none')
+                    this.status('drag');
+                this._target = event.target;
+                event.preventDefault();
+            }
+            move(event) {
+                if (event.defaultPrevented)
+                    return;
+                if (!this.enabled())
+                    return;
+                event.dataTransfer.dropEffect = this.decide_action(event);
+                event.preventDefault();
+            }
+            decide_action(event) {
+                const allow = this.allow();
+                if (allow.includes('move') && event.shiftKey)
+                    return 'move';
+                else if (allow.includes('copy') && event.ctrlKey)
+                    return 'copy';
+                else if (allow.includes('link') && event.altKey)
+                    return 'link';
+                else
+                    return allow[0];
+            }
+            leave(event) {
+                if (this._target === event.target) {
+                    this.status('ready');
+                }
+            }
+            receive(transfer) {
+                return transfer;
+            }
+            drop(event) {
+                if (event.defaultPrevented)
+                    return;
+                event.preventDefault();
+                setTimeout(() => this.status('ready'));
+                const obj = this.adopt(event.dataTransfer);
+                if (!obj)
+                    return;
+                this.receive(obj);
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $mol_drop.prototype, "status", null);
+        $$.$mol_drop = $mol_drop;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
 	($.$shm_hitalama_contextmenu) = class $shm_hitalama_contextmenu extends ($.$mol_view) {
 		body(){
 			return [];
@@ -43148,6 +43288,107 @@ var $;
 })($ || ($ = {}));
 
 ;
+	($.$shm_hitalama_board_block_file) = class $shm_hitalama_board_block_file extends ($.$shm_hitalama_board_block_float) {
+		title_dom_name(){
+			return "h1";
+		}
+		name(){
+			return "";
+		}
+		Title(){
+			const obj = new this.$.$mol_paragraph();
+			(obj.dom_name) = () => ((this.title_dom_name()));
+			(obj.title) = () => ((this.name()));
+			return obj;
+		}
+		contextmenu_body(){
+			return [];
+		}
+		unpacking(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Unpacking(){
+			const obj = new this.$.$mol_button_minor();
+			(obj.title) = () => ("Распаковка");
+			(obj.click) = (next) => ((this.unpacking(next)));
+			return obj;
+		}
+		sub(){
+			return [
+				(this.Drag_view()), 
+				...(this.edges()), 
+				...(this.toolbar())
+			];
+		}
+		font_tools(){
+			return [];
+		}
+		drag_body(){
+			return [(this.Title())];
+		}
+		Contextmenu_body(){
+			const obj = new this.$.$mol_list();
+			(obj.sub) = () => ((this.contextmenu_body()));
+			return obj;
+		}
+		contextmenu_for(){
+			return {"csv": [(this.Unpacking())]};
+		}
+	};
+	($mol_mem(($.$shm_hitalama_board_block_file.prototype), "Title"));
+	($mol_mem(($.$shm_hitalama_board_block_file.prototype), "unpacking"));
+	($mol_mem(($.$shm_hitalama_board_block_file.prototype), "Unpacking"));
+	($mol_mem(($.$shm_hitalama_board_block_file.prototype), "Contextmenu_body"));
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $shm_hitalama_board_block_file extends $.$shm_hitalama_board_block_file {
+            name() {
+                return this.block().File()?.remote()?.title() ?? '';
+            }
+            ext() {
+                return this.name().split('.').at(-1) ?? '';
+            }
+            contextmenu_body() {
+                return this.contextmenu_for()[this.ext()] ?? [];
+            }
+            unpacking() {
+                const pos = this.Board_page().get_pointer_pos();
+                const code = this.board().block_add('code', pos, 800, 400);
+                const code_str = this.$.$mol_fetch.text($shm_hitalama_app_ghpages_fix_link('/shm/hitalama/board/snippets/_table_from_csv.js'))
+                    .replace('BLOCK_ID', `'${this.block().ref().description?.toString()}'`);
+                code?.Text(null)?.value(code_str);
+                this.Board_page().contextmenu_showed(false);
+            }
+        }
+        $$.$shm_hitalama_board_block_file = $shm_hitalama_board_block_file;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        $mol_style_define($shm_hitalama_board_block_file, {
+            background: {
+                color: $mol_theme.card,
+            },
+        });
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
 	($.$shm_hitalama_board_block_any) = class $shm_hitalama_board_block_any extends ($.$mol_ghost) {
 		height(){
 			return (this.Sub().height());
@@ -43255,6 +43496,10 @@ var $;
 			const obj = new this.$.$shm_hitalama_board_block_customdom();
 			return obj;
 		}
+		File(){
+			const obj = new this.$.$shm_hitalama_board_block_file();
+			return obj;
+		}
 		Sub(){
 			const obj = new this.$.$shm_hitalama_board_block_float();
 			(obj.block) = () => ((this.block()));
@@ -43283,7 +43528,8 @@ var $;
 				"chart": (this.Chart()), 
 				"chart_settings": (this.Chart_settings()), 
 				"chart_filter": (this.Chart_filter()), 
-				"customdom": (this.Customdom())
+				"customdom": (this.Customdom()), 
+				"file": (this.File())
 			};
 		}
 	};
@@ -43303,6 +43549,7 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Chart_settings"));
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Chart_filter"));
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Customdom"));
+	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "File"));
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Sub"));
 
 
@@ -43953,6 +44200,16 @@ var $;
 			]);
 			return obj;
 		}
+		drop_file(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Drop(){
+			const obj = new this.$.$mol_drop();
+			(obj.Sub) = () => ((this.Pane()));
+			(obj.drop) = (next) => ((this.drop_file(next)));
+			return obj;
+		}
 		text_add(next){
 			if(next !== undefined) return next;
 			return null;
@@ -44170,10 +44427,7 @@ var $;
 			return [];
 		}
 		sub(){
-			return [(this.Head_panel()), (this.Body())];
-		}
-		body_content(){
-			return [(this.Pane())];
+			return [(this.Head_panel()), (this.Drop())];
 		}
 		contextmenu_body(next){
 			if(next !== undefined) return next;
@@ -44221,6 +44475,8 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "reset_scale"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Scale"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Head_panel"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "drop_file"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "Drop"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "text_add"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Text_add"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "input_add"));
@@ -44502,6 +44758,28 @@ var $;
             scale_percent() {
                 return (this.zoom() * 100).toFixed(2) + '%';
             }
+            file_add(file, pos) {
+                const board_file = this.board().Files(null)?.make(this.board().land());
+                board_file?.title(file.name);
+                board_file?.Size(null)?.val(file.size);
+                board_file?.File(null).ensure(this.board().land()).blob(file);
+                const block = this.board().block_add('file', pos);
+                block.File(null).remote(board_file);
+                return block;
+            }
+            drop_file(event) {
+                event.preventDefault();
+                const file_list = event.dataTransfer?.files;
+                if (!file_list)
+                    return;
+                const files = [...file_list].map((_, i) => file_list.item(i));
+                if (files.length == 0)
+                    return;
+                $mol_wire_async(() => {
+                    const pos = this.to_real_pos(this.client_pos_to_pane_pos([event.clientX, event.clientY]));
+                    files.forEach((f, i) => this.file_add(f, [pos[0] + i * 20, pos[1] + i * 20]));
+                })();
+            }
             keydown_listener() {
                 return new $mol_dom_listener(this.$.$mol_dom_context.document, 'keydown', $mol_wire_async(event => {
                     if (event.key == 'Delete') {
@@ -44647,6 +44925,12 @@ var $;
             $mol_mem
         ], $shm_hitalama_board_page.prototype, "scale_percent", null);
         __decorate([
+            $mol_action
+        ], $shm_hitalama_board_page.prototype, "file_add", null);
+        __decorate([
+            $mol_action
+        ], $shm_hitalama_board_page.prototype, "drop_file", null);
+        __decorate([
             $mol_mem
         ], $shm_hitalama_board_page.prototype, "keydown_listener", null);
         __decorate([
@@ -44703,7 +44987,7 @@ var $;
                     top: '1rem',
                 },
             },
-            Body: {
+            Pane: {
                 overflow: 'hidden',
             },
         });
