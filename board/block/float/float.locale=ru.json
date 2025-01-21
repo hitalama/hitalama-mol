@@ -1,0 +1,10 @@
+{
+	"$shm_hitalama_board_block_float_Color_hint": "Цвет текста",
+	"$shm_hitalama_board_block_float_Font_size_tool_hint": "Размер шрифта",
+	"$shm_hitalama_board_block_float_Inc_hint": "Увеличить размер шрифта",
+	"$shm_hitalama_board_block_float_Dec_hint": "Уменьшить размер шрифта",
+
+	"$shm_hitalama_board_block_float_Top_hint": "Поднять",
+	"$shm_hitalama_board_block_float_Bottom_hint": "Опустить",
+	"$shm_hitalama_board_block_float_Delete_hint": "Удалить"
+}
