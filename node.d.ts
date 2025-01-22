@@ -3707,7 +3707,7 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    function $mol_crypto_hash(data: Uint8Array): Uint8Array<ArrayBuffer>;
+    function $mol_crypto_hash(input: ArrayBufferView): Uint8Array<ArrayBuffer>;
 }
 
 declare namespace $ {
@@ -8692,6 +8692,7 @@ declare namespace $ {
         readonly Rows_method: (auto?: any) => $hyoo_crus_atom_str | null;
         readonly Col_widths: (auto?: any) => $hyoo_crus_atom_jsan | null;
         readonly Col_types: (auto?: any) => $hyoo_crus_atom_jsan | null;
+        readonly Rows_checked: (auto?: any) => $hyoo_crus_atom_json | null;
     }>) & {
         schema: {
             [x: string]: typeof $hyoo_crus_node;
@@ -8765,6 +8766,7 @@ declare namespace $ {
             readonly Rows_method: typeof $hyoo_crus_atom_str;
             readonly Col_widths: typeof $hyoo_crus_atom_jsan;
             readonly Col_types: typeof $hyoo_crus_atom_jsan;
+            readonly Rows_checked: typeof $hyoo_crus_atom_json;
         };
     };
     export class $shm_hitalama_board_table extends $shm_hitalama_board_table_base {
@@ -17653,17 +17655,138 @@ declare namespace $ {
 //# sourceMappingURL=outline.view.tree.d.ts.map
 declare namespace $ {
 
+	export class $mol_icon_check extends $mol_icon {
+		path( ): string
+	}
+	
+}
+
+//# sourceMappingURL=check.view.tree.d.ts.map
+declare namespace $ {
+
+	export class $mol_icon_check_all extends $mol_icon {
+		path( ): string
+	}
+	
+}
+
+//# sourceMappingURL=all.view.tree.d.ts.map
+declare namespace $ {
+
+	export class $mol_check_group extends $mol_check_box {
+		checks( ): readonly($mol_check)[]
+		full( ): boolean
+	}
+	
+}
+
+//# sourceMappingURL=group.view.tree.d.ts.map
+declare namespace $.$$ {
+    class $mol_check_group extends $.$mol_check_group {
+        checked(next?: boolean): boolean;
+        full(): boolean;
+        Icon(): $mol_icon_tick | $mol_icon_check_all;
+    }
+}
+
+declare namespace $ {
+
 	type __shm_hitalama_board_block_table_1 = $mol_type_enforce<
 		Parameters< $shm_hitalama_board_block_table['cell_content_text'] >[0]
 		,
 		Parameters< ReturnType< $shm_hitalama_board_block_table['Table'] >['cell_content_text'] >[0]
 	>
-	type $mol_grid_cell__sub_shm_hitalama_board_block_table_2 = $mol_type_enforce<
+	type $mol_grid__records_shm_hitalama_board_block_table_2 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_table['rows'] >
+		,
+		ReturnType< $mol_grid['records'] >
+	>
+	type $mol_grid__col_head_content_shm_hitalama_board_block_table_3 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_table['col_head_content'] >
+		,
+		ReturnType< $mol_grid['col_head_content'] >
+	>
+	type $mol_grid__Cell_shm_hitalama_board_block_table_4 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_table['Cell'] >
+		,
+		ReturnType< $mol_grid['Cell'] >
+	>
+	type $mol_check_box__checked_shm_hitalama_board_block_table_5 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_table['cell_checked'] >
+		,
+		ReturnType< $mol_check_box['checked'] >
+	>
+	type $mol_view__sub_shm_hitalama_board_block_table_6 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_view['sub'] >
+	>
+	type $mol_view__sub_shm_hitalama_board_block_table_7 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_table['col_head_content'] >
+		,
+		ReturnType< $mol_view['sub'] >
+	>
+	type $mol_number__Dec_shm_hitalama_board_block_table_8 = $mol_type_enforce<
+		any
+		,
+		ReturnType< $mol_number['Dec'] >
+	>
+	type $mol_number__Inc_shm_hitalama_board_block_table_9 = $mol_type_enforce<
+		any
+		,
+		ReturnType< $mol_number['Inc'] >
+	>
+	type $mol_number__value_shm_hitalama_board_block_table_10 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_table['col_width'] >
+		,
+		ReturnType< $mol_number['value'] >
+	>
+	type $mol_number__hint_shm_hitalama_board_block_table_11 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_number['hint'] >
+	>
+	type $mol_view__sub_shm_hitalama_board_block_table_12 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_view['sub'] >
+	>
+	type $mol_list__sub_shm_hitalama_board_block_table_13 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_list['sub'] >
+	>
+	type $mol_pick__hint_shm_hitalama_board_block_table_14 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_pick['hint'] >
+	>
+	type $mol_pick__trigger_content_shm_hitalama_board_block_table_15 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_pick['trigger_content'] >
+	>
+	type $mol_pick__bubble_content_shm_hitalama_board_block_table_16 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_pick['bubble_content'] >
+	>
+	type $mol_button_minor__title_shm_hitalama_board_block_table_17 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_button_minor['title'] >
+	>
+	type $mol_button_minor__click_shm_hitalama_board_block_table_18 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_table['chart_add'] >
+		,
+		ReturnType< $mol_button_minor['click'] >
+	>
+	type $mol_grid_cell__sub_shm_hitalama_board_block_table_19 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_table['cell_content_text'] >
 		,
 		ReturnType< $mol_grid_cell['sub'] >
 	>
-	type $mol_grid_cell__style_shm_hitalama_board_block_table_3 = $mol_type_enforce<
+	type $mol_grid_cell__style_shm_hitalama_board_block_table_20 = $mol_type_enforce<
 		({ 
 			'maxWidth': ReturnType< $shm_hitalama_board_block_table['col_width_px'] >,
 			'width': ReturnType< $shm_hitalama_board_block_table['col_width_px'] >,
@@ -17671,87 +17794,38 @@ declare namespace $ {
 		,
 		ReturnType< $mol_grid_cell['style'] >
 	>
-	type $mol_grid__records_shm_hitalama_board_block_table_4 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_table['rows'] >
-		,
-		ReturnType< $mol_grid['records'] >
-	>
-	type $mol_grid__col_head_content_shm_hitalama_board_block_table_5 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_table['col_head_content'] >
-		,
-		ReturnType< $mol_grid['col_head_content'] >
-	>
-	type $mol_grid__Cell_text_shm_hitalama_board_block_table_6 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_table['Cell_text'] >
-		,
-		ReturnType< $mol_grid['Cell_text'] >
-	>
-	type $mol_view__sub_shm_hitalama_board_block_table_7 = $mol_type_enforce<
+	type $mol_grid_cell__sub_shm_hitalama_board_block_table_21 = $mol_type_enforce<
 		readonly(any)[]
 		,
-		ReturnType< $mol_view['sub'] >
+		ReturnType< $mol_grid_cell['sub'] >
 	>
-	type $mol_view__sub_shm_hitalama_board_block_table_8 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_table['col_head_content'] >
+	type $mol_grid_cell__style_shm_hitalama_board_block_table_22 = $mol_type_enforce<
+		({ 
+			'maxWidth': ReturnType< $shm_hitalama_board_block_table['col_width_px'] >,
+			'width': ReturnType< $shm_hitalama_board_block_table['col_width_px'] >,
+		}) 
 		,
-		ReturnType< $mol_view['sub'] >
+		ReturnType< $mol_grid_cell['style'] >
 	>
-	type $mol_number__Dec_shm_hitalama_board_block_table_9 = $mol_type_enforce<
-		any
-		,
-		ReturnType< $mol_number['Dec'] >
-	>
-	type $mol_number__Inc_shm_hitalama_board_block_table_10 = $mol_type_enforce<
-		any
-		,
-		ReturnType< $mol_number['Inc'] >
-	>
-	type $mol_number__value_shm_hitalama_board_block_table_11 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_table['col_width'] >
-		,
-		ReturnType< $mol_number['value'] >
-	>
-	type $mol_number__hint_shm_hitalama_board_block_table_12 = $mol_type_enforce<
-		string
-		,
-		ReturnType< $mol_number['hint'] >
-	>
-	type $mol_view__sub_shm_hitalama_board_block_table_13 = $mol_type_enforce<
+	type $mol_grid_cell__sub_shm_hitalama_board_block_table_23 = $mol_type_enforce<
 		readonly(any)[]
 		,
-		ReturnType< $mol_view['sub'] >
+		ReturnType< $mol_grid_cell['sub'] >
 	>
-	type $mol_list__sub_shm_hitalama_board_block_table_14 = $mol_type_enforce<
-		readonly(any)[]
+	type $mol_grid_cell__style_shm_hitalama_board_block_table_24 = $mol_type_enforce<
+		({ 
+			'maxWidth': ReturnType< $shm_hitalama_board_block_table['col_width_px'] >,
+			'width': ReturnType< $shm_hitalama_board_block_table['col_width_px'] >,
+		}) 
 		,
-		ReturnType< $mol_list['sub'] >
+		ReturnType< $mol_grid_cell['style'] >
 	>
-	type $mol_pick__hint_shm_hitalama_board_block_table_15 = $mol_type_enforce<
-		string
+	type $mol_check_group__checks_shm_hitalama_board_block_table_25 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_table['cell_checkboxes'] >
 		,
-		ReturnType< $mol_pick['hint'] >
+		ReturnType< $mol_check_group['checks'] >
 	>
-	type $mol_pick__trigger_content_shm_hitalama_board_block_table_16 = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_pick['trigger_content'] >
-	>
-	type $mol_pick__bubble_content_shm_hitalama_board_block_table_17 = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_pick['bubble_content'] >
-	>
-	type $mol_button_minor__title_shm_hitalama_board_block_table_18 = $mol_type_enforce<
-		string
-		,
-		ReturnType< $mol_button_minor['title'] >
-	>
-	type $mol_button_minor__click_shm_hitalama_board_block_table_19 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_table['chart_add'] >
-		,
-		ReturnType< $mol_button_minor['click'] >
-	>
-	type $mol_list__sub_shm_hitalama_board_block_table_20 = $mol_type_enforce<
+	type $mol_list__sub_shm_hitalama_board_block_table_26 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_list['sub'] >
@@ -17760,9 +17834,14 @@ declare namespace $ {
 		rows( ): Record<string, any>
 		col_head_content( id: any): readonly(any)[]
 		cell_content_text( id: any): ReturnType< ReturnType< $shm_hitalama_board_block_table['Table'] >['cell_content_text'] >
-		col_width_px( id: any): string
-		Cell_text( id: any): $mol_grid_cell
+		Cell( id: any): $mol_view
+		table_row_ids( ): ReturnType< ReturnType< $shm_hitalama_board_block_table['Table'] >['row_ids'] >
 		Table( ): $mol_grid
+		col_width_px( id: any): string
+		cell_index_number( id: any): string
+		cell_checked( id: any, next?: boolean ): boolean
+		Checkbox( id: any): $mol_check_box
+		cell_checkboxes( ): readonly(any)[]
 		Settings_trigger_icon( ): $mol_icon_cog_outline
 		Col_widths_head( ): $mol_view
 		Col_width_title( id: any): $mol_view
@@ -17775,6 +17854,10 @@ declare namespace $ {
 		chart_add( next?: any ): any
 		Chart_add( ): $mol_button_minor
 		drag_body( ): readonly(any)[]
+		Cell_text( id: any): $mol_grid_cell
+		Cell_index_number( id: any): $mol_grid_cell
+		Cell_checkbox( id: any): $mol_grid_cell
+		All_check( ): $mol_check_group
 		tools( ): readonly(any)[]
 		Contextmenu_body( ): $mol_list
 	}
@@ -17783,15 +17866,24 @@ declare namespace $ {
 
 //# sourceMappingURL=table.view.tree.d.ts.map
 declare namespace $.$$ {
-    class $shm_hitalama_board_block_table extends $.$shm_hitalama_board_block_table {
-        rows(): any[];
+    type Cell_id = {
+        row: number[];
+        col: number;
+    };
+    export class $shm_hitalama_board_block_table extends $.$shm_hitalama_board_block_table {
+        rows(): any[][];
         head(): any[];
-        col_head_content(id: string): any[];
+        Cell(id: Cell_id): $mol_view;
+        col_head_content(n: number): any[];
+        cell_index_number(id: Cell_id): string;
+        cell_checked(id: Cell_id, next?: boolean): boolean;
+        cell_checkboxes(): $mol_check_box[];
         col_width_px(id: any): string;
         col_width(col: number, next?: number): any;
         col_width_rows(): $mol_view[];
         chart_add(): void;
     }
+    export {};
 }
 
 declare namespace $.$$ {
@@ -18367,42 +18459,6 @@ declare namespace $.$$ {
 }
 
 declare namespace $.$$ {
-}
-
-declare namespace $ {
-
-	export class $mol_icon_check extends $mol_icon {
-		path( ): string
-	}
-	
-}
-
-//# sourceMappingURL=check.view.tree.d.ts.map
-declare namespace $ {
-
-	export class $mol_icon_check_all extends $mol_icon {
-		path( ): string
-	}
-	
-}
-
-//# sourceMappingURL=all.view.tree.d.ts.map
-declare namespace $ {
-
-	export class $mol_check_group extends $mol_check_box {
-		checks( ): readonly($mol_check)[]
-		full( ): boolean
-	}
-	
-}
-
-//# sourceMappingURL=group.view.tree.d.ts.map
-declare namespace $.$$ {
-    class $mol_check_group extends $.$mol_check_group {
-        checked(next?: boolean): boolean;
-        full(): boolean;
-        Icon(): $mol_icon_tick | $mol_icon_check_all;
-    }
 }
 
 declare namespace $ {

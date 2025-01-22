@@ -10830,7 +10830,10 @@ var $;
 var $;
 (function ($) {
     let sponge = new Uint32Array(80);
-    function $mol_crypto_hash(data) {
+    function $mol_crypto_hash(input) {
+        const data = input instanceof Uint8Array
+            ? input
+            : new Uint8Array(input.buffer, input.byteOffset, input.byteLength);
         const bits = data.byteLength << 3;
         const kbits = bits >> 5;
         const kword = 0x80 << (24 - bits & 0b11111);
@@ -17744,6 +17747,7 @@ var $;
         Rows_method: $hyoo_crus_atom_str,
         Col_widths: $hyoo_crus_atom_jsan,
         Col_types: $hyoo_crus_atom_jsan,
+        Rows_checked: $hyoo_crus_atom_json,
     }) {
         board() {
             return this.Block()?.remote()?.Board()?.remote();
@@ -41837,6 +41841,78 @@ var $;
 "use strict";
 
 ;
+	($.$mol_check_group) = class $mol_check_group extends ($.$mol_check_box) {
+		checks(){
+			return [];
+		}
+		full(){
+			return true;
+		}
+	};
+
+
+;
+	($.$mol_icon_check) = class $mol_icon_check extends ($.$mol_icon) {
+		path(){
+			return "M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z";
+		}
+	};
+
+
+;
+"use strict";
+
+;
+	($.$mol_icon_check_all) = class $mol_icon_check_all extends ($.$mol_icon) {
+		path(){
+			return "M0.41,13.41L6,19L7.41,17.58L1.83,12M22.24,5.58L11.66,16.17L7.5,12L6.07,13.41L11.66,19L23.66,7M18,7L16.59,5.58L10.24,11.93L11.66,13.34L18,7Z";
+		}
+	};
+
+
+;
+"use strict";
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $mol_check_group extends $.$mol_check_group {
+            checked(next) {
+                if (next !== undefined) {
+                    for (const check of this.checks()) {
+                        check.checked(next);
+                    }
+                    return next;
+                }
+                return this.checks().some(check => check.checked());
+            }
+            full() {
+                return this.checks().every(check => check.checked());
+            }
+            Icon() {
+                return this.full() ? new $mol_icon_check_all : new $mol_icon_tick;
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $mol_check_group.prototype, "checked", null);
+        __decorate([
+            $mol_mem
+        ], $mol_check_group.prototype, "full", null);
+        __decorate([
+            $mol_mem
+        ], $mol_check_group.prototype, "Icon", null);
+        $$.$mol_check_group = $mol_check_group;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
 	($.$shm_hitalama_board_block_table) = class $shm_hitalama_board_block_table extends ($.$shm_hitalama_board_block_float) {
 		rows(){
 			return {};
@@ -41847,21 +41923,37 @@ var $;
 		cell_content_text(id){
 			return (this.Table().cell_content_text(id));
 		}
-		col_width_px(id){
-			return "auto";
-		}
-		Cell_text(id){
-			const obj = new this.$.$mol_grid_cell();
-			(obj.sub) = () => ((this.cell_content_text(id)));
-			(obj.style) = () => ({"maxWidth": (this.col_width_px(id)), "width": (this.col_width_px(id))});
+		Cell(id){
+			const obj = new this.$.$mol_view();
 			return obj;
+		}
+		table_row_ids(){
+			return (this.Table().row_ids());
 		}
 		Table(){
 			const obj = new this.$.$mol_grid();
 			(obj.records) = () => ((this.rows()));
 			(obj.col_head_content) = (id) => ((this.col_head_content(id)));
-			(obj.Cell_text) = (id) => ((this.Cell_text(id)));
+			(obj.Cell) = (id) => ((this.Cell(id)));
 			return obj;
+		}
+		col_width_px(id){
+			return "auto";
+		}
+		cell_index_number(id){
+			return "";
+		}
+		cell_checked(id, next){
+			if(next !== undefined) return next;
+			return false;
+		}
+		Checkbox(id){
+			const obj = new this.$.$mol_check_box();
+			(obj.checked) = (next) => ((this.cell_checked(id, next)));
+			return obj;
+		}
+		cell_checkboxes(){
+			return [];
 		}
 		Settings_trigger_icon(){
 			const obj = new this.$.$mol_icon_cog_outline();
@@ -41922,6 +42014,29 @@ var $;
 		drag_body(){
 			return [(this.Table())];
 		}
+		Cell_text(id){
+			const obj = new this.$.$mol_grid_cell();
+			(obj.sub) = () => ((this.cell_content_text(id)));
+			(obj.style) = () => ({"maxWidth": (this.col_width_px(id)), "width": (this.col_width_px(id))});
+			return obj;
+		}
+		Cell_index_number(id){
+			const obj = new this.$.$mol_grid_cell();
+			(obj.sub) = () => ([(this.cell_index_number(id))]);
+			(obj.style) = () => ({"maxWidth": (this.col_width_px(id)), "width": (this.col_width_px(id))});
+			return obj;
+		}
+		Cell_checkbox(id){
+			const obj = new this.$.$mol_grid_cell();
+			(obj.sub) = () => ([(this.Checkbox(id))]);
+			(obj.style) = () => ({"maxWidth": (this.col_width_px(id)), "width": (this.col_width_px(id))});
+			return obj;
+		}
+		All_check(){
+			const obj = new this.$.$mol_check_group();
+			(obj.checks) = () => ((this.cell_checkboxes()));
+			return obj;
+		}
 		tools(){
 			return [
 				(this.Top()), 
@@ -41937,8 +42052,10 @@ var $;
 			return obj;
 		}
 	};
-	($mol_mem_key(($.$shm_hitalama_board_block_table.prototype), "Cell_text"));
+	($mol_mem_key(($.$shm_hitalama_board_block_table.prototype), "Cell"));
 	($mol_mem(($.$shm_hitalama_board_block_table.prototype), "Table"));
+	($mol_mem_key(($.$shm_hitalama_board_block_table.prototype), "cell_checked"));
+	($mol_mem_key(($.$shm_hitalama_board_block_table.prototype), "Checkbox"));
 	($mol_mem(($.$shm_hitalama_board_block_table.prototype), "Settings_trigger_icon"));
 	($mol_mem(($.$shm_hitalama_board_block_table.prototype), "Col_widths_head"));
 	($mol_mem_key(($.$shm_hitalama_board_block_table.prototype), "Col_width_title"));
@@ -41949,6 +42066,10 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_block_table.prototype), "Settings_pop"));
 	($mol_mem(($.$shm_hitalama_board_block_table.prototype), "chart_add"));
 	($mol_mem(($.$shm_hitalama_board_block_table.prototype), "Chart_add"));
+	($mol_mem_key(($.$shm_hitalama_board_block_table.prototype), "Cell_text"));
+	($mol_mem_key(($.$shm_hitalama_board_block_table.prototype), "Cell_index_number"));
+	($mol_mem_key(($.$shm_hitalama_board_block_table.prototype), "Cell_checkbox"));
+	($mol_mem(($.$shm_hitalama_board_block_table.prototype), "All_check"));
 	($mol_mem(($.$shm_hitalama_board_block_table.prototype), "Contextmenu_body"));
 
 
@@ -41966,13 +42087,41 @@ var $;
                 const rows = this.block().table_rows() ?? [];
                 if (rows?.length == 0)
                     return [this.head().map(_ => '')];
-                return rows;
+                return rows.map((r, i) => [false, i + 1, ...r]);
             }
             head() {
-                return this.block().table_head() ?? [];
+                return ['', '', ...this.block().table_head() ?? []];
             }
-            col_head_content(id) {
-                return [this.head()?.[Number(id)] ?? ''];
+            Cell(id) {
+                if (id.col == 0)
+                    return this.Cell_checkbox(id);
+                if (id.col == 1)
+                    return this.Cell_index_number(id);
+                return this.Cell_text(id);
+            }
+            col_head_content(n) {
+                if (n == 0)
+                    return [this.All_check()];
+                return [this.head()?.[Number(n)] ?? ''];
+            }
+            cell_index_number(id) {
+                return (Number(id.row[1]) + 1).toString();
+            }
+            cell_checked(id, next) {
+                const checks = this.block().table().Rows_checked(null)?.val();
+                const row_i = id.row[1];
+                if (next === undefined)
+                    return checks?.[row_i] ?? false;
+                this.block().table().Rows_checked(null)?.val({
+                    ...checks,
+                    [row_i]: next,
+                });
+                return next;
+            }
+            cell_checkboxes() {
+                const checkboxes = this.table_row_ids().map(row => this.Checkbox({ col: '0', row }));
+                console.log('checkboxes', checkboxes);
+                return checkboxes;
             }
             col_width_px(id) {
                 const width = Number(this.col_width(id.col));
@@ -41988,7 +42137,7 @@ var $;
                 return next ?? NaN;
             }
             col_width_rows() {
-                return this.head().map((_, i) => this.Col_width_row(i));
+                return this.head().slice(2).map((_, i) => this.Col_width_row(i + 2));
             }
             chart_add() {
                 const chart_pos = this.Board_page().contextmenu_real_pos();
@@ -42007,6 +42156,12 @@ var $;
         __decorate([
             $mol_mem
         ], $shm_hitalama_board_block_table.prototype, "head", null);
+        __decorate([
+            $mol_mem_key
+        ], $shm_hitalama_board_block_table.prototype, "cell_index_number", null);
+        __decorate([
+            $mol_mem_key
+        ], $shm_hitalama_board_block_table.prototype, "cell_checked", null);
         __decorate([
             $mol_mem_key
         ], $shm_hitalama_board_block_table.prototype, "col_width_px", null);
@@ -42044,6 +42199,17 @@ var $;
             },
             Cell_text: {
                 whiteSpace: 'normal',
+            },
+            Cell_checkbox: {
+                padding: 0,
+            },
+            All_check: {
+                margin: {
+                    top: '-0.5rem',
+                    bottom: '-0.5rem',
+                    left: '-0.75rem',
+                    right: '-0.75rem',
+                },
             },
             Col_width_title: {
                 flex: {
@@ -42897,78 +43063,6 @@ var $;
                 gap: $mol_gap.space,
             },
         });
-    })($$ = $.$$ || ($.$$ = {}));
-})($ || ($ = {}));
-
-;
-	($.$mol_check_group) = class $mol_check_group extends ($.$mol_check_box) {
-		checks(){
-			return [];
-		}
-		full(){
-			return true;
-		}
-	};
-
-
-;
-	($.$mol_icon_check) = class $mol_icon_check extends ($.$mol_icon) {
-		path(){
-			return "M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z";
-		}
-	};
-
-
-;
-"use strict";
-
-;
-	($.$mol_icon_check_all) = class $mol_icon_check_all extends ($.$mol_icon) {
-		path(){
-			return "M0.41,13.41L6,19L7.41,17.58L1.83,12M22.24,5.58L11.66,16.17L7.5,12L6.07,13.41L11.66,19L23.66,7M18,7L16.59,5.58L10.24,11.93L11.66,13.34L18,7Z";
-		}
-	};
-
-
-;
-"use strict";
-
-;
-"use strict";
-
-;
-"use strict";
-var $;
-(function ($) {
-    var $$;
-    (function ($$) {
-        class $mol_check_group extends $.$mol_check_group {
-            checked(next) {
-                if (next !== undefined) {
-                    for (const check of this.checks()) {
-                        check.checked(next);
-                    }
-                    return next;
-                }
-                return this.checks().some(check => check.checked());
-            }
-            full() {
-                return this.checks().every(check => check.checked());
-            }
-            Icon() {
-                return this.full() ? new $mol_icon_check_all : new $mol_icon_tick;
-            }
-        }
-        __decorate([
-            $mol_mem
-        ], $mol_check_group.prototype, "checked", null);
-        __decorate([
-            $mol_mem
-        ], $mol_check_group.prototype, "full", null);
-        __decorate([
-            $mol_mem
-        ], $mol_check_group.prototype, "Icon", null);
-        $$.$mol_check_group = $mol_check_group;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
 
@@ -44654,7 +44748,8 @@ var $;
             back_event_pointerdown_last;
             back_event_pointerdown(event) {
                 this.back_event_pointerdown_last = event;
-                this.deselect_all();
+                if (event.button != 2)
+                    this.deselect_all();
                 this.select_start(event);
             }
             back_event_contextmenu(event) {
