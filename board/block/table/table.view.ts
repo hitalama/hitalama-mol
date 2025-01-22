@@ -1,21 +1,55 @@
 namespace $.$$ {
 
+	type Cell_id = { row : number[] , col : number }
+
 	export class $shm_hitalama_board_block_table extends $.$shm_hitalama_board_block_table {
 		
 		@ $mol_mem
 		rows() {
 			const rows = this.block().table_rows() ?? []
 			if( rows?.length == 0 ) return [ this.head().map( _ => '' ) ]
-			return rows
+			return rows.map( (r, i) =>  [ false, i+1, ...r ] )
 		}
 
 		@ $mol_mem
 		head() {
-			return this.block().table_head() ?? []
+			return [ '', '', ... this.block().table_head() ?? [] ]
+		}
+
+		Cell( id: Cell_id ) : $mol_view {
+			if( id.col == 0 ) return this.Cell_checkbox( id )
+			if( id.col == 1 ) return this.Cell_index_number( id )
+			return this.Cell_text( id )
 		}
 		
-		col_head_content( id : string ) {
-			return [ this.head()?.[  Number( id ) ] ?? '' ]
+		col_head_content( n: number ) {
+			if( n == 0 ) return [ this.All_check() ]
+			return [ this.head()?.[  Number( n ) ] ?? '' ]
+		}
+
+		@ $mol_mem_key
+		cell_index_number( id: Cell_id ) {
+			return ( Number( id.row[1]! ) + 1 ).toString()
+		}
+
+		@ $mol_mem_key
+		cell_checked( id: Cell_id, next?: boolean ) {
+			// console.log('id', id)
+			const checks = this.block().table().Rows_checked(null)?.val() as Record< number, boolean >
+			const row_i = id.row[1]!
+			if( next === undefined ) return  checks?.[ row_i ] ?? false
+
+			this.block().table().Rows_checked(null)?.val( { 
+				... checks,
+				[row_i]: next,
+			} )
+			return next
+		}
+
+		cell_checkboxes() {
+			const checkboxes = this.table_row_ids().map( row => this.Checkbox( { col: '0', row } ) )
+			console.log('checkboxes', checkboxes)
+			return checkboxes
 		}
 
 		@ $mol_mem_key
@@ -38,7 +72,7 @@ namespace $.$$ {
 
 		@ $mol_mem
 		col_width_rows() {
-			return this.head().map( (_, i) => this.Col_width_row( i ) )
+			return this.head().slice(2).map( (_, i) => this.Col_width_row( i + 2 ) )
 		}
 
 		@ $mol_action

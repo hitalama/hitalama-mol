@@ -13,6 +13,8 @@ namespace $ {
 		Col_widths: $hyoo_crus_atom_jsan, //date, any
 		Col_types: $hyoo_crus_atom_jsan,
 
+		Rows_checked: $hyoo_crus_atom_json, //[i]: bool
+
 	}){
 
 		@ $mol_mem

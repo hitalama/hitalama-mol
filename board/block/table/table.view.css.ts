@@ -21,6 +21,19 @@ namespace $.$$ {
 			whiteSpace: 'normal',
 		},
 
+		Cell_checkbox: {
+			padding: 0,
+		},
+
+		All_check: {
+			margin: {
+				top: '-0.5rem',
+				bottom: '-0.5rem',
+				left: '-0.75rem',
+				right: '-0.75rem',
+			},
+		},
+
 		Col_width_title: {
 			flex: {
 				grow: 1,
