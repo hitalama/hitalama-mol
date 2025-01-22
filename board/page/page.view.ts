@@ -174,7 +174,7 @@ namespace $.$$ {
 		back_event_pointerdown_last?: PointerEvent
 		back_event_pointerdown( event: PointerEvent ) {
 			this.back_event_pointerdown_last = event
-			this.deselect_all()
+			if( event.button != 2 ) this.deselect_all()
 			this.select_start( event )
 		}
 
