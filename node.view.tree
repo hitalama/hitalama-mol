@@ -1970,21 +1970,6 @@ $mol_form_field $mol_labeler
 			sub / <= bid \
 	content / <= control null
 
-$mol_drop $mol_ghost
-	enabled? true
-	event *
-		dragenter?event <=> enter?event null
-		dragover?event <=> move?event null
-		dragleave?event <=> leave?event null
-		drop?event <=> drop?event null
-	attr * mol_drop_status <= status? \ready
-	adopt?transfer *
-	receive?transfer null
-	allow /
-		\copy
-		\move
-		\link
-
 $shm_hitalama_contextmenu $mol_view
 	sub /
 		<= Body $mol_list
@@ -3050,6 +3035,21 @@ $shm_hitalama_board_back $mol_view
 			draw? <=> draw? null
 			draw_end? <=> draw_end? null
 
+$mol_drop $mol_ghost
+	enabled? true
+	event *
+		dragenter?event <=> enter?event null
+		dragover?event <=> move?event null
+		dragleave?event <=> leave?event null
+		drop?event <=> drop?event null
+	attr * mol_drop_status <= status? \ready
+	adopt?transfer *
+	receive?transfer null
+	allow /
+		\copy
+		\move
+		\link
+
 $shm_hitalama_board_pane $mol_view
 	attr *
 		^
@@ -3076,9 +3076,11 @@ $shm_hitalama_board_pane $mol_view
 			action_type => action_type
 			action_point => action_point
 	sub /
-		<= Back $shm_hitalama_board_back
-			event_pointerdown? <=> back_event_pointerdown? null
-			event_contextmenu? <=> back_event_contextmenu? null
+		<= Drop $mol_drop
+			Sub <= Back $shm_hitalama_board_back
+				event_pointerdown? <=> back_event_pointerdown? null
+				event_contextmenu? <=> back_event_contextmenu? null
+			drop? <=> event_drop? null
 		^ outside /
 		<= Content $mol_view
 			minimal_height 0
@@ -3148,9 +3150,7 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 				<= Scale $mol_button_minor
 					title <= scale_percent \100%
 					click? <=> reset_scale? null
-		<= Drop $mol_drop
-			Sub <= Pane
-			drop? <=> drop_file? null
+		<= Pane
 	contextmenu_body? /
 	get_pointer_pos /
 	contextmenu_real_pos /
@@ -3175,6 +3175,7 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 				title \Добавить ECharts example
 				click? <=> echarts_example_add? null
 	Pane $shm_hitalama_board_pane
+		event_drop? <=> event_drop? null
 		select_start? => select_start?
 		select_rect_pos => select_rect_pos
 		select_rect_size => select_rect_size
