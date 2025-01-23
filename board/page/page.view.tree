@@ -35,9 +35,7 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 				<= Scale $mol_button_minor
 					title <= scale_percent \100%
 					click? <=> reset_scale? null
-		<= Drop $mol_drop
-			Sub <= Pane
-			drop? <=> drop_file? null
+		<= Pane
 	contextmenu_body? /
 	get_pointer_pos /
 	contextmenu_real_pos /
@@ -62,6 +60,7 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 				title \Добавить ECharts example
 				click? <=> echarts_example_add? null
 	Pane $shm_hitalama_board_pane
+		event_drop? <=> event_drop? null
 		select_start? => select_start?
 		select_rect_pos => select_rect_pos
 		select_rect_size => select_rect_size

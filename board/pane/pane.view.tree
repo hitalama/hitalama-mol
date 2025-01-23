@@ -24,9 +24,11 @@ $shm_hitalama_board_pane $mol_view
 			action_type => action_type
 			action_point => action_point
 	sub /
-		<= Back $shm_hitalama_board_back
-			event_pointerdown? <=> back_event_pointerdown? null
-			event_contextmenu? <=> back_event_contextmenu? null
+		<= Drop $mol_drop
+			Sub <= Back $shm_hitalama_board_back
+				event_pointerdown? <=> back_event_pointerdown? null
+				event_contextmenu? <=> back_event_contextmenu? null
+			drop? <=> event_drop? null
 		^ outside /
 		<= Content $mol_view
 			minimal_height 0

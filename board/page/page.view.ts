@@ -330,7 +330,7 @@ namespace $.$$ {
 		}
 
 		@ $mol_action
-		drop_file( event: DragEvent ) {
+		event_drop( event: DragEvent ) {
 			event.preventDefault()
 
 			const file_list = event.dataTransfer?.files
