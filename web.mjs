@@ -45729,7 +45729,7 @@ var $;
     (function ($$) {
         class $shm_hitalama_app extends $.$shm_hitalama_app {
             profiles_ref() {
-                return 'Kx9javwY_y7tKaU3n';
+                return 'oAlVNV5P_XfclijB0';
             }
             Spread_current() {
                 const spread = this.spread();
