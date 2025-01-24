@@ -11,12 +11,12 @@ namespace $.$$ {
 		}
 		
 		@ $mol_mem
-		body_x_stick( next?: number ) {
+		x_stick( next?: number ) {
 			return this.block().Body_x(next)?.val(next) ?? 0
 		}
 
 		@ $mol_mem
-		body_y_stick( next?: number ) {
+		y_stick( next?: number ) {
 			return this.block().Body_y(next)?.val(next) ?? 0
 		}
 

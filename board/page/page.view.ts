@@ -99,7 +99,7 @@ namespace $.$$ {
 		}
 
 		@ $mol_mem_key
-		drags_synced( ref: $hyoo_crus_ref ): readonly ( $.$shm_hitalama_drag )[] {
+		drags_synced( ref: $hyoo_crus_ref ): readonly ( $.$rise_drag )[] {
 			return this.selected_refs().flatMap( sref => sref == ref ? [] : [this.Block(sref).Sub().Drag()] )
 		}
 

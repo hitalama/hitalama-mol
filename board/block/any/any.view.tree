@@ -16,7 +16,7 @@ $shm_hitalama_board_block_any $mol_ghost
 		hovered? <=> hovered? false
 		editing? => editing?
 		has_scrollbar => has_scrollbar
-		drags_synced <= drags_synced /$shm_hitalama_drag
+		drags_synced <= drags_synced /$rise_drag
 		on_contextmenu? <=> on_contextmenu? null
 		Contextmenu_body => Contextmenu_body
 		zoom <= zoom 1

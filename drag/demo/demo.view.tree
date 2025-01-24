@@ -1,9 +1,0 @@
-$shm_hitalama_drag_demo $mol_example_small
-	sub /
-		<= Draggable $shm_hitalama_drag_absolute
-			sub / 
-				<= Text $mol_text text \**Draggable**
-	tags /
-		\camera
-	aspects /
-		\Widget

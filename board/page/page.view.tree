@@ -99,6 +99,6 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 					hovered? <=> hovered*? false
 					has_scrollbar => has_scrollbar* false
 					editing? => editing*? false
-					drags_synced <= drags_synced* /$shm_hitalama_drag
+					drags_synced <= drags_synced* /$rise_drag
 					on_contextmenu? <=> block_event_contextmenu*? null
 					Contextmenu_body => Block_contextmenu_body* /

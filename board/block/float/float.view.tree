@@ -1,4 +1,4 @@
-$shm_hitalama_board_block_float $shm_hitalama_resize_ratio
+$shm_hitalama_board_block_float $rise_resize_ratio
 	block $shm_hitalama_board_block
 	board $shm_hitalama_board
 	Board_page $shm_hitalama_board_page
