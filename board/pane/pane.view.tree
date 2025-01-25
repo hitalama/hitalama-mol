@@ -3,7 +3,7 @@ $shm_hitalama_board_pane $mol_view
 		^
 		selecting <= selecting? false
 	pointer_pos /
-	real_pointer_pos /
+	real_pointer_pos? /number
 	to_real_pos* null
 	auto /
 		<= keydown_listener null

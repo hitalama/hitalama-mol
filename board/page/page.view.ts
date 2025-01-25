@@ -318,6 +318,46 @@ namespace $.$$ {
 		scale_percent() {
 			return (this.zoom() * 100).toFixed(2) + '%'
 		}
+		
+		@ $mol_mem
+		presences() {
+			const board = this.board()
+			return board.Presences()?.remote() ?? board.Presences(null)?.ensure( {'': $hyoo_crus_rank_make( 'post', 'just' )} )
+		}
+
+		@ $mol_mem
+		presence() {
+			const profile = $shm_hitalama_profile.current()
+			const id = profile?.ref().description?.toString()!
+			const presence = this.presences()!.key( id, 'auto' ).ensure( profile?.land() )
+			presence?.Profile(null)?.remote( profile )
+			return presence
+		}
+
+		@ $mol_mem
+		send_cursor_pos_atom() {
+			new $mol_wire_atom( 'send_cursor_pos', ()=> {
+				$mol_state_time.now(50)
+				this.presence()?.Pos(null)?.val( this.get_pointer_pos() as number[] )
+			} ).fresh()
+		}
+
+		@ $mol_mem_key
+		cursor_pos( key: string ) {
+			const presence = this.presences()?.key( key ).remote()
+			return presence?.Pos()?.val()
+		}
+
+		@ $mol_mem
+		cursors(): readonly ( any )[] {
+			const profile = $shm_hitalama_profile.current()
+			const id = profile?.ref().description?.toString()!
+
+			return this.presences()?.keys().flatMap( key => {
+				// return [ this.Cursor(key) ]
+				return key == id ? [] : [ this.Cursor(key) ]
+			} ) ?? []
+		}
 
 		@ $mol_action
 		file_add( file: File, pos: [ number, number ] ) {

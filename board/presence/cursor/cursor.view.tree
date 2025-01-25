@@ -1,0 +1,10 @@
+$shm_hitalama_board_presence_cursor $mol_view
+	pos /number
+	style *
+		^
+		top <= top_px \
+		left <= left_px \
+	sub / 
+		<= Icon $mol_icon_cursor_default
+		<= Name $mol_view
+			sub / <= name \afasfs

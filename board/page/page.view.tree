@@ -8,6 +8,7 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 		<= shift_pressed? false
 		<= pull_drags_synced null
 		<= hovered_ref? null
+		<= send_cursor_pos_atom null
 	selected_refs? /
 	sub /
 		<= Head_panel $mol_view
@@ -102,3 +103,9 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 					drags_synced <= drags_synced* /$rise_drag
 					on_contextmenu? <=> block_event_contextmenu*? null
 					Contextmenu_body => Block_contextmenu_body* /
+			^ cursors /
+				<= Cursor* $shm_hitalama_board_presence_cursor
+					pos <= cursor_pos* null
+	- cursors /
+		<= Cursor $shm_hitalama_board_presence_cursor
+			pos <= cursor_pos /number

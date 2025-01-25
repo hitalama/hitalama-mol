@@ -35,6 +35,7 @@ namespace $.$$ {
 		pointer_client_pos: [ number, number ] = [ 0, 0 ]
 		pointer_move( event?: PointerEvent ) {
 			this.pointer_client_pos = [ event!.clientX, event!.clientY ]
+			this.real_pointer_pos( this.to_real_pos(  this.client_pos_to_pane_pos( this.pointer_client_pos ) ) )
 		}
 
 		pointer_down( event?: PointerEvent ) {
@@ -63,12 +64,12 @@ namespace $.$$ {
 			return this.client_pos_to_pane_pos( this.pointer_client_pos )
 		}
 
-		real_pointer_pos(): readonly ( any )[] {
-			const [x,y] = this.client_pos_to_pane_pos( this.pointer_client_pos )
-			return this.to_real_pos( [x,y] )
+		@ $mol_mem
+		real_pointer_pos( next?: number[] ): readonly ( any )[] {
+			return next ?? super.real_pointer_pos()
 		}
 
-		to_real_pos( [x,y]: [number, number] ) {
+		to_real_pos( [x,y]: readonly [number, number] ) {
 			const shift = this.shift()
 			const zoom = this.zoom()
 			return [

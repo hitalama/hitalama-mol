@@ -14,6 +14,8 @@ namespace $ {
 
 		Description: $hyoo_crus_atom_str,
 
+		Presences: $hyoo_crus_atom_ref_to( ()=> $shm_hitalama_board_presence_dict ),
+
 	}){
 		
 		@ $mol_mem_key
