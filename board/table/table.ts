@@ -27,29 +27,27 @@ namespace $ {
 		}
 
 		@ $mol_mem
-		table_head( next?: any ) {
+		table_head( next?: any ): any[] {
 			const method = this.Head_method()?.val()
-			if( !method ) return this.Head(next)?.val( next )
+			if( !method ) return this.Head(next)?.val( next ) ?? []
 
 			const vars = 'const next = this.next;const board = this.board;\n'
 			const func = new Function( vars + method )
 
 			const res = func.call( { next, board: this.board() } )
-
-			return this.Head(res)?.val( res )
+			return res
 		}
 		
 		@ $mol_mem
-		table_rows( next?: any ) {
+		table_rows( next?: any ): any {
 			const method = this.Rows_method()?.val()
-			if( !method ) return this.Rows(next)?.val( next )
+			if( !method ) return this.Rows(next)?.val( next ) ?? []
 
 			const vars = 'const next = this.next;const board = this.board;\n'
 			const func = new Function( vars + method )
 
 			const res = func.call( { next, board: this.board() } )
-
-			return this.Rows(res)?.val( res )
+			return res
 		}
 
 		@ $mol_mem
