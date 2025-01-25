@@ -14,10 +14,6 @@ namespace $.$$ {
 			direction: 'column'
 		},
 
-		// background: {
-		// 	color: $mol_theme.back,
-		// },
-
 		Blocker: {
 			position: 'absolute',
 			height: '100%',
@@ -33,7 +29,6 @@ namespace $.$$ {
 
 		Text: {
 			position: 'absolute',
-			height: '100%',
 			width: '100%',
 			background: {
 				color: 'transparent',
@@ -50,13 +45,11 @@ namespace $.$$ {
 					':empty': {
 						height: '1.5em',
 					},
+					['Token' as '$mol_view']: {
+						color: 'inherit',
+					},
 				},
 			},
-			// Edit: {
-			// 	background: {
-			// 		color: 'transparent',
-			// 	},
-			// },
 		},
 
 	} )

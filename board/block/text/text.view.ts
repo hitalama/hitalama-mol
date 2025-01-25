@@ -16,6 +16,11 @@ namespace $.$$ {
 		}
 
 		@ $mol_mem
+		textarea_height() {
+			return this.editing() ? 'auto' : super.textarea_height()
+		}
+
+		@ $mol_mem
 		text( next?: string ): string {
 			return this.block().Text( next )?.text( next ) ?? ''
 		}

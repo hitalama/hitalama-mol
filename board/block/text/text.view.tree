@@ -7,6 +7,7 @@ $shm_hitalama_board_block_text $shm_hitalama_board_block_float
 			style *
 				color <= color
 				fontSize <= font_size_px
+				height <= textarea_height \100%
 		<= Drag_view
 		^ edges
 		^ toolbar
