@@ -41,7 +41,7 @@ namespace $.$$ {
 			return this.form().Category(next)?.val(next) ?? ''
 		}
 
-		social_media_attach( files: File[] ) {
+		social_media_attach( session_id: string, files: File[] ) {
 			const file = this.board().Files(null)?.make( this.board().land() )
 
 			file?.title( files[0].name )
@@ -49,11 +49,9 @@ namespace $.$$ {
 			file?.File(null)?.ensure( this.board().land() )?.blob( files[0] )
 
 			this.form().File_social_media(null)?.remote( file )
-
-			return files
 		}
 
-		mass_media_attach( files: File[] ) {
+		mass_media_attach( session_id: string, files: File[] ) {
 			const file = this.board().Files(null)?.make( this.board().land() )
 
 			file?.title( files[0].name )
@@ -61,8 +59,6 @@ namespace $.$$ {
 			file?.File(null)?.ensure( this.board().land() )?.blob( files[0] )
 
 			this.form().File_mass_media(null)?.remote( file )
-
-			return files
 		}
 
 		social_media_title() {
@@ -100,8 +96,17 @@ namespace $.$$ {
 			const form = this.form()
 			form.query( '' )
 			form.excluded_words( '' )
+			this.session_id( $mol_guid() )
 			form?.File_mass_media(null)?.remote( null )
 			form?.File_social_media(null)?.remote( null )
+		}
+
+		social_media_field() {
+			return [this.Social_media_field( this.session_id() )]
+		}
+
+		mass_media_field() {
+			return [this.Mass_media_field( this.session_id() )]
 		}
 		
 	}
