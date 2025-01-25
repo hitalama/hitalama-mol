@@ -17945,18 +17945,20 @@ declare namespace $ {
 		language( next?: string ): string
 		Language( ): $mol_string
 		Language_field( ): $mol_form_field
-		social_media_attach( next?: readonly(any)[] ): readonly(any)[]
-		Social_media_file( ): $mol_attach
+		social_media_attach( id: any, next?: any ): any
+		Social_media_file( id: any): $mol_attach
 		social_media_title( ): string
 		Social_media_name( ): $mol_paragraph
-		content_social_media( ): readonly(any)[]
-		Social_media_field( ): $mol_form_field
-		mass_media_attach( next?: readonly(any)[] ): readonly(any)[]
-		Mass_media_file( ): $mol_attach
+		content_social_media( id: any): readonly(any)[]
+		Social_media_field( id: any): $mol_form_field
+		social_media_field( ): readonly(any)[]
+		mass_media_attach( id: any, next?: any ): any
+		Mass_media_file( id: any): $mol_attach
 		mass_media_title( ): string
 		Mass_media_name( ): $mol_paragraph
-		content_mass_media( ): readonly(any)[]
-		Mass_media_field( ): $mol_form_field
+		content_mass_media( id: any): readonly(any)[]
+		Mass_media_field( id: any): $mol_form_field
+		mass_media_field( ): readonly(any)[]
 		type( next?: string ): string
 		type_suggests_showed( next?: ReturnType< ReturnType< $shm_hitalama_board_form_view['Type'] >['suggests_showed'] > ): ReturnType< ReturnType< $shm_hitalama_board_form_view['Type'] >['suggests_showed'] >
 		type_focused( next?: ReturnType< ReturnType< $shm_hitalama_board_form_view['Type'] >['focused'] > ): ReturnType< ReturnType< $shm_hitalama_board_form_view['Type'] >['focused'] >
@@ -17983,6 +17985,7 @@ declare namespace $ {
 		Clear( ): $mol_button_minor
 		board( ): $shm_hitalama_board
 		form( ): $shm_hitalama_board_form
+		session_id( next?: string ): string
 		form_fields( ): readonly(any)[]
 		body( ): ReturnType< $shm_hitalama_board_form_view['form_body'] >
 		buttons( ): readonly(any)[]
@@ -18002,13 +18005,15 @@ declare namespace $.$$ {
         type(next?: string): string;
         tags(next?: string): string;
         category(next?: string): string;
-        social_media_attach(files: File[]): File[];
-        mass_media_attach(files: File[]): File[];
+        social_media_attach(session_id: string, files: File[]): void;
+        mass_media_attach(session_id: string, files: File[]): void;
         social_media_title(): string;
         mass_media_title(): string;
         type_select(id: string, event?: MouseEvent): void;
         submit(): void;
         clear(): void;
+        social_media_field(): $.$mol_form_field[];
+        mass_media_field(): $.$mol_form_field[];
     }
 }
 

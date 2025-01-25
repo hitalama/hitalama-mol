@@ -29375,13 +29375,13 @@ var $;
 			(obj.Content) = () => ((this.Language()));
 			return obj;
 		}
-		social_media_attach(next){
+		social_media_attach(id, next){
 			if(next !== undefined) return next;
-			return [];
+			return null;
 		}
-		Social_media_file(){
+		Social_media_file(id){
 			const obj = new this.$.$mol_attach();
-			(obj.attach_new) = (next) => ((this.social_media_attach(next)));
+			(obj.attach_new) = (next) => ((this.social_media_attach(id, next)));
 			return obj;
 		}
 		social_media_title(){
@@ -29392,22 +29392,25 @@ var $;
 			(obj.title) = () => ((this.social_media_title()));
 			return obj;
 		}
-		content_social_media(){
-			return [(this.Social_media_file()), (this.Social_media_name())];
+		content_social_media(id){
+			return [(this.Social_media_file(id)), (this.Social_media_name())];
 		}
-		Social_media_field(){
+		Social_media_field(id){
 			const obj = new this.$.$mol_form_field();
 			(obj.name) = () => ("Соц.медиа");
-			(obj.content) = () => ((this.content_social_media()));
+			(obj.content) = () => ((this.content_social_media(id)));
 			return obj;
 		}
-		mass_media_attach(next){
-			if(next !== undefined) return next;
-			return [];
+		social_media_field(){
+			return [(this.Social_media_field("0"))];
 		}
-		Mass_media_file(){
+		mass_media_attach(id, next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Mass_media_file(id){
 			const obj = new this.$.$mol_attach();
-			(obj.attach_new) = (next) => ((this.mass_media_attach(next)));
+			(obj.attach_new) = (next) => ((this.mass_media_attach(id, next)));
 			return obj;
 		}
 		mass_media_title(){
@@ -29418,14 +29421,17 @@ var $;
 			(obj.title) = () => ((this.mass_media_title()));
 			return obj;
 		}
-		content_mass_media(){
-			return [(this.Mass_media_file()), (this.Mass_media_name())];
+		content_mass_media(id){
+			return [(this.Mass_media_file(id)), (this.Mass_media_name())];
 		}
-		Mass_media_field(){
+		Mass_media_field(id){
 			const obj = new this.$.$mol_form_field();
 			(obj.name) = () => ("СМИ");
-			(obj.content) = () => ((this.content_mass_media()));
+			(obj.content) = () => ((this.content_mass_media(id)));
 			return obj;
+		}
+		mass_media_field(){
+			return [(this.Mass_media_field("0"))];
 		}
 		type(next){
 			if(next !== undefined) return next;
@@ -29503,7 +29509,7 @@ var $;
 		}
 		Files(){
 			const obj = new this.$.$mol_form_group();
-			(obj.sub) = () => ([(this.Social_media_field()), (this.Mass_media_field())]);
+			(obj.sub) = () => ([...(this.social_media_field()), ...(this.mass_media_field())]);
 			return obj;
 		}
 		Tags_group(){
@@ -29565,6 +29571,10 @@ var $;
 			const obj = new this.$.$shm_hitalama_board_form();
 			return obj;
 		}
+		session_id(next){
+			if(next !== undefined) return next;
+			return "0";
+		}
 		form_fields(){
 			return [
 				(this.Query_field()), 
@@ -29572,8 +29582,8 @@ var $;
 				(this.Period_field()), 
 				(this.Country_field()), 
 				(this.Language_field()), 
-				(this.Social_media_field()), 
-				(this.Mass_media_field()), 
+				...(this.social_media_field()), 
+				...(this.mass_media_field()), 
 				(this.Type_field()), 
 				(this.Tags_field()), 
 				(this.Category_field())
@@ -29607,14 +29617,14 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "language"));
 	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Language"));
 	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Language_field"));
-	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "social_media_attach"));
-	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Social_media_file"));
+	($mol_mem_key(($.$shm_hitalama_board_form_view.prototype), "social_media_attach"));
+	($mol_mem_key(($.$shm_hitalama_board_form_view.prototype), "Social_media_file"));
 	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Social_media_name"));
-	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Social_media_field"));
-	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "mass_media_attach"));
-	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Mass_media_file"));
+	($mol_mem_key(($.$shm_hitalama_board_form_view.prototype), "Social_media_field"));
+	($mol_mem_key(($.$shm_hitalama_board_form_view.prototype), "mass_media_attach"));
+	($mol_mem_key(($.$shm_hitalama_board_form_view.prototype), "Mass_media_file"));
 	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Mass_media_name"));
-	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Mass_media_field"));
+	($mol_mem_key(($.$shm_hitalama_board_form_view.prototype), "Mass_media_field"));
 	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "type"));
 	($mol_mem_key(($.$shm_hitalama_board_form_view.prototype), "type_select"));
 	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Type"));
@@ -29637,6 +29647,7 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Clear"));
 	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "board"));
 	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "form"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "session_id"));
 
 
 ;
@@ -29679,21 +29690,19 @@ var $;
             category(next) {
                 return this.form().Category(next)?.val(next) ?? '';
             }
-            social_media_attach(files) {
+            social_media_attach(session_id, files) {
                 const file = this.board().Files(null)?.make(this.board().land());
                 file?.title(files[0].name);
                 file?.Size(null)?.val(files[0].size);
                 file?.File(null)?.ensure(this.board().land())?.blob(files[0]);
                 this.form().File_social_media(null)?.remote(file);
-                return files;
             }
-            mass_media_attach(files) {
+            mass_media_attach(session_id, files) {
                 const file = this.board().Files(null)?.make(this.board().land());
                 file?.title(files[0].name);
                 file?.Size(null)?.val(files[0].size);
                 file?.File(null)?.ensure(this.board().land())?.blob(files[0]);
                 this.form().File_mass_media(null)?.remote(file);
-                return files;
             }
             social_media_title() {
                 return this.form().File_social_media()?.remote()?.title() ?? '';
@@ -29724,8 +29733,15 @@ var $;
                 const form = this.form();
                 form.query('');
                 form.excluded_words('');
+                this.session_id($mol_guid());
                 form?.File_mass_media(null)?.remote(null);
                 form?.File_social_media(null)?.remote(null);
+            }
+            social_media_field() {
+                return [this.Social_media_field(this.session_id())];
+            }
+            mass_media_field() {
+                return [this.Mass_media_field(this.session_id())];
             }
         }
         $$.$shm_hitalama_board_form_view = $shm_hitalama_board_form_view;

@@ -2605,6 +2605,7 @@ $mol_status $mol_view
 $shm_hitalama_board_form_view $mol_form
 	board $shm_hitalama_board
 	form $shm_hitalama_board_form
+	session_id? \0
 	form_fields /
 		<= Query_field $mol_form_field
 			name \Поисковой запрос
@@ -2630,18 +2631,18 @@ $shm_hitalama_board_form_view $mol_form
 			name \Языки
 			Content <= Language $mol_string
 				value? <=> language? \
-		<= Social_media_field $mol_form_field
+		^ social_media_field / <= Social_media_field*0 $mol_form_field
 			name \Соц.медиа
-			content <= content_social_media /
-				<= Social_media_file $mol_attach
-					attach_new? <=> social_media_attach? /
+			content <= content_social_media* /
+				<= Social_media_file* $mol_attach
+					attach_new? <=> social_media_attach*? null
 				<= Social_media_name $mol_paragraph
 					title <= social_media_title \
-		<= Mass_media_field $mol_form_field
+		^ mass_media_field / <= Mass_media_field*0 $mol_form_field
 			name \СМИ
-			content <= content_mass_media /
-				<= Mass_media_file $mol_attach
-					attach_new? <=> mass_media_attach? /
+			content <= content_mass_media* /
+				<= Mass_media_file* $mol_attach
+					attach_new? <=> mass_media_attach*? null
 				<= Mass_media_name $mol_paragraph
 					title <= mass_media_title \
 		<= Type_field $mol_form_field
@@ -2675,8 +2676,8 @@ $shm_hitalama_board_form_view $mol_form
 			<= Country_field
 			<= Language_field
 		<= Files $mol_form_group sub /
-			<= Social_media_field
-			<= Mass_media_field
+			^ social_media_field
+			^ mass_media_field
 		<= Tags_group $mol_form_group sub /
 			<= Type_field
 			<= Tags_field
