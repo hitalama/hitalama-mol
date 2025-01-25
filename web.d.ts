@@ -21391,6 +21391,7 @@ declare namespace $ {
 		({ 
 			'color': ReturnType< $shm_hitalama_board_block_text['color'] >,
 			'fontSize': ReturnType< $shm_hitalama_board_block_text['font_size_px'] >,
+			'height': ReturnType< $shm_hitalama_board_block_text['textarea_height'] >,
 		}) 
 		,
 		ReturnType< $mol_textarea['style'] >
@@ -21411,6 +21412,7 @@ declare namespace $ {
 	export class $shm_hitalama_board_block_text extends $shm_hitalama_board_block_float {
 		text( next?: string ): string
 		selection( next?: readonly(number)[] ): readonly(number)[]
+		textarea_height( ): string
 		Text( ): $mol_textarea
 		blocker_pointerdown( next?: any ): any
 		blocker_pointerup( next?: any ): any
@@ -21429,6 +21431,7 @@ declare namespace $ {
 declare namespace $.$$ {
     class $shm_hitalama_board_block_text extends $.$shm_hitalama_board_block_text {
         get $(): typeof $$;
+        textarea_height(): string;
         text(next?: string): string;
         blocker_pointerdown_last?: PointerEvent;
         blocker_pointerdown(next?: any): void;

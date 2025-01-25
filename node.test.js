@@ -28079,12 +28079,19 @@ var $;
 			if(next !== undefined) return next;
 			return [];
 		}
+		textarea_height(){
+			return "100%";
+		}
 		Text(){
 			const obj = new this.$.$mol_textarea();
 			(obj.value) = (next) => ((this.text(next)));
 			(obj.selection) = (next) => ((this.selection(next)));
 			(obj.spellcheck) = () => (false);
-			(obj.style) = () => ({"color": (this.color()), "fontSize": (this.font_size_px())});
+			(obj.style) = () => ({
+				"color": (this.color()), 
+				"fontSize": (this.font_size_px()), 
+				"height": (this.textarea_height())
+			});
 			return obj;
 		}
 		blocker_pointerdown(next){
@@ -28170,6 +28177,9 @@ var $;
                     $mol_text_code_line: Code_line,
                 });
             }
+            textarea_height() {
+                return this.editing() ? 'auto' : super.textarea_height();
+            }
             text(next) {
                 return this.block().Text(next)?.text(next) ?? '';
             }
@@ -28219,6 +28229,9 @@ var $;
         __decorate([
             $mol_memo.field
         ], $shm_hitalama_board_block_text.prototype, "$", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_block_text.prototype, "textarea_height", null);
         __decorate([
             $mol_mem
         ], $shm_hitalama_board_block_text.prototype, "text", null);
@@ -28273,7 +28286,6 @@ var $;
             },
             Text: {
                 position: 'absolute',
-                height: '100%',
                 width: '100%',
                 background: {
                     color: 'transparent',
@@ -28289,6 +28301,9 @@ var $;
                     ['Row']: {
                         ':empty': {
                             height: '1.5em',
+                        },
+                        ['Token']: {
+                            color: 'inherit',
                         },
                     },
                 },
