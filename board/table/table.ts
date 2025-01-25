@@ -39,7 +39,7 @@ namespace $ {
 		}
 		
 		@ $mol_mem
-		table_rows( next?: any ): any {
+		table_rows( next?: any ): any[] {
 			const method = this.Rows_method()?.val()
 			if( !method ) return this.Rows(next)?.val( next ) ?? []
 
