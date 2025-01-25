@@ -249,7 +249,9 @@ namespace $.$$ {
 			const table_pos = [ form_pos[0] + 460, form_pos[1]] as const
 			const block_table = this.board().table_add( table_pos, 1000, 780 )!
 			block_table.table_head( [ 'Запрос', 'Минус', 'Период', 'Страна', 'Язык', 'СМИ', 'Соц.медиа', 'Type', 'Tags', 'Category', ] )
-			block_table.Table(null)?.ensure( block_table.land() )?.Rows_method(null)?.val( "return board.search_statistics().map( s => [\n	s.query(),\n	s.excluded_words(),\n	s.prediod(),\n	s.country(),\n	s.language(),\n	s.mass_media_title(),\n	s.social_media_title(),\n	s.type(),\n	s.tags(),\n	s.category(),\n] )" )
+			block_table.table_col_types( [ 'any', 'any', 'any', 'any', 'any', 'file', 'file', 'any', 'any', 'any', ] )
+			const rows_method = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( '/shm/hitalama/board/snippets/_search_statistics_rows.js' ) )
+			block_table.Table(null)?.ensure( block_table.land() )?.Rows_method(null)?.val( rows_method )
 
 			const code_pos = [ form_pos[0], form_pos[1] + 790 ] as const
 			const code = this.board().block_add( 'code', code_pos, 1220, 680 )

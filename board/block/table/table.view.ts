@@ -16,9 +16,18 @@ namespace $.$$ {
 			return [ '', '', ... this.block().table_head() ?? [] ]
 		}
 
+		@ $mol_mem
+		col_types() {
+			return [ 'check', 'index', ... this.block().table_col_types() ?? [] ]
+		}
+
 		Cell( id: Cell_id ) : $mol_view {
 			if( id.col == 0 ) return this.Cell_checkbox( id )
 			if( id.col == 1 ) return this.Cell_index_number( id )
+
+			const col_type = this.col_types()?.[id.col]
+			if( col_type == 'file' ) return this.Cell_file( id )
+
 			return this.Cell_text( id )
 		}
 		
@@ -33,8 +42,39 @@ namespace $.$$ {
 		}
 
 		@ $mol_mem_key
+		cell_file_name( id: Cell_id ) {
+			const ref_str = this.cell_content_text( id ).toString()
+			const file = $hyoo_crus_glob.Node( $hyoo_crus_ref( ref_str ), $shm_hitalama_file )
+			return file.title()
+		}
+
+		@ $mol_mem_key
+		cell_file_visible( id: Cell_id ) {
+			const ref_str = this.cell_content_text( id ).toString()
+			return ref_str ? super.cell_file_visible( id ) : []
+		}
+
+		@ $mol_mem_key
+		file_uri_async( ref_str: string ) {
+			const file = $hyoo_crus_glob.Node( $hyoo_crus_ref( ref_str ), $shm_hitalama_file )
+			const blob = file.File()?.remote()?.blob()!
+			return this.$.$mol_blob_uri( blob )
+		}
+
+		@ $mol_action
+		file_uri( ref_str: string ) {
+			return this.$.$mol_wire_sync(this).file_uri_async( ref_str )
+		}
+
+		@ $mol_mem_key
+		cell_file_uri( id: Cell_id ) {
+			const ref_str = this.cell_content_text( id ).toString()
+			const uri = this.file_uri( ref_str )
+			return uri
+		}
+
+		@ $mol_mem_key
 		cell_checked( id: Cell_id, next?: boolean ) {
-			// console.log('id', id)
 			const checks = this.block().table().Rows_checked(null)?.val() as Record< number, boolean >
 			const row_i = id.row[1]!
 			if( next === undefined ) return  checks?.[ row_i ] ?? false
@@ -48,7 +88,6 @@ namespace $.$$ {
 
 		cell_checkboxes() {
 			const checkboxes = this.table_row_ids().map( row => this.Checkbox( { col: '0', row } ) )
-			console.log('checkboxes', checkboxes)
 			return checkboxes
 		}
 

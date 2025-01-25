@@ -10,7 +10,11 @@ namespace $ {
 		Rows: $hyoo_crus_atom_jsan,
 		Rows_method: $hyoo_crus_atom_str,
 
-		Col_widths: $hyoo_crus_atom_jsan, //date, any
+		Col_widths: $hyoo_crus_atom_jsan, 
+		/**
+		 * 'date'|'any'|'file'.
+		 * 'file' is a ref_str to shm_hitalama_file
+		 */
 		Col_types: $hyoo_crus_atom_jsan,
 
 		Rows_checked: $hyoo_crus_atom_json, //[i]: bool
@@ -49,8 +53,17 @@ namespace $ {
 		}
 
 		@ $mol_mem
-		col_types() {
-			return this.Col_types()?.val() ?? this.table_head()?.map( title => title == 'Дата' ? 'date' : 'any' ) ?? []
+		col_types( next?: any ) {
+			const types_raw = this.Col_types(next)?.val(next) ?? []
+
+			const types = [...types_raw] 
+
+			this.table_head()?.forEach( (title, i) => {
+				if( title == 'Дата' ) { types[i] ??= 'date' }
+				types[i] ??= 'any'
+			} )
+
+			return types
 		}
 
 		@ $mol_mem

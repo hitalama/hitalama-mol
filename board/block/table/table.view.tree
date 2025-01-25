@@ -8,21 +8,24 @@ $shm_hitalama_board_block_table $shm_hitalama_board_block_float
 			row_ids => table_row_ids
 	Cell_text* $mol_grid_cell
 		sub <= cell_content_text*
-		style *
+		style <= cell_style* *
 			maxWidth <= col_width_px* \auto
 			width <= col_width_px* \auto
+	Cell_file* $mol_grid_cell
+		sub /
+			^ cell_file_visible* / <= Download* $mol_link
+				uri <= cell_file_uri* \
+				file_name <= cell_file_name* \
+				sub /
+					<= Download_icon* $mol_icon_download
+					<= cell_file_name*
+		style <= cell_style*
 	Cell_index_number* $mol_grid_cell
 		sub / <= cell_index_number* \
-		style *
-			maxWidth <= col_width_px* \auto
-			width <= col_width_px* \auto
 	Cell_checkbox* $mol_grid_cell
 		sub /
 			<= Checkbox* $mol_check_box
 				checked? <=> cell_checked*? false
-		style *
-			maxWidth <= col_width_px* \auto
-			width <= col_width_px* \auto
 	All_check $mol_check_group
 		checks <= cell_checkboxes /
 	tools /

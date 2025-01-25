@@ -25,6 +25,13 @@ namespace $.$$ {
 			padding: 0,
 		},
 
+		Cell_file: {
+			padding: 0,
+		},
+		Download: {
+			whiteSpace: 'normal',
+		},
+
 		All_check: {
 			margin: {
 				top: '-0.5rem',

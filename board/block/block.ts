@@ -78,6 +78,11 @@ namespace $ {
 		}
 
 		@ $mol_mem
+		table_col_types( next?: any ) {
+			return this.table()?.col_types( next )
+		}
+
+		@ $mol_mem
 		table_rows( next?: any ) {
 			return this.table()?.table_rows( next )
 		}
