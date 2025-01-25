@@ -55,7 +55,8 @@ namespace $.$$ {
 
 		@ $mol_mem
 		font_size( next?: number ) {
-			this.board().Last_font_size(null)?.val(next)
+			if( next !== undefined ) this.board().Last_font_size(null)?.val(next)
+			
 			return this.block().Font_size(next)?.val(next) ?? 14
 		}
 
@@ -95,11 +96,10 @@ namespace $.$$ {
 
 		@ $mol_mem
 		color( next?: string ) {
-			this.board().Last_color(null)?.val(next)
-			
 			if( next === undefined ) return this.block().Color()?.val() || 'var(--mol_theme_text)'
-			const color = next || 'var(--mol_theme_text)'
-			return this.block().Color(null)?.val(color)!
+
+			this.board().Last_color(null)?.val(next)
+			return this.block().Color(null)?.val(next)!
 		}
 
 		opacity_str(): string {
