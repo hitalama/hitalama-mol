@@ -17729,6 +17729,22 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    class $shm_hitalama_board_presence extends $hyoo_crus_entity.with({
+        Profile: $hyoo_crus_atom_ref_to(() => $shm_hitalama_profile),
+        Pos: $hyoo_crus_atom_jsan,
+        Time: $hyoo_crus_atom_int,
+    }) {
+    }
+    $.$shm_hitalama_board_presence = $shm_hitalama_board_presence;
+    class $shm_hitalama_board_presence_dict extends $hyoo_crus_dict_to($hyoo_crus_atom_ref_to(() => $shm_hitalama_board_presence)) {
+    }
+    $.$shm_hitalama_board_presence_dict = $shm_hitalama_board_presence_dict;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
     class $shm_hitalama_board extends $hyoo_crus_entity.with({
         Blocks: $hyoo_crus_list_ref_to(() => $shm_hitalama_board_block),
         Block_by_name: $hyoo_crus_dict_to($hyoo_crus_atom_ref_to(() => $shm_hitalama_board_block)),
@@ -17737,6 +17753,7 @@ var $;
         Search_statistics: $hyoo_crus_list_ref_to(() => $shm_hitalama_board_form),
         Files: $hyoo_crus_list_ref_to(() => $shm_hitalama_file),
         Description: $hyoo_crus_atom_str,
+        Presences: $hyoo_crus_atom_ref_to(() => $shm_hitalama_board_presence_dict),
     }) {
         block(ref) {
             return $hyoo_crus_glob.Node($hyoo_crus_ref(ref), $shm_hitalama_board_block);
@@ -31984,6 +32001,109 @@ var $;
 })($ || ($ = {}));
 
 ;
+	($.$mol_icon_cursor_default) = class $mol_icon_cursor_default extends ($.$mol_icon) {
+		path(){
+			return "M13.64,21.97C13.14,22.21 12.54,22 12.31,21.5L10.13,16.76L7.62,18.78C7.45,18.92 7.24,19 7,19A1,1 0 0,1 6,18V3A1,1 0 0,1 7,2C7.24,2 7.47,2.09 7.64,2.23L7.65,2.22L19.14,11.86C19.57,12.22 19.62,12.85 19.27,13.27C19.12,13.45 18.91,13.57 18.7,13.61L15.54,14.23L17.74,18.96C18,19.46 17.76,20.05 17.26,20.28L13.64,21.97Z";
+		}
+	};
+
+
+;
+"use strict";
+
+;
+	($.$shm_hitalama_board_presence_cursor) = class $shm_hitalama_board_presence_cursor extends ($.$mol_view) {
+		top_px(){
+			return "";
+		}
+		left_px(){
+			return "";
+		}
+		Icon(){
+			const obj = new this.$.$mol_icon_cursor_default();
+			return obj;
+		}
+		name(){
+			return "afasfs";
+		}
+		Name(){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => ([(this.name())]);
+			return obj;
+		}
+		pos(){
+			return [];
+		}
+		style(){
+			return {
+				...(super.style()), 
+				"top": (this.top_px()), 
+				"left": (this.left_px())
+			};
+		}
+		sub(){
+			return [(this.Icon()), (this.Name())];
+		}
+	};
+	($mol_mem(($.$shm_hitalama_board_presence_cursor.prototype), "Icon"));
+	($mol_mem(($.$shm_hitalama_board_presence_cursor.prototype), "Name"));
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $shm_hitalama_board_presence_cursor extends $.$shm_hitalama_board_presence_cursor {
+            left_px() {
+                return this.pos()?.[0] + 'px';
+            }
+            top_px() {
+                return this.pos()?.[1] + 'px';
+            }
+            name() {
+                const profile = $shm_hitalama_profile.current();
+                return profile?.Login()?.val() ?? profile?.ref().description?.toString();
+            }
+        }
+        $$.$shm_hitalama_board_presence_cursor = $shm_hitalama_board_presence_cursor;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        $mol_style_define($shm_hitalama_board_presence_cursor, {
+            position: 'absolute',
+            Icon: {
+                padding: 0,
+                width: '1.5rem',
+                height: '1.5rem',
+                margin: {
+                    top: '-1px',
+                    left: '-6px',
+                },
+            },
+            Name: {
+                padding: {
+                    top: $mol_gap.block,
+                    left: $mol_gap.space,
+                },
+            },
+            pointerEvents: 'none',
+            transition: 'top 0.2s, left 0.2s',
+        });
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
 	($.$shm_hitalama_board_touch) = class $shm_hitalama_board_touch extends ($.$mol_touch) {};
 
 
@@ -32317,7 +32437,8 @@ var $;
 		pointer_pos(){
 			return [];
 		}
-		real_pointer_pos(){
+		real_pointer_pos(next){
+			if(next !== undefined) return next;
 			return [];
 		}
 		to_real_pos(id){
@@ -32412,6 +32533,7 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_pane.prototype), "pointer_down"));
 	($mol_mem(($.$shm_hitalama_board_pane.prototype), "pointer_up"));
 	($mol_mem(($.$shm_hitalama_board_pane.prototype), "wheel"));
+	($mol_mem(($.$shm_hitalama_board_pane.prototype), "real_pointer_pos"));
 	($mol_mem(($.$shm_hitalama_board_pane.prototype), "select_rect_start_x"));
 	($mol_mem(($.$shm_hitalama_board_pane.prototype), "select_rect_start_y"));
 	($mol_mem(($.$shm_hitalama_board_pane.prototype), "select_rect_end_x"));
@@ -32453,6 +32575,7 @@ var $;
             pointer_client_pos = [0, 0];
             pointer_move(event) {
                 this.pointer_client_pos = [event.clientX, event.clientY];
+                this.real_pointer_pos(this.to_real_pos(this.client_pos_to_pane_pos(this.pointer_client_pos)));
             }
             pointer_down(event) {
                 if (event?.button == 2) {
@@ -32475,9 +32598,8 @@ var $;
             pointer_pos() {
                 return this.client_pos_to_pane_pos(this.pointer_client_pos);
             }
-            real_pointer_pos() {
-                const [x, y] = this.client_pos_to_pane_pos(this.pointer_client_pos);
-                return this.to_real_pos([x, y]);
+            real_pointer_pos(next) {
+                return next ?? super.real_pointer_pos();
             }
             to_real_pos([x, y]) {
                 const shift = this.shift();
@@ -32574,6 +32696,9 @@ var $;
         }
         __decorate([
             $mol_mem
+        ], $shm_hitalama_board_pane.prototype, "real_pointer_pos", null);
+        __decorate([
+            $mol_mem
         ], $shm_hitalama_board_pane.prototype, "select_rect_left", null);
         __decorate([
             $mol_mem
@@ -32668,6 +32793,9 @@ var $;
 		}
 		hovered_ref(next){
 			if(next !== undefined) return next;
+			return null;
+		}
+		send_cursor_pos_atom(){
 			return null;
 		}
 		Open_in_new_icon(){
@@ -32937,6 +33065,17 @@ var $;
 		blocks(){
 			return [(this.Block(id))];
 		}
+		cursor_pos(id){
+			return null;
+		}
+		Cursor(id){
+			const obj = new this.$.$shm_hitalama_board_presence_cursor();
+			(obj.pos) = () => ((this.cursor_pos(id)));
+			return obj;
+		}
+		cursors(){
+			return [(this.Cursor(id))];
+		}
 		board(){
 			const obj = new this.$.$shm_hitalama_board();
 			return obj;
@@ -32951,7 +33090,8 @@ var $;
 				(this.paste_listener()), 
 				(this.shift_pressed()), 
 				(this.pull_drags_synced()), 
-				(this.hovered_ref())
+				(this.hovered_ref()), 
+				(this.send_cursor_pos_atom())
 			];
 		}
 		selected_refs(next){
@@ -32991,7 +33131,7 @@ var $;
 			(obj.back_event_contextmenu) = (next) => ((this.back_event_contextmenu(next)));
 			(obj.prevent_zoom) = () => ((this.prevent_zoom()));
 			(obj.outside) = () => ([...(this.contextmenu_visible())]);
-			(obj.body) = () => ([...(this.blocks())]);
+			(obj.body) = () => ([...(this.blocks()), ...(this.cursors())]);
 			return obj;
 		}
 	};
@@ -33032,6 +33172,7 @@ var $;
 	($mol_mem_key(($.$shm_hitalama_board_page.prototype), "hovered"));
 	($mol_mem_key(($.$shm_hitalama_board_page.prototype), "block_event_contextmenu"));
 	($mol_mem_key(($.$shm_hitalama_board_page.prototype), "Block"));
+	($mol_mem_key(($.$shm_hitalama_board_page.prototype), "Cursor"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "board"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "selected_refs"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "contextmenu_body"));
@@ -33293,6 +33434,34 @@ var $;
             scale_percent() {
                 return (this.zoom() * 100).toFixed(2) + '%';
             }
+            presences() {
+                const board = this.board();
+                return board.Presences()?.remote() ?? board.Presences(null)?.ensure({ '': $hyoo_crus_rank_make('post', 'just') });
+            }
+            presence() {
+                const profile = $shm_hitalama_profile.current();
+                const id = profile?.ref().description?.toString();
+                const presence = this.presences().key(id, 'auto').ensure(profile?.land());
+                presence?.Profile(null)?.remote(profile);
+                return presence;
+            }
+            send_cursor_pos_atom() {
+                new $mol_wire_atom('send_cursor_pos', () => {
+                    $mol_state_time.now(50);
+                    this.presence()?.Pos(null)?.val(this.get_pointer_pos());
+                }).fresh();
+            }
+            cursor_pos(key) {
+                const presence = this.presences()?.key(key).remote();
+                return presence?.Pos()?.val();
+            }
+            cursors() {
+                const profile = $shm_hitalama_profile.current();
+                const id = profile?.ref().description?.toString();
+                return this.presences()?.keys().flatMap(key => {
+                    return key == id ? [] : [this.Cursor(key)];
+                }) ?? [];
+            }
             file_add(file, pos) {
                 const board_file = this.board().Files(null)?.make(this.board().land());
                 board_file?.title(file.name);
@@ -33459,6 +33628,21 @@ var $;
         __decorate([
             $mol_mem
         ], $shm_hitalama_board_page.prototype, "scale_percent", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_page.prototype, "presences", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_page.prototype, "presence", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_page.prototype, "send_cursor_pos_atom", null);
+        __decorate([
+            $mol_mem_key
+        ], $shm_hitalama_board_page.prototype, "cursor_pos", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_page.prototype, "cursors", null);
         __decorate([
             $mol_action
         ], $shm_hitalama_board_page.prototype, "file_add", null);
