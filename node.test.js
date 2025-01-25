@@ -29405,9 +29405,28 @@ var $;
 			if(next !== undefined) return next;
 			return "";
 		}
+		type_suggests_showed(next){
+			return (this.Type().suggests_showed(next));
+		}
+		type_focused(next){
+			return (this.Type().focused(next));
+		}
+		type_select(id, next){
+			if(next !== undefined) return next;
+			return null;
+		}
 		Type(){
-			const obj = new this.$.$mol_string();
-			(obj.value) = (next) => ((this.type(next)));
+			const obj = new this.$.$mol_search();
+			(obj.hint) = () => ("Выбрать...");
+			(obj.query) = (next) => ((this.type(next)));
+			(obj.suggest_select) = (id, next) => ((this.type_select(id, next)));
+			(obj.suggests) = () => ([
+				"инфоповод", 
+				"компания", 
+				"персона", 
+				"событие", 
+				"процесс"
+			]);
 			return obj;
 		}
 		Type_field(){
@@ -29571,6 +29590,7 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Mass_media_name"));
 	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Mass_media_field"));
 	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "type"));
+	($mol_mem_key(($.$shm_hitalama_board_form_view.prototype), "type_select"));
 	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Type"));
 	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Type_field"));
 	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "tags"));
@@ -29655,6 +29675,10 @@ var $;
             mass_media_title() {
                 return this.form().File_mass_media()?.remote()?.title() ?? '';
             }
+            type_select(id, event) {
+                this.type(id);
+                this.focused(true);
+            }
             submit() {
                 const form = this.board().Search_statistics(null)?.make({ '': $hyoo_crus_rank_read });
                 form?.query(this.query());
@@ -29680,6 +29704,13 @@ var $;
         }
         $$.$shm_hitalama_board_form_view = $shm_hitalama_board_form_view;
     })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_style_attach("shm/hitalama/board/form/view/view.view.css", "[shm_hitalama_board_form_view_type_clear]:where(:not(:disabled)):hover {\n\tz-index: var(--mol_layer_focus);\n}\n[shm_hitalama_board_form_view_type_clear] {\n\tz-index: var(--mol_layer_focus);\n}\n");
 })($ || ($ = {}));
 
 ;
@@ -29750,6 +29781,12 @@ var $;
                     flex: {
                         basis: '10rem',
                     },
+                },
+            },
+            Type: {
+                Clear: {
+                    position: 'absolute',
+                    right: 0,
                 },
             },
         });

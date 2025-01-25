@@ -22084,97 +22084,122 @@ declare namespace $ {
 		,
 		ReturnType< $mol_form_field['content'] >
 	>
-	type $mol_string__value_shm_hitalama_board_form_view_25 = $mol_type_enforce<
+	type __shm_hitalama_board_form_view_25 = $mol_type_enforce<
+		Parameters< $shm_hitalama_board_form_view['type_suggests_showed'] >[0]
+		,
+		Parameters< ReturnType< $shm_hitalama_board_form_view['Type'] >['suggests_showed'] >[0]
+	>
+	type __shm_hitalama_board_form_view_26 = $mol_type_enforce<
+		Parameters< $shm_hitalama_board_form_view['type_focused'] >[0]
+		,
+		Parameters< ReturnType< $shm_hitalama_board_form_view['Type'] >['focused'] >[0]
+	>
+	type $mol_search__hint_shm_hitalama_board_form_view_27 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_search['hint'] >
+	>
+	type $mol_search__query_shm_hitalama_board_form_view_28 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_form_view['type'] >
 		,
-		ReturnType< $mol_string['value'] >
+		ReturnType< $mol_search['query'] >
 	>
-	type $mol_form_field__name_shm_hitalama_board_form_view_26 = $mol_type_enforce<
+	type $mol_search__suggest_select_shm_hitalama_board_form_view_29 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_form_view['type_select'] >
+		,
+		ReturnType< $mol_search['suggest_select'] >
+	>
+	type $mol_search__suggests_shm_hitalama_board_form_view_30 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_search['suggests'] >
+	>
+	type $mol_form_field__name_shm_hitalama_board_form_view_31 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_form_field['name'] >
 	>
-	type $mol_form_field__Content_shm_hitalama_board_form_view_27 = $mol_type_enforce<
+	type $mol_form_field__Content_shm_hitalama_board_form_view_32 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_form_view['Type'] >
 		,
 		ReturnType< $mol_form_field['Content'] >
 	>
-	type $mol_string__value_shm_hitalama_board_form_view_28 = $mol_type_enforce<
+	type $mol_string__value_shm_hitalama_board_form_view_33 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_form_view['tags'] >
 		,
 		ReturnType< $mol_string['value'] >
 	>
-	type $mol_form_field__name_shm_hitalama_board_form_view_29 = $mol_type_enforce<
+	type $mol_form_field__name_shm_hitalama_board_form_view_34 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_form_field['name'] >
 	>
-	type $mol_form_field__Content_shm_hitalama_board_form_view_30 = $mol_type_enforce<
+	type $mol_form_field__Content_shm_hitalama_board_form_view_35 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_form_view['Tags'] >
 		,
 		ReturnType< $mol_form_field['Content'] >
 	>
-	type $mol_string__value_shm_hitalama_board_form_view_31 = $mol_type_enforce<
+	type $mol_string__value_shm_hitalama_board_form_view_36 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_form_view['category'] >
 		,
 		ReturnType< $mol_string['value'] >
 	>
-	type $mol_form_field__name_shm_hitalama_board_form_view_32 = $mol_type_enforce<
+	type $mol_form_field__name_shm_hitalama_board_form_view_37 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_form_field['name'] >
 	>
-	type $mol_form_field__Content_shm_hitalama_board_form_view_33 = $mol_type_enforce<
+	type $mol_form_field__Content_shm_hitalama_board_form_view_38 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_form_view['Category'] >
 		,
 		ReturnType< $mol_form_field['Content'] >
 	>
-	type $mol_form_group__sub_shm_hitalama_board_form_view_34 = $mol_type_enforce<
+	type $mol_form_group__sub_shm_hitalama_board_form_view_39 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_form_group['sub'] >
 	>
-	type $mol_form_group__sub_shm_hitalama_board_form_view_35 = $mol_type_enforce<
+	type $mol_form_group__sub_shm_hitalama_board_form_view_40 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_form_group['sub'] >
 	>
-	type $mol_form_group__sub_shm_hitalama_board_form_view_36 = $mol_type_enforce<
+	type $mol_form_group__sub_shm_hitalama_board_form_view_41 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_form_group['sub'] >
 	>
-	type $mol_form_group__sub_shm_hitalama_board_form_view_37 = $mol_type_enforce<
+	type $mol_form_group__sub_shm_hitalama_board_form_view_42 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_form_group['sub'] >
 	>
-	type $mol_button_major__title_shm_hitalama_board_form_view_38 = $mol_type_enforce<
+	type $mol_button_major__title_shm_hitalama_board_form_view_43 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_button_major['title'] >
 	>
-	type $mol_button_major__click_shm_hitalama_board_form_view_39 = $mol_type_enforce<
+	type $mol_button_major__click_shm_hitalama_board_form_view_44 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_form_view['submit'] >
 		,
 		ReturnType< $mol_button_major['click'] >
 	>
-	type $mol_button_major__enabled_shm_hitalama_board_form_view_40 = $mol_type_enforce<
+	type $mol_button_major__enabled_shm_hitalama_board_form_view_45 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_form_view['submit_allowed'] >
 		,
 		ReturnType< $mol_button_major['enabled'] >
 	>
-	type $mol_status__message_shm_hitalama_board_form_view_41 = $mol_type_enforce<
+	type $mol_status__message_shm_hitalama_board_form_view_46 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_form_view['result'] >
 		,
 		ReturnType< $mol_status['message'] >
 	>
-	type $mol_button_minor__title_shm_hitalama_board_form_view_42 = $mol_type_enforce<
+	type $mol_button_minor__title_shm_hitalama_board_form_view_47 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_button_minor['title'] >
 	>
-	type $mol_button_minor__click_shm_hitalama_board_form_view_43 = $mol_type_enforce<
+	type $mol_button_minor__click_shm_hitalama_board_form_view_48 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_form_view['clear'] >
 		,
 		ReturnType< $mol_button_minor['click'] >
@@ -22210,7 +22235,10 @@ declare namespace $ {
 		content_mass_media( ): readonly(any)[]
 		Mass_media_field( ): $mol_form_field
 		type( next?: string ): string
-		Type( ): $mol_string
+		type_suggests_showed( next?: ReturnType< ReturnType< $shm_hitalama_board_form_view['Type'] >['suggests_showed'] > ): ReturnType< ReturnType< $shm_hitalama_board_form_view['Type'] >['suggests_showed'] >
+		type_focused( next?: ReturnType< ReturnType< $shm_hitalama_board_form_view['Type'] >['focused'] > ): ReturnType< ReturnType< $shm_hitalama_board_form_view['Type'] >['focused'] >
+		type_select( id: any, next?: any ): any
+		Type( ): $mol_search
 		Type_field( ): $mol_form_field
 		tags( next?: string ): string
 		Tags( ): $mol_string
@@ -22255,9 +22283,13 @@ declare namespace $.$$ {
         mass_media_attach(files: File[]): File[];
         social_media_title(): string;
         mass_media_title(): string;
+        type_select(id: string, event?: MouseEvent): void;
         submit(): void;
         clear(): void;
     }
+}
+
+declare namespace $ {
 }
 
 declare namespace $.$$ {
