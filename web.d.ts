@@ -13425,15 +13425,15 @@ declare namespace $ {
     };
     export class $shm_hitalama_board_table extends $shm_hitalama_board_table_base {
         board(): $shm_hitalama_board;
-        table_head(next?: any): any[] | null | undefined;
-        table_rows(next?: any): any[] | null | undefined;
+        table_head(next?: any): any[];
+        table_rows(next?: any): any[];
         col_types(next?: any): any[];
         head_computeds(): {
             title: string;
             calc: (row: any[]) => any;
         }[];
         head_extended(): any[];
-        rows_extended(): any[][] | undefined;
+        rows_extended(): any[][];
     }
     export {};
 }
@@ -14448,9 +14448,9 @@ declare namespace $ {
         color(next?: string): string;
         font_size(next?: number): number | "";
         table(): $shm_hitalama_board_table;
-        table_head(next?: any): any[] | null | undefined;
+        table_head(next?: any): any[];
         table_col_types(next?: any): any[];
-        table_rows(next?: any): any[] | null | undefined;
+        table_rows(next?: any): any[];
         file_str(): string | undefined;
     }
     export {};

@@ -17445,20 +17445,20 @@ var $;
         table_head(next) {
             const method = this.Head_method()?.val();
             if (!method)
-                return this.Head(next)?.val(next);
+                return this.Head(next)?.val(next) ?? [];
             const vars = 'const next = this.next;const board = this.board;\n';
             const func = new Function(vars + method);
             const res = func.call({ next, board: this.board() });
-            return this.Head(res)?.val(res);
+            return res;
         }
         table_rows(next) {
             const method = this.Rows_method()?.val();
             if (!method)
-                return this.Rows(next)?.val(next);
+                return this.Rows(next)?.val(next) ?? [];
             const vars = 'const next = this.next;const board = this.board;\n';
             const func = new Function(vars + method);
             const res = func.call({ next, board: this.board() });
-            return this.Rows(res)?.val(res);
+            return res;
         }
         col_types(next) {
             const types_raw = this.Col_types(next)?.val(next) ?? [];
