@@ -1989,7 +1989,7 @@ $shm_hitalama_contextmenu $mol_view
 	auto /
 		<= pointerdown_listener null
 
-$shm_hitalama_drag $mol_plugin
+$rise_drag $mol_plugin
 	x? 0
 	y? 0
 	repos_x* 1
@@ -2007,33 +2007,34 @@ $shm_hitalama_drag $mol_plugin
 		0 - \left
 		-\ 1 - \right
 		-\ 2 - \middle
+	-
 	event *
 		^
 		pointerdown? <=> pointerdown? null
 	attr *
 		^
-		shm_hitalama_dragged <= dragged? false
+		rise_dragged <= dragged? false
 	-
-	drags_synced /$shm_hitalama_drag
+	drags_synced /$rise_drag
 
-$shm_hitalama_drag_view $mol_view
+$rise_drag_view $mol_view
 	plugins /
 		^
-		<= Drag $shm_hitalama_drag
+		<= Drag $rise_drag
 			on_drag_start? <=> on_drag_start? null
 			on_drag_end? <=> on_drag_end? null
 			on_drag? <=> on_drag? null
 			dragged => dragged
 			y? <=> y? 0
 			x? <=> x? 0
-			drags_synced <= drags_synced /$shm_hitalama_drag
+			drags_synced <= drags_synced /$rise_drag
 			repos_x* <= repos_x* 1
 			repos_y* <= repos_y* 1
 	style *
 		^
 		userSelect \none
 
-$shm_hitalama_resize $mol_view
+$rise_resize $mol_view
 	sub /
 		<= Content $mol_scroll
 			sub <= content_wrapper /
@@ -2042,64 +2043,64 @@ $shm_hitalama_resize $mol_view
 						minHeight \100%
 						minWidth \100%
 					sub <= content /
-						<= Drag_view $shm_hitalama_drag_view
+						<= Drag_view $rise_drag_view
 							sub <= drag_body /
-							x? <=> body_x? 0
-							y? <=> body_y? 0
+							x? <=> x? 0
+							y? <=> y? 0
 							on_drag_start? <=> on_drag_start? null
 							on_drag_end? <=> on_drag_end? null
 							dragged => dragged
-							drags_synced <= drags_synced /$shm_hitalama_drag
+							drags_synced <= drags_synced /$rise_drag
 							Drag => Drag
 							repos_x* <= repos_x* 1
 							repos_y* <= repos_y* 1
 		^ edges /
-			<= Top_edge $shm_hitalama_resize_edge
+			<= Top_edge $rise_resize_edge
 				repos_x* <= repos_x*
 				repos_y* <= repos_y*
 				on_drag_start? <=> resize_start? null
 				on_drag_end? <=> resize_end? null
 				y? <=> top_edge_y? 0
-			<= Left_edge $shm_hitalama_resize_edge
+			<= Left_edge $rise_resize_edge
 				repos_x* <= repos_x*
 				repos_y* <= repos_y*
 				on_drag_start? <=> resize_start? null
 				on_drag_end? <=> resize_end? null
 				x? <=> left_edge_x? 0
-			<= Bottom_edge $shm_hitalama_resize_edge
+			<= Bottom_edge $rise_resize_edge
 				repos_x* <= repos_x*
 				repos_y* <= repos_y*
 				on_drag_start? <=> resize_start? null
 				on_drag_end? <=> resize_end? null
 				y? <=> bottom_edge_y? 0
-			<= Right_edge $shm_hitalama_resize_edge
+			<= Right_edge $rise_resize_edge
 				repos_x* <= repos_x*
 				repos_y* <= repos_y*
 				on_drag_start? <=> resize_start? null
 				on_drag_end? <=> resize_end? null
 				x? <=> right_edge_x? 0
-			<= Top_left_edge $shm_hitalama_resize_edge
+			<= Top_left_edge $rise_resize_edge
 				repos_x* <= repos_x*
 				repos_y* <= repos_y*
 				on_drag_start? <=> resize_start? null
 				on_drag_end? <=> resize_end? null
 				y? <=> top_edge_y? 0
 				x? <=> left_edge_x? 0
-			<= Top_right_edge $shm_hitalama_resize_edge
+			<= Top_right_edge $rise_resize_edge
 				repos_x* <= repos_x*
 				repos_y* <= repos_y*
 				on_drag_start? <=> resize_start? null
 				on_drag_end? <=> resize_end? null
 				y? <=> top_edge_y? 0
 				x? <=> right_edge_x? 0
-			<= Bottom_left_edge $shm_hitalama_resize_edge
+			<= Bottom_left_edge $rise_resize_edge
 				repos_x* <= repos_x*
 				repos_y* <= repos_y*
 				on_drag_start? <=> resize_start? null
 				on_drag_end? <=> resize_end? null
 				y? <=> bottom_edge_y? 0
 				x? <=> left_edge_x? 0
-			<= Bottom_right_edge $shm_hitalama_resize_edge
+			<= Bottom_right_edge $rise_resize_edge
 				repos_x* <= repos_x*
 				repos_y* <= repos_y*
 				on_drag_start? <=> resize_start? null
@@ -2118,10 +2119,10 @@ $shm_hitalama_resize $mol_view
 	-
 	stick_threshold 10
 	-
-	body_x_stick? 0
-	body_y_stick? 0
-	bottom_edge_y_stick? 0
-	right_edge_x_stick? 0
+	x_stick? 0
+	y_stick? 0
+	bottom_edge_y_stick? <= height_min
+	right_edge_x_stick? <= width_min
 	top_edge_y_stick? 0
 	left_edge_x_stick? 0
 	-
@@ -2133,57 +2134,57 @@ $shm_hitalama_resize $mol_view
 		^
 		top <= top_px \0px
 		left <= left_px \0px
-		height <= height_px \300px
-		width <= width_px \500px
+		height <= height_px \20px
+		width <= width_px \20px
 
-$shm_hitalama_resize_edge $shm_hitalama_drag_view
+$rise_resize_edge $rise_drag_view
 
-$shm_hitalama_resize_ratio $shm_hitalama_resize
+$rise_resize_ratio $rise_resize
 	ratio 0
 	edges_ratio /
-		<= Left_top_edge_ratio $shm_hitalama_resize_edge
+		<= Left_top_edge_ratio $rise_resize_edge
 			repos_x* <= repos_x*
 			repos_y* <= repos_y*
 			on_drag_start? <=> resize_start?
 			on_drag_end? <=> resize_end?
 			x? <=> left_top_edge_ratio_x? 0
-		<= Left_bottom_edge_ratio $shm_hitalama_resize_edge
+		<= Left_bottom_edge_ratio $rise_resize_edge
 			repos_x* <= repos_x*
 			repos_y* <= repos_y*
 			on_drag_start? <=> resize_start?
 			on_drag_end? <=> resize_end?
 			x? <=> left_bottom_edge_ratio_x? 0
-		<= Right_bottom_edge_ratio $shm_hitalama_resize_edge
+		<= Right_bottom_edge_ratio $rise_resize_edge
 			repos_x* <= repos_x*
 			repos_y* <= repos_y*
 			on_drag_start? <=> resize_start?
 			on_drag_end? <=> resize_end?
 			x? <=> right_bottom_edge_ratio_x? 0
-		<= Right_top_edge_ratio $shm_hitalama_resize_edge
+		<= Right_top_edge_ratio $rise_resize_edge
 			repos_x* <= repos_x*
 			repos_y* <= repos_y*
 			on_drag_start? <=> resize_start?
 			on_drag_end? <=> resize_end?
 			x? <=> right_top_edge_ratio_x? 0
-		<= Top_left_edge_ratio $shm_hitalama_resize_edge
+		<= Top_left_edge_ratio $rise_resize_edge
 			repos_x* <= repos_x*
 			repos_y* <= repos_y*
 			on_drag_start? <=> resize_start?
 			on_drag_end? <=> resize_end?
 			y? <=> top_left_edge_ratio_y? 0
-		<= Top_right_edge_ratio $shm_hitalama_resize_edge
+		<= Top_right_edge_ratio $rise_resize_edge
 			repos_x* <= repos_x*
 			repos_y* <= repos_y*
 			on_drag_start? <=> resize_start?
 			on_drag_end? <=> resize_end?
 			y? <=> top_right_edge_ratio_y? 0
-		<= Bottom_left_edge_ratio $shm_hitalama_resize_edge
+		<= Bottom_left_edge_ratio $rise_resize_edge
 			repos_x* <= repos_x*
 			repos_y* <= repos_y*
 			on_drag_start? <=> resize_start?
 			on_drag_end? <=> resize_end?
 			y? <=> bottom_left_edge_ratio_y? 0
-		<= Bottom_right_edge_ratio $shm_hitalama_resize_edge
+		<= Bottom_right_edge_ratio $rise_resize_edge
 			repos_x* <= repos_x*
 			repos_y* <= repos_y*
 			on_drag_start? <=> resize_start?
@@ -2303,7 +2304,7 @@ $mol_icon_arrow_collapse_down $mol_icon path \M19.92,12.08L12,20L4.08,12.08L5.5,
 
 $mol_icon_trash_can $mol_icon path \M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M9,8H11V17H9V8M13,8H15V17H13V8Z
 
-$shm_hitalama_board_block_float $shm_hitalama_resize_ratio
+$shm_hitalama_board_block_float $rise_resize_ratio
 	block $shm_hitalama_board_block
 	board $shm_hitalama_board
 	Board_page $shm_hitalama_board_page
@@ -3002,7 +3003,7 @@ $shm_hitalama_board_block_any $mol_ghost
 		hovered? <=> hovered? false
 		editing? => editing?
 		has_scrollbar => has_scrollbar
-		drags_synced <= drags_synced /$shm_hitalama_drag
+		drags_synced <= drags_synced /$rise_drag
 		on_contextmenu? <=> on_contextmenu? null
 		Contextmenu_body => Contextmenu_body
 		zoom <= zoom 1
@@ -3214,7 +3215,7 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 					hovered? <=> hovered*? false
 					has_scrollbar => has_scrollbar* false
 					editing? => editing*? false
-					drags_synced <= drags_synced* /$shm_hitalama_drag
+					drags_synced <= drags_synced* /$rise_drag
 					on_contextmenu? <=> block_event_contextmenu*? null
 					Contextmenu_body => Block_contextmenu_body* /
 

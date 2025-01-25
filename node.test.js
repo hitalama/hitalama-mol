@@ -25611,7 +25611,7 @@ var $;
 })($ || ($ = {}));
 
 ;
-	($.$shm_hitalama_drag) = class $shm_hitalama_drag extends ($.$mol_plugin) {
+	($.$rise_drag) = class $rise_drag extends ($.$mol_plugin) {
 		pointerdown(next){
 			if(next !== undefined) return next;
 			return null;
@@ -25665,22 +25665,22 @@ var $;
 			return {...(super.event()), "pointerdown": (next) => (this.pointerdown(next))};
 		}
 		attr(){
-			return {...(super.attr()), "shm_hitalama_dragged": (this.dragged())};
+			return {...(super.attr()), "rise_dragged": (this.dragged())};
 		}
 		drags_synced(){
 			return [];
 		}
 	};
-	($mol_mem(($.$shm_hitalama_drag.prototype), "pointerdown"));
-	($mol_mem(($.$shm_hitalama_drag.prototype), "dragged"));
-	($mol_mem(($.$shm_hitalama_drag.prototype), "x"));
-	($mol_mem(($.$shm_hitalama_drag.prototype), "y"));
-	($mol_mem(($.$shm_hitalama_drag.prototype), "on_drag"));
-	($mol_mem(($.$shm_hitalama_drag.prototype), "on_drag_start"));
-	($mol_mem(($.$shm_hitalama_drag.prototype), "on_drag_end"));
-	($mol_mem(($.$shm_hitalama_drag.prototype), "drag"));
-	($mol_mem(($.$shm_hitalama_drag.prototype), "drag_start"));
-	($mol_mem(($.$shm_hitalama_drag.prototype), "drag_end"));
+	($mol_mem(($.$rise_drag.prototype), "pointerdown"));
+	($mol_mem(($.$rise_drag.prototype), "dragged"));
+	($mol_mem(($.$rise_drag.prototype), "x"));
+	($mol_mem(($.$rise_drag.prototype), "y"));
+	($mol_mem(($.$rise_drag.prototype), "on_drag"));
+	($mol_mem(($.$rise_drag.prototype), "on_drag_start"));
+	($mol_mem(($.$rise_drag.prototype), "on_drag_end"));
+	($mol_mem(($.$rise_drag.prototype), "drag"));
+	($mol_mem(($.$rise_drag.prototype), "drag_start"));
+	($mol_mem(($.$rise_drag.prototype), "drag_end"));
 
 
 ;
@@ -25692,7 +25692,7 @@ var $;
 (function ($) {
     var $$;
     (function ($$) {
-        class $shm_hitalama_drag extends $.$shm_hitalama_drag {
+        class $rise_drag extends $.$rise_drag {
             repos_x(val) {
                 return val;
             }
@@ -25733,12 +25733,12 @@ var $;
                 }));
             }
         }
-        $$.$shm_hitalama_drag = $shm_hitalama_drag;
+        $$.$rise_drag = $rise_drag;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
 
 ;
-	($.$shm_hitalama_drag_view) = class $shm_hitalama_drag_view extends ($.$mol_view) {
+	($.$rise_drag_view) = class $rise_drag_view extends ($.$mol_view) {
 		on_drag_start(next){
 			if(next !== undefined) return next;
 			return null;
@@ -25772,7 +25772,7 @@ var $;
 			return 1;
 		}
 		Drag(){
-			const obj = new this.$.$shm_hitalama_drag();
+			const obj = new this.$.$rise_drag();
 			(obj.on_drag_start) = (next) => ((this.on_drag_start(next)));
 			(obj.on_drag_end) = (next) => ((this.on_drag_end(next)));
 			(obj.on_drag) = (next) => ((this.on_drag(next)));
@@ -25790,12 +25790,12 @@ var $;
 			return {...(super.style()), "userSelect": "none"};
 		}
 	};
-	($mol_mem(($.$shm_hitalama_drag_view.prototype), "on_drag_start"));
-	($mol_mem(($.$shm_hitalama_drag_view.prototype), "on_drag_end"));
-	($mol_mem(($.$shm_hitalama_drag_view.prototype), "on_drag"));
-	($mol_mem(($.$shm_hitalama_drag_view.prototype), "y"));
-	($mol_mem(($.$shm_hitalama_drag_view.prototype), "x"));
-	($mol_mem(($.$shm_hitalama_drag_view.prototype), "Drag"));
+	($mol_mem(($.$rise_drag_view.prototype), "on_drag_start"));
+	($mol_mem(($.$rise_drag_view.prototype), "on_drag_end"));
+	($mol_mem(($.$rise_drag_view.prototype), "on_drag"));
+	($mol_mem(($.$rise_drag_view.prototype), "y"));
+	($mol_mem(($.$rise_drag_view.prototype), "x"));
+	($mol_mem(($.$rise_drag_view.prototype), "Drag"));
 
 
 ;
@@ -25807,7 +25807,7 @@ var $;
 (function ($) {
     var $$;
     (function ($$) {
-        class $shm_hitalama_drag_view extends $.$shm_hitalama_drag_view {
+        class $rise_drag_view extends $.$rise_drag_view {
             repos_x(val) {
                 return val;
             }
@@ -25815,20 +25815,20 @@ var $;
                 return val;
             }
         }
-        $$.$shm_hitalama_drag_view = $shm_hitalama_drag_view;
+        $$.$rise_drag_view = $rise_drag_view;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
 
 ;
-	($.$shm_hitalama_resize) = class $shm_hitalama_resize extends ($.$mol_view) {
+	($.$rise_resize) = class $rise_resize extends ($.$mol_view) {
 		drag_body(){
 			return [];
 		}
-		body_x(next){
+		x(next){
 			if(next !== undefined) return next;
 			return 0;
 		}
-		body_y(next){
+		y(next){
 			if(next !== undefined) return next;
 			return 0;
 		}
@@ -25856,10 +25856,10 @@ var $;
 			return 1;
 		}
 		Drag_view(){
-			const obj = new this.$.$shm_hitalama_drag_view();
+			const obj = new this.$.$rise_drag_view();
 			(obj.sub) = () => ((this.drag_body()));
-			(obj.x) = (next) => ((this.body_x(next)));
-			(obj.y) = (next) => ((this.body_y(next)));
+			(obj.x) = (next) => ((this.x(next)));
+			(obj.y) = (next) => ((this.y(next)));
 			(obj.on_drag_start) = (next) => ((this.on_drag_start(next)));
 			(obj.on_drag_end) = (next) => ((this.on_drag_end(next)));
 			(obj.drags_synced) = () => ((this.drags_synced()));
@@ -25897,7 +25897,7 @@ var $;
 			return 0;
 		}
 		Top_edge(){
-			const obj = new this.$.$shm_hitalama_resize_edge();
+			const obj = new this.$.$rise_resize_edge();
 			(obj.repos_x) = (id) => ((this.repos_x(id)));
 			(obj.repos_y) = (id) => ((this.repos_y(id)));
 			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
@@ -25910,7 +25910,7 @@ var $;
 			return 0;
 		}
 		Left_edge(){
-			const obj = new this.$.$shm_hitalama_resize_edge();
+			const obj = new this.$.$rise_resize_edge();
 			(obj.repos_x) = (id) => ((this.repos_x(id)));
 			(obj.repos_y) = (id) => ((this.repos_y(id)));
 			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
@@ -25923,7 +25923,7 @@ var $;
 			return 0;
 		}
 		Bottom_edge(){
-			const obj = new this.$.$shm_hitalama_resize_edge();
+			const obj = new this.$.$rise_resize_edge();
 			(obj.repos_x) = (id) => ((this.repos_x(id)));
 			(obj.repos_y) = (id) => ((this.repos_y(id)));
 			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
@@ -25936,7 +25936,7 @@ var $;
 			return 0;
 		}
 		Right_edge(){
-			const obj = new this.$.$shm_hitalama_resize_edge();
+			const obj = new this.$.$rise_resize_edge();
 			(obj.repos_x) = (id) => ((this.repos_x(id)));
 			(obj.repos_y) = (id) => ((this.repos_y(id)));
 			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
@@ -25945,7 +25945,7 @@ var $;
 			return obj;
 		}
 		Top_left_edge(){
-			const obj = new this.$.$shm_hitalama_resize_edge();
+			const obj = new this.$.$rise_resize_edge();
 			(obj.repos_x) = (id) => ((this.repos_x(id)));
 			(obj.repos_y) = (id) => ((this.repos_y(id)));
 			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
@@ -25955,7 +25955,7 @@ var $;
 			return obj;
 		}
 		Top_right_edge(){
-			const obj = new this.$.$shm_hitalama_resize_edge();
+			const obj = new this.$.$rise_resize_edge();
 			(obj.repos_x) = (id) => ((this.repos_x(id)));
 			(obj.repos_y) = (id) => ((this.repos_y(id)));
 			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
@@ -25965,7 +25965,7 @@ var $;
 			return obj;
 		}
 		Bottom_left_edge(){
-			const obj = new this.$.$shm_hitalama_resize_edge();
+			const obj = new this.$.$rise_resize_edge();
 			(obj.repos_x) = (id) => ((this.repos_x(id)));
 			(obj.repos_y) = (id) => ((this.repos_y(id)));
 			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
@@ -25975,7 +25975,7 @@ var $;
 			return obj;
 		}
 		Bottom_right_edge(){
-			const obj = new this.$.$shm_hitalama_resize_edge();
+			const obj = new this.$.$rise_resize_edge();
 			(obj.repos_x) = (id) => ((this.repos_x(id)));
 			(obj.repos_y) = (id) => ((this.repos_y(id)));
 			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
@@ -26006,10 +26006,10 @@ var $;
 			return "0px";
 		}
 		height_px(){
-			return "300px";
+			return "20px";
 		}
 		width_px(){
-			return "500px";
+			return "20px";
 		}
 		sub(){
 			return [(this.Content()), ...(this.edges())];
@@ -26039,21 +26039,21 @@ var $;
 		stick_threshold(){
 			return 10;
 		}
-		body_x_stick(next){
+		x_stick(next){
 			if(next !== undefined) return next;
 			return 0;
 		}
-		body_y_stick(next){
+		y_stick(next){
 			if(next !== undefined) return next;
 			return 0;
 		}
 		bottom_edge_y_stick(next){
 			if(next !== undefined) return next;
-			return 0;
+			return (this.height_min());
 		}
 		right_edge_x_stick(next){
 			if(next !== undefined) return next;
-			return 0;
+			return (this.width_min());
 		}
 		top_edge_y_stick(next){
 			if(next !== undefined) return next;
@@ -26082,35 +26082,35 @@ var $;
 			};
 		}
 	};
-	($mol_mem(($.$shm_hitalama_resize.prototype), "body_x"));
-	($mol_mem(($.$shm_hitalama_resize.prototype), "body_y"));
-	($mol_mem(($.$shm_hitalama_resize.prototype), "on_drag_start"));
-	($mol_mem(($.$shm_hitalama_resize.prototype), "on_drag_end"));
-	($mol_mem(($.$shm_hitalama_resize.prototype), "Drag_view"));
-	($mol_mem(($.$shm_hitalama_resize.prototype), "Fullsize_wrapper"));
-	($mol_mem(($.$shm_hitalama_resize.prototype), "Content"));
-	($mol_mem(($.$shm_hitalama_resize.prototype), "resize_start"));
-	($mol_mem(($.$shm_hitalama_resize.prototype), "resize_end"));
-	($mol_mem(($.$shm_hitalama_resize.prototype), "top_edge_y"));
-	($mol_mem(($.$shm_hitalama_resize.prototype), "Top_edge"));
-	($mol_mem(($.$shm_hitalama_resize.prototype), "left_edge_x"));
-	($mol_mem(($.$shm_hitalama_resize.prototype), "Left_edge"));
-	($mol_mem(($.$shm_hitalama_resize.prototype), "bottom_edge_y"));
-	($mol_mem(($.$shm_hitalama_resize.prototype), "Bottom_edge"));
-	($mol_mem(($.$shm_hitalama_resize.prototype), "right_edge_x"));
-	($mol_mem(($.$shm_hitalama_resize.prototype), "Right_edge"));
-	($mol_mem(($.$shm_hitalama_resize.prototype), "Top_left_edge"));
-	($mol_mem(($.$shm_hitalama_resize.prototype), "Top_right_edge"));
-	($mol_mem(($.$shm_hitalama_resize.prototype), "Bottom_left_edge"));
-	($mol_mem(($.$shm_hitalama_resize.prototype), "Bottom_right_edge"));
-	($mol_mem(($.$shm_hitalama_resize.prototype), "resizing"));
-	($mol_mem(($.$shm_hitalama_resize.prototype), "body_x_stick"));
-	($mol_mem(($.$shm_hitalama_resize.prototype), "body_y_stick"));
-	($mol_mem(($.$shm_hitalama_resize.prototype), "bottom_edge_y_stick"));
-	($mol_mem(($.$shm_hitalama_resize.prototype), "right_edge_x_stick"));
-	($mol_mem(($.$shm_hitalama_resize.prototype), "top_edge_y_stick"));
-	($mol_mem(($.$shm_hitalama_resize.prototype), "left_edge_x_stick"));
-	($.$shm_hitalama_resize_edge) = class $shm_hitalama_resize_edge extends ($.$shm_hitalama_drag_view) {};
+	($mol_mem(($.$rise_resize.prototype), "x"));
+	($mol_mem(($.$rise_resize.prototype), "y"));
+	($mol_mem(($.$rise_resize.prototype), "on_drag_start"));
+	($mol_mem(($.$rise_resize.prototype), "on_drag_end"));
+	($mol_mem(($.$rise_resize.prototype), "Drag_view"));
+	($mol_mem(($.$rise_resize.prototype), "Fullsize_wrapper"));
+	($mol_mem(($.$rise_resize.prototype), "Content"));
+	($mol_mem(($.$rise_resize.prototype), "resize_start"));
+	($mol_mem(($.$rise_resize.prototype), "resize_end"));
+	($mol_mem(($.$rise_resize.prototype), "top_edge_y"));
+	($mol_mem(($.$rise_resize.prototype), "Top_edge"));
+	($mol_mem(($.$rise_resize.prototype), "left_edge_x"));
+	($mol_mem(($.$rise_resize.prototype), "Left_edge"));
+	($mol_mem(($.$rise_resize.prototype), "bottom_edge_y"));
+	($mol_mem(($.$rise_resize.prototype), "Bottom_edge"));
+	($mol_mem(($.$rise_resize.prototype), "right_edge_x"));
+	($mol_mem(($.$rise_resize.prototype), "Right_edge"));
+	($mol_mem(($.$rise_resize.prototype), "Top_left_edge"));
+	($mol_mem(($.$rise_resize.prototype), "Top_right_edge"));
+	($mol_mem(($.$rise_resize.prototype), "Bottom_left_edge"));
+	($mol_mem(($.$rise_resize.prototype), "Bottom_right_edge"));
+	($mol_mem(($.$rise_resize.prototype), "resizing"));
+	($mol_mem(($.$rise_resize.prototype), "x_stick"));
+	($mol_mem(($.$rise_resize.prototype), "y_stick"));
+	($mol_mem(($.$rise_resize.prototype), "bottom_edge_y_stick"));
+	($mol_mem(($.$rise_resize.prototype), "right_edge_x_stick"));
+	($mol_mem(($.$rise_resize.prototype), "top_edge_y_stick"));
+	($mol_mem(($.$rise_resize.prototype), "left_edge_x_stick"));
+	($.$rise_resize_edge) = class $rise_resize_edge extends ($.$rise_drag_view) {};
 
 
 ;
@@ -26122,7 +26122,7 @@ var $;
 (function ($) {
     var $$;
     (function ($$) {
-        class $shm_hitalama_resize extends $.$shm_hitalama_resize {
+        class $rise_resize extends $.$rise_resize {
             repos_x(val) {
                 return val;
             }
@@ -26144,29 +26144,29 @@ var $;
             to_stick_y(val, shift) {
                 return this.to_stick(this.sticks_y(), val, shift);
             }
-            body_y(next) {
+            y(next) {
                 if (next === undefined)
                     return 0;
                 const top_stick = this.to_stick_y(next, this.top_edge_y_stick());
                 if (top_stick == next) {
                     const bottom_stick = this.to_stick_y(next, this.top_edge_y_stick() + this.height());
-                    this.body_y_stick(bottom_stick);
+                    this.y_stick(bottom_stick);
                 }
                 else {
-                    this.body_y_stick(top_stick);
+                    this.y_stick(top_stick);
                 }
                 return next;
             }
-            body_x(next) {
+            x(next) {
                 if (next === undefined)
                     return 0;
                 const left_stick = this.to_stick_x(next, this.left_edge_x_stick());
                 if (left_stick == next) {
                     const right_stick = this.to_stick_x(next, this.left_edge_x_stick() + this.width());
-                    this.body_x_stick(right_stick);
+                    this.x_stick(right_stick);
                 }
                 else {
-                    this.body_x_stick(left_stick);
+                    this.x_stick(left_stick);
                 }
                 return next;
             }
@@ -26174,7 +26174,7 @@ var $;
                 if (next === undefined)
                     return 0;
                 const limit = this.bottom_edge_y_stick() - this.height_min();
-                const top_edge_y_stick = Math.min(this.to_stick_y(next, this.body_y_stick()), limit);
+                const top_edge_y_stick = Math.min(this.to_stick_y(next, this.y_stick()), limit);
                 this.top_edge_y_stick(top_edge_y_stick);
                 return next;
             }
@@ -26190,7 +26190,7 @@ var $;
                 if (next === undefined)
                     return 0;
                 const limit = this.right_edge_x_stick() - this.width_min();
-                const left_edge_x_stick = Math.min(this.to_stick_x(next, this.body_x_stick()), limit);
+                const left_edge_x_stick = Math.min(this.to_stick_x(next, this.x_stick()), limit);
                 this.left_edge_x_stick(left_edge_x_stick);
                 return next;
             }
@@ -26203,10 +26203,10 @@ var $;
                 return next;
             }
             top() {
-                return this.body_y_stick() + this.top_edge_y_stick();
+                return this.y_stick() + this.top_edge_y_stick();
             }
             left() {
-                return this.body_x_stick() + this.left_edge_x_stick();
+                return this.x_stick() + this.left_edge_x_stick();
             }
             width() {
                 return this.right_edge_x_stick() - this.left_edge_x_stick();
@@ -26237,8 +26237,8 @@ var $;
                 this.resizing(false);
             }
             vals_to_sticks() {
-                this.body_x(this.body_x_stick());
-                this.body_y(this.body_y_stick());
+                this.x(this.x_stick());
+                this.y(this.y_stick());
                 this.bottom_edge_y(this.bottom_edge_y_stick());
                 this.right_edge_x(this.right_edge_x_stick());
                 this.top_edge_y(this.top_edge_y_stick());
@@ -26247,50 +26247,50 @@ var $;
         }
         __decorate([
             $mol_mem
-        ], $shm_hitalama_resize.prototype, "body_y", null);
+        ], $rise_resize.prototype, "y", null);
         __decorate([
             $mol_mem
-        ], $shm_hitalama_resize.prototype, "body_x", null);
+        ], $rise_resize.prototype, "x", null);
         __decorate([
             $mol_mem
-        ], $shm_hitalama_resize.prototype, "top_edge_y", null);
+        ], $rise_resize.prototype, "top_edge_y", null);
         __decorate([
             $mol_mem
-        ], $shm_hitalama_resize.prototype, "bottom_edge_y", null);
+        ], $rise_resize.prototype, "bottom_edge_y", null);
         __decorate([
             $mol_mem
-        ], $shm_hitalama_resize.prototype, "left_edge_x", null);
+        ], $rise_resize.prototype, "left_edge_x", null);
         __decorate([
             $mol_mem
-        ], $shm_hitalama_resize.prototype, "right_edge_x", null);
+        ], $rise_resize.prototype, "right_edge_x", null);
         __decorate([
             $mol_mem
-        ], $shm_hitalama_resize.prototype, "top", null);
+        ], $rise_resize.prototype, "top", null);
         __decorate([
             $mol_mem
-        ], $shm_hitalama_resize.prototype, "left", null);
+        ], $rise_resize.prototype, "left", null);
         __decorate([
             $mol_mem
-        ], $shm_hitalama_resize.prototype, "width", null);
+        ], $rise_resize.prototype, "width", null);
         __decorate([
             $mol_mem
-        ], $shm_hitalama_resize.prototype, "height", null);
+        ], $rise_resize.prototype, "height", null);
         __decorate([
             $mol_mem
-        ], $shm_hitalama_resize.prototype, "height_px", null);
+        ], $rise_resize.prototype, "height_px", null);
         __decorate([
             $mol_mem
-        ], $shm_hitalama_resize.prototype, "width_px", null);
+        ], $rise_resize.prototype, "width_px", null);
         __decorate([
             $mol_mem
-        ], $shm_hitalama_resize.prototype, "top_px", null);
+        ], $rise_resize.prototype, "top_px", null);
         __decorate([
             $mol_mem
-        ], $shm_hitalama_resize.prototype, "left_px", null);
+        ], $rise_resize.prototype, "left_px", null);
         __decorate([
             $mol_action
-        ], $shm_hitalama_resize.prototype, "vals_to_sticks", null);
-        $$.$shm_hitalama_resize = $shm_hitalama_resize;
+        ], $rise_resize.prototype, "vals_to_sticks", null);
+        $$.$rise_resize = $rise_resize;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
 
@@ -26300,23 +26300,24 @@ var $;
 (function ($) {
     var $$;
     (function ($$) {
+        const Edge_size = 10;
         const Top_edge = {
-            top: '-5px',
-            height: '10px',
+            top: `-${Edge_size / 2}px`,
+            height: `${Edge_size}px`,
         };
         const Left_edge = {
-            left: '-5px',
-            width: '10px',
+            left: `-${Edge_size / 2}px`,
+            width: `${Edge_size}px`,
         };
         const Right_edge = {
-            right: '-5px',
-            width: '10px',
+            right: `-${Edge_size / 2}px`,
+            width: `${Edge_size}px`,
         };
         const Bottom_edge = {
-            bottom: '-5px',
-            height: '10px',
+            bottom: `-${Edge_size / 2}px`,
+            height: `${Edge_size}px`,
         };
-        $mol_style_define($shm_hitalama_resize, {
+        $mol_style_define($rise_resize, {
             position: 'absolute',
             transition: 'none',
             Fullsize_wrapper: {
@@ -26371,7 +26372,7 @@ var $;
                 height: '100%',
             },
         });
-        $mol_style_define($shm_hitalama_resize_edge, {
+        $mol_style_define($rise_resize_edge, {
             position: 'absolute',
             zIndex: $mol_layer.float,
             userSelect: 'none',
@@ -26381,7 +26382,7 @@ var $;
                     color: $mol_theme.shade,
                 },
             },
-            '[shm_hitalama_dragged]': {
+            '[rise_dragged]': {
                 'true': {
                     background: {
                         color: $mol_theme.line,
@@ -26398,13 +26399,13 @@ var $;
 })($ || ($ = {}));
 
 ;
-	($.$shm_hitalama_resize_ratio) = class $shm_hitalama_resize_ratio extends ($.$shm_hitalama_resize) {
+	($.$rise_resize_ratio) = class $rise_resize_ratio extends ($.$rise_resize) {
 		left_top_edge_ratio_x(next){
 			if(next !== undefined) return next;
 			return 0;
 		}
 		Left_top_edge_ratio(){
-			const obj = new this.$.$shm_hitalama_resize_edge();
+			const obj = new this.$.$rise_resize_edge();
 			(obj.repos_x) = (id) => ((this.repos_x(id)));
 			(obj.repos_y) = (id) => ((this.repos_y(id)));
 			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
@@ -26417,7 +26418,7 @@ var $;
 			return 0;
 		}
 		Left_bottom_edge_ratio(){
-			const obj = new this.$.$shm_hitalama_resize_edge();
+			const obj = new this.$.$rise_resize_edge();
 			(obj.repos_x) = (id) => ((this.repos_x(id)));
 			(obj.repos_y) = (id) => ((this.repos_y(id)));
 			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
@@ -26430,7 +26431,7 @@ var $;
 			return 0;
 		}
 		Right_bottom_edge_ratio(){
-			const obj = new this.$.$shm_hitalama_resize_edge();
+			const obj = new this.$.$rise_resize_edge();
 			(obj.repos_x) = (id) => ((this.repos_x(id)));
 			(obj.repos_y) = (id) => ((this.repos_y(id)));
 			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
@@ -26443,7 +26444,7 @@ var $;
 			return 0;
 		}
 		Right_top_edge_ratio(){
-			const obj = new this.$.$shm_hitalama_resize_edge();
+			const obj = new this.$.$rise_resize_edge();
 			(obj.repos_x) = (id) => ((this.repos_x(id)));
 			(obj.repos_y) = (id) => ((this.repos_y(id)));
 			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
@@ -26456,7 +26457,7 @@ var $;
 			return 0;
 		}
 		Top_left_edge_ratio(){
-			const obj = new this.$.$shm_hitalama_resize_edge();
+			const obj = new this.$.$rise_resize_edge();
 			(obj.repos_x) = (id) => ((this.repos_x(id)));
 			(obj.repos_y) = (id) => ((this.repos_y(id)));
 			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
@@ -26469,7 +26470,7 @@ var $;
 			return 0;
 		}
 		Top_right_edge_ratio(){
-			const obj = new this.$.$shm_hitalama_resize_edge();
+			const obj = new this.$.$rise_resize_edge();
 			(obj.repos_x) = (id) => ((this.repos_x(id)));
 			(obj.repos_y) = (id) => ((this.repos_y(id)));
 			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
@@ -26482,7 +26483,7 @@ var $;
 			return 0;
 		}
 		Bottom_left_edge_ratio(){
-			const obj = new this.$.$shm_hitalama_resize_edge();
+			const obj = new this.$.$rise_resize_edge();
 			(obj.repos_x) = (id) => ((this.repos_x(id)));
 			(obj.repos_y) = (id) => ((this.repos_y(id)));
 			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
@@ -26495,7 +26496,7 @@ var $;
 			return 0;
 		}
 		Bottom_right_edge_ratio(){
-			const obj = new this.$.$shm_hitalama_resize_edge();
+			const obj = new this.$.$rise_resize_edge();
 			(obj.repos_x) = (id) => ((this.repos_x(id)));
 			(obj.repos_y) = (id) => ((this.repos_y(id)));
 			(obj.on_drag_start) = (next) => ((this.resize_start(next)));
@@ -26519,22 +26520,22 @@ var $;
 			];
 		}
 	};
-	($mol_mem(($.$shm_hitalama_resize_ratio.prototype), "left_top_edge_ratio_x"));
-	($mol_mem(($.$shm_hitalama_resize_ratio.prototype), "Left_top_edge_ratio"));
-	($mol_mem(($.$shm_hitalama_resize_ratio.prototype), "left_bottom_edge_ratio_x"));
-	($mol_mem(($.$shm_hitalama_resize_ratio.prototype), "Left_bottom_edge_ratio"));
-	($mol_mem(($.$shm_hitalama_resize_ratio.prototype), "right_bottom_edge_ratio_x"));
-	($mol_mem(($.$shm_hitalama_resize_ratio.prototype), "Right_bottom_edge_ratio"));
-	($mol_mem(($.$shm_hitalama_resize_ratio.prototype), "right_top_edge_ratio_x"));
-	($mol_mem(($.$shm_hitalama_resize_ratio.prototype), "Right_top_edge_ratio"));
-	($mol_mem(($.$shm_hitalama_resize_ratio.prototype), "top_left_edge_ratio_y"));
-	($mol_mem(($.$shm_hitalama_resize_ratio.prototype), "Top_left_edge_ratio"));
-	($mol_mem(($.$shm_hitalama_resize_ratio.prototype), "top_right_edge_ratio_y"));
-	($mol_mem(($.$shm_hitalama_resize_ratio.prototype), "Top_right_edge_ratio"));
-	($mol_mem(($.$shm_hitalama_resize_ratio.prototype), "bottom_left_edge_ratio_y"));
-	($mol_mem(($.$shm_hitalama_resize_ratio.prototype), "Bottom_left_edge_ratio"));
-	($mol_mem(($.$shm_hitalama_resize_ratio.prototype), "bottom_right_edge_ratio_y"));
-	($mol_mem(($.$shm_hitalama_resize_ratio.prototype), "Bottom_right_edge_ratio"));
+	($mol_mem(($.$rise_resize_ratio.prototype), "left_top_edge_ratio_x"));
+	($mol_mem(($.$rise_resize_ratio.prototype), "Left_top_edge_ratio"));
+	($mol_mem(($.$rise_resize_ratio.prototype), "left_bottom_edge_ratio_x"));
+	($mol_mem(($.$rise_resize_ratio.prototype), "Left_bottom_edge_ratio"));
+	($mol_mem(($.$rise_resize_ratio.prototype), "right_bottom_edge_ratio_x"));
+	($mol_mem(($.$rise_resize_ratio.prototype), "Right_bottom_edge_ratio"));
+	($mol_mem(($.$rise_resize_ratio.prototype), "right_top_edge_ratio_x"));
+	($mol_mem(($.$rise_resize_ratio.prototype), "Right_top_edge_ratio"));
+	($mol_mem(($.$rise_resize_ratio.prototype), "top_left_edge_ratio_y"));
+	($mol_mem(($.$rise_resize_ratio.prototype), "Top_left_edge_ratio"));
+	($mol_mem(($.$rise_resize_ratio.prototype), "top_right_edge_ratio_y"));
+	($mol_mem(($.$rise_resize_ratio.prototype), "Top_right_edge_ratio"));
+	($mol_mem(($.$rise_resize_ratio.prototype), "bottom_left_edge_ratio_y"));
+	($mol_mem(($.$rise_resize_ratio.prototype), "Bottom_left_edge_ratio"));
+	($mol_mem(($.$rise_resize_ratio.prototype), "bottom_right_edge_ratio_y"));
+	($mol_mem(($.$rise_resize_ratio.prototype), "Bottom_right_edge_ratio"));
 
 
 ;
@@ -26546,7 +26547,7 @@ var $;
 (function ($) {
     var $$;
     (function ($$) {
-        class $shm_hitalama_resize_ratio extends $.$shm_hitalama_resize_ratio {
+        class $rise_resize_ratio extends $.$rise_resize_ratio {
             top_edge_y_by_ratio() {
                 const height_next = this.width() / this.ratio();
                 const top_edge_y_stick = this.bottom_edge_y_stick() - height_next;
@@ -26627,8 +26628,8 @@ var $;
                 return this.ratio() ? this.edges_ratio() : super.edges();
             }
             vals_to_sticks() {
-                this.body_x(this.body_x_stick());
-                this.body_y(this.body_y_stick());
+                this.x(this.x_stick());
+                this.y(this.y_stick());
                 if (this.ratio()) {
                     this.left_bottom_edge_ratio_x(this.left_edge_x_stick());
                     this.left_top_edge_ratio_x(this.left_edge_x_stick());
@@ -26649,35 +26650,35 @@ var $;
         }
         __decorate([
             $mol_mem
-        ], $shm_hitalama_resize_ratio.prototype, "left_top_edge_ratio_x", null);
+        ], $rise_resize_ratio.prototype, "left_top_edge_ratio_x", null);
         __decorate([
             $mol_mem
-        ], $shm_hitalama_resize_ratio.prototype, "left_bottom_edge_ratio_x", null);
+        ], $rise_resize_ratio.prototype, "left_bottom_edge_ratio_x", null);
         __decorate([
             $mol_mem
-        ], $shm_hitalama_resize_ratio.prototype, "right_bottom_edge_ratio_x", null);
+        ], $rise_resize_ratio.prototype, "right_bottom_edge_ratio_x", null);
         __decorate([
             $mol_mem
-        ], $shm_hitalama_resize_ratio.prototype, "top_left_edge_ratio_y", null);
+        ], $rise_resize_ratio.prototype, "top_left_edge_ratio_y", null);
         __decorate([
             $mol_mem
-        ], $shm_hitalama_resize_ratio.prototype, "right_top_edge_ratio_x", null);
+        ], $rise_resize_ratio.prototype, "right_top_edge_ratio_x", null);
         __decorate([
             $mol_mem
-        ], $shm_hitalama_resize_ratio.prototype, "top_right_edge_ratio_y", null);
+        ], $rise_resize_ratio.prototype, "top_right_edge_ratio_y", null);
         __decorate([
             $mol_mem
-        ], $shm_hitalama_resize_ratio.prototype, "bottom_left_edge_ratio_y", null);
+        ], $rise_resize_ratio.prototype, "bottom_left_edge_ratio_y", null);
         __decorate([
             $mol_mem
-        ], $shm_hitalama_resize_ratio.prototype, "bottom_right_edge_ratio_y", null);
+        ], $rise_resize_ratio.prototype, "bottom_right_edge_ratio_y", null);
         __decorate([
             $mol_mem
-        ], $shm_hitalama_resize_ratio.prototype, "edges", null);
+        ], $rise_resize_ratio.prototype, "edges", null);
         __decorate([
             $mol_action
-        ], $shm_hitalama_resize_ratio.prototype, "vals_to_sticks", null);
-        $$.$shm_hitalama_resize_ratio = $shm_hitalama_resize_ratio;
+        ], $rise_resize_ratio.prototype, "vals_to_sticks", null);
+        $$.$rise_resize_ratio = $rise_resize_ratio;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
 
@@ -26687,23 +26688,24 @@ var $;
 (function ($) {
     var $$;
     (function ($$) {
+        const Edge_size = 10;
         const Top_edge = {
-            top: '-5px',
-            height: '10px',
+            top: `-${Edge_size / 2}px`,
+            height: `${Edge_size}px`,
         };
         const Left_edge = {
-            left: '-5px',
-            width: '10px',
+            left: `-${Edge_size / 2}px`,
+            width: `${Edge_size}px`,
         };
         const Right_edge = {
-            right: '-5px',
-            width: '10px',
+            right: `-${Edge_size / 2}px`,
+            width: `${Edge_size}px`,
         };
         const Bottom_edge = {
-            bottom: '-5px',
-            height: '10px',
+            bottom: `-${Edge_size / 2}px`,
+            height: `${Edge_size}px`,
         };
-        $mol_style_define($shm_hitalama_resize_ratio, {
+        $mol_style_define($rise_resize_ratio, {
             Left_top_edge_ratio: {
                 cursor: 'nwse-resize',
                 ...Left_edge,
@@ -27212,7 +27214,7 @@ var $;
 "use strict";
 
 ;
-	($.$shm_hitalama_board_block_float) = class $shm_hitalama_board_block_float extends ($.$shm_hitalama_resize_ratio) {
+	($.$shm_hitalama_board_block_float) = class $shm_hitalama_board_block_float extends ($.$rise_resize_ratio) {
 		side_body(){
 			return [];
 		}
@@ -27551,10 +27553,10 @@ var $;
             repos_y(val) {
                 return val / this.zoom();
             }
-            body_x_stick(next) {
+            x_stick(next) {
                 return this.block().Body_x(next)?.val(next) ?? 0;
             }
-            body_y_stick(next) {
+            y_stick(next) {
                 return this.block().Body_y(next)?.val(next) ?? 0;
             }
             bottom_edge_y_stick(next) {
@@ -27579,7 +27581,8 @@ var $;
                 return this.block().Opacity(next)?.val(next) ?? 1;
             }
             font_size(next) {
-                this.board().Last_font_size(null)?.val(next);
+                if (next !== undefined)
+                    this.board().Last_font_size(null)?.val(next);
                 return this.block().Font_size(next)?.val(next) ?? 14;
             }
             font_tools() {
@@ -27612,11 +27615,10 @@ var $;
                 return next ?? '';
             }
             color(next) {
-                this.board().Last_color(null)?.val(next);
                 if (next === undefined)
                     return this.block().Color()?.val() || 'var(--mol_theme_text)';
-                const color = next || 'var(--mol_theme_text)';
-                return this.block().Color(null)?.val(color);
+                this.board().Last_color(null)?.val(next);
+                return this.block().Color(null)?.val(next);
             }
             opacity_str() {
                 return this.opacity().toString();
@@ -27661,10 +27663,10 @@ var $;
         }
         __decorate([
             $mol_mem
-        ], $shm_hitalama_board_block_float.prototype, "body_x_stick", null);
+        ], $shm_hitalama_board_block_float.prototype, "x_stick", null);
         __decorate([
             $mol_mem
-        ], $shm_hitalama_board_block_float.prototype, "body_y_stick", null);
+        ], $shm_hitalama_board_block_float.prototype, "y_stick", null);
         __decorate([
             $mol_mem
         ], $shm_hitalama_board_block_float.prototype, "bottom_edge_y_stick", null);
