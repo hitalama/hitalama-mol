@@ -42,8 +42,18 @@ $shm_hitalama_board_form_view $mol_form
 					title <= mass_media_title \
 		<= Type_field $mol_form_field
 			name \Type
-			Content <= Type $mol_string
-				value? <=> type? \
+			Content <= Type $mol_search
+				hint \Выбрать...
+				query? <=> type? \
+				suggests_showed? => type_suggests_showed?
+				focused? => type_focused?
+				suggest_select*? <=> type_select*? null
+				suggests /
+					\инфоповод
+					\компания
+					\персона
+					\событие
+					\процесс
 		<= Tags_field $mol_form_field
 			name \Tags
 			Content <= Tags $mol_string

@@ -72,6 +72,11 @@ namespace $.$$ {
 		mass_media_title() {
 			return this.form().File_mass_media()?.remote()?.title() ?? ''
 		}
+		
+		type_select( id: string, event?: MouseEvent ) {
+			this.type( id )
+			this.focused( true )
+		}
 
 		submit() {
 			const form = this.board().Search_statistics(null)?.make( {'': $hyoo_crus_rank_read} )

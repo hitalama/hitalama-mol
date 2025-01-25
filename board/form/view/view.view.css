@@ -1,0 +1,6 @@
+[shm_hitalama_board_form_view_type_clear]:where(:not(:disabled)):hover {
+	z-index: var(--mol_layer_focus);
+}
+[shm_hitalama_board_form_view_type_clear] {
+	z-index: var(--mol_layer_focus);
+}

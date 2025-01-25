@@ -72,6 +72,13 @@ namespace $.$$ {
 			},
 		},
 		
+		Type: {
+			Clear: {
+				position: 'absolute',
+				right: 0,
+			},
+		},
+
 	} )
 	
 }
