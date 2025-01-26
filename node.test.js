@@ -33763,10 +33763,19 @@ var $;
             list() {
                 return $shm_hitalama_profile.current()?.boards(null);
             }
+            add() {
+                const entity = this.list()?.make({ '': $hyoo_crus_rank_deny });
+                entity?.title(this.title_default());
+                this.spread(entity.ref().description);
+                return entity;
+            }
         }
         __decorate([
             $mol_mem
         ], $shm_hitalama_board_catalog.prototype, "list", null);
+        __decorate([
+            $mol_action
+        ], $shm_hitalama_board_catalog.prototype, "add", null);
         $$.$shm_hitalama_board_catalog = $shm_hitalama_board_catalog;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));

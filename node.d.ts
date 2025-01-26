@@ -20121,6 +20121,7 @@ declare namespace $.$$ {
             [Symbol.toStringTag]: string;
             [$mol_ambient_ref]: $;
         };
+        add(): $shm_hitalama_board;
     }
 }
 
