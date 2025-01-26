@@ -55,6 +55,7 @@ $shm_hitalama_board_form_view $mol_form
 					\персона
 					\событие
 					\процесс
+					\география
 		<= Tags_field $mol_form_field
 			name \Tags
 			Content <= Tags $mol_string
