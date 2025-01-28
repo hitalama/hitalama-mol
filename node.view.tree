@@ -2732,6 +2732,7 @@ $shm_hitalama_board_block_table $shm_hitalama_board_block_float
 	drag_body /
 		<= Table $mol_grid
 			records <= rows *
+			col_ids <= col_ids /
 			col_head_content* <= col_head_content* /
 			cell_content_text* => cell_content_text*
 			Cell* <= Cell* $mol_view
@@ -2756,6 +2757,11 @@ $shm_hitalama_board_block_table $shm_hitalama_board_block_float
 		sub /
 			<= Checkbox* $mol_check_box
 				checked? <=> cell_checked*? false
+	Cell_delete* $mol_grid_cell
+		sub /
+			<= Action_delete* $mol_button_minor
+				title \Удалить
+				click? <=> cell_delete*? null
 	All_check $mol_check_group
 		checks <= cell_checkboxes /
 	tools /
