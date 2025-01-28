@@ -30242,13 +30242,14 @@ var $;
         class $shm_hitalama_board_block_table extends $.$shm_hitalama_board_block_table {
             rows() {
                 const rows = this.block().table_rows() ?? [];
-                return rows.map((r, i) => [false, i + 1, ...r, null]);
+                const head = this.head();
+                return rows.map((r, i) => [false, i + 1, ...r]);
             }
             head() {
-                return ['', '', ...this.block().table_head() ?? [], ''];
+                return ['', '', ...this.block().table_head() ?? []];
             }
             col_types() {
-                return ['check', 'index', ...this.block().table_col_types() ?? [], 'action_delete'];
+                return ['check', 'index', ...this.block().table_col_types() ?? []];
             }
             Cell(id) {
                 if (id.col == 0)
@@ -33452,8 +33453,8 @@ var $;
                 const form = this.board().block_add('form', form_pos, 450, 780);
                 const table_pos = [form_pos[0] + 460, form_pos[1]];
                 const block_table = this.board().table_add(table_pos, 1000, 780);
-                block_table.table_head(['Запрос', 'Минус', 'Период', 'Страна', 'Язык', 'СМИ', 'Соц.медиа', 'Type', 'Tags', 'Category',]);
-                block_table.table_col_types(['any', 'any', 'any', 'any', 'any', 'file', 'file', 'any', 'any', 'any',]);
+                block_table.table_head(['Запрос', 'Минус', 'Период', 'Страна', 'Язык', 'СМИ', 'Соц.медиа', 'Type', 'Tags', 'Category', '']);
+                block_table.table_col_types(['any', 'any', 'any', 'any', 'any', 'file', 'file', 'any', 'any', 'any', 'action_delete']);
                 const rows_method = this.$.$mol_fetch.text($shm_hitalama_app_ghpages_fix_link('/shm/hitalama/board/snippets/_search_statistics_rows.js'));
                 block_table.Table(null)?.ensure(block_table.land())?.Rows_method(null)?.val(rows_method);
                 const code_pos = [form_pos[0], form_pos[1] + 790];
