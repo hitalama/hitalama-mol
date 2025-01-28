@@ -7,17 +7,18 @@ namespace $.$$ {
 		@ $mol_mem
 		rows() {
 			const rows = this.block().table_rows() ?? []
-			return rows.map( (r, i) =>  [ false, i+1, ...r, null ] )
+			const head = this.head()
+			return rows.map( (r, i) =>  [ false, i+1, ...r ] )
 		}
 
 		@ $mol_mem
 		head() {
-			return [ '', '', ... this.block().table_head() ?? [], '' ]
+			return [ '', '', ... this.block().table_head() ?? [] ]
 		}
 
 		@ $mol_mem
 		col_types() {
-			return [ 'check', 'index', ... this.block().table_col_types() ?? [], 'action_delete' ]
+			return [ 'check', 'index', ... this.block().table_col_types() ?? [] ]
 		}
 
 		Cell( id: Cell_id ) : $mol_view {

@@ -9,4 +9,5 @@ return board.search_statistics().map( s => [
 	s.type(),
 	s.tags(),
 	s.category(),
+	null,
 ] )
