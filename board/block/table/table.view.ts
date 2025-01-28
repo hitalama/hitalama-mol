@@ -7,18 +7,17 @@ namespace $.$$ {
 		@ $mol_mem
 		rows() {
 			const rows = this.block().table_rows() ?? []
-			if( rows?.length == 0 ) return [ this.head().map( _ => '' ) ]
-			return rows.map( (r, i) =>  [ false, i+1, ...r ] )
+			return rows.map( (r, i) =>  [ false, i+1, ...r, null ] )
 		}
 
 		@ $mol_mem
 		head() {
-			return [ '', '', ... this.block().table_head() ?? [] ]
+			return [ '', '', ... this.block().table_head() ?? [], '' ]
 		}
 
 		@ $mol_mem
 		col_types() {
-			return [ 'check', 'index', ... this.block().table_col_types() ?? [] ]
+			return [ 'check', 'index', ... this.block().table_col_types() ?? [], 'action_delete' ]
 		}
 
 		Cell( id: Cell_id ) : $mol_view {
@@ -27,8 +26,13 @@ namespace $.$$ {
 
 			const col_type = this.col_types()?.[id.col]
 			if( col_type == 'file' ) return this.Cell_file( id )
+			if( col_type == 'action_delete' ) return this.Cell_delete( id )
 
 			return this.Cell_text( id )
+		}
+
+		col_ids() {
+			return this.head().map( (_,i) => i )
 		}
 		
 		col_head_content( n: number ) {
@@ -84,6 +88,24 @@ namespace $.$$ {
 				[row_i]: next,
 			} )
 			return next
+		}
+
+		@ $mol_action
+		cell_delete( id: Cell_id ) {
+			const row_i = id.row[1]!
+			this.board().search_statistics_cut( row_i )
+
+			const rows_checked = this.block().table().Rows_checked()?.val() as Record< number, boolean > ?? {}
+			const rows_checked_next: Record< number, boolean > = {}
+
+			for (const key in rows_checked) {
+				let n = Number(key)
+				const bool = rows_checked[n]
+				if( n > row_i ) n--
+				rows_checked_next[n] = bool
+			}
+
+			this.block().table().Rows_checked()?.val(rows_checked_next)
 		}
 
 		cell_checkboxes() {

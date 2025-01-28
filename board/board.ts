@@ -76,6 +76,11 @@ namespace $ {
 		search_statistics() {
 			return this.Search_statistics()?.remote_list() ?? []
 		}
+
+		@ $mol_action
+		search_statistics_cut( index: number ) {
+			const item = this.Search_statistics()?.wipe( index )
+		}
 		
 	}
 

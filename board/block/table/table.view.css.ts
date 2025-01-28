@@ -32,6 +32,10 @@ namespace $.$$ {
 			whiteSpace: 'normal',
 		},
 
+		Cell_delete: {
+			padding: 0,
+		},
+
 		All_check: {
 			margin: {
 				top: '-0.5rem',
