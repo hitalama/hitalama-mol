@@ -16,6 +16,12 @@ namespace $.$$ {
 		}
 
 		@ $mol_action
+		cut( id: any ) {
+			$shm_hitalama_profile.current()?.Boards_removed(null)?.add( $hyoo_crus_ref( id ) )
+			super.cut( id )
+		}
+
+		@ $mol_action
 		import( files: File[] ) {
 			const json = $mol_wire_sync(this.$).$mol_blob_json( files[0] )
 			const board = this.add()

@@ -8,6 +8,8 @@ namespace $ {
 		Projects: $hyoo_crus_list_ref_to( ()=> $shm_hitalama_project ),
 		boards: $hyoo_crus_list_ref_to( ()=> $shm_hitalama_board ),
 
+		Boards_removed: $hyoo_crus_list_ref_to( ()=> $shm_hitalama_board ),
+
 		Login: $hyoo_crus_atom_str,
 		Pass_key: $hyoo_crus_atom_str,
 
