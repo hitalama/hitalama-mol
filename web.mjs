@@ -18589,6 +18589,7 @@ var $;
         Groups_lists: $hyoo_crus_list_ref_to(() => $shm_hitalama_list),
         Projects: $hyoo_crus_list_ref_to(() => $shm_hitalama_project),
         boards: $hyoo_crus_list_ref_to(() => $shm_hitalama_board),
+        Boards_removed: $hyoo_crus_list_ref_to(() => $shm_hitalama_board),
         Login: $hyoo_crus_atom_str,
         Pass_key: $hyoo_crus_atom_str,
     }) {
@@ -46029,6 +46030,10 @@ var $;
                 this.spread(entity.ref().description);
                 return entity;
             }
+            cut(id) {
+                $shm_hitalama_profile.current()?.Boards_removed(null)?.add($hyoo_crus_ref(id));
+                super.cut(id);
+            }
             import(files) {
                 const json = $mol_wire_sync(this.$).$mol_blob_json(files[0]);
                 const board = this.add();
@@ -46041,6 +46046,9 @@ var $;
         __decorate([
             $mol_action
         ], $shm_hitalama_board_catalog.prototype, "add", null);
+        __decorate([
+            $mol_action
+        ], $shm_hitalama_board_catalog.prototype, "cut", null);
         __decorate([
             $mol_action
         ], $shm_hitalama_board_catalog.prototype, "import", null);
