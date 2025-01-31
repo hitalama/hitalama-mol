@@ -15,6 +15,13 @@ namespace $.$$ {
 			return entity
 		}
 
+		@ $mol_action
+		import( files: File[] ) {
+			const json = $mol_wire_sync(this.$).$mol_blob_json( files[0] )
+			const board = this.add()
+			board.deserialize( json )
+		}
+
 	}
 
 }

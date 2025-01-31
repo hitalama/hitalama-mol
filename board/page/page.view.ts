@@ -26,6 +26,18 @@ namespace $.$$ {
 			$shm_hitalama_profile.current()?.boards()?.cut( this.board().ref() )
 		}
 
+		@ $mol_mem
+		exported_file_name() {
+			return this.board().title() + '.json'
+		}
+
+		@ $mol_mem
+		exported_json() {
+			const obj = this.board().serialized()
+			const data_uri = "data:text/json;charset=utf-8," + encodeURIComponent( JSON.stringify( obj, null, '\t' ) )
+			return data_uri
+		}
+
 		@ $mol_action
 		block_delete( ref: $hyoo_crus_ref ) {
 			this.board().Blocks(null)?.cut( ref )

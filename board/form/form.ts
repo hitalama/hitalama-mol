@@ -68,6 +68,51 @@ namespace $ {
 			return this.File_mass_media()?.remote()?.title() || ''
 		}
 		
+		@ $mol_action
+		serialize() {
+			return {
+				ref: this.ref().description,
+
+				query: this.Query()?.val(),
+				excluded_words: this.Excluded_words()?.val(),
+				date_from: this.Date_from()?.val(),
+				date_to: this.Date_to()?.val(),
+				country: this.Country()?.val(),
+				language: this.Language()?.val(),
+				type: this.Type()?.val(),
+				tags: this.Tags()?.val(),
+				category: this.Category()?.val(),
+
+				file_social_media_ref: this.File_social_media()?.remote()?.ref().description,
+				file_mass_media_ref: this.File_mass_media()?.remote()?.ref().description,
+			}
+		}
+
+		@ $mol_action
+		deserialize_data( dto: ReturnType< $shm_hitalama_board_form['serialize'] > ) {
+			this.Query( dto.query )?.val( dto.query )
+			this.Excluded_words( dto.excluded_words )?.val( dto.excluded_words )
+			this.Date_from( dto.date_from )?.val( dto.date_from )
+			this.Date_to( dto.date_to )?.val( dto.date_to )
+			this.Country( dto.country )?.val( dto.country )
+			this.Language( dto.language )?.val( dto.language )
+			this.Type( dto.type )?.val( dto.type )
+			this.Tags( dto.tags )?.val( dto.tags )
+			this.Category( dto.category )?.val( dto.category )
+		}
+
+		@ $mol_action
+		deserialize_refs( dto: ReturnType< $shm_hitalama_board_form['serialize'] >, ref_remap: Map< string, string > ) {
+			if( dto.file_mass_media_ref ) {
+				const file = $hyoo_crus_glob.Node( $hyoo_crus_ref( ref_remap.get( dto.file_mass_media_ref )! ), $shm_hitalama_file )
+				this.File_mass_media(null)?.remote( file )
+			}
+			if( dto.file_social_media_ref ) {
+				const file = $hyoo_crus_glob.Node( $hyoo_crus_ref( ref_remap.get( dto.file_social_media_ref )! ), $shm_hitalama_file )
+				this.File_social_media(null)?.remote( file )
+			}
+		}
+		
 	}
 
 }

@@ -36,11 +36,17 @@ namespace $.$$ {
 			padding: $mol_gap.block,
 		},
 
-		Cut: {
-			margin: {
-				top: '1rem',
+		Description_field: {
+			padding: {
+				bottom: $mol_gap.block,
 			},
 		},
+
+		// Cut: {
+		// 	margin: {
+		// 		top: '1rem',
+		// 	},
+		// },
 
 		Pane: {
 			overflow: 'hidden',

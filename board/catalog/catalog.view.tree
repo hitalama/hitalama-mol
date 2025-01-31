@@ -5,3 +5,7 @@ $shm_hitalama_board_catalog $shm_hitalama_entity_catalog
 	Page* $shm_hitalama_board_page
 		entity <= entity*
 		cut <= cut*
+	menu_tools /
+		<= Import $mol_attach
+			attach_new? <=> import? null
+		^

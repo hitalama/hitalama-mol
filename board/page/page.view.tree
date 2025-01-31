@@ -32,6 +32,12 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 									name \Описание
 									Content <= Description_edit $mol_textarea
 										value? <=> description? \
+								<= Export $mol_link
+									uri <= exported_json \
+									file_name <= exported_file_name \
+									sub /
+										<= Export_icon $mol_icon_download
+										\Экспорт
 								<= Cut
 				<= Scale $mol_button_minor
 					title <= scale_percent \100%
