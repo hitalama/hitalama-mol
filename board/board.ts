@@ -30,8 +30,16 @@ namespace $ {
 			right_x = 200, bottom_x = 100,
 			name?: string,
 		) {
-			if( name && this.Block_by_name(null)?.key( name ) ) {
-				return this.Block_by_name(null)?.key( name ).remote()
+			if( name ) {
+				const by_name = this.Block_by_name(null)?.key( name )
+				if( by_name ) return by_name.remote()
+				
+				// try {
+				// 	const by_ref = this.block( name_or_ref )
+				// 	if( by_ref ) return by_ref
+				// } catch (error) {
+				// 	console.error( error )
+				// }
 			}
 
 			const block = this.Blocks(null)?.make( this.land() )

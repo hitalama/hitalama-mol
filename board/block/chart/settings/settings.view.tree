@@ -3,7 +3,7 @@ $shm_hitalama_board_block_chart_settings $shm_hitalama_board_block_float
 		<= Top
 		<= Bottom
 		<= Delete
-		<= Ref_copy
+		<= Title_copy
 	sub /
 		^ content
 		^ edges

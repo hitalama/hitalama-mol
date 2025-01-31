@@ -62,12 +62,6 @@ namespace $.$$ {
 			}
 		},
 
-		// Ref_copy: {
-		// 	margin: {
-		// 		left: 'auto',
-		// 	},
-		// },
-
 		Font_size: {
 			width: '4rem',
 		},

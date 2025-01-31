@@ -57,7 +57,7 @@ $shm_hitalama_board_block_table $shm_hitalama_board_block_float
 										value? <=> col_width*? NaN
 										hint \auto
 		<= Delete
-		<= Ref_copy
+		<= Title_copy
 	Contextmenu_body $mol_list
 		sub /
 			<= Chart_add $mol_button_minor

@@ -79,9 +79,9 @@ $shm_hitalama_board_block_float $rise_resize_ratio
 					sub /
 						<= Delete_icon $mol_icon_trash_can
 					click? <=> delete? null
-				<= Ref_copy $mol_view - $mol_button_copy
-					title <= ref_str \
-					text <= ref_code \
+				<= Title_copy $mol_button_copy
+					title <= title \
+					text <= title
 	opacity? 1
 	has_scrollbar false
 	style *
