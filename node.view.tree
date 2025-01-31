@@ -2385,9 +2385,9 @@ $shm_hitalama_board_block_float $rise_resize_ratio
 					sub /
 						<= Delete_icon $mol_icon_trash_can
 					click? <=> delete? null
-				<= Ref_copy $mol_view - $mol_button_copy
-					title <= ref_str \
-					text <= ref_code \
+				<= Title_copy $mol_button_copy
+					title <= title \
+					text <= title
 	opacity? 1
 	has_scrollbar false
 	style *
@@ -2787,7 +2787,7 @@ $shm_hitalama_board_block_table $shm_hitalama_board_block_float
 										value? <=> col_width*? NaN
 										hint \auto
 		<= Delete
-		<= Ref_copy
+		<= Title_copy
 	Contextmenu_body $mol_list
 		sub /
 			<= Chart_add $mol_button_minor
@@ -2861,7 +2861,7 @@ $shm_hitalama_board_block_chart $shm_hitalama_board_block_float
 		<= Top
 		<= Bottom
 		<= Delete
-		<= Ref_copy
+		<= Title_copy
 	Contextmenu_body $mol_list
 		sub /
 			<= Settings_add $mol_button_minor
@@ -2905,7 +2905,7 @@ $shm_hitalama_board_block_chart_settings $shm_hitalama_board_block_float
 		<= Top
 		<= Bottom
 		<= Delete
-		<= Ref_copy
+		<= Title_copy
 	sub /
 		^ content
 		^ edges
@@ -2962,7 +2962,7 @@ $shm_hitalama_board_block_chart_filter $shm_hitalama_board_block_float
 		<= Top
 		<= Bottom
 		<= Delete
-		<= Ref_copy
+		<= Title_copy
 	content /
 		<= Drag_view
 		<= Form $mol_list
