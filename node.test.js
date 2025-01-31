@@ -17218,11 +17218,209 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    function $mol_blob_uri(blob) {
+        return new Promise((done, fail) => {
+            const reader = new FileReader;
+            reader.onerror = fail;
+            reader.onload = event => done(event.target.result);
+            reader.readAsDataURL(blob);
+        });
+    }
+    $.$mol_blob_uri = $mol_blob_uri;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_fetch_response extends $mol_object2 {
+        native;
+        constructor(native) {
+            super();
+            this.native = native;
+        }
+        status() {
+            const types = ['unknown', 'inform', 'success', 'redirect', 'wrong', 'failed'];
+            return types[Math.floor(this.native.status / 100)];
+        }
+        code() {
+            return this.native.status;
+        }
+        message() {
+            return this.native.statusText || `HTTP Error ${this.code()}`;
+        }
+        headers() {
+            return this.native.headers;
+        }
+        mime() {
+            return this.headers().get('content-type');
+        }
+        stream() {
+            return this.native.body;
+        }
+        text() {
+            const buffer = this.buffer();
+            const native = this.native;
+            const mime = native.headers.get('content-type') || '';
+            const [, charset] = /charset=(.*)/.exec(mime) || [, 'utf-8'];
+            const decoder = new TextDecoder(charset);
+            return decoder.decode(buffer);
+        }
+        json() {
+            return $mol_wire_sync(this.native).json();
+        }
+        blob() {
+            return $mol_wire_sync(this.native).blob();
+        }
+        buffer() {
+            return $mol_wire_sync(this.native).arrayBuffer();
+        }
+        xml() {
+            return $mol_dom_parse(this.text(), 'application/xml');
+        }
+        xhtml() {
+            return $mol_dom_parse(this.text(), 'application/xhtml+xml');
+        }
+        html() {
+            return $mol_dom_parse(this.text(), 'text/html');
+        }
+    }
+    __decorate([
+        $mol_action
+    ], $mol_fetch_response.prototype, "stream", null);
+    __decorate([
+        $mol_action
+    ], $mol_fetch_response.prototype, "text", null);
+    __decorate([
+        $mol_action
+    ], $mol_fetch_response.prototype, "xml", null);
+    __decorate([
+        $mol_action
+    ], $mol_fetch_response.prototype, "xhtml", null);
+    __decorate([
+        $mol_action
+    ], $mol_fetch_response.prototype, "html", null);
+    $.$mol_fetch_response = $mol_fetch_response;
+    class $mol_fetch extends $mol_object2 {
+        static request(input, init = {}) {
+            const controller = new AbortController();
+            let done = false;
+            const promise = fetch(input, {
+                ...init,
+                signal: controller.signal,
+            }).finally(() => {
+                done = true;
+            });
+            return Object.assign(promise, {
+                destructor: () => {
+                    if (!done && !controller.signal.aborted)
+                        controller.abort();
+                },
+            });
+        }
+        static response(input, init) {
+            return new $mol_fetch_response($mol_wire_sync(this).request(input, init));
+        }
+        static success(input, init) {
+            const response = this.response(input, init);
+            if (response.status() === 'success')
+                return response;
+            throw new Error(response.message(), { cause: response });
+        }
+        static stream(input, init) {
+            return this.success(input, init).stream();
+        }
+        static text(input, init) {
+            return this.success(input, init).text();
+        }
+        static json(input, init) {
+            return this.success(input, init).json();
+        }
+        static blob(input, init) {
+            return this.success(input, init).blob();
+        }
+        static buffer(input, init) {
+            return this.success(input, init).buffer();
+        }
+        static xml(input, init) {
+            return this.success(input, init).xml();
+        }
+        static xhtml(input, init) {
+            return this.success(input, init).xhtml();
+        }
+        static html(input, init) {
+            return this.success(input, init).html();
+        }
+    }
+    __decorate([
+        $mol_action
+    ], $mol_fetch, "response", null);
+    __decorate([
+        $mol_action
+    ], $mol_fetch, "success", null);
+    __decorate([
+        $mol_action
+    ], $mol_fetch, "stream", null);
+    __decorate([
+        $mol_action
+    ], $mol_fetch, "text", null);
+    __decorate([
+        $mol_action
+    ], $mol_fetch, "json", null);
+    __decorate([
+        $mol_action
+    ], $mol_fetch, "blob", null);
+    __decorate([
+        $mol_action
+    ], $mol_fetch, "buffer", null);
+    __decorate([
+        $mol_action
+    ], $mol_fetch, "xml", null);
+    __decorate([
+        $mol_action
+    ], $mol_fetch, "xhtml", null);
+    __decorate([
+        $mol_action
+    ], $mol_fetch, "html", null);
+    $.$mol_fetch = $mol_fetch;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
     class $shm_hitalama_file extends $hyoo_crus_entity.with({
         Size: $hyoo_crus_atom_real,
         File: $hyoo_crus_atom_ref_to(() => $hyoo_crus_file),
     }) {
+        async blob_uri_async() {
+            const blob = this.File()?.remote()?.blob();
+            const uri = await $mol_blob_uri(blob);
+            return uri;
+        }
+        serialize() {
+            const blob_uri = this.$.$mol_wire_sync(this).blob_uri_async();
+            return {
+                ref: this.ref().description,
+                title: this.title(),
+                size: this.Size()?.val(),
+                blob_uri,
+            };
+        }
+        deserialize(dto) {
+            this.title(dto.title);
+            this.Size(null)?.val(dto.size);
+            const blob = this.$.$mol_wire_sync(this.$.$mol_fetch).blob(dto.blob_uri);
+            const file = this.File(null)?.ensure(this.land());
+            file?.blob(blob);
+        }
     }
+    __decorate([
+        $mol_action
+    ], $shm_hitalama_file.prototype, "serialize", null);
+    __decorate([
+        $mol_action
+    ], $shm_hitalama_file.prototype, "deserialize", null);
     $.$shm_hitalama_file = $shm_hitalama_file;
 })($ || ($ = {}));
 
@@ -17529,7 +17727,53 @@ var $;
         mass_media_title() {
             return this.File_mass_media()?.remote()?.title() || '';
         }
+        serialize() {
+            return {
+                ref: this.ref().description,
+                query: this.Query()?.val(),
+                excluded_words: this.Excluded_words()?.val(),
+                date_from: this.Date_from()?.val(),
+                date_to: this.Date_to()?.val(),
+                country: this.Country()?.val(),
+                language: this.Language()?.val(),
+                type: this.Type()?.val(),
+                tags: this.Tags()?.val(),
+                category: this.Category()?.val(),
+                file_social_media_ref: this.File_social_media()?.remote()?.ref().description,
+                file_mass_media_ref: this.File_mass_media()?.remote()?.ref().description,
+            };
+        }
+        deserialize_data(dto) {
+            this.Query(dto.query)?.val(dto.query);
+            this.Excluded_words(dto.excluded_words)?.val(dto.excluded_words);
+            this.Date_from(dto.date_from)?.val(dto.date_from);
+            this.Date_to(dto.date_to)?.val(dto.date_to);
+            this.Country(dto.country)?.val(dto.country);
+            this.Language(dto.language)?.val(dto.language);
+            this.Type(dto.type)?.val(dto.type);
+            this.Tags(dto.tags)?.val(dto.tags);
+            this.Category(dto.category)?.val(dto.category);
+        }
+        deserialize_refs(dto, ref_remap) {
+            if (dto.file_mass_media_ref) {
+                const file = $hyoo_crus_glob.Node($hyoo_crus_ref(ref_remap.get(dto.file_mass_media_ref)), $shm_hitalama_file);
+                this.File_mass_media(null)?.remote(file);
+            }
+            if (dto.file_social_media_ref) {
+                const file = $hyoo_crus_glob.Node($hyoo_crus_ref(ref_remap.get(dto.file_social_media_ref)), $shm_hitalama_file);
+                this.File_social_media(null)?.remote(file);
+            }
+        }
     }
+    __decorate([
+        $mol_action
+    ], $shm_hitalama_board_form.prototype, "serialize", null);
+    __decorate([
+        $mol_action
+    ], $shm_hitalama_board_form.prototype, "deserialize_data", null);
+    __decorate([
+        $mol_action
+    ], $shm_hitalama_board_form.prototype, "deserialize_refs", null);
     $.$shm_hitalama_board_form = $shm_hitalama_board_form;
 })($ || ($ = {}));
 
@@ -17539,6 +17783,7 @@ var $;
 (function ($) {
     class $shm_hitalama_board_table extends $hyoo_crus_entity.with({
         Block: $hyoo_crus_atom_ref_to(() => $shm_hitalama_board_block),
+        Board: $hyoo_crus_atom_ref_to(() => $shm_hitalama_board),
         Head: $hyoo_crus_atom_jsan,
         Head_method: $hyoo_crus_atom_str,
         Rows: $hyoo_crus_atom_jsan,
@@ -17548,7 +17793,7 @@ var $;
         Rows_checked: $hyoo_crus_atom_json,
     }) {
         board() {
-            return this.Block()?.remote()?.Board()?.remote();
+            return this.Board()?.remote() ?? this.Block()?.remote()?.Board()?.remote();
         }
         table_head(next) {
             const method = this.Head_method()?.val();
@@ -17595,6 +17840,27 @@ var $;
                 return [...row, ...calculated];
             });
         }
+        serialize() {
+            return {
+                ref: this.ref().description,
+                head: this.Head()?.val(),
+                head_method: this.Head_method()?.val(),
+                rows: this.Rows()?.val(),
+                rows_method: this.Rows_method()?.val(),
+                col_widths: this.Col_widths()?.val(),
+                col_types: this.Col_types()?.val(),
+                rows_checked: this.Rows_checked()?.val(),
+            };
+        }
+        deserialize(dto) {
+            this.Head(dto.head)?.val(dto.head);
+            this.Head_method(dto.head_method)?.val(dto.head_method);
+            this.Rows(dto.rows)?.val(dto.rows);
+            this.Rows_method(dto.rows_method)?.val(dto.rows_method);
+            this.Col_widths(dto.col_widths)?.val(dto.col_widths);
+            this.Col_types(dto.col_types)?.val(dto.col_types);
+            this.Rows_checked(dto.rows_checked)?.val(dto.rows_checked);
+        }
     }
     __decorate([
         $mol_mem
@@ -17617,6 +17883,12 @@ var $;
     __decorate([
         $mol_mem
     ], $shm_hitalama_board_table.prototype, "rows_extended", null);
+    __decorate([
+        $mol_action
+    ], $shm_hitalama_board_table.prototype, "serialize", null);
+    __decorate([
+        $mol_action
+    ], $shm_hitalama_board_table.prototype, "deserialize", null);
     $.$shm_hitalama_board_table = $shm_hitalama_board_table;
 })($ || ($ = {}));
 
@@ -17702,6 +17974,34 @@ var $;
             });
             return { by_group, labels, field_options };
         }
+        serialize() {
+            const axis_details = this.Axis_details()?.keys().map(key => [
+                key?.toString(), this.Axis_details()?.key(key).val()
+            ]);
+            const filters_options = this.Filters_options()?.keys().map(key => [
+                key?.toString(), this.Filters_options()?.key(key).val()
+            ]);
+            return {
+                axis: this.Axis()?.val(),
+                values: this.Values()?.val(),
+                groups: this.Groups()?.val(),
+                filters_enabled: this.Filters_enabled()?.val(),
+                axis_details,
+                filters_options,
+            };
+        }
+        deserialize(dto) {
+            this.Axis(dto.axis)?.val(dto.axis);
+            this.Values(dto.values)?.val(dto.values);
+            this.Groups(dto.groups)?.val(dto.groups);
+            this.Filters_enabled(dto.filters_enabled)?.val(dto.filters_enabled);
+            dto.axis_details?.forEach(([key, val]) => {
+                this.Axis_details(null)?.key(key, 'auto').val(val);
+            });
+            dto.filters_options?.forEach(([key, val]) => {
+                this.Filters_options(null)?.key(key, 'auto').val(val);
+            });
+        }
     }
     __decorate([
         $mol_mem
@@ -17733,6 +18033,12 @@ var $;
     __decorate([
         $mol_mem
     ], $shm_hitalama_board_chart.prototype, "traversed", null);
+    __decorate([
+        $mol_action
+    ], $shm_hitalama_board_chart.prototype, "serialize", null);
+    __decorate([
+        $mol_action
+    ], $shm_hitalama_board_chart.prototype, "deserialize", null);
     $.$shm_hitalama_board_chart = $shm_hitalama_board_chart;
     const dd_mm_yyyy_transform = {
         'month': function (dd_mm_yyyy) {
@@ -17814,6 +18120,67 @@ var $;
         file_str() {
             return this.File()?.remote()?.File()?.remote()?.str();
         }
+        serialize() {
+            return {
+                ref: this.ref().description,
+                title: this.title(),
+                body_x: this.Body_x()?.val(),
+                body_y: this.Body_y()?.val(),
+                bottom_edge_y: this.Bottom_edge_y()?.val(),
+                right_edge_x: this.Right_edge_x()?.val(),
+                top_edge_y: this.Top_edge_y()?.val(),
+                left_edge_x: this.Left_edge_x()?.val(),
+                opacity: this.Opacity()?.val(),
+                type: this.Type()?.val(),
+                color: this.Color()?.val(),
+                font_size: this.Font_size()?.val(),
+                src: this.Src()?.val(),
+                text: this.Text()?.value(),
+                use_text_from_ref: this.Use_text_from()?.remote()?.ref().description,
+                table_ref: this.Table()?.remote()?.ref().description,
+                chart: this.Chart()?.serialize(),
+                use_chart_from_ref: this.Use_chart_from()?.remote()?.ref().description,
+                file_ref: this.File()?.remote()?.ref().description,
+            };
+        }
+        deserialize_data(dto) {
+            this.title(dto.title);
+            this.Body_x(dto.body_x)?.val(dto.body_x);
+            this.Body_y(dto.body_y)?.val(dto.body_y);
+            this.Bottom_edge_y(dto.bottom_edge_y)?.val(dto.bottom_edge_y);
+            this.Right_edge_x(dto.right_edge_x)?.val(dto.right_edge_x);
+            this.Top_edge_y(dto.top_edge_y)?.val(dto.top_edge_y);
+            this.Left_edge_x(dto.left_edge_x)?.val(dto.left_edge_x);
+            this.Opacity(dto.opacity)?.val(dto.opacity);
+            this.Type(dto.type)?.val(dto.type);
+            this.Color(dto.color)?.val(dto.color);
+            this.Font_size(dto.font_size)?.val(dto.font_size);
+            this.Src(dto.src)?.val(dto.src);
+            this.Text(dto.text)?.value(dto.text);
+            if (dto.chart) {
+                const chart = this.Chart(null);
+                chart?.Block(null)?.remote(this);
+                chart?.deserialize(dto.chart);
+            }
+        }
+        deserialize_refs(dto, ref_remap) {
+            if (dto.use_chart_from_ref) {
+                const block = $hyoo_crus_glob.Node($hyoo_crus_ref(ref_remap.get(dto.use_chart_from_ref)), $shm_hitalama_board_block);
+                this.Use_chart_from(null)?.remote(block);
+            }
+            if (dto.use_text_from_ref) {
+                const block = $hyoo_crus_glob.Node($hyoo_crus_ref(ref_remap.get(dto.use_text_from_ref)), $shm_hitalama_board_block);
+                this.Use_text_from(null)?.remote(block);
+            }
+            if (dto.table_ref) {
+                const table = $hyoo_crus_glob.Node($hyoo_crus_ref(ref_remap.get(dto.table_ref)), $shm_hitalama_board_table);
+                this.Table(null)?.remote(table);
+            }
+            if (dto.file_ref) {
+                const file = $hyoo_crus_glob.Node($hyoo_crus_ref(ref_remap.get(dto.file_ref)), $shm_hitalama_file);
+                this.File(null)?.remote(file);
+            }
+        }
     }
     __decorate([
         $mol_mem
@@ -17830,6 +18197,15 @@ var $;
     __decorate([
         $mol_mem
     ], $shm_hitalama_board_block.prototype, "file_str", null);
+    __decorate([
+        $mol_action
+    ], $shm_hitalama_board_block.prototype, "serialize", null);
+    __decorate([
+        $mol_action
+    ], $shm_hitalama_board_block.prototype, "deserialize_data", null);
+    __decorate([
+        $mol_action
+    ], $shm_hitalama_board_block.prototype, "deserialize_refs", null);
     $.$shm_hitalama_board_block = $shm_hitalama_board_block;
 })($ || ($ = {}));
 
@@ -17860,6 +18236,7 @@ var $;
         Last_font_size: $hyoo_crus_atom_real,
         Search_statistics: $hyoo_crus_list_ref_to(() => $shm_hitalama_board_form),
         Files: $hyoo_crus_list_ref_to(() => $shm_hitalama_file),
+        Tables: $hyoo_crus_list_ref_to(() => $shm_hitalama_board_table),
         Description: $hyoo_crus_atom_str,
         Presences: $hyoo_crus_atom_ref_to(() => $shm_hitalama_board_presence_dict),
     }) {
@@ -17886,12 +18263,11 @@ var $;
         }
         table_add(pos = [0, 0], right_x = 200, bottom_x = 100, name) {
             const block = this.block_add('table', pos, right_x, bottom_x, name);
-            block?.table().Block(null)?.remote(block);
+            block?.table().Board(null)?.remote(this);
             return block;
         }
         text_add(pos = [0, 0], text = 'text', right_x = 200, bottom_x = 100) {
             const block = this.block_add('text', pos, right_x, bottom_x);
-            block?.table().Block(null)?.remote(block);
             block?.Text(null)?.value(text);
             block?.Font_size(null)?.val(this.Last_font_size()?.val());
             block?.Color(null)?.val(this.Last_color()?.val());
@@ -17901,7 +18277,79 @@ var $;
             return this.Search_statistics()?.remote_list() ?? [];
         }
         search_statistics_cut(index) {
-            const item = this.Search_statistics()?.wipe(index);
+            this.Search_statistics()?.wipe(index);
+        }
+        serialized() {
+            return this.serialize();
+        }
+        serialize() {
+            const table_nodes = new Set;
+            const blocks = this.Blocks()?.remote_list().map(b => {
+                const table = b.Table()?.remote();
+                if (table)
+                    table_nodes.add(table);
+                return b.serialize();
+            });
+            const tables = [...table_nodes].map(t => t.serialize());
+            const files = this.Files()?.remote_list().map(f => f.serialize());
+            const search_statistics = this.Search_statistics()?.remote_list().map(f => f.serialize());
+            return {
+                title: this.title(),
+                last_color: this.Last_color()?.val(),
+                last_font_size: this.Last_font_size()?.val(),
+                description: this.Description()?.val(),
+                blocks,
+                tables,
+                files,
+                search_statistics,
+            };
+        }
+        ref_remap = new Map;
+        deserialize(dto) {
+            this.title(dto.title);
+            this.Last_color(dto.last_color)?.val(dto.last_color);
+            this.Last_font_size(dto.last_font_size)?.val(dto.last_font_size);
+            this.Description(dto.description)?.val(dto.description);
+            dto.files?.forEach(dto => {
+                const file = this.Files(null)?.make(this.land());
+                this.ref_remap.set(dto.ref, file?.ref().description);
+                file?.deserialize(dto);
+            });
+            dto.tables?.forEach(dto => {
+                const table = this.Tables(null)?.make(this.land());
+                table?.Board(null)?.remote(this);
+                this.ref_remap.set(dto.ref, table?.ref().description);
+                table?.deserialize(dto);
+            });
+            dto.search_statistics?.forEach(dto => {
+                this.deserialize_statistic(dto.ref, dto);
+            });
+            this.deserialize_blocks(dto);
+        }
+        deserialize_statistic(dto_ref, dto) {
+            if (this.ref_remap.has(dto_ref))
+                return dto;
+            const item = this.Search_statistics(null)?.make(this.land());
+            this.ref_remap.set(dto_ref, item?.ref().description);
+            item?.deserialize_data(dto);
+            item?.deserialize_refs(dto, this.ref_remap);
+            return dto;
+        }
+        deserialize_blocks(dto) {
+            const block_and_dto = dto.blocks?.map(dto => {
+                const block = this.Blocks(null)?.make(this.land());
+                block?.Board(null)?.remote(this);
+                this.Block_by_name(null)?.key(dto.title, 'auto').remote(block);
+                this.ref_remap.set(dto.ref, block?.ref().description);
+                return { block, dto };
+            });
+            block_and_dto?.forEach(({ block, dto }) => {
+                block?.Board(null)?.remote(this);
+                block?.deserialize_data(dto);
+            });
+            block_and_dto?.forEach(({ block, dto }) => {
+                block?.deserialize_refs(dto, this.ref_remap);
+            });
         }
     }
     __decorate([
@@ -17922,6 +18370,21 @@ var $;
     __decorate([
         $mol_action
     ], $shm_hitalama_board.prototype, "search_statistics_cut", null);
+    __decorate([
+        $mol_mem
+    ], $shm_hitalama_board.prototype, "serialized", null);
+    __decorate([
+        $mol_action
+    ], $shm_hitalama_board.prototype, "serialize", null);
+    __decorate([
+        $mol_action
+    ], $shm_hitalama_board.prototype, "deserialize", null);
+    __decorate([
+        $mol_mem_key
+    ], $shm_hitalama_board.prototype, "deserialize_statistic", null);
+    __decorate([
+        $mol_action
+    ], $shm_hitalama_board.prototype, "deserialize_blocks", null);
     $.$shm_hitalama_board = $shm_hitalama_board;
 })($ || ($ = {}));
 
@@ -25610,6 +26073,17 @@ var $;
 })($ || ($ = {}));
 
 ;
+	($.$mol_icon_download) = class $mol_icon_download extends ($.$mol_icon) {
+		path(){
+			return "M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z";
+		}
+	};
+
+
+;
+"use strict";
+
+;
 	($.$shm_hitalama_contextmenu) = class $shm_hitalama_contextmenu extends ($.$mol_view) {
 		body(){
 			return [];
@@ -28293,21 +28767,6 @@ var $;
 
 ;
 "use strict";
-var $;
-(function ($) {
-    function $mol_blob_uri(blob) {
-        return new Promise((done, fail) => {
-            const reader = new FileReader;
-            reader.onerror = fail;
-            reader.onload = event => done(event.target.result);
-            reader.readAsDataURL(blob);
-        });
-    }
-    $.$mol_blob_uri = $mol_blob_uri;
-})($ || ($ = {}));
-
-;
-"use strict";
 
 ;
 "use strict";
@@ -30021,17 +30480,6 @@ var $;
         });
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
-
-;
-	($.$mol_icon_download) = class $mol_icon_download extends ($.$mol_icon) {
-		path(){
-			return "M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z";
-		}
-	};
-
-
-;
-"use strict";
 
 ;
 	($.$mol_icon_cog) = class $mol_icon_cog extends ($.$mol_icon) {
@@ -31780,162 +32228,6 @@ var $;
 
 ;
 "use strict";
-var $;
-(function ($) {
-    class $mol_fetch_response extends $mol_object2 {
-        native;
-        constructor(native) {
-            super();
-            this.native = native;
-        }
-        status() {
-            const types = ['unknown', 'inform', 'success', 'redirect', 'wrong', 'failed'];
-            return types[Math.floor(this.native.status / 100)];
-        }
-        code() {
-            return this.native.status;
-        }
-        message() {
-            return this.native.statusText || `HTTP Error ${this.code()}`;
-        }
-        headers() {
-            return this.native.headers;
-        }
-        mime() {
-            return this.headers().get('content-type');
-        }
-        stream() {
-            return this.native.body;
-        }
-        text() {
-            const buffer = this.buffer();
-            const native = this.native;
-            const mime = native.headers.get('content-type') || '';
-            const [, charset] = /charset=(.*)/.exec(mime) || [, 'utf-8'];
-            const decoder = new TextDecoder(charset);
-            return decoder.decode(buffer);
-        }
-        json() {
-            return $mol_wire_sync(this.native).json();
-        }
-        blob() {
-            return $mol_wire_sync(this.native).blob();
-        }
-        buffer() {
-            return $mol_wire_sync(this.native).arrayBuffer();
-        }
-        xml() {
-            return $mol_dom_parse(this.text(), 'application/xml');
-        }
-        xhtml() {
-            return $mol_dom_parse(this.text(), 'application/xhtml+xml');
-        }
-        html() {
-            return $mol_dom_parse(this.text(), 'text/html');
-        }
-    }
-    __decorate([
-        $mol_action
-    ], $mol_fetch_response.prototype, "stream", null);
-    __decorate([
-        $mol_action
-    ], $mol_fetch_response.prototype, "text", null);
-    __decorate([
-        $mol_action
-    ], $mol_fetch_response.prototype, "xml", null);
-    __decorate([
-        $mol_action
-    ], $mol_fetch_response.prototype, "xhtml", null);
-    __decorate([
-        $mol_action
-    ], $mol_fetch_response.prototype, "html", null);
-    $.$mol_fetch_response = $mol_fetch_response;
-    class $mol_fetch extends $mol_object2 {
-        static request(input, init = {}) {
-            const controller = new AbortController();
-            let done = false;
-            const promise = fetch(input, {
-                ...init,
-                signal: controller.signal,
-            }).finally(() => {
-                done = true;
-            });
-            return Object.assign(promise, {
-                destructor: () => {
-                    if (!done && !controller.signal.aborted)
-                        controller.abort();
-                },
-            });
-        }
-        static response(input, init) {
-            return new $mol_fetch_response($mol_wire_sync(this).request(input, init));
-        }
-        static success(input, init) {
-            const response = this.response(input, init);
-            if (response.status() === 'success')
-                return response;
-            throw new Error(response.message(), { cause: response });
-        }
-        static stream(input, init) {
-            return this.success(input, init).stream();
-        }
-        static text(input, init) {
-            return this.success(input, init).text();
-        }
-        static json(input, init) {
-            return this.success(input, init).json();
-        }
-        static blob(input, init) {
-            return this.success(input, init).blob();
-        }
-        static buffer(input, init) {
-            return this.success(input, init).buffer();
-        }
-        static xml(input, init) {
-            return this.success(input, init).xml();
-        }
-        static xhtml(input, init) {
-            return this.success(input, init).xhtml();
-        }
-        static html(input, init) {
-            return this.success(input, init).html();
-        }
-    }
-    __decorate([
-        $mol_action
-    ], $mol_fetch, "response", null);
-    __decorate([
-        $mol_action
-    ], $mol_fetch, "success", null);
-    __decorate([
-        $mol_action
-    ], $mol_fetch, "stream", null);
-    __decorate([
-        $mol_action
-    ], $mol_fetch, "text", null);
-    __decorate([
-        $mol_action
-    ], $mol_fetch, "json", null);
-    __decorate([
-        $mol_action
-    ], $mol_fetch, "blob", null);
-    __decorate([
-        $mol_action
-    ], $mol_fetch, "buffer", null);
-    __decorate([
-        $mol_action
-    ], $mol_fetch, "xml", null);
-    __decorate([
-        $mol_action
-    ], $mol_fetch, "xhtml", null);
-    __decorate([
-        $mol_action
-    ], $mol_fetch, "html", null);
-    $.$mol_fetch = $mol_fetch;
-})($ || ($ = {}));
-
-;
-"use strict";
 
 ;
 "use strict";
@@ -33012,9 +33304,30 @@ var $;
 			(obj.Content) = () => ((this.Description_edit()));
 			return obj;
 		}
+		exported_json(){
+			return "";
+		}
+		exported_file_name(){
+			return "";
+		}
+		Export_icon(){
+			const obj = new this.$.$mol_icon_download();
+			return obj;
+		}
+		Export(){
+			const obj = new this.$.$mol_link();
+			(obj.uri) = () => ((this.exported_json()));
+			(obj.file_name) = () => ((this.exported_file_name()));
+			(obj.sub) = () => ([(this.Export_icon()), "Экспорт"]);
+			return obj;
+		}
 		Settings_content(){
 			const obj = new this.$.$mol_list();
-			(obj.sub) = () => ([(this.Description_field()), (this.Cut())]);
+			(obj.sub) = () => ([
+				(this.Description_field()), 
+				(this.Export()), 
+				(this.Cut())
+			]);
 			return obj;
 		}
 		Settings(){
@@ -33324,6 +33637,8 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "description"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Description_edit"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Description_field"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "Export_icon"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "Export"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Settings_content"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Settings"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "reset_scale"));
@@ -33385,6 +33700,14 @@ var $;
             }
             board_cut() {
                 $shm_hitalama_profile.current()?.boards()?.cut(this.board().ref());
+            }
+            exported_file_name() {
+                return this.board().title() + '.json';
+            }
+            exported_json() {
+                const obj = this.board().serialized();
+                const data_uri = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(obj, null, '\t'));
+                return data_uri;
             }
             block_delete(ref) {
                 this.board().Blocks(null)?.cut(ref);
@@ -33720,6 +34043,12 @@ var $;
             $mol_action
         ], $shm_hitalama_board_page.prototype, "board_cut", null);
         __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_page.prototype, "exported_file_name", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_page.prototype, "exported_json", null);
+        __decorate([
             $mol_action
         ], $shm_hitalama_board_page.prototype, "block_delete", null);
         __decorate([
@@ -33882,9 +34211,9 @@ var $;
             Settings_content: {
                 padding: $mol_gap.block,
             },
-            Cut: {
-                margin: {
-                    top: '1rem',
+            Description_field: {
+                padding: {
+                    bottom: $mol_gap.block,
                 },
             },
             Pane: {
@@ -33896,6 +34225,15 @@ var $;
 
 ;
 	($.$shm_hitalama_board_catalog) = class $shm_hitalama_board_catalog extends ($.$shm_hitalama_entity_catalog) {
+		import(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Import(){
+			const obj = new this.$.$mol_attach();
+			(obj.attach_new) = (next) => ((this.import(next)));
+			return obj;
+		}
 		menu_title(){
 			return "Карты";
 		}
@@ -33911,9 +34249,40 @@ var $;
 			(obj.cut) = () => ((this.cut(id)));
 			return obj;
 		}
+		menu_tools(){
+			return [(this.Import()), ...(super.menu_tools())];
+		}
 	};
+	($mol_mem(($.$shm_hitalama_board_catalog.prototype), "import"));
+	($mol_mem(($.$shm_hitalama_board_catalog.prototype), "Import"));
 	($mol_mem_key(($.$shm_hitalama_board_catalog.prototype), "Page"));
 
+
+;
+"use strict";
+var $;
+(function ($) {
+    function $mol_blob_text(blob) {
+        return new Promise((done, fail) => {
+            const reader = new FileReader;
+            reader.onerror = fail;
+            reader.onload = event => done(event.target.result);
+            reader.readAsText(blob);
+        });
+    }
+    $.$mol_blob_text = $mol_blob_text;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    async function $mol_blob_json(blob) {
+        const json = await $mol_blob_text(blob);
+        return JSON.parse(json);
+    }
+    $.$mol_blob_json = $mol_blob_json;
+})($ || ($ = {}));
 
 ;
 "use strict";
@@ -33934,6 +34303,11 @@ var $;
                 this.spread(entity.ref().description);
                 return entity;
             }
+            import(files) {
+                const json = $mol_wire_sync(this.$).$mol_blob_json(files[0]);
+                const board = this.add();
+                board.deserialize(json);
+            }
         }
         __decorate([
             $mol_mem
@@ -33941,7 +34315,34 @@ var $;
         __decorate([
             $mol_action
         ], $shm_hitalama_board_catalog.prototype, "add", null);
+        __decorate([
+            $mol_action
+        ], $shm_hitalama_board_catalog.prototype, "import", null);
         $$.$shm_hitalama_board_catalog = $shm_hitalama_board_catalog;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        $mol_style_define($shm_hitalama_board_catalog, {
+            Import: {
+                Content: {
+                    padding: 0,
+                },
+                Add: {
+                    width: '1rem',
+                    height: '1rem',
+                    Icon: {
+                        width: '1rem',
+                        height: '1rem',
+                    },
+                },
+            },
+        });
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
 
