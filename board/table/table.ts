@@ -112,32 +112,6 @@ namespace $ {
 			} )
 		}
 
-		@ $mol_action
-		serialize() {
-			return {
-				ref: this.ref().description,
-
-				head: this.Head()?.val(),
-				head_method: this.Head_method()?.val(),
-				rows: this.Rows()?.val(),
-				rows_method: this.Rows_method()?.val(),
-				col_widths: this.Col_widths()?.val(),
-				col_types: this.Col_types()?.val(),
-				rows_checked: this.Rows_checked()?.val(),
-			}
-		}
-
-		@ $mol_action
-		deserialize( dto: ReturnType< $shm_hitalama_board_table['serialize'] > ) {
-			this.Head( dto.head )?.val( dto.head )
-			this.Head_method( dto.head_method )?.val( dto.head_method )
-			this.Rows( dto.rows )?.val( dto.rows )
-			this.Rows_method( dto.rows_method )?.val( dto.rows_method )
-			this.Col_widths( dto.col_widths )?.val( dto.col_widths )
-			this.Col_types( dto.col_types )?.val( dto.col_types )
-			this.Rows_checked( dto.rows_checked )?.val( dto.rows_checked )
-		}
-
 	}
 
 }

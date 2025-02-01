@@ -97,87 +97,28 @@ namespace $ {
 		}
 
 		@ $mol_action
-		serialize() {
-			const table_nodes = new Set< $shm_hitalama_board_table >
-
-			const blocks = this.Blocks()?.remote_list().map( b => {
-				const table = b.Table()?.remote()
-				if( table ) table_nodes.add( table )
-				return b.serialize()
-			} )
-			const tables = [...table_nodes].map( t => t.serialize() )
-			const files = this.Files()?.remote_list().map( f => f.serialize() )
-			const search_statistics = this.Search_statistics()?.remote_list().map( f => f.serialize() )
-
-			return {
-				title: this.title(),
-				last_color: this.Last_color()?.val(),
-				last_font_size: this.Last_font_size()?.val(),
-				description: this.Description()?.val(),
-
-				blocks,
-				tables,
-				files,
-				search_statistics,
-			}
+		get_transfer() {
+			return $shm_hitalama_board_transfer.make({
+				board: ()=> this
+			})
 		}
 
-		ref_remap = new Map< string, string >
+		@ $mol_action
+		serialize() {
+			const transfer = this.get_transfer()
+			return transfer.serialize_board()
+		}
+
+		@ $mol_action
+		serialize_blocks( blocks: $shm_hitalama_board_block[] ) {
+			const transfer = this.get_transfer()
+			return transfer.serialize_blocks( blocks )
+		}
+
 		@ $mol_action
 		deserialize( dto: ReturnType< $shm_hitalama_board['serialize'] > ) {
-			this.title( dto.title )
-			this.Last_color( dto.last_color )?.val( dto.last_color )
-			this.Last_font_size( dto.last_font_size )?.val( dto.last_font_size )
-			this.Description( dto.description )?.val( dto.description )
-
-			dto.files?.forEach( dto => {
-				const file = this.Files(null)?.make( this.land() )
-				this.ref_remap.set( dto.ref!, file?.ref().description! )
-				file?.deserialize( dto )
-			} )
-
-			dto.tables?.forEach( dto => {
-				const table = this.Tables(null)?.make( this.land() )
-				table?.Board(null)?.remote( this )
-				this.ref_remap.set( dto.ref!, table?.ref().description! )
-				table?.deserialize( dto )
-			} )
-
-			dto.search_statistics?.forEach( dto => {
-				this.deserialize_statistic( dto.ref!, dto )
-			} )
-
-			this.deserialize_blocks( dto )
-		}
-
-		@ $mol_mem_key
-		deserialize_statistic( dto_ref: string, dto: ReturnType< $shm_hitalama_board_form['serialize'] > ) {
-			if( this.ref_remap.has( dto_ref ) ) return dto
-			const item = this.Search_statistics(null)?.make( this.land() )
-			this.ref_remap.set( dto_ref!, item?.ref().description! )
-			item?.deserialize_data( dto )
-			item?.deserialize_refs( dto, this.ref_remap )
-			return dto
-		}
-
-		@ $mol_action
-		deserialize_blocks( dto: ReturnType< $shm_hitalama_board['serialize'] > ) {
-			const block_and_dto = dto.blocks?.map( dto => {
-				const block = this.Blocks(null)?.make( this.land() )
-				block?.Board(null)?.remote( this )
-				this.Block_by_name(null)?.key( dto.title!, 'auto' ).remote( block )
-				this.ref_remap.set( dto.ref!, block?.ref().description! )
-				return { block, dto }
-			} )
-
-			block_and_dto?.forEach( ({block, dto})=> {
-				block?.Board(null)?.remote( this )
-				block?.deserialize_data( dto )
-			} )
-
-			block_and_dto?.forEach( ({block, dto})=> {
-				block?.deserialize_refs( dto, this.ref_remap )
-			} )
+			const transfer = this.get_transfer()
+			transfer.deserialize( dto )
 		}
 		
 	}

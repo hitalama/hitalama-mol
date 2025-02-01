@@ -127,42 +127,6 @@ namespace $ {
 			// console.log('{ by_group, labels, field_options }', { by_group, labels, field_options })
 			return { by_group, labels, field_options }
 		}
-
-		@ $mol_action
-		serialize() {
-			const axis_details = this.Axis_details()?.keys().map( key => ([
-				key?.toString()!, this.Axis_details()?.key( key ).val()!
-			] as const ) )
-			const filters_options = this.Filters_options()?.keys().map( key => ([
-				key?.toString()!, this.Filters_options()?.key( key ).val()!
-			] as const ) )
-
-			return {
-				axis: this.Axis()?.val(),
-				values: this.Values()?.val(),
-				groups: this.Groups()?.val(),
-				filters_enabled: this.Filters_enabled()?.val(),
-
-				axis_details,
-				filters_options,
-			}
-		}
-
-		@ $mol_action
-		deserialize( dto: ReturnType< $shm_hitalama_board_chart['serialize'] > ) {
-			this.Axis( dto.axis )?.val( dto.axis )
-			this.Values( dto.values )?.val( dto.values )
-			this.Groups( dto.groups )?.val( dto.groups )
-			this.Filters_enabled( dto.filters_enabled )?.val( dto.filters_enabled )
-
-			dto.axis_details?.forEach( ([ key, val ]) => {
-				this.Axis_details( null )?.key( key, 'auto' ).val( val )
-			} )
-
-			dto.filters_options?.forEach( ([ key, val ]) => {
-				this.Filters_options( null )?.key( key, 'auto' ).val( val )
-			} )
-		}
 		
 	}
 

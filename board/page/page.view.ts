@@ -430,9 +430,18 @@ namespace $.$$ {
 			return new $mol_dom_listener(
 				this.$.$mol_dom_context.document,
 				'keyup',
-				$mol_wire_async( event => {
+				$mol_wire_async( ( event: KeyboardEvent )=> {
+					console.log('event', event)
 					if( event.key == 'Shift' ) {
 						this.shift_pressed( false )
+					} 
+					else if( event.code == 'KeyC' && event.ctrlKey ) {
+						
+						const refs = this.selected_refs()
+						const blocks = refs.map( r => this.block_by_ref( r ) )
+						const serialized = this.board().serialize_blocks( blocks )
+						console.log('serialized', serialized)
+
 					}
 				} ),
 			)
