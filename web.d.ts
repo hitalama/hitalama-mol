@@ -12774,13 +12774,6 @@ declare namespace $ {
     };
     export class $shm_hitalama_file extends $shm_hitalama_file_base {
         blob_uri_async(): Promise<string>;
-        serialize(): {
-            ref: string | undefined;
-            title: string;
-            size: number | null | undefined;
-            blob_uri: string;
-        };
-        deserialize(dto: ReturnType<$shm_hitalama_file['serialize']>): void;
     }
     export {};
 }
@@ -13602,17 +13595,6 @@ declare namespace $ {
         }[];
         head_extended(): any[];
         rows_extended(): any[][];
-        serialize(): {
-            ref: string | undefined;
-            head: any[] | null | undefined;
-            head_method: string | null | undefined;
-            rows: any[] | null | undefined;
-            rows_method: string | null | undefined;
-            col_widths: any[] | null | undefined;
-            col_types: any[] | null | undefined;
-            rows_checked: {} | null | undefined;
-        };
-        deserialize(dto: ReturnType<$shm_hitalama_board_table['serialize']>): void;
     }
     export {};
 }
@@ -13964,15 +13946,6 @@ declare namespace $ {
             labels: Set<string>;
             field_options: Map<string, Set<string | number>>;
         };
-        serialize(): {
-            axis: string | null | undefined;
-            values: any[] | null | undefined;
-            groups: any[] | null | undefined;
-            filters_enabled: any[] | null | undefined;
-            axis_details: (readonly [string, string])[] | undefined;
-            filters_options: (readonly [string, any[]])[] | undefined;
-        };
-        deserialize(dto: ReturnType<$shm_hitalama_board_chart['serialize']>): void;
     }
     export {};
 }
@@ -14635,41 +14608,12 @@ declare namespace $ {
         text(next?: string): string;
         color(next?: string): string;
         font_size(next?: number): number | "";
+        type(): "text" | "" | "input" | "iframe" | "form" | "table" | "code" | "chart" | "chart_settings" | "chart_filter" | "customdom" | "file";
         table(): $shm_hitalama_board_table;
         table_head(next?: any): any[];
         table_col_types(next?: any): any[];
         table_rows(next?: any): any[];
         file_str(): string | undefined;
-        serialize(): {
-            ref: string | undefined;
-            title: string;
-            body_x: number | null | undefined;
-            body_y: number | null | undefined;
-            bottom_edge_y: number | null | undefined;
-            right_edge_x: number | null | undefined;
-            top_edge_y: number | null | undefined;
-            left_edge_x: number | null | undefined;
-            opacity: number | null | undefined;
-            type: "text" | "input" | "iframe" | "form" | "table" | "code" | "chart" | "chart_settings" | "chart_filter" | "customdom" | "file" | null | undefined;
-            color: string | null | undefined;
-            font_size: number | null | undefined;
-            src: string | null | undefined;
-            text: string | undefined;
-            use_text_from_ref: string | undefined;
-            table_ref: string | undefined;
-            chart: {
-                axis: string | null | undefined;
-                values: any[] | null | undefined;
-                groups: any[] | null | undefined;
-                filters_enabled: any[] | null | undefined;
-                axis_details: (readonly [string, string])[] | undefined;
-                filters_options: (readonly [string, any[]])[] | undefined;
-            } | undefined;
-            use_chart_from_ref: string | undefined;
-            file_ref: string | undefined;
-        };
-        deserialize_data(dto: ReturnType<$shm_hitalama_board_block['serialize']>): void;
-        deserialize_refs(dto: ReturnType<$shm_hitalama_board_block['serialize']>, ref_remap: Map<string, string>): void;
     }
     export {};
 }
@@ -15927,6 +15871,7 @@ declare namespace $ {
                 file_mass_media_ref: string | undefined;
             }[] | undefined;
         };
+        get_transfer(): $shm_hitalama_board_transfer;
         serialize(): {
             title: string;
             last_color: string | null | undefined;
@@ -15991,23 +15936,47 @@ declare namespace $ {
                 file_mass_media_ref: string | undefined;
             }[] | undefined;
         };
-        ref_remap: Map<string, string>;
-        deserialize(dto: ReturnType<$shm_hitalama_board['serialize']>): void;
-        deserialize_statistic(dto_ref: string, dto: ReturnType<$shm_hitalama_board_form['serialize']>): {
-            ref: string | undefined;
-            query: string | null | undefined;
-            excluded_words: string | null | undefined;
-            date_from: string | null | undefined;
-            date_to: string | null | undefined;
-            country: string | null | undefined;
-            language: string | null | undefined;
-            type: string | null | undefined;
-            tags: string | null | undefined;
-            category: string | null | undefined;
-            file_social_media_ref: string | undefined;
-            file_mass_media_ref: string | undefined;
+        serialize_blocks(blocks: $shm_hitalama_board_block[]): {
+            blocks: {
+                ref: string | undefined;
+                title: string;
+                body_x: number | null | undefined;
+                body_y: number | null | undefined;
+                bottom_edge_y: number | null | undefined;
+                right_edge_x: number | null | undefined;
+                top_edge_y: number | null | undefined;
+                left_edge_x: number | null | undefined;
+                opacity: number | null | undefined;
+                type: "text" | "input" | "iframe" | "form" | "table" | "code" | "chart" | "chart_settings" | "chart_filter" | "customdom" | "file" | null | undefined;
+                color: string | null | undefined;
+                font_size: number | null | undefined;
+                src: string | null | undefined;
+                text: string | undefined;
+                use_text_from_ref: string | undefined;
+                table_ref: string | undefined;
+                chart: {
+                    axis: string | null | undefined;
+                    values: any[] | null | undefined;
+                    groups: any[] | null | undefined;
+                    filters_enabled: any[] | null | undefined;
+                    axis_details: (readonly [string, string])[] | undefined;
+                    filters_options: (readonly [string, any[]])[] | undefined;
+                } | undefined;
+                use_chart_from_ref: string | undefined;
+                file_ref: string | undefined;
+            }[];
+            tables: {
+                ref: string | undefined;
+                head: any[] | null | undefined;
+                head_method: string | null | undefined;
+                rows: any[] | null | undefined;
+                rows_method: string | null | undefined;
+                col_widths: any[] | null | undefined;
+                col_types: any[] | null | undefined;
+                rows_checked: {} | null | undefined;
+            }[];
         };
-        deserialize_blocks(dto: ReturnType<$shm_hitalama_board['serialize']>): void;
+        deserialize(dto: ReturnType<$shm_hitalama_board['serialize']>): void;
     }
     export {};
 }
@@ -16017,6 +15986,204 @@ declare namespace $ {
         static key_size(): number;
         static import(serial: string, password: string): Promise<string | null>;
         static export(auth: string, password: string, login: string): Promise<string>;
+    }
+}
+
+declare namespace $ {
+    class $shm_hitalama_board_transfer_chart extends $mol_object {
+        static serialize(chart: $shm_hitalama_board_chart): {
+            axis: string | null | undefined;
+            values: any[] | null | undefined;
+            groups: any[] | null | undefined;
+            filters_enabled: any[] | null | undefined;
+            axis_details: (readonly [string, string])[] | undefined;
+            filters_options: (readonly [string, any[]])[] | undefined;
+        };
+        static deserialize(chart: $shm_hitalama_board_chart, dto: ReturnType<typeof $shm_hitalama_board_transfer_chart['serialize']>): void;
+    }
+}
+
+declare namespace $ {
+    class $shm_hitalama_board_transfer_block extends $mol_object {
+        static serialize(block: $shm_hitalama_board_block): {
+            ref: string | undefined;
+            title: string;
+            body_x: number | null | undefined;
+            body_y: number | null | undefined;
+            bottom_edge_y: number | null | undefined;
+            right_edge_x: number | null | undefined;
+            top_edge_y: number | null | undefined;
+            left_edge_x: number | null | undefined;
+            opacity: number | null | undefined;
+            type: "text" | "input" | "iframe" | "form" | "table" | "code" | "chart" | "chart_settings" | "chart_filter" | "customdom" | "file" | null | undefined;
+            color: string | null | undefined;
+            font_size: number | null | undefined;
+            src: string | null | undefined;
+            text: string | undefined;
+            use_text_from_ref: string | undefined;
+            table_ref: string | undefined;
+            chart: {
+                axis: string | null | undefined;
+                values: any[] | null | undefined;
+                groups: any[] | null | undefined;
+                filters_enabled: any[] | null | undefined;
+                axis_details: (readonly [string, string])[] | undefined;
+                filters_options: (readonly [string, any[]])[] | undefined;
+            } | undefined;
+            use_chart_from_ref: string | undefined;
+            file_ref: string | undefined;
+        };
+        static deserialize_data(block: $shm_hitalama_board_block, dto: ReturnType<typeof $shm_hitalama_board_transfer_block['serialize']>): void;
+        static deserialize_refs(block: $shm_hitalama_board_block, dto: ReturnType<typeof $shm_hitalama_board_transfer_block['serialize']>, ref_remap: (ref: string) => string): void;
+    }
+}
+
+declare namespace $ {
+    class $shm_hitalama_board_transfer_table extends $mol_object {
+        static serialize(table: $shm_hitalama_board_table): {
+            ref: string | undefined;
+            head: any[] | null | undefined;
+            head_method: string | null | undefined;
+            rows: any[] | null | undefined;
+            rows_method: string | null | undefined;
+            col_widths: any[] | null | undefined;
+            col_types: any[] | null | undefined;
+            rows_checked: {} | null | undefined;
+        };
+        static deserialize(table: $shm_hitalama_board_table, dto: ReturnType<typeof $shm_hitalama_board_transfer_table['serialize']>): void;
+    }
+}
+
+declare namespace $ {
+    class $shm_hitalama_board_transfer_file extends $mol_object {
+        static serialize(file: $shm_hitalama_file): {
+            ref: string | undefined;
+            title: string;
+            size: number | null | undefined;
+            blob_uri: string;
+        };
+        static deserialize(file: $shm_hitalama_file, dto: ReturnType<typeof $shm_hitalama_board_transfer_file['serialize']>): void;
+    }
+}
+
+declare namespace $ {
+    class $shm_hitalama_board_transfer extends $mol_object {
+        board(): $shm_hitalama_board;
+        serialize_board(): {
+            title: string;
+            last_color: string | null | undefined;
+            last_font_size: number | null | undefined;
+            description: string | null | undefined;
+            blocks: {
+                ref: string | undefined;
+                title: string;
+                body_x: number | null | undefined;
+                body_y: number | null | undefined;
+                bottom_edge_y: number | null | undefined;
+                right_edge_x: number | null | undefined;
+                top_edge_y: number | null | undefined;
+                left_edge_x: number | null | undefined;
+                opacity: number | null | undefined;
+                type: "text" | "input" | "iframe" | "form" | "table" | "code" | "chart" | "chart_settings" | "chart_filter" | "customdom" | "file" | null | undefined;
+                color: string | null | undefined;
+                font_size: number | null | undefined;
+                src: string | null | undefined;
+                text: string | undefined;
+                use_text_from_ref: string | undefined;
+                table_ref: string | undefined;
+                chart: {
+                    axis: string | null | undefined;
+                    values: any[] | null | undefined;
+                    groups: any[] | null | undefined;
+                    filters_enabled: any[] | null | undefined;
+                    axis_details: (readonly [string, string])[] | undefined;
+                    filters_options: (readonly [string, any[]])[] | undefined;
+                } | undefined;
+                use_chart_from_ref: string | undefined;
+                file_ref: string | undefined;
+            }[] | undefined;
+            tables: {
+                ref: string | undefined;
+                head: any[] | null | undefined;
+                head_method: string | null | undefined;
+                rows: any[] | null | undefined;
+                rows_method: string | null | undefined;
+                col_widths: any[] | null | undefined;
+                col_types: any[] | null | undefined;
+                rows_checked: {} | null | undefined;
+            }[];
+            files: {
+                ref: string | undefined;
+                title: string;
+                size: number | null | undefined;
+                blob_uri: string;
+            }[] | undefined;
+            search_statistics: {
+                ref: string | undefined;
+                query: string | null | undefined;
+                excluded_words: string | null | undefined;
+                date_from: string | null | undefined;
+                date_to: string | null | undefined;
+                country: string | null | undefined;
+                language: string | null | undefined;
+                type: string | null | undefined;
+                tags: string | null | undefined;
+                category: string | null | undefined;
+                file_social_media_ref: string | undefined;
+                file_mass_media_ref: string | undefined;
+            }[] | undefined;
+        };
+        serialize_blocks(source: $shm_hitalama_board_block[]): {
+            blocks: {
+                ref: string | undefined;
+                title: string;
+                body_x: number | null | undefined;
+                body_y: number | null | undefined;
+                bottom_edge_y: number | null | undefined;
+                right_edge_x: number | null | undefined;
+                top_edge_y: number | null | undefined;
+                left_edge_x: number | null | undefined;
+                opacity: number | null | undefined;
+                type: "text" | "input" | "iframe" | "form" | "table" | "code" | "chart" | "chart_settings" | "chart_filter" | "customdom" | "file" | null | undefined;
+                color: string | null | undefined;
+                font_size: number | null | undefined;
+                src: string | null | undefined;
+                text: string | undefined;
+                use_text_from_ref: string | undefined;
+                table_ref: string | undefined;
+                chart: {
+                    axis: string | null | undefined;
+                    values: any[] | null | undefined;
+                    groups: any[] | null | undefined;
+                    filters_enabled: any[] | null | undefined;
+                    axis_details: (readonly [string, string])[] | undefined;
+                    filters_options: (readonly [string, any[]])[] | undefined;
+                } | undefined;
+                use_chart_from_ref: string | undefined;
+                file_ref: string | undefined;
+            }[];
+            tables: {
+                ref: string | undefined;
+                head: any[] | null | undefined;
+                head_method: string | null | undefined;
+                rows: any[] | null | undefined;
+                rows_method: string | null | undefined;
+                col_widths: any[] | null | undefined;
+                col_types: any[] | null | undefined;
+                rows_checked: {} | null | undefined;
+            }[];
+        };
+        ref_remapping: Map<string, string>;
+        ref_remap: (ref: string) => string;
+        deserialize(dto: ReturnType<$shm_hitalama_board['serialize']>): void;
+        deserialize_statistics(statistics: ReturnType<$shm_hitalama_board['serialize']>['search_statistics']): void;
+        statistic_by_dto_ref(dto_ref: string): $shm_hitalama_board_form | undefined;
+        block_by_dto_ref(dto_ref: string): $shm_hitalama_board_block | undefined;
+        file_by_dto_ref(dto_ref: string): $shm_hitalama_file | undefined;
+        table_by_dto_ref(dto_ref: string): $shm_hitalama_board_table | undefined;
+        deserialize_files(files: ReturnType<$shm_hitalama_board['serialize']>['files']): void;
+        deserialize_tables(tables: ReturnType<$shm_hitalama_board['serialize']>['tables']): void;
+        deserialize_blocks(blocks: ReturnType<$shm_hitalama_board['serialize']>['blocks']): void;
     }
 }
 
@@ -23366,6 +23533,24 @@ declare namespace $.$$ {
 
 declare namespace $ {
 
+	type $shm_hitalama_grid_table__sub_shm_hitalama_grid_1 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_grid['rows'] >
+		,
+		ReturnType< $shm_hitalama_grid_table['sub'] >
+	>
+	export class $shm_hitalama_grid extends $mol_grid {
+		Table_view( ): $shm_hitalama_grid_table
+		sub( ): readonly(any)[]
+	}
+	
+	export class $shm_hitalama_grid_table extends $mol_view {
+	}
+	
+}
+
+//# sourceMappingURL=grid.view.tree.d.ts.map
+declare namespace $ {
+
 	export class $mol_icon_cog extends $mol_icon {
 		path( ): string
 	}
@@ -23425,25 +23610,25 @@ declare namespace $ {
 		,
 		Parameters< ReturnType< $shm_hitalama_board_block_table['Table'] >['cell_content_text'] >[0]
 	>
-	type $mol_grid__records_shm_hitalama_board_block_table_2 = $mol_type_enforce<
+	type $shm_hitalama_grid__records_shm_hitalama_board_block_table_2 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_table['rows'] >
 		,
-		ReturnType< $mol_grid['records'] >
+		ReturnType< $shm_hitalama_grid['records'] >
 	>
-	type $mol_grid__col_ids_shm_hitalama_board_block_table_3 = $mol_type_enforce<
+	type $shm_hitalama_grid__col_ids_shm_hitalama_board_block_table_3 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_table['col_ids'] >
 		,
-		ReturnType< $mol_grid['col_ids'] >
+		ReturnType< $shm_hitalama_grid['col_ids'] >
 	>
-	type $mol_grid__col_head_content_shm_hitalama_board_block_table_4 = $mol_type_enforce<
+	type $shm_hitalama_grid__col_head_content_shm_hitalama_board_block_table_4 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_table['col_head_content'] >
 		,
-		ReturnType< $mol_grid['col_head_content'] >
+		ReturnType< $shm_hitalama_grid['col_head_content'] >
 	>
-	type $mol_grid__Cell_shm_hitalama_board_block_table_5 = $mol_type_enforce<
+	type $shm_hitalama_grid__Cell_shm_hitalama_board_block_table_5 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_table['Cell'] >
 		,
-		ReturnType< $mol_grid['Cell'] >
+		ReturnType< $shm_hitalama_grid['Cell'] >
 	>
 	type $mol_link__uri_shm_hitalama_board_block_table_6 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_table['cell_file_uri'] >
@@ -23592,7 +23777,7 @@ declare namespace $ {
 		cell_content_text( id: any): ReturnType< ReturnType< $shm_hitalama_board_block_table['Table'] >['cell_content_text'] >
 		Cell( id: any): $mol_view
 		table_row_ids( ): ReturnType< ReturnType< $shm_hitalama_board_block_table['Table'] >['row_ids'] >
-		Table( ): $mol_grid
+		Table( ): $shm_hitalama_grid
 		col_width_px( id: any): string
 		cell_style( id: any): ({ 
 			'maxWidth': ReturnType< $shm_hitalama_board_block_table['col_width_px'] >,
