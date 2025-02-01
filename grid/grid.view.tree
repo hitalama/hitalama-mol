@@ -1,0 +1,7 @@
+$shm_hitalama_grid $mol_grid
+	sub /
+		<= Head
+		<= Table_view $shm_hitalama_grid_table
+			sub <= rows
+
+$shm_hitalama_grid_table $mol_view
