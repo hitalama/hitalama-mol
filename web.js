@@ -18317,19 +18317,19 @@ var $;
         }
         deserialize_refs(dto, ref_remap) {
             if (dto.use_chart_from_ref) {
-                const block = $hyoo_crus_glob.Node($hyoo_crus_ref(ref_remap(dto.use_chart_from_ref)), $shm_hitalama_board_block);
+                const block = $hyoo_crus_glob.Node($hyoo_crus_ref(ref_remap.get(dto.use_chart_from_ref)), $shm_hitalama_board_block);
                 this.Use_chart_from(null)?.remote(block);
             }
             if (dto.use_text_from_ref) {
-                const block = $hyoo_crus_glob.Node($hyoo_crus_ref(ref_remap(dto.use_text_from_ref)), $shm_hitalama_board_block);
+                const block = $hyoo_crus_glob.Node($hyoo_crus_ref(ref_remap.get(dto.use_text_from_ref)), $shm_hitalama_board_block);
                 this.Use_text_from(null)?.remote(block);
             }
             if (dto.table_ref) {
-                const table = $hyoo_crus_glob.Node($hyoo_crus_ref(ref_remap(dto.table_ref)), $shm_hitalama_board_table);
+                const table = $hyoo_crus_glob.Node($hyoo_crus_ref(ref_remap.get(dto.table_ref)), $shm_hitalama_board_table);
                 this.Table(null)?.remote(table);
             }
             if (dto.file_ref) {
-                const file = $hyoo_crus_glob.Node($hyoo_crus_ref(ref_remap(dto.file_ref)), $shm_hitalama_file);
+                const file = $hyoo_crus_glob.Node($hyoo_crus_ref(ref_remap.get(dto.file_ref)), $shm_hitalama_file);
                 this.File(null)?.remote(file);
             }
         }
@@ -18434,21 +18434,74 @@ var $;
         serialized() {
             return this.serialize();
         }
-        get_transfer() {
-            const transfer = $shm_hitalama_board_transfer.make({
-                board: () => this
-            });
-            return transfer;
-        }
         serialize() {
-            const transfer = new ($mol_wire_sync($shm_hitalama_board_transfer))();
-            transfer.board = () => this;
-            return transfer.serialize();
+            const table_nodes = new Set;
+            const blocks = this.Blocks()?.remote_list().map(b => {
+                const table = b.Table()?.remote();
+                if (table)
+                    table_nodes.add(table);
+                return b.serialize();
+            });
+            const tables = [...table_nodes].map(t => t.serialize());
+            const files = this.Files()?.remote_list().map(f => f.serialize());
+            const search_statistics = this.Search_statistics()?.remote_list().map(f => f.serialize());
+            return {
+                title: this.title(),
+                last_color: this.Last_color()?.val(),
+                last_font_size: this.Last_font_size()?.val(),
+                description: this.Description()?.val(),
+                blocks,
+                tables,
+                files,
+                search_statistics,
+            };
         }
-        ref_remapping = new Map;
+        ref_remap = new Map;
         deserialize(dto) {
-            const transfer = this.get_transfer();
-            transfer.deserialize(dto);
+            this.title(dto.title);
+            this.Last_color(dto.last_color)?.val(dto.last_color);
+            this.Last_font_size(dto.last_font_size)?.val(dto.last_font_size);
+            this.Description(dto.description)?.val(dto.description);
+            dto.files?.forEach(dto => {
+                const file = this.Files(null)?.make(this.land());
+                this.ref_remap.set(dto.ref, file?.ref().description);
+                file?.deserialize(dto);
+            });
+            dto.tables?.forEach(dto => {
+                const table = this.Tables(null)?.make(this.land());
+                table?.Board(null)?.remote(this);
+                this.ref_remap.set(dto.ref, table?.ref().description);
+                table?.deserialize(dto);
+            });
+            dto.search_statistics?.forEach(dto => {
+                this.deserialize_statistic(dto.ref, dto);
+            });
+            this.deserialize_blocks(dto);
+        }
+        deserialize_statistic(dto_ref, dto) {
+            if (this.ref_remap.has(dto_ref))
+                return dto;
+            const item = this.Search_statistics(null)?.make(this.land());
+            this.ref_remap.set(dto_ref, item?.ref().description);
+            item?.deserialize_data(dto);
+            item?.deserialize_refs(dto, this.ref_remap);
+            return dto;
+        }
+        deserialize_blocks(dto) {
+            const block_and_dto = dto.blocks?.map(dto => {
+                const block = this.Blocks(null)?.make(this.land());
+                block?.Board(null)?.remote(this);
+                this.Block_by_name(null)?.key(dto.title, 'auto').remote(block);
+                this.ref_remap.set(dto.ref, block?.ref().description);
+                return { block, dto };
+            });
+            block_and_dto?.forEach(({ block, dto }) => {
+                block?.Board(null)?.remote(this);
+                block?.deserialize_data(dto);
+            });
+            block_and_dto?.forEach(({ block, dto }) => {
+                block?.deserialize_refs(dto, this.ref_remap);
+            });
         }
     }
     __decorate([
@@ -18474,13 +18527,16 @@ var $;
     ], $shm_hitalama_board.prototype, "serialized", null);
     __decorate([
         $mol_action
-    ], $shm_hitalama_board.prototype, "get_transfer", null);
-    __decorate([
-        $mol_action
     ], $shm_hitalama_board.prototype, "serialize", null);
     __decorate([
         $mol_action
     ], $shm_hitalama_board.prototype, "deserialize", null);
+    __decorate([
+        $mol_mem_key
+    ], $shm_hitalama_board.prototype, "deserialize_statistic", null);
+    __decorate([
+        $mol_action
+    ], $shm_hitalama_board.prototype, "deserialize_blocks", null);
     $.$shm_hitalama_board = $shm_hitalama_board;
 })($ || ($ = {}));
 
@@ -18522,133 +18578,6 @@ var $;
         $mol_action
     ], $shm_hitalama_profile_key, "export", null);
     $.$shm_hitalama_profile_key = $shm_hitalama_profile_key;
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
-    class $shm_hitalama_board_transfer extends $mol_object {
-        board() {
-            throw new Error("Not implemented");
-        }
-        serialize() {
-            const table_nodes = new Set;
-            const blocks = this.board().Blocks()?.remote_list().map(b => {
-                const table = b.Table()?.remote();
-                if (table)
-                    table_nodes.add(table);
-                return b.serialize();
-            });
-            const tables = [...table_nodes].map(t => t.serialize());
-            const files = this.board().Files()?.remote_list().map(f => f.serialize());
-            const search_statistics = this.board().Search_statistics()?.remote_list().map(f => f.serialize());
-            return {
-                title: this.board().title(),
-                last_color: this.board().Last_color()?.val(),
-                last_font_size: this.board().Last_font_size()?.val(),
-                description: this.board().Description()?.val(),
-                blocks,
-                tables,
-                files,
-                search_statistics,
-            };
-        }
-        ref_remapping = new Map;
-        deserialize(dto) {
-            this.board().title(dto.title);
-            this.board().Last_color(dto.last_color)?.val(dto.last_color);
-            this.board().Last_font_size(dto.last_font_size)?.val(dto.last_font_size);
-            this.board().Description(dto.description)?.val(dto.description);
-            this.deserialize_files(dto.files);
-            this.deserialize_tables(dto.tables);
-            this.deserialize_statistics(dto.search_statistics);
-            this.deserialize_blocks(dto);
-        }
-        deserialize_statistics(statistics) {
-            statistics?.forEach(dto => {
-                const item = this.statistic_by_dto_ref(dto.ref);
-                this.board().ref_remapping.set(dto.ref, item?.ref().description);
-                item?.deserialize_data(dto);
-                item?.deserialize_refs(dto, this.board().ref_remapping);
-            });
-        }
-        statistic_by_dto_ref(dto_ref) {
-            const item = this.board().Search_statistics(null)?.make(this.board().land());
-            return item;
-        }
-        block_by_dto_ref(dto_ref) {
-            const block = this.board().Blocks(null)?.make(this.board().land());
-            return block;
-        }
-        file_by_dto_ref(dto_ref) {
-            const file = this.board().Files(null)?.make(this.board().land());
-            return file;
-        }
-        table_by_dto_ref(dto_ref) {
-            const table = this.board().Tables(null)?.make(this.board().land());
-            return table;
-        }
-        deserialize_files(files) {
-            files?.forEach(dto => {
-                const file = this.file_by_dto_ref(dto.ref);
-                this.board().ref_remapping.set(dto.ref, file?.ref().description);
-                file?.deserialize(dto);
-            });
-        }
-        deserialize_tables(tables) {
-            tables?.forEach(dto => {
-                const table = this.table_by_dto_ref(dto.ref);
-                table?.Board(null)?.remote(this.board());
-                this.board().ref_remapping.set(dto.ref, table?.ref().description);
-                table?.deserialize(dto);
-            });
-        }
-        deserialize_blocks(dto) {
-            const block_and_dto = dto.blocks?.map(dto => {
-                const block = this.block_by_dto_ref(dto.ref);
-                block?.Board(null)?.remote(this.board());
-                this.board().Block_by_name(null)?.key(dto.title, 'auto').remote(block);
-                this.board().ref_remapping.set(dto.ref, block?.ref().description);
-                block?.deserialize_data(dto);
-                return { block, dto };
-            });
-            block_and_dto?.forEach(({ block, dto }) => {
-                block?.deserialize_refs(dto, (ref) => this.board().ref_remapping.get(ref) ?? ref);
-            });
-        }
-    }
-    __decorate([
-        $mol_action
-    ], $shm_hitalama_board_transfer.prototype, "serialize", null);
-    __decorate([
-        $mol_action
-    ], $shm_hitalama_board_transfer.prototype, "deserialize", null);
-    __decorate([
-        $mol_action
-    ], $shm_hitalama_board_transfer.prototype, "deserialize_statistics", null);
-    __decorate([
-        $mol_mem_key
-    ], $shm_hitalama_board_transfer.prototype, "statistic_by_dto_ref", null);
-    __decorate([
-        $mol_mem_key
-    ], $shm_hitalama_board_transfer.prototype, "block_by_dto_ref", null);
-    __decorate([
-        $mol_mem_key
-    ], $shm_hitalama_board_transfer.prototype, "file_by_dto_ref", null);
-    __decorate([
-        $mol_mem_key
-    ], $shm_hitalama_board_transfer.prototype, "table_by_dto_ref", null);
-    __decorate([
-        $mol_action
-    ], $shm_hitalama_board_transfer.prototype, "deserialize_files", null);
-    __decorate([
-        $mol_action
-    ], $shm_hitalama_board_transfer.prototype, "deserialize_tables", null);
-    __decorate([
-        $mol_action
-    ], $shm_hitalama_board_transfer.prototype, "deserialize_blocks", null);
-    $.$shm_hitalama_board_transfer = $shm_hitalama_board_transfer;
 })($ || ($ = {}));
 
 ;
@@ -37882,6 +37811,56 @@ var $;
 "use strict";
 
 ;
+	($.$mol_button_download) = class $mol_button_download extends ($.$mol_button_minor) {
+		Icon(){
+			const obj = new this.$.$mol_icon_download();
+			return obj;
+		}
+		title(){
+			return "";
+		}
+		blob(){
+			return null;
+		}
+		uri(){
+			return "";
+		}
+		file_name(){
+			return "blob.bin";
+		}
+		sub(){
+			return [(this.Icon()), (this.title())];
+		}
+	};
+	($mol_mem(($.$mol_button_download.prototype), "Icon"));
+
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $mol_button_download extends $.$mol_button_download {
+            uri() {
+                return URL.createObjectURL(this.blob());
+            }
+            click() {
+                const a = $mol_jsx("a", { href: this.uri(), download: this.file_name() });
+                a.click();
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $mol_button_download.prototype, "uri", null);
+        $$.$mol_button_download = $mol_button_download;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+
+;
 	($.$shm_hitalama_contextmenu) = class $shm_hitalama_contextmenu extends ($.$mol_view) {
 		body(){
 			return [];
@@ -45102,30 +45081,9 @@ var $;
 			(obj.Content) = () => ((this.Description_edit()));
 			return obj;
 		}
-		exported_json(){
-			return "";
-		}
-		exported_file_name(){
-			return "";
-		}
-		Export_icon(){
-			const obj = new this.$.$mol_icon_download();
-			return obj;
-		}
-		Export(){
-			const obj = new this.$.$mol_link();
-			(obj.uri) = () => ((this.exported_json()));
-			(obj.file_name) = () => ((this.exported_file_name()));
-			(obj.sub) = () => ([(this.Export_icon()), "Экспорт"]);
-			return obj;
-		}
 		Settings_content(){
 			const obj = new this.$.$mol_list();
-			(obj.sub) = () => ([
-				(this.Description_field()), 
-				(this.Export()), 
-				(this.Cut())
-			]);
+			(obj.sub) = () => ([(this.Description_field()), (this.Cut())]);
 			return obj;
 		}
 		Settings(){
@@ -45156,6 +45114,24 @@ var $;
 				(this.Settings()), 
 				(this.Scale())
 			]);
+			return obj;
+		}
+		exported_json(){
+			return "";
+		}
+		exported_file_name(){
+			return "";
+		}
+		Export(){
+			const obj = new this.$.$mol_button_download();
+			(obj.uri) = () => ((this.exported_json()));
+			(obj.file_name) = () => ((this.exported_file_name()));
+			(obj.title) = () => ("Экспорт");
+			return obj;
+		}
+		Head_right_panel(){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => ([(this.Export())]);
 			return obj;
 		}
 		text_add(next){
@@ -45391,7 +45367,11 @@ var $;
 			return [];
 		}
 		sub(){
-			return [(this.Head_panel()), (this.Pane())];
+			return [
+				(this.Head_panel()), 
+				(this.Head_right_panel()), 
+				(this.Pane())
+			];
 		}
 		contextmenu_body(next){
 			if(next !== undefined) return next;
@@ -45435,13 +45415,13 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "description"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Description_edit"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Description_field"));
-	($mol_mem(($.$shm_hitalama_board_page.prototype), "Export_icon"));
-	($mol_mem(($.$shm_hitalama_board_page.prototype), "Export"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Settings_content"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Settings"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "reset_scale"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Scale"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Head_panel"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "Export"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "Head_right_panel"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "text_add"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Text_add"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "input_add"));
@@ -45983,24 +45963,31 @@ var $;
 (function ($) {
     var $$;
     (function ($$) {
+        const Head_panel = {
+            padding: $mol_gap.block,
+            background: {
+                color: $mol_theme.card,
+            },
+            border: {
+                radius: $mol_gap.round,
+            },
+            box: {
+                shadow: [[0, `0.5rem`, `0.5rem`, `-0.5rem`, $mol_style_func.hsla(0, 0, 0, .25)]],
+            },
+            position: 'absolute',
+            zIndex: $mol_layer.float
+        };
         $mol_style_define($shm_hitalama_board_page, {
             background: {
                 color: 'transparent',
             },
             Head: {},
             Head_panel: {
-                padding: $mol_gap.block,
-                background: {
-                    color: $mol_theme.card,
-                },
-                border: {
-                    radius: $mol_gap.round,
-                },
-                box: {
-                    shadow: [[0, `0.5rem`, `0.5rem`, `-0.5rem`, $mol_style_func.hsla(0, 0, 0, .25)]],
-                },
-                position: 'absolute',
-                zIndex: $mol_layer.float
+                ...Head_panel,
+            },
+            Head_right_panel: {
+                ...Head_panel,
+                right: 0,
             },
             Title: {
                 ['fieldSizing']: 'content',
