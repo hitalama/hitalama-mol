@@ -18871,6 +18871,9 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
+}
+
+declare namespace $ {
 
 	type $shm_hitalama_grid_table__sub_shm_hitalama_grid_1 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_grid['rows'] >

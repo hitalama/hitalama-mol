@@ -30697,6 +30697,13 @@ var $;
 
 ;
 "use strict";
+var $;
+(function ($) {
+    $mol_style_attach("shm/hitalama/grid/grid.view.css", "[shm_hitalama_grid_table] {\n\tborder-spacing: 0;\n\tdisplay: table-row-group;\n\tposition: relative;\n}\n\n[shm_hitalama_grid_table] > * {\n\tdisplay: table-row;\n\ttransition: none;\n}\n\n[shm_hitalama_grid_table] > * > * {\n\tdisplay: table-cell;\n\tpadding: var(--mol_gap_text);\n\twhite-space: nowrap;\n\tvertical-align: middle;\n\tbox-shadow: inset 2px 2px 0 -1px var(--mol_theme_line);\n}\n\n[shm_hitalama_grid_table] > * > *:where(:first-child) {\n\tbox-shadow: inset 0px 2px 0 -1px var(--mol_theme_line);\n}\n\n[shm_hitalama_grid_table] > [mol_grid_row]:where(:first-child) > *:where(:first-child) {\n\tbox-shadow: none;\n}\t\n");
+})($ || ($ = {}));
+
+;
+"use strict";
 
 ;
 	($.$mol_icon_cog) = class $mol_icon_cog extends ($.$mol_icon) {
