@@ -10050,7 +10050,7 @@ declare namespace $ {
             file_ref: string | undefined;
         };
         deserialize_data(dto: ReturnType<$shm_hitalama_board_block['serialize']>): void;
-        deserialize_refs(dto: ReturnType<$shm_hitalama_board_block['serialize']>, ref_remap: Map<string, string>): void;
+        deserialize_refs(dto: ReturnType<$shm_hitalama_board_block['serialize']>, ref_remap: (ref: string) => string): void;
     }
     export {};
 }
@@ -11308,6 +11308,7 @@ declare namespace $ {
                 file_mass_media_ref: string | undefined;
             }[] | undefined;
         };
+        get_transfer(): $shm_hitalama_board_transfer;
         serialize(): {
             title: string;
             last_color: string | null | undefined;
@@ -11372,23 +11373,8 @@ declare namespace $ {
                 file_mass_media_ref: string | undefined;
             }[] | undefined;
         };
-        ref_remap: Map<string, string>;
+        ref_remapping: Map<string, string>;
         deserialize(dto: ReturnType<$shm_hitalama_board['serialize']>): void;
-        deserialize_statistic(dto_ref: string, dto: ReturnType<$shm_hitalama_board_form['serialize']>): {
-            ref: string | undefined;
-            query: string | null | undefined;
-            excluded_words: string | null | undefined;
-            date_from: string | null | undefined;
-            date_to: string | null | undefined;
-            country: string | null | undefined;
-            language: string | null | undefined;
-            type: string | null | undefined;
-            tags: string | null | undefined;
-            category: string | null | undefined;
-            file_social_media_ref: string | undefined;
-            file_mass_media_ref: string | undefined;
-        };
-        deserialize_blocks(dto: ReturnType<$shm_hitalama_board['serialize']>): void;
     }
     export {};
 }
@@ -11398,6 +11384,86 @@ declare namespace $ {
         static key_size(): number;
         static import(serial: string, password: string): Promise<string | null>;
         static export(auth: string, password: string, login: string): Promise<string>;
+    }
+}
+
+declare namespace $ {
+    class $shm_hitalama_board_transfer extends $mol_object {
+        board(): $shm_hitalama_board;
+        serialize(): {
+            title: string;
+            last_color: string | null | undefined;
+            last_font_size: number | null | undefined;
+            description: string | null | undefined;
+            blocks: {
+                ref: string | undefined;
+                title: string;
+                body_x: number | null | undefined;
+                body_y: number | null | undefined;
+                bottom_edge_y: number | null | undefined;
+                right_edge_x: number | null | undefined;
+                top_edge_y: number | null | undefined;
+                left_edge_x: number | null | undefined;
+                opacity: number | null | undefined;
+                type: "text" | "input" | "iframe" | "form" | "table" | "code" | "chart" | "chart_settings" | "chart_filter" | "customdom" | "file" | null | undefined;
+                color: string | null | undefined;
+                font_size: number | null | undefined;
+                src: string | null | undefined;
+                text: string | undefined;
+                use_text_from_ref: string | undefined;
+                table_ref: string | undefined;
+                chart: {
+                    axis: string | null | undefined;
+                    values: any[] | null | undefined;
+                    groups: any[] | null | undefined;
+                    filters_enabled: any[] | null | undefined;
+                    axis_details: (readonly [string, string])[] | undefined;
+                    filters_options: (readonly [string, any[]])[] | undefined;
+                } | undefined;
+                use_chart_from_ref: string | undefined;
+                file_ref: string | undefined;
+            }[] | undefined;
+            tables: {
+                ref: string | undefined;
+                head: any[] | null | undefined;
+                head_method: string | null | undefined;
+                rows: any[] | null | undefined;
+                rows_method: string | null | undefined;
+                col_widths: any[] | null | undefined;
+                col_types: any[] | null | undefined;
+                rows_checked: {} | null | undefined;
+            }[];
+            files: {
+                ref: string | undefined;
+                title: string;
+                size: number | null | undefined;
+                blob_uri: string;
+            }[] | undefined;
+            search_statistics: {
+                ref: string | undefined;
+                query: string | null | undefined;
+                excluded_words: string | null | undefined;
+                date_from: string | null | undefined;
+                date_to: string | null | undefined;
+                country: string | null | undefined;
+                language: string | null | undefined;
+                type: string | null | undefined;
+                tags: string | null | undefined;
+                category: string | null | undefined;
+                file_social_media_ref: string | undefined;
+                file_mass_media_ref: string | undefined;
+            }[] | undefined;
+        };
+        ref_remapping: Map<string, string>;
+        deserialize(dto: ReturnType<$shm_hitalama_board['serialize']>): void;
+        deserialize_statistics(statistics: ReturnType<$shm_hitalama_board['serialize']>['search_statistics']): void;
+        statistic_by_dto_ref(dto_ref: string): $shm_hitalama_board_form | undefined;
+        block_by_dto_ref(dto_ref: string): $shm_hitalama_board_block | undefined;
+        file_by_dto_ref(dto_ref: string): $shm_hitalama_file | undefined;
+        table_by_dto_ref(dto_ref: string): $shm_hitalama_board_table | undefined;
+        deserialize_files(files: ReturnType<$shm_hitalama_board['serialize']>['files']): void;
+        deserialize_tables(tables: ReturnType<$shm_hitalama_board['serialize']>['tables']): void;
+        deserialize_blocks(dto: ReturnType<$shm_hitalama_board['serialize']>): void;
     }
 }
 
