@@ -158,24 +158,24 @@ namespace $ {
 		}
 
 		@ $mol_action
-		deserialize_refs( dto: ReturnType< $shm_hitalama_board_block['serialize'] >, ref_remap: Map< string, string > ) {
+		deserialize_refs( dto: ReturnType< $shm_hitalama_board_block['serialize'] >, ref_remap: (ref: string)=> string ) {
 			if( dto.use_chart_from_ref ) {
 				// console.log('dto.use_chart_from_ref', dto.use_chart_from_ref)
-				// console.log('ref_remap.get( dto.use_chart_from_ref )', ref_remap.get( dto.use_chart_from_ref ))
-				const block = $hyoo_crus_glob.Node( $hyoo_crus_ref( ref_remap.get( dto.use_chart_from_ref )! ), $shm_hitalama_board_block )
+				// console.log('ref_remap.get( dto.use_chart_from_ref )', ref_remap( dto.use_chart_from_ref ))
+				const block = $hyoo_crus_glob.Node( $hyoo_crus_ref( ref_remap( dto.use_chart_from_ref )! ), $shm_hitalama_board_block )
 				// console.log('block', block)
 				this.Use_chart_from(null)?.remote( block )
 			}
 			if( dto.use_text_from_ref ) {
-				const block = $hyoo_crus_glob.Node( $hyoo_crus_ref( ref_remap.get( dto.use_text_from_ref )! ), $shm_hitalama_board_block )
+				const block = $hyoo_crus_glob.Node( $hyoo_crus_ref( ref_remap( dto.use_text_from_ref )! ), $shm_hitalama_board_block )
 				this.Use_text_from(null)?.remote( block )
 			}
 			if( dto.table_ref ) {
-				const table = $hyoo_crus_glob.Node( $hyoo_crus_ref( ref_remap.get( dto.table_ref )! ), $shm_hitalama_board_table )
+				const table = $hyoo_crus_glob.Node( $hyoo_crus_ref( ref_remap( dto.table_ref )! ), $shm_hitalama_board_table )
 				this.Table(null)?.remote( table )
 			}
 			if( dto.file_ref ) {
-				const file = $hyoo_crus_glob.Node( $hyoo_crus_ref( ref_remap.get( dto.file_ref )! ), $shm_hitalama_file )
+				const file = $hyoo_crus_glob.Node( $hyoo_crus_ref( ref_remap( dto.file_ref )! ), $shm_hitalama_file )
 				this.File(null)?.remote( file )
 			}
 		}
