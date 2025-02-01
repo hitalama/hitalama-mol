@@ -1,0 +1,26 @@
+[shm_hitalama_grid_table] {
+	border-spacing: 0;
+	display: table-row-group;
+	position: relative;
+}
+
+[shm_hitalama_grid_table] > * {
+	display: table-row;
+	transition: none;
+}
+
+[shm_hitalama_grid_table] > * > * {
+	display: table-cell;
+	padding: var(--mol_gap_text);
+	white-space: nowrap;
+	vertical-align: middle;
+	box-shadow: inset 2px 2px 0 -1px var(--mol_theme_line);
+}
+
+[shm_hitalama_grid_table] > * > *:where(:first-child) {
+	box-shadow: inset 0px 2px 0 -1px var(--mol_theme_line);
+}
+
+[shm_hitalama_grid_table] > [mol_grid_row]:where(:first-child) > *:where(:first-child) {
+	box-shadow: none;
+}	
