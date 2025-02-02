@@ -34229,7 +34229,6 @@ var $;
             }
             keyup_listener() {
                 return new $mol_dom_listener(this.$.$mol_dom_context.document, 'keyup', $mol_wire_async((event) => {
-                    console.log('event', event);
                     if (event.key == 'Shift') {
                         this.shift_pressed(false);
                     }
@@ -34237,9 +34236,31 @@ var $;
                         const refs = this.selected_refs();
                         const blocks = refs.map(r => this.block_by_ref(r));
                         const serialized = this.board().serialize_blocks(blocks);
-                        console.log('serialized', serialized);
+                        navigator.clipboard.writeText(JSON.stringify(serialized));
                     }
                 }));
+            }
+            deserialize_below_pointer(dto) {
+                const pointer_pos = this.get_pointer_pos();
+                let left = Infinity;
+                let top = Infinity;
+                dto.blocks?.forEach(b => {
+                    left = Math.min(left, b.body_x + b.left_edge_x);
+                    top = Math.min(top, b.body_y + b.top_edge_y);
+                });
+                const offset_x = pointer_pos[0] - left;
+                const offset_y = pointer_pos[1] - top;
+                const dto_translated = {
+                    ...dto,
+                    blocks: dto.blocks?.map(b => {
+                        return {
+                            ...b,
+                            body_x: b.body_x + offset_x,
+                            body_y: b.body_y + offset_y,
+                        };
+                    })
+                };
+                this.board().deserialize(dto_translated);
             }
             paste_listener() {
                 return new $mol_dom_listener(this.$.$mol_dom_context.document, 'paste', $mol_wire_async(event => {
@@ -34250,8 +34271,14 @@ var $;
                     for (let index in items) {
                         const item = items[index];
                         if (item.type === 'text/plain') {
-                            item.getAsString((s) => {
-                                $mol_wire_async(this).paste_text(s);
+                            item.getAsString((str) => {
+                                try {
+                                    const dto = JSON.parse(str);
+                                    $mol_wire_async(this).deserialize_below_pointer(dto);
+                                }
+                                catch (error) {
+                                    $mol_wire_async(this).paste_text(str);
+                                }
                             });
                         }
                         if (item.kind === 'file') {

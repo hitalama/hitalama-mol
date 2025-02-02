@@ -20886,6 +20886,7 @@ declare namespace $.$$ {
         event_drop(event: DragEvent): void;
         keydown_listener(): $mol_dom_listener;
         keyup_listener(): $mol_dom_listener;
+        deserialize_below_pointer(dto: ReturnType<$shm_hitalama_board["serialize"]>): void;
         paste_listener(): $mol_dom_listener;
     }
 }
