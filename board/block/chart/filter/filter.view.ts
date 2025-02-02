@@ -12,18 +12,18 @@ namespace $.$$ {
 			return this.chart().traversed()
 		}
 		
-		field(): string {
+		field_name(): string {
 			return this.block().text()
 		}
 
 		@ $mol_mem
 		filter_options(): readonly ( any )[] {
-			return this.chart().filter_options( this.field() )
+			return this.chart().filter_options( this.field_name() )
 		}
 
 		@ $mol_mem
 		filter_options_checked( next?: string[] ) {
-			return this.chart().filter_options_checked( this.field(), next )
+			return this.chart().filter_options_checked( this.field_name(), next )
 		}
 		
 	}
