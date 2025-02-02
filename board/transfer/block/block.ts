@@ -54,7 +54,8 @@ namespace $ {
 
 		@ $mol_action
 		static deserialize_data( block: $shm_hitalama_board_block, dto: ReturnType< typeof $shm_hitalama_board_transfer_block['serialize'] > ) {
-			block.title( dto.title )
+
+			block.title( dto.title == dto.ref ? block.ref().description : dto.title )
 			block.Body_x( dto.body_x )?.val( dto.body_x )
 			block.Body_y( dto.body_y )?.val( dto.body_y )
 			block.Bottom_edge_y( dto.bottom_edge_y )?.val( dto.bottom_edge_y )
