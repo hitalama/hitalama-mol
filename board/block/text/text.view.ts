@@ -60,6 +60,7 @@ namespace $.$$ {
 
 		@ $mol_mem
 		image_uri(): string {
+			this.block().Image()?.blob()
 			const uri = $mol_wire_sync(this).blob_uri()
 			return uri ?? ''
 		}

@@ -18,7 +18,7 @@ namespace $ {
 			file.title( dto.title )
 			file.Size(null)?.val( dto.size )
 
-			const blob = file.$.$mol_wire_sync(file.$.$mol_fetch).blob( dto.blob_uri )
+			const blob = this.$.$mol_wire_sync(this.$.$mol_fetch).blob( dto.blob_uri )
 			const f = file.File(null)?.ensure( file.land() )
 			f!.blob( blob )
 		}

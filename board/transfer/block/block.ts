@@ -1,8 +1,16 @@
 namespace $ {
 	export class $shm_hitalama_board_transfer_block extends $mol_object {
+		
+		static async image_blob_uri_async( block: $shm_hitalama_board_block ) {
+			const blob = block.Image()?.blob()
+			if( !blob ) return
+			const uri = await $mol_blob_uri( blob )
+			return uri
+		}
 
 		@ $mol_action
 		static serialize( block: $shm_hitalama_board_block ) {
+			const image_blob_uri = this.$.$mol_wire_sync(this).image_blob_uri_async( block )
 			const chart = block.Chart()
 			return {
 				ref: block.ref().description,
@@ -20,7 +28,7 @@ namespace $ {
 		
 				// Board: $hyoo_crus_atom_ref_to( ()=> $shm_hitalama_board ),
 		
-				// Image: $hyoo_crus_file,
+				image_blob_uri,
 				color: block.Color()?.val(),
 				font_size: block.Font_size()?.val(),
 
@@ -64,6 +72,11 @@ namespace $ {
 				const chart = block.Chart(null)
 				chart?.Block(null)?.remote( block )
 				$shm_hitalama_board_transfer_chart.deserialize( chart!, dto.chart )
+			}
+			
+			if( dto.image_blob_uri ) {
+				const blob = this.$.$mol_wire_sync(this.$.$mol_fetch).blob( dto.image_blob_uri )
+				block.Image(null)!.blob( blob )
 			}
 		}
 
