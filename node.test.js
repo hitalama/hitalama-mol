@@ -18458,7 +18458,16 @@ var $;
                 return $shm_hitalama_board_transfer_block.serialize(b);
             });
             const tables = [...table_nodes].map(t => $shm_hitalama_board_transfer_table.serialize(t));
-            const files = this.board().Files()?.remote_list().map(f => $shm_hitalama_board_transfer_file.serialize(f));
+            const files = this.board().Files()?.remote_list().flatMap(f => {
+                try {
+                    return [$shm_hitalama_board_transfer_file.serialize(f)];
+                }
+                catch (error) {
+                    if (!$mol_promise_like(error))
+                        return [];
+                    throw error;
+                }
+            });
             const search_statistics = this.board().Search_statistics()?.remote_list().map(f => f.serialize());
             return {
                 title: this.board().title(),
