@@ -18426,7 +18426,15 @@ var $;
 var $;
 (function ($) {
     class $shm_hitalama_board_transfer_block extends $mol_object {
+        static async image_blob_uri_async(block) {
+            const blob = block.Image()?.blob();
+            if (!blob)
+                return;
+            const uri = await $mol_blob_uri(blob);
+            return uri;
+        }
         static serialize(block) {
+            const image_blob_uri = this.$.$mol_wire_sync(this).image_blob_uri_async(block);
             const chart = block.Chart();
             return {
                 ref: block.ref().description,
@@ -18439,6 +18447,7 @@ var $;
                 left_edge_x: block.Left_edge_x()?.val(),
                 opacity: block.Opacity()?.val(),
                 type: block.Type()?.val(),
+                image_blob_uri,
                 color: block.Color()?.val(),
                 font_size: block.Font_size()?.val(),
                 src: block.Src()?.val(),
@@ -18468,6 +18477,10 @@ var $;
                 const chart = block.Chart(null);
                 chart?.Block(null)?.remote(block);
                 $shm_hitalama_board_transfer_chart.deserialize(chart, dto.chart);
+            }
+            if (dto.image_blob_uri) {
+                const blob = this.$.$mol_wire_sync(this.$.$mol_fetch).blob(dto.image_blob_uri);
+                block.Image(null).blob(blob);
             }
         }
         static deserialize_refs(block, dto, ref_remap) {
@@ -18554,7 +18567,7 @@ var $;
         static deserialize(file, dto) {
             file.title(dto.title);
             file.Size(null)?.val(dto.size);
-            const blob = file.$.$mol_wire_sync(file.$.$mol_fetch).blob(dto.blob_uri);
+            const blob = this.$.$mol_wire_sync(this.$.$mol_fetch).blob(dto.blob_uri);
             const f = file.File(null)?.ensure(file.land());
             f.blob(blob);
         }
@@ -40736,6 +40749,7 @@ var $;
                 return this.$.$mol_blob_uri(blob);
             }
             image_uri() {
+                this.block().Image()?.blob();
                 const uri = $mol_wire_sync(this).blob_uri();
                 return uri ?? '';
             }

@@ -11169,6 +11169,7 @@ declare namespace $ {
                 left_edge_x: number | null | undefined;
                 opacity: number | null | undefined;
                 type: "text" | "input" | "iframe" | "form" | "table" | "code" | "chart" | "chart_settings" | "chart_filter" | "customdom" | "file" | null | undefined;
+                image_blob_uri: string | undefined;
                 color: string | null | undefined;
                 font_size: number | null | undefined;
                 src: string | null | undefined;
@@ -11234,6 +11235,7 @@ declare namespace $ {
                 left_edge_x: number | null | undefined;
                 opacity: number | null | undefined;
                 type: "text" | "input" | "iframe" | "form" | "table" | "code" | "chart" | "chart_settings" | "chart_filter" | "customdom" | "file" | null | undefined;
+                image_blob_uri: string | undefined;
                 color: string | null | undefined;
                 font_size: number | null | undefined;
                 src: string | null | undefined;
@@ -11294,6 +11296,7 @@ declare namespace $ {
                 left_edge_x: number | null | undefined;
                 opacity: number | null | undefined;
                 type: "text" | "input" | "iframe" | "form" | "table" | "code" | "chart" | "chart_settings" | "chart_filter" | "customdom" | "file" | null | undefined;
+                image_blob_uri: string | undefined;
                 color: string | null | undefined;
                 font_size: number | null | undefined;
                 src: string | null | undefined;
@@ -11350,7 +11353,43 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    class $mol_fetch_response extends $mol_object2 {
+        readonly native: Response;
+        constructor(native: Response);
+        status(): "unknown" | "success" | "inform" | "redirect" | "wrong" | "failed";
+        code(): number;
+        message(): string;
+        headers(): Headers;
+        mime(): string | null;
+        stream(): ReadableStream<Uint8Array<ArrayBufferLike>> | null;
+        text(): string;
+        json(): unknown;
+        blob(): Blob;
+        buffer(): ArrayBuffer;
+        xml(): Document;
+        xhtml(): Document;
+        html(): Document;
+    }
+    class $mol_fetch extends $mol_object2 {
+        static request(input: RequestInfo, init?: RequestInit): Promise<Response> & {
+            destructor: () => void;
+        };
+        static response(input: RequestInfo, init?: RequestInit): $mol_fetch_response;
+        static success(input: RequestInfo, init?: RequestInit): $mol_fetch_response;
+        static stream(input: RequestInfo, init?: RequestInit): ReadableStream<Uint8Array<ArrayBufferLike>> | null;
+        static text(input: RequestInfo, init?: RequestInit): string;
+        static json(input: RequestInfo, init?: RequestInit): unknown;
+        static blob(input: RequestInfo, init?: RequestInit): Blob;
+        static buffer(input: RequestInfo, init?: RequestInit): ArrayBuffer;
+        static xml(input: RequestInfo, init?: RequestInit): Document;
+        static xhtml(input: RequestInfo, init?: RequestInit): Document;
+        static html(input: RequestInfo, init?: RequestInit): Document;
+    }
+}
+
+declare namespace $ {
     class $shm_hitalama_board_transfer_block extends $mol_object {
+        static image_blob_uri_async(block: $shm_hitalama_board_block): Promise<string | undefined>;
         static serialize(block: $shm_hitalama_board_block): {
             ref: string | undefined;
             title: string;
@@ -11362,6 +11401,7 @@ declare namespace $ {
             left_edge_x: number | null | undefined;
             opacity: number | null | undefined;
             type: "text" | "input" | "iframe" | "form" | "table" | "code" | "chart" | "chart_settings" | "chart_filter" | "customdom" | "file" | null | undefined;
+            image_blob_uri: string | undefined;
             color: string | null | undefined;
             font_size: number | null | undefined;
             src: string | null | undefined;
@@ -11401,41 +11441,6 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    class $mol_fetch_response extends $mol_object2 {
-        readonly native: Response;
-        constructor(native: Response);
-        status(): "unknown" | "success" | "inform" | "redirect" | "wrong" | "failed";
-        code(): number;
-        message(): string;
-        headers(): Headers;
-        mime(): string | null;
-        stream(): ReadableStream<Uint8Array<ArrayBufferLike>> | null;
-        text(): string;
-        json(): unknown;
-        blob(): Blob;
-        buffer(): ArrayBuffer;
-        xml(): Document;
-        xhtml(): Document;
-        html(): Document;
-    }
-    class $mol_fetch extends $mol_object2 {
-        static request(input: RequestInfo, init?: RequestInit): Promise<Response> & {
-            destructor: () => void;
-        };
-        static response(input: RequestInfo, init?: RequestInit): $mol_fetch_response;
-        static success(input: RequestInfo, init?: RequestInit): $mol_fetch_response;
-        static stream(input: RequestInfo, init?: RequestInit): ReadableStream<Uint8Array<ArrayBufferLike>> | null;
-        static text(input: RequestInfo, init?: RequestInit): string;
-        static json(input: RequestInfo, init?: RequestInit): unknown;
-        static blob(input: RequestInfo, init?: RequestInit): Blob;
-        static buffer(input: RequestInfo, init?: RequestInit): ArrayBuffer;
-        static xml(input: RequestInfo, init?: RequestInit): Document;
-        static xhtml(input: RequestInfo, init?: RequestInit): Document;
-        static html(input: RequestInfo, init?: RequestInit): Document;
-    }
-}
-
-declare namespace $ {
     class $shm_hitalama_board_transfer_file extends $mol_object {
         static serialize(file: $shm_hitalama_file): {
             ref: string | undefined;
@@ -11466,6 +11471,7 @@ declare namespace $ {
                 left_edge_x: number | null | undefined;
                 opacity: number | null | undefined;
                 type: "text" | "input" | "iframe" | "form" | "table" | "code" | "chart" | "chart_settings" | "chart_filter" | "customdom" | "file" | null | undefined;
+                image_blob_uri: string | undefined;
                 color: string | null | undefined;
                 font_size: number | null | undefined;
                 src: string | null | undefined;
@@ -11526,6 +11532,7 @@ declare namespace $ {
                 left_edge_x: number | null | undefined;
                 opacity: number | null | undefined;
                 type: "text" | "input" | "iframe" | "form" | "table" | "code" | "chart" | "chart_settings" | "chart_filter" | "customdom" | "file" | null | undefined;
+                image_blob_uri: string | undefined;
                 color: string | null | undefined;
                 font_size: number | null | undefined;
                 src: string | null | undefined;
