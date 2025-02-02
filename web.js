@@ -18032,6 +18032,12 @@ var $;
                 return [this.table_head().map(_ => '')];
             return rows;
         }
+        filter_options(field) {
+            return [...this.traversed().field_options.get(field) ?? []];
+        }
+        filter_options_checked(field, next) {
+            return this.Filters_options(next)?.key(field, next)?.val(next) ?? this.filter_options(field);
+        }
         row_included([field, value]) {
             const options = this.Filters_options()?.key(field)?.val();
             if (!options)
@@ -18099,6 +18105,12 @@ var $;
     __decorate([
         $mol_mem
     ], $shm_hitalama_board_chart.prototype, "rows", null);
+    __decorate([
+        $mol_mem_key
+    ], $shm_hitalama_board_chart.prototype, "filter_options", null);
+    __decorate([
+        $mol_mem_key
+    ], $shm_hitalama_board_chart.prototype, "filter_options_checked", null);
     __decorate([
         $mol_mem_key
     ], $shm_hitalama_board_chart.prototype, "row_included", null);
@@ -18460,7 +18472,7 @@ var $;
             };
         }
         static deserialize_data(block, dto) {
-            block.title(dto.title);
+            block.title(dto.title == dto.ref ? block.ref().description : dto.title);
             block.Body_x(dto.body_x)?.val(dto.body_x);
             block.Body_y(dto.body_y)?.val(dto.body_y);
             block.Bottom_edge_y(dto.bottom_edge_y)?.val(dto.bottom_edge_y);
@@ -40718,7 +40730,14 @@ var $;
                 return this.editing() ? 'auto' : super.textarea_height();
             }
             text(next) {
+                if (!this.editing())
+                    return this.text_rendered();
                 return this.block().Text(next)?.text(next) ?? '';
+            }
+            text_rendered() {
+                const template = this.block().Text()?.text() ?? '';
+                const func = new Function('const board = this.board;\nconst page = this.page;\nreturn `' + template + '`');
+                return func.call({ page: this.Board_page(), board: this.board() });
             }
             blocker_pointerdown_last;
             blocker_pointerdown(next) {
@@ -40773,6 +40792,9 @@ var $;
         __decorate([
             $mol_mem
         ], $shm_hitalama_board_block_text.prototype, "text", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_block_text.prototype, "text_rendered", null);
         __decorate([
             $mol_mem
         ], $shm_hitalama_board_block_text.prototype, "editing", null);
@@ -43909,7 +43931,7 @@ var $;
 
 ;
 	($.$shm_hitalama_board_block_chart_filter) = class $shm_hitalama_board_block_chart_filter extends ($.$shm_hitalama_board_block_float) {
-		name(){
+		field_name(){
 			return "";
 		}
 		filter_options(){
@@ -43927,7 +43949,7 @@ var $;
 		}
 		Field(){
 			const obj = new this.$.$mol_form_field();
-			(obj.name) = () => ((this.name()));
+			(obj.name) = () => ((this.field_name()));
 			(obj.Content) = () => ((this.Filter_options()));
 			return obj;
 		}
@@ -43971,15 +43993,14 @@ var $;
             traversed() {
                 return this.chart().traversed();
             }
-            name() {
+            field_name() {
                 return this.block().text();
             }
             filter_options() {
-                return [...this.traversed().field_options.get(this.name()) ?? []];
+                return this.chart().filter_options(this.field_name());
             }
             filter_options_checked(next) {
-                const name = this.name();
-                return this.chart()?.Filters_options(next)?.key(name, next)?.val(next) ?? this.filter_options();
+                return this.chart().filter_options_checked(this.field_name(), next);
             }
         }
         __decorate([
@@ -45106,6 +45127,8 @@ var $;
                 }));
             }
             wheel(event) {
+                this.ctrl_pressed(event.ctrlKey);
+                this.shift_pressed(event.shiftKey);
                 if (this.viewport_shifting())
                     return;
                 if (this.prevent_zoom())

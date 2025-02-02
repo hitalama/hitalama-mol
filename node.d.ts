@@ -9285,6 +9285,8 @@ declare namespace $ {
         values_title(next?: string): any;
         groups(next?: (any)[]): (any)[];
         rows(): any[][];
+        filter_options(field: string): readonly (any)[];
+        filter_options_checked(field: string, next?: string[]): readonly any[];
         row_included([field, value]: [string, any]): boolean;
         date_axis_details(axis: string, next?: string): string;
         traversed(): {
@@ -17978,6 +17980,7 @@ declare namespace $.$$ {
         get $(): typeof $$;
         textarea_height(): string;
         text(next?: string): string;
+        text_rendered(): any;
         blocker_pointerdown_last?: PointerEvent;
         blocker_pointerdown(next?: any): void;
         blocker_pointerup(next?: any): void;
@@ -19838,7 +19841,7 @@ declare namespace $ {
 		ReturnType< $shm_hitalama_check_list['value'] >
 	>
 	type $mol_form_field__name_shm_hitalama_board_block_chart_filter_3 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_chart_filter['name'] >
+		ReturnType< $shm_hitalama_board_block_chart_filter['field_name'] >
 		,
 		ReturnType< $mol_form_field['name'] >
 	>
@@ -19853,7 +19856,7 @@ declare namespace $ {
 		ReturnType< $mol_list['sub'] >
 	>
 	export class $shm_hitalama_board_block_chart_filter extends $shm_hitalama_board_block_float {
-		name( ): string
+		field_name( ): string
 		filter_options( ): readonly(any)[]
 		filter_options_checked( next?: readonly(any)[] ): readonly(any)[]
 		Filter_options( ): $shm_hitalama_check_list
@@ -19874,7 +19877,7 @@ declare namespace $.$$ {
             labels: Set<string>;
             field_options: Map<string, Set<string | number>>;
         };
-        name(): string;
+        field_name(): string;
         filter_options(): readonly (any)[];
         filter_options_checked(next?: string[]): readonly any[];
     }

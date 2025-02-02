@@ -2984,7 +2984,7 @@ $shm_hitalama_board_block_chart_filter $shm_hitalama_board_block_float
 		<= Form $mol_list
 			sub /
 				<= Field $mol_form_field
-					name <= name \
+					name <= field_name \
 					Content <= Filter_options $shm_hitalama_check_list
 						options <= filter_options /
 						value? <=> filter_options_checked? /
