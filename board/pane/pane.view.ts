@@ -179,6 +179,9 @@ namespace $.$$ {
 		}
 
 		wheel( event: WheelEvent ) {
+			this.ctrl_pressed( event.ctrlKey )
+			this.shift_pressed( event.shiftKey )
+
 			if( this.viewport_shifting() ) return
 			if( this.prevent_zoom() ) return
 
