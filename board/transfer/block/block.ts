@@ -63,8 +63,8 @@ namespace $ {
 			block.Left_edge_x( dto.left_edge_x )?.val( dto.left_edge_x )
 			block.Opacity( dto.opacity )?.val( dto.opacity )
 			block.Type( dto.type )?.val( dto.type! )
-			block.Color( dto.color )?.val( dto.color )
-			block.Font_size( dto.font_size )?.val( dto.font_size )
+			block.Color( null )?.val( dto.color )
+			block.Font_size( null )?.val( dto.font_size )
 			block.Src( dto.src )?.val( dto.src )
 			block.Text( dto.text )?.value( dto.text )
 
