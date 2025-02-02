@@ -46,21 +46,21 @@ namespace $ {
 			return this.Groups(next)?.val( next ) ?? []
 		}
 
-		// @ $mol_mem
-		// filters_enabled( next?: string[] ) {
-		// 	return this.Filters_enabled(next)?.val( next ) ?? []
-		// }
-
-		// @ $mol_mem_key
-		// filter_enabled( field: string ) {
-		// 	return this.filters_enabled().includes( field )
-		// }
-
 		@ $mol_mem
 		rows() {
 			const rows = this.table()?.rows_extended() ?? []
 			if( rows?.length == 0 ) return [ this.table_head().map( _ => '' ) ]
 			return rows
+		}
+		
+		@ $mol_mem_key
+		filter_options( field: string ): readonly ( any )[] {
+			return [ ... this.traversed().field_options.get( field ) ?? [] ]
+		}
+
+		@ $mol_mem_key
+		filter_options_checked( field: string, next?: string[] ) {
+			return this.Filters_options(next)?.key( field, next )?.val( next ) ?? this.filter_options( field )
 		}
 
 		@ $mol_mem_key

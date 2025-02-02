@@ -22,8 +22,25 @@ namespace $.$$ {
 
 		@ $mol_mem
 		text( next?: string ): string {
+			if( !this.editing() ) return this.text_rendered()
 			return this.block().Text( next )?.text( next ) ?? ''
 		}
+		
+		@ $mol_mem
+		text_rendered() {
+			const template = this.block().Text()?.text() ?? ''
+			const func = new Function( 'const board = this.board;\nconst page = this.page;\nreturn `' + template + '`' )
+			return func.call( { page: this.Board_page(), board: this.board() } )
+			// return '123'
+		}
+		
+		// @ $mol_mem
+		// code( next?: string ): string {
+		// 	return this.block_with_text().Text( next )?.text( next ) ?? ''
+		// }
+
+		// run() {
+		// }
 
 		blocker_pointerdown_last?: PointerEvent
 		blocker_pointerdown( next?: any ) {
