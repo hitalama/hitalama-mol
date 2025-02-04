@@ -17834,7 +17834,7 @@ declare namespace $ {
 		ReturnType< $mol_paragraph['dom_name'] >
 	>
 	type $mol_paragraph__title_shm_hitalama_board_block_input_4 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_input['text'] >
+		ReturnType< $shm_hitalama_board_block_input['text_rendered'] >
 		,
 		ReturnType< $mol_paragraph['title'] >
 	>
@@ -17843,6 +17843,7 @@ declare namespace $ {
 		Input( ): $mol_string
 		Head( ): $mol_view
 		title_dom_name( ): string
+		text_rendered( ): string
 		Title( ): $mol_paragraph
 		sub( ): readonly(any)[]
 		font_tools( ): readonly(any)[]
@@ -17855,6 +17856,7 @@ declare namespace $ {
 declare namespace $.$$ {
     class $shm_hitalama_board_block_input extends $.$shm_hitalama_board_block_input {
         text(next?: string): string;
+        text_rendered(): any;
     }
 }
 

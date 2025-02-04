@@ -28686,10 +28686,13 @@ var $;
 		title_dom_name(){
 			return "h1";
 		}
+		text_rendered(){
+			return "";
+		}
 		Title(){
 			const obj = new this.$.$mol_paragraph();
 			(obj.dom_name) = () => ((this.title_dom_name()));
-			(obj.title) = () => ((this.text()));
+			(obj.title) = () => ((this.text_rendered()));
 			return obj;
 		}
 		sub(){
@@ -28726,10 +28729,18 @@ var $;
             text(next) {
                 return this.block().Text(next)?.text(next) ?? '';
             }
+            text_rendered() {
+                const template = this.block().Text()?.text() ?? '';
+                const func = new Function('const board = this.board;\nconst page = this.page;\nreturn `' + template + '`');
+                return func.call({ page: this.Board_page(), board: this.board() });
+            }
         }
         __decorate([
             $mol_mem
         ], $shm_hitalama_board_block_input.prototype, "text", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_block_input.prototype, "text_rendered", null);
         $$.$shm_hitalama_board_block_input = $shm_hitalama_board_block_input;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
