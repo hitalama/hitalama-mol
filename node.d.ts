@@ -8449,6 +8449,7 @@ declare namespace $ {
         readonly Value: (auto?: any) => $hyoo_crus_atom_real | null;
         readonly Min: (auto?: any) => $hyoo_crus_atom_real | null;
         readonly Max: (auto?: any) => $hyoo_crus_atom_real | null;
+        readonly Step: (auto?: any) => $hyoo_crus_atom_real | null;
     }>) & {
         schema: {
             [x: string]: typeof $hyoo_crus_node;
@@ -8519,12 +8520,14 @@ declare namespace $ {
             readonly Value: typeof $hyoo_crus_atom_real;
             readonly Min: typeof $hyoo_crus_atom_real;
             readonly Max: typeof $hyoo_crus_atom_real;
+            readonly Step: typeof $hyoo_crus_atom_real;
         };
     };
     export class $shm_hitalama_board_range extends $shm_hitalama_board_range_base {
         value(next?: number): number;
         min(next?: number): number;
         max(next?: number): number;
+        step(next?: number): number;
     }
     export {};
 }
@@ -11320,6 +11323,7 @@ declare namespace $ {
                     value: number;
                     min: number;
                     max: number;
+                    step: number;
                 } | undefined;
                 use_text_from_ref: string | undefined;
                 table_ref: string | undefined;
@@ -11391,6 +11395,7 @@ declare namespace $ {
                     value: number;
                     min: number;
                     max: number;
+                    step: number;
                 } | undefined;
                 use_text_from_ref: string | undefined;
                 table_ref: string | undefined;
@@ -11457,6 +11462,7 @@ declare namespace $ {
                     value: number;
                     min: number;
                     max: number;
+                    step: number;
                 } | undefined;
                 use_text_from_ref: string | undefined;
                 table_ref: string | undefined;
@@ -11567,6 +11573,7 @@ declare namespace $ {
                 value: number;
                 min: number;
                 max: number;
+                step: number;
             } | undefined;
             use_text_from_ref: string | undefined;
             table_ref: string | undefined;
@@ -11642,6 +11649,7 @@ declare namespace $ {
                     value: number;
                     min: number;
                     max: number;
+                    step: number;
                 } | undefined;
                 use_text_from_ref: string | undefined;
                 table_ref: string | undefined;
@@ -11708,6 +11716,7 @@ declare namespace $ {
                     value: number;
                     min: number;
                     max: number;
+                    step: number;
                 } | undefined;
                 use_text_from_ref: string | undefined;
                 table_ref: string | undefined;
@@ -17857,7 +17866,7 @@ declare namespace $ {
 		ReturnType< $mol_button_copy['title'] >
 	>
 	type $mol_button_copy__text_shm_hitalama_board_block_float_33 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_float['title'] >
+		ReturnType< $shm_hitalama_board_block_float['copy_code'] >
 		,
 		ReturnType< $mol_button_copy['text'] >
 	>
@@ -17904,7 +17913,8 @@ declare namespace $ {
 		delete( next?: any ): any
 		Delete( ): $mol_button_minor
 		title( ): string
-		Title_copy( ): $mol_button_copy
+		copy_code( ): string
+		Copy_code( ): $mol_button_copy
 		tools( ): readonly(any)[]
 		Toolbar( ): $mol_view
 		opacity_str( ): string
@@ -17923,6 +17933,7 @@ declare namespace $ {
 		auto( ): readonly(any)[]
 		font_size_options( ): readonly(number)[]
 		toolbar( ): readonly(any)[]
+		copy_code_template( ): string
 		opacity( next?: number ): number
 		has_scrollbar( ): boolean
 		style( ): ({ 
@@ -17959,6 +17970,7 @@ declare namespace $.$$ {
         top_edge_y_stick(next?: number): number;
         left_edge_x_stick(next?: number): number;
         title(): string;
+        copy_code(): string;
         opacity(next?: number): number;
         font_size(next?: number): number;
         font_tools(): readonly any[];
@@ -19245,55 +19257,55 @@ declare namespace $ {
 		,
 		ReturnType< $mol_list['sub'] >
 	>
-	type $mol_pick__hint_shm_hitalama_board_block_table_23 = $mol_type_enforce<
+	type $mol_scroll__sub_shm_hitalama_board_block_table_23 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_scroll['sub'] >
+	>
+	type $mol_pick__hint_shm_hitalama_board_block_table_24 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_pick['hint'] >
 	>
-	type $mol_pick__trigger_content_shm_hitalama_board_block_table_24 = $mol_type_enforce<
+	type $mol_pick__trigger_content_shm_hitalama_board_block_table_25 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_pick['trigger_content'] >
 	>
-	type $mol_pick__bubble_content_shm_hitalama_board_block_table_25 = $mol_type_enforce<
+	type $mol_pick__bubble_content_shm_hitalama_board_block_table_26 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_pick['bubble_content'] >
 	>
-	type $mol_button_minor__title_shm_hitalama_board_block_table_26 = $mol_type_enforce<
+	type $mol_button_minor__title_shm_hitalama_board_block_table_27 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_button_minor['title'] >
 	>
-	type $mol_button_minor__click_shm_hitalama_board_block_table_27 = $mol_type_enforce<
+	type $mol_button_minor__click_shm_hitalama_board_block_table_28 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_table['chart_add'] >
 		,
 		ReturnType< $mol_button_minor['click'] >
 	>
-	type $mol_grid_cell__sub_shm_hitalama_board_block_table_28 = $mol_type_enforce<
+	type $mol_grid_cell__sub_shm_hitalama_board_block_table_29 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_grid_cell['sub'] >
 	>
-	type $mol_grid_cell__style_shm_hitalama_board_block_table_29 = $mol_type_enforce<
+	type $mol_grid_cell__style_shm_hitalama_board_block_table_30 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_table['cell_style'] >
 		,
 		ReturnType< $mol_grid_cell['style'] >
 	>
-	type $mol_grid_cell__sub_shm_hitalama_board_block_table_30 = $mol_type_enforce<
+	type $mol_grid_cell__sub_shm_hitalama_board_block_table_31 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_grid_cell['sub'] >
 	>
-	type $mol_grid_cell__style_shm_hitalama_board_block_table_31 = $mol_type_enforce<
+	type $mol_grid_cell__style_shm_hitalama_board_block_table_32 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_table['cell_style'] >
 		,
 		ReturnType< $mol_grid_cell['style'] >
-	>
-	type $mol_grid_cell__sub_shm_hitalama_board_block_table_32 = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_grid_cell['sub'] >
 	>
 	type $mol_grid_cell__sub_shm_hitalama_board_block_table_33 = $mol_type_enforce<
 		readonly(any)[]
@@ -19305,12 +19317,17 @@ declare namespace $ {
 		,
 		ReturnType< $mol_grid_cell['sub'] >
 	>
-	type $mol_check_group__checks_shm_hitalama_board_block_table_35 = $mol_type_enforce<
+	type $mol_grid_cell__sub_shm_hitalama_board_block_table_35 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_grid_cell['sub'] >
+	>
+	type $mol_check_group__checks_shm_hitalama_board_block_table_36 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_table['cell_checkboxes'] >
 		,
 		ReturnType< $mol_check_group['checks'] >
 	>
-	type $mol_list__sub_shm_hitalama_board_block_table_36 = $mol_type_enforce<
+	type $mol_list__sub_shm_hitalama_board_block_table_37 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_list['sub'] >
@@ -19351,6 +19368,7 @@ declare namespace $ {
 		Col_width_row( id: any): $mol_view
 		col_width_rows( ): readonly(any)[]
 		Settings_content( ): $mol_list
+		Settings_scroll( ): $mol_scroll
 		Settings_pop( ): $mol_pick
 		chart_add( next?: any ): any
 		Chart_add( ): $mol_button_minor
@@ -20338,15 +20356,6 @@ declare namespace $.$$ {
 
 declare namespace $ {
 
-	export class $mol_icon_help extends $mol_icon {
-		path( ): string
-	}
-	
-}
-
-//# sourceMappingURL=help.view.tree.d.ts.map
-declare namespace $ {
-
 	type $rise_range__value_shm_hitalama_board_block_range_1 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_range['value'] >
 		,
@@ -20362,72 +20371,82 @@ declare namespace $ {
 		,
 		ReturnType< $rise_range['max'] >
 	>
-	type $mol_paragraph__title_shm_hitalama_board_block_range_4 = $mol_type_enforce<
+	type $rise_range__step_shm_hitalama_board_block_range_4 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_range['step'] >
+		,
+		ReturnType< $rise_range['step'] >
+	>
+	type $mol_paragraph__title_shm_hitalama_board_block_range_5 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_paragraph['title'] >
 	>
-	type $mol_number__value_shm_hitalama_board_block_range_5 = $mol_type_enforce<
+	type $mol_number__value_shm_hitalama_board_block_range_6 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_range['min'] >
 		,
 		ReturnType< $mol_number['value'] >
 	>
-	type $mol_view__sub_shm_hitalama_board_block_range_6 = $mol_type_enforce<
+	type $mol_view__sub_shm_hitalama_board_block_range_7 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_view['sub'] >
 	>
-	type $mol_paragraph__title_shm_hitalama_board_block_range_7 = $mol_type_enforce<
+	type $mol_paragraph__title_shm_hitalama_board_block_range_8 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_paragraph['title'] >
 	>
-	type $mol_number__value_shm_hitalama_board_block_range_8 = $mol_type_enforce<
+	type $mol_number__value_shm_hitalama_board_block_range_9 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_range['max'] >
 		,
 		ReturnType< $mol_number['value'] >
 	>
-	type $mol_view__sub_shm_hitalama_board_block_range_9 = $mol_type_enforce<
+	type $mol_view__sub_shm_hitalama_board_block_range_10 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_view['sub'] >
 	>
-	type $mol_list__sub_shm_hitalama_board_block_range_10 = $mol_type_enforce<
+	type $mol_paragraph__title_shm_hitalama_board_block_range_11 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_paragraph['title'] >
+	>
+	type $mol_number__value_shm_hitalama_board_block_range_12 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_range['step'] >
+		,
+		ReturnType< $mol_number['value'] >
+	>
+	type $mol_number__precision_shm_hitalama_board_block_range_13 = $mol_type_enforce<
+		number
+		,
+		ReturnType< $mol_number['precision'] >
+	>
+	type $mol_number__precision_change_shm_hitalama_board_block_range_14 = $mol_type_enforce<
+		number
+		,
+		ReturnType< $mol_number['precision_change'] >
+	>
+	type $mol_view__sub_shm_hitalama_board_block_range_15 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_view['sub'] >
+	>
+	type $mol_list__sub_shm_hitalama_board_block_range_16 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_list['sub'] >
 	>
-	type $mol_pick__hint_shm_hitalama_board_block_range_11 = $mol_type_enforce<
+	type $mol_pick__hint_shm_hitalama_board_block_range_17 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_pick['hint'] >
 	>
-	type $mol_pick__trigger_content_shm_hitalama_board_block_range_12 = $mol_type_enforce<
+	type $mol_pick__trigger_content_shm_hitalama_board_block_range_18 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_pick['trigger_content'] >
 	>
-	type $mol_pick__bubble_content_shm_hitalama_board_block_range_13 = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_pick['bubble_content'] >
-	>
-	type $mol_text__text_shm_hitalama_board_block_range_14 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_range['help_text'] >
-		,
-		ReturnType< $mol_text['text'] >
-	>
-	type $mol_pick__hint_shm_hitalama_board_block_range_15 = $mol_type_enforce<
-		string
-		,
-		ReturnType< $mol_pick['hint'] >
-	>
-	type $mol_pick__trigger_content_shm_hitalama_board_block_range_16 = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_pick['trigger_content'] >
-	>
-	type $mol_pick__bubble_content_shm_hitalama_board_block_range_17 = $mol_type_enforce<
+	type $mol_pick__bubble_content_shm_hitalama_board_block_range_19 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_pick['bubble_content'] >
@@ -20436,6 +20455,7 @@ declare namespace $ {
 		value( next?: number ): number
 		min( next?: number ): number
 		max( next?: number ): number
+		step( next?: number ): number
 		Control( ): $rise_range
 		Settings_trigger_icon( ): $mol_icon_cog_outline
 		Min_label( ): $mol_paragraph
@@ -20444,15 +20464,15 @@ declare namespace $ {
 		Max_label( ): $mol_paragraph
 		Max( ): $mol_number
 		Max_row( ): $mol_view
+		Step_label( ): $mol_paragraph
+		Step( ): $mol_number
+		Step_row( ): $mol_view
 		Settings_content( ): $mol_list
 		Settings_pop( ): $mol_pick
-		Help_icon( ): $mol_icon_help
-		help_text( ): string
-		Help_content( ): $mol_text
-		Help( ): $mol_pick
 		sub( ): readonly(any)[]
 		font_tools( ): readonly(any)[]
 		tools( ): readonly(any)[]
+		copy_code_template( ): string
 	}
 	
 }
@@ -20463,7 +20483,7 @@ declare namespace $.$$ {
         value(next?: number): number;
         min(next?: number): number;
         max(next?: number): number;
-        help_text(): string;
+        step(next?: number): number;
     }
 }
 
@@ -20527,6 +20547,9 @@ declare namespace $ {
 }
 
 //# sourceMappingURL=novirt.view.tree.d.ts.map
+declare namespace $.$$ {
+}
+
 declare namespace $ {
 
 	type __shm_hitalama_board_block_any_1 = $mol_type_enforce<

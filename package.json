@@ -481,7 +481,6 @@
     "$shm_hitalama_board_block_file",
     "$shm_hitalama_board_block_range",
     "$rise_range",
-    "$mol_icon_help",
     "$shm_hitalama_board_block_table_novirt",
     "$shm_hitalama_grid",
     "$shm_hitalama_board_presence_cursor",

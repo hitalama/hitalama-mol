@@ -17830,6 +17830,7 @@ var $;
         Value: $hyoo_crus_atom_real,
         Min: $hyoo_crus_atom_real,
         Max: $hyoo_crus_atom_real,
+        Step: $hyoo_crus_atom_real,
     }) {
         value(next) {
             return this.Value(next)?.val(next) ?? 0;
@@ -17839,6 +17840,9 @@ var $;
         }
         max(next) {
             return this.Max(next)?.val(next) ?? 10;
+        }
+        step(next) {
+            return this.Step(next)?.val(next) ?? 1;
         }
     }
     __decorate([
@@ -17850,6 +17854,9 @@ var $;
     __decorate([
         $mol_mem
     ], $shm_hitalama_board_range.prototype, "max", null);
+    __decorate([
+        $mol_mem
+    ], $shm_hitalama_board_range.prototype, "step", null);
     $.$shm_hitalama_board_range = $shm_hitalama_board_range;
 })($ || ($ = {}));
 
@@ -18520,6 +18527,7 @@ var $;
                 value: block.range().value(),
                 min: block.range().min(),
                 max: block.range().max(),
+                step: block.range().step(),
             } : undefined;
             return {
                 ref: block.ref().description,
@@ -18569,6 +18577,7 @@ var $;
                 range.value(dto.range.value);
                 range.min(dto.range.min);
                 range.max(dto.range.max);
+                range.step(dto.range.step);
             }
             if (dto.image_blob_uri) {
                 const blob = this.$.$mol_wire_sync(this.$.$mol_fetch).blob(dto.image_blob_uri);
@@ -40017,10 +40026,13 @@ var $;
 		title(){
 			return "";
 		}
-		Title_copy(){
+		copy_code(){
+			return "";
+		}
+		Copy_code(){
 			const obj = new this.$.$mol_button_copy();
 			(obj.title) = () => ((this.title()));
-			(obj.text) = () => ((this.title()));
+			(obj.text) = () => ((this.copy_code()));
 			return obj;
 		}
 		tools(){
@@ -40029,7 +40041,7 @@ var $;
 				(this.Top()), 
 				(this.Bottom()), 
 				(this.Delete()), 
-				(this.Title_copy())
+				(this.Copy_code())
 			];
 		}
 		Toolbar(){
@@ -40111,6 +40123,9 @@ var $;
 		toolbar(){
 			return [(this.Toolbar())];
 		}
+		copy_code_template(){
+			return "board.block('{ref}').text()";
+		}
 		opacity(next){
 			if(next !== undefined) return next;
 			return 1;
@@ -40180,7 +40195,7 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "Delete_icon"));
 	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "delete"));
 	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "Delete"));
-	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "Title_copy"));
+	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "Copy_code"));
 	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "Toolbar"));
 	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "event_contextmenu"));
 	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "pointerdown"));
@@ -40231,6 +40246,9 @@ var $;
             }
             title() {
                 return this.block().title();
+            }
+            copy_code() {
+                return this.copy_code_template().replace('{ref}', this.block().ref().description?.toString());
             }
             opacity(next) {
                 return this.block().Opacity(next)?.val(next) ?? 1;
@@ -42789,11 +42807,16 @@ var $;
 			(obj.sub) = () => ([(this.Col_widths_head()), ...(this.col_width_rows())]);
 			return obj;
 		}
+		Settings_scroll(){
+			const obj = new this.$.$mol_scroll();
+			(obj.sub) = () => ([(this.Settings_content())]);
+			return obj;
+		}
 		Settings_pop(){
 			const obj = new this.$.$mol_pick();
 			(obj.hint) = () => ((this.$.$mol_locale.text("$shm_hitalama_board_block_table_Settings_pop_hint")));
 			(obj.trigger_content) = () => ([(this.Settings_trigger_icon())]);
-			(obj.bubble_content) = () => ([(this.Settings_content())]);
+			(obj.bubble_content) = () => ([(this.Settings_scroll())]);
 			return obj;
 		}
 		chart_add(next){
@@ -42847,7 +42870,7 @@ var $;
 				(this.Bottom()), 
 				(this.Settings_pop()), 
 				(this.Delete()), 
-				(this.Title_copy())
+				(this.Copy_code())
 			];
 		}
 		Contextmenu_body(){
@@ -42874,6 +42897,7 @@ var $;
 	($mol_mem_key(($.$shm_hitalama_board_block_table.prototype), "Col_width"));
 	($mol_mem_key(($.$shm_hitalama_board_block_table.prototype), "Col_width_row"));
 	($mol_mem(($.$shm_hitalama_board_block_table.prototype), "Settings_content"));
+	($mol_mem(($.$shm_hitalama_board_block_table.prototype), "Settings_scroll"));
 	($mol_mem(($.$shm_hitalama_board_block_table.prototype), "Settings_pop"));
 	($mol_mem(($.$shm_hitalama_board_block_table.prototype), "chart_add"));
 	($mol_mem(($.$shm_hitalama_board_block_table.prototype), "Chart_add"));
@@ -43094,6 +43118,7 @@ var $;
             Table: {
                 padding: $mol_gap.block,
                 overflowX: 'inherit',
+                height: 'fit-content',
             },
             Cell_text: {
                 whiteSpace: 'normal',
@@ -43105,11 +43130,11 @@ var $;
             Cell_file: {
                 padding: 0,
             },
-            Download: {
-                whiteSpace: 'normal',
-            },
             Cell_delete: {
                 padding: 0,
+            },
+            Download: {
+                whiteSpace: 'normal',
             },
             All_check: {
                 margin: {
@@ -43195,8 +43220,8 @@ var $;
                 return this.block_with_text().Text(next)?.text(next) ?? '';
             }
             run() {
-                const func = new Function('const board = this.board;\nconst page = this.page;\nconst block = this.block;\n' + this.code());
-                func.call({ page: this.Board_page(), board: this.board(), block: this.block() });
+                const func = new Function('const board = this.board;\nconst page = this.page;\nconst view = this.view;\n' + this.code());
+                func.call({ page: this.Board_page(), board: this.board(), vide: this });
             }
         }
         __decorate([
@@ -43476,7 +43501,7 @@ var $;
 				(this.Top()), 
 				(this.Bottom()), 
 				(this.Delete()), 
-				(this.Title_copy())
+				(this.Copy_code())
 			];
 		}
 		Contextmenu_body(){
@@ -43867,7 +43892,7 @@ var $;
 				(this.Top()), 
 				(this.Bottom()), 
 				(this.Delete()), 
-				(this.Title_copy())
+				(this.Copy_code())
 			];
 		}
 		sub(){
@@ -44104,7 +44129,7 @@ var $;
 				(this.Top()), 
 				(this.Bottom()), 
 				(this.Delete()), 
-				(this.Title_copy())
+				(this.Copy_code())
 			];
 		}
 		content(){
@@ -44741,17 +44766,6 @@ var $;
 })($ || ($ = {}));
 
 ;
-	($.$mol_icon_help) = class $mol_icon_help extends ($.$mol_icon) {
-		path(){
-			return "M10,19H13V22H10V19M12,2C17.35,2.22 19.68,7.62 16.5,11.67C15.67,12.67 14.33,13.33 13.67,14.17C13,15 13,16 13,17H10C10,15.33 10,13.92 10.67,12.92C11.33,11.92 12.67,11.33 13.5,10.67C15.92,8.43 15.32,5.26 12,5A3,3 0 0,0 9,8H6A6,6 0 0,1 12,2Z";
-		}
-	};
-
-
-;
-"use strict";
-
-;
 	($.$shm_hitalama_board_block_range) = class $shm_hitalama_board_block_range extends ($.$shm_hitalama_board_block_float) {
 		value(next){
 			if(next !== undefined) return next;
@@ -44765,11 +44779,16 @@ var $;
 			if(next !== undefined) return next;
 			return 10;
 		}
+		step(next){
+			if(next !== undefined) return next;
+			return 1;
+		}
 		Control(){
 			const obj = new this.$.$rise_range();
 			(obj.value) = (next) => ((this.value(next)));
 			(obj.min) = () => ((this.min()));
 			(obj.max) = () => ((this.max()));
+			(obj.step) = () => ((this.step()));
 			return obj;
 		}
 		Settings_trigger_icon(){
@@ -44806,9 +44825,30 @@ var $;
 			(obj.sub) = () => ([(this.Max_label()), (this.Max())]);
 			return obj;
 		}
+		Step_label(){
+			const obj = new this.$.$mol_paragraph();
+			(obj.title) = () => ("Step");
+			return obj;
+		}
+		Step(){
+			const obj = new this.$.$mol_number();
+			(obj.value) = (next) => ((this.step(next)));
+			(obj.precision) = () => (0.01);
+			(obj.precision_change) = () => (1);
+			return obj;
+		}
+		Step_row(){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => ([(this.Step_label()), (this.Step())]);
+			return obj;
+		}
 		Settings_content(){
 			const obj = new this.$.$mol_list();
-			(obj.sub) = () => ([(this.Min_row()), (this.Max_row())]);
+			(obj.sub) = () => ([
+				(this.Min_row()), 
+				(this.Max_row()), 
+				(this.Step_row())
+			]);
 			return obj;
 		}
 		Settings_pop(){
@@ -44816,25 +44856,6 @@ var $;
 			(obj.hint) = () => ((this.$.$mol_locale.text("$shm_hitalama_board_block_range_Settings_pop_hint")));
 			(obj.trigger_content) = () => ([(this.Settings_trigger_icon())]);
 			(obj.bubble_content) = () => ([(this.Settings_content())]);
-			return obj;
-		}
-		Help_icon(){
-			const obj = new this.$.$mol_icon_help();
-			return obj;
-		}
-		help_text(){
-			return "Получить значение:\n board.block('{ref}').range().value()";
-		}
-		Help_content(){
-			const obj = new this.$.$mol_text();
-			(obj.text) = () => ((this.help_text()));
-			return obj;
-		}
-		Help(){
-			const obj = new this.$.$mol_pick();
-			(obj.hint) = () => ((this.$.$mol_locale.text("$shm_hitalama_board_block_range_Help_hint")));
-			(obj.trigger_content) = () => ([(this.Help_icon())]);
-			(obj.bubble_content) = () => ([(this.Help_content())]);
 			return obj;
 		}
 		sub(){
@@ -44853,15 +44874,18 @@ var $;
 				(this.Top()), 
 				(this.Bottom()), 
 				(this.Settings_pop()), 
-				(this.Help()), 
 				(this.Delete()), 
-				(this.Title_copy())
+				(this.Copy_code())
 			];
+		}
+		copy_code_template(){
+			return "board.block('{ref}').range().value()";
 		}
 	};
 	($mol_mem(($.$shm_hitalama_board_block_range.prototype), "value"));
 	($mol_mem(($.$shm_hitalama_board_block_range.prototype), "min"));
 	($mol_mem(($.$shm_hitalama_board_block_range.prototype), "max"));
+	($mol_mem(($.$shm_hitalama_board_block_range.prototype), "step"));
 	($mol_mem(($.$shm_hitalama_board_block_range.prototype), "Control"));
 	($mol_mem(($.$shm_hitalama_board_block_range.prototype), "Settings_trigger_icon"));
 	($mol_mem(($.$shm_hitalama_board_block_range.prototype), "Min_label"));
@@ -44870,11 +44894,11 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_block_range.prototype), "Max_label"));
 	($mol_mem(($.$shm_hitalama_board_block_range.prototype), "Max"));
 	($mol_mem(($.$shm_hitalama_board_block_range.prototype), "Max_row"));
+	($mol_mem(($.$shm_hitalama_board_block_range.prototype), "Step_label"));
+	($mol_mem(($.$shm_hitalama_board_block_range.prototype), "Step"));
+	($mol_mem(($.$shm_hitalama_board_block_range.prototype), "Step_row"));
 	($mol_mem(($.$shm_hitalama_board_block_range.prototype), "Settings_content"));
 	($mol_mem(($.$shm_hitalama_board_block_range.prototype), "Settings_pop"));
-	($mol_mem(($.$shm_hitalama_board_block_range.prototype), "Help_icon"));
-	($mol_mem(($.$shm_hitalama_board_block_range.prototype), "Help_content"));
-	($mol_mem(($.$shm_hitalama_board_block_range.prototype), "Help"));
 
 
 ;
@@ -44896,8 +44920,8 @@ var $;
             max(next) {
                 return this.block().range().max(next);
             }
-            help_text() {
-                return super.help_text().replace('{ref}', this.block().ref().description?.toString());
+            step(next) {
+                return this.block().range().step(next);
             }
         }
         $$.$shm_hitalama_board_block_range = $shm_hitalama_board_block_range;
@@ -44910,6 +44934,10 @@ var $;
 (function ($) {
     var $$;
     (function ($$) {
+        const Label = {
+            width: '4rem',
+            padding: $mol_gap.text,
+        };
         $mol_style_define($shm_hitalama_board_block_range, {
             Drag_view: {
                 position: 'absolute',
@@ -44928,12 +44956,13 @@ var $;
                 padding: $mol_gap.space,
             },
             Min_label: {
-                width: '4rem',
-                padding: $mol_gap.text,
+                ...Label,
             },
             Max_label: {
-                width: '4rem',
-                padding: $mol_gap.text,
+                ...Label,
+            },
+            Step_label: {
+                ...Label,
             },
         });
     })($$ = $.$$ || ($.$$ = {}));
@@ -44986,6 +45015,30 @@ var $;
 
 ;
 "use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        $mol_style_define($shm_hitalama_board_block_table_novirt, {
+            Cell_text: {
+                whiteSpace: 'normal',
+                position: 'relative',
+            },
+            Cell_checkbox: {
+                padding: 0,
+            },
+            Cell_file: {
+                padding: 0,
+            },
+            Cell_delete: {
+                padding: 0,
+            },
+        });
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
 
 ;
 	($.$shm_hitalama_board_block_any) = class $shm_hitalama_board_block_any extends ($.$mol_ghost) {

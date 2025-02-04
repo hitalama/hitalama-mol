@@ -2395,9 +2395,10 @@ $shm_hitalama_board_block_float $rise_resize_ratio
 					sub /
 						<= Delete_icon $mol_icon_trash_can
 					click? <=> delete? null
-				<= Title_copy $mol_button_copy
+				<= Copy_code $mol_button_copy
 					title <= title \
-					text <= title
+					text <= copy_code \
+	copy_code_template \board.block('{ref}').text()
 	opacity? 1
 	has_scrollbar false
 	style *
@@ -2791,22 +2792,24 @@ $shm_hitalama_board_block_table $shm_hitalama_board_block_float
 			trigger_content /
 				<= Settings_trigger_icon $mol_icon_cog_outline
 			bubble_content /
-				<= Settings_content $mol_list
+				<= Settings_scroll $mol_scroll
 					sub /
-						<= Col_widths_head $mol_view
-							sub / \Ширина, px
-						^ col_width_rows /
-							<= Col_width_row* $mol_view
-								sub /
-									<= Col_width_title* $mol_view
-										sub <= col_head_content*
-									<= Col_width* $mol_number
-										Dec null
-										Inc null
-										value? <=> col_width*? NaN
-										hint \auto
+						<= Settings_content $mol_list
+							sub /
+								<= Col_widths_head $mol_view
+									sub / \Ширина, px
+								^ col_width_rows /
+									<= Col_width_row* $mol_view
+										sub /
+											<= Col_width_title* $mol_view
+												sub <= col_head_content*
+											<= Col_width* $mol_number
+												Dec null
+												Inc null
+												value? <=> col_width*? NaN
+												hint \auto
 		<= Delete
-		<= Title_copy
+		<= Copy_code
 	Contextmenu_body $mol_list
 		sub /
 			<= Chart_add $mol_button_minor
@@ -2880,7 +2883,7 @@ $shm_hitalama_board_block_chart $shm_hitalama_board_block_float
 		<= Top
 		<= Bottom
 		<= Delete
-		<= Title_copy
+		<= Copy_code
 	Contextmenu_body $mol_list
 		sub /
 			<= Settings_add $mol_button_minor
@@ -2924,7 +2927,7 @@ $shm_hitalama_board_block_chart_settings $shm_hitalama_board_block_float
 		<= Top
 		<= Bottom
 		<= Delete
-		<= Title_copy
+		<= Copy_code
 	sub /
 		^ content
 		^ edges
@@ -2981,7 +2984,7 @@ $shm_hitalama_board_block_chart_filter $shm_hitalama_board_block_float
 		<= Top
 		<= Bottom
 		<= Delete
-		<= Title_copy
+		<= Copy_code
 	content /
 		<= Drag_view
 		<= Form $mol_list
@@ -3082,8 +3085,6 @@ $rise_range_value $mol_view
 		^
 		disabled <= disabled false
 
-$mol_icon_help $mol_icon path \M10,19H13V22H10V19M12,2C17.35,2.22 19.68,7.62 16.5,11.67C15.67,12.67 14.33,13.33 13.67,14.17C13,15 13,16 13,17H10C10,15.33 10,13.92 10.67,12.92C11.33,11.92 12.67,11.33 13.5,10.67C15.92,8.43 15.32,5.26 12,5A3,3 0 0,0 9,8H6A6,6 0 0,1 12,2Z
-
 $shm_hitalama_board_block_range $shm_hitalama_board_block_float
 	sub /
 		<= Drag_view
@@ -3091,13 +3092,10 @@ $shm_hitalama_board_block_range $shm_hitalama_board_block_float
 			value? <=> value? 0
 			min <= min? 0
 			max <= max? 10
+			step <= step? 1
 		^ edges
 		^ toolbar
 	font_tools /
-	- drag_body /
-		<= Title $mol_paragraph
-			dom_name <= title_dom_name \h1
-			title <= text_rendered \
 	tools /
 		<= Top
 		<= Bottom
@@ -3120,17 +3118,17 @@ $shm_hitalama_board_block_range $shm_hitalama_board_block_float
 									title \Max
 								<= Max $mol_number
 									value? <=> max?
-		<= Help $mol_pick
-			hint @ \Help
-			trigger_content /
-				<= Help_icon $mol_icon_help
-			bubble_content /
-				<= Help_content $mol_text
-					text <= help_text \
-						\Получить значение:
-						\ board.block('{ref}').range().value()
+						<= Step_row $mol_view
+							sub /
+								<= Step_label $mol_paragraph
+									title \Step
+								<= Step $mol_number
+									value? <=> step?
+									precision 0.01
+									precision_change 1
 		<= Delete
-		<= Title_copy
+		<= Copy_code
+	copy_code_template \board.block('{ref}').range().value()
 
 $shm_hitalama_grid $mol_grid
 	sub /
