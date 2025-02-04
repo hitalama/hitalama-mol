@@ -17607,6 +17607,37 @@ var $;
         mass_media_title() {
             return this.File_mass_media()?.remote()?.title() || '';
         }
+        table_row() {
+            return [
+                this.query(),
+                this.excluded_words(),
+                this.prediod(),
+                this.country(),
+                this.language(),
+                this.File_social_media()?.remote()?.ref()?.description,
+                this.File_mass_media()?.remote()?.ref()?.description,
+                this.type(),
+                this.tags(),
+                this.category(),
+                null,
+            ];
+        }
+        statistic_table_rows() {
+            const rows = [];
+            this.File_mass_media()?.remote()?.File()?.remote()?.str()?.split('\n')?.forEach(line => {
+                const [date, count] = line.split(';');
+                if (isNaN(Number(count)))
+                    return;
+                rows.push([date, count, this.query(), this.excluded_words(), 'СМИ', this.country(), this.language()]);
+            });
+            this.File_social_media()?.remote()?.File()?.remote()?.str()?.split('\n')?.forEach(line => {
+                const [date, count] = line.split(';');
+                if (isNaN(Number(count)))
+                    return;
+                rows.push([date, count, this.query(), this.excluded_words(), 'Соц.медиа', this.country(), this.language()]);
+            });
+            return rows;
+        }
         serialize() {
             return {
                 ref: this.ref().description,
@@ -17645,6 +17676,12 @@ var $;
             }
         }
     }
+    __decorate([
+        $mol_mem
+    ], $shm_hitalama_board_form.prototype, "table_row", null);
+    __decorate([
+        $mol_mem
+    ], $shm_hitalama_board_form.prototype, "statistic_table_rows", null);
     __decorate([
         $mol_action
     ], $shm_hitalama_board_form.prototype, "serialize", null);
@@ -30618,8 +30655,10 @@ var $;
             category(next) {
                 return this.form().Category(next)?.val(next) ?? '';
             }
+            soc_file_test;
             social_media_attach(session_id, files) {
                 const file = this.board().Files(null)?.make(this.board().land());
+                this.soc_file_test = files[0];
                 file?.title(files[0].name);
                 file?.Size(null)?.val(files[0].size);
                 file?.File(null)?.ensure(this.board().land())?.blob(files[0]);
@@ -30649,7 +30688,7 @@ var $;
                 return this.social_media_title() || this.mass_media_title() ? '' : '*';
             }
             submit() {
-                const form = this.board().Search_statistics(null)?.make({ '': $hyoo_crus_rank_read });
+                const form = this.board().Search_statistics(null)?.make(this.board().land());
                 form?.query(this.query());
                 form?.excluded_words(this.excluded_words());
                 form?.date_from(this.date_from());
@@ -31009,7 +31048,7 @@ var $;
 			return obj;
 		}
 		Download(id){
-			const obj = new this.$.$mol_link();
+			const obj = new this.$.$mol_button_download();
 			(obj.uri) = () => ((this.cell_file_uri(id)));
 			(obj.file_name) = () => ((this.cell_file_name(id)));
 			(obj.sub) = () => ([(this.Download_icon(id)), (this.cell_file_name(id))]);

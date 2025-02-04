@@ -2764,12 +2764,19 @@ $shm_hitalama_board_block_table $shm_hitalama_board_block_float
 			width <= col_width_px* \auto
 	Cell_file* $mol_grid_cell
 		sub /
-			^ cell_file_visible* / <= Download* $mol_link
-				uri <= cell_file_uri* \
-				file_name <= cell_file_name* \
-				sub /
-					<= Download_icon* $mol_icon_download
-					<= cell_file_name*
+			^ cell_file_visible* /
+				<= Download* $mol_button_download
+					uri <= cell_file_uri* \
+					file_name <= cell_file_name* \
+					sub /
+						<= Download_icon* $mol_icon_download
+						<= cell_file_name*
+				- <= Download* $mol_link
+					uri <= cell_file_uri* \
+					file_name <= cell_file_name* \
+					sub /
+						<= Download_icon* $mol_icon_download
+						<= cell_file_name*
 		style <= cell_style*
 	Cell_index_number* $mol_grid_cell
 		sub / <= cell_index_number* \

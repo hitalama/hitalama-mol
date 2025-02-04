@@ -13453,6 +13453,8 @@ declare namespace $ {
         prediod(): string;
         social_media_title(): string;
         mass_media_title(): string;
+        table_row(): (string | null | undefined)[];
+        statistic_table_rows(): any[];
         serialize(): {
             ref: string | undefined;
             query: string | null | undefined;
@@ -23810,6 +23812,7 @@ declare namespace $.$$ {
         type(next?: string): string;
         tags(next?: string): string;
         category(next?: string): string;
+        soc_file_test?: File;
         social_media_attach(session_id: string, files: File[]): void;
         mass_media_attach(session_id: string, files: File[]): void;
         social_media_title(): string;
@@ -23967,20 +23970,20 @@ declare namespace $ {
 		,
 		ReturnType< $mol_view['sub'] >
 	>
-	type $mol_link__uri_shm_hitalama_board_block_table_9 = $mol_type_enforce<
+	type $mol_button_download__uri_shm_hitalama_board_block_table_9 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_table['cell_file_uri'] >
 		,
-		ReturnType< $mol_link['uri'] >
+		ReturnType< $mol_button_download['uri'] >
 	>
-	type $mol_link__file_name_shm_hitalama_board_block_table_10 = $mol_type_enforce<
+	type $mol_button_download__file_name_shm_hitalama_board_block_table_10 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_table['cell_file_name'] >
 		,
-		ReturnType< $mol_link['file_name'] >
+		ReturnType< $mol_button_download['file_name'] >
 	>
-	type $mol_link__sub_shm_hitalama_board_block_table_11 = $mol_type_enforce<
+	type $mol_button_download__sub_shm_hitalama_board_block_table_11 = $mol_type_enforce<
 		readonly(any)[]
 		,
-		ReturnType< $mol_link['sub'] >
+		ReturnType< $mol_button_download['sub'] >
 	>
 	type $mol_check_box__checked_shm_hitalama_board_block_table_12 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_table['cell_checked'] >
@@ -24157,7 +24160,7 @@ declare namespace $ {
 		cell_file_uri( id: any): string
 		cell_file_name( id: any): string
 		Download_icon( id: any): $mol_icon_download
-		Download( id: any): $mol_link
+		Download( id: any): $mol_button_download
 		cell_file_visible( id: any): readonly(any)[]
 		cell_index_number( id: any): string
 		cell_checked( id: any, next?: boolean ): boolean
