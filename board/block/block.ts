@@ -6,6 +6,7 @@ namespace $ {
 		'iframe',
 		'form',
 		'table',
+		'table_novirt',
 		'code',
 		'chart',
 		'chart_settings',

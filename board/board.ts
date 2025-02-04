@@ -69,6 +69,17 @@ namespace $ {
 		}
 
 		@ $mol_action
+		table_novirt_add( 
+			pos: readonly [number, number] | readonly number[] = [0,0],
+			right_x = 200, bottom_x = 100,
+			name?: string,
+		) {
+			const block = this.block_add( 'table_novirt', pos, right_x, bottom_x, name )
+			block?.table().Board(null)?.remote( this )
+			return block
+		}
+
+		@ $mol_action
 		text_add( 
 			pos: readonly [number, number] | readonly number[] = [0,0],
 			text = 'text',

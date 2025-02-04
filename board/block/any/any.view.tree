@@ -33,3 +33,4 @@ $shm_hitalama_board_block_any $mol_ghost
 		customdom <= Customdom $shm_hitalama_board_block_customdom
 		file <= File $shm_hitalama_board_block_file
 		range <= Range $shm_hitalama_board_block_range
+		table_novirt <= Table_novirt $shm_hitalama_board_block_table_novirt

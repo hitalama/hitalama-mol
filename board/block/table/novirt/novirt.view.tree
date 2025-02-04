@@ -1,0 +1,8 @@
+$shm_hitalama_board_block_table_novirt $shm_hitalama_board_block_table
+	Table $shm_hitalama_grid
+		records <= rows
+		col_ids <= col_ids
+		col_head_content* <= col_head_content*
+		cell_content_text* => cell_content_text*
+		Cell* <= Cell*
+		row_ids => table_row_ids

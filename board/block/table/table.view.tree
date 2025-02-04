@@ -1,6 +1,6 @@
 $shm_hitalama_board_block_table $shm_hitalama_board_block_float
 	drag_body /
-		<= Table $shm_hitalama_grid
+		<= Table $mol_grid
 			records <= rows *
 			col_ids <= col_ids /
 			col_head_content* <= col_head_content* /
