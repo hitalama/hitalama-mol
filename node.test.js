@@ -31040,6 +31040,9 @@ var $;
 			(obj.click) = (next) => ((this.cell_delete(id, next)));
 			return obj;
 		}
+		cell_delete_visible(id){
+			return [(this.Action_delete(id))];
+		}
 		cell_edit(id, next){
 			if(next !== undefined) return next;
 			return null;
@@ -31104,6 +31107,16 @@ var $;
 			(obj.bubble_content) = () => ([(this.Settings_scroll())]);
 			return obj;
 		}
+		delete_enabled(next){
+			if(next !== undefined) return next;
+			return false;
+		}
+		Deleting(){
+			const obj = new this.$.$mol_check_box();
+			(obj.title) = () => ("Удаление строк");
+			(obj.checked) = (next) => ((this.delete_enabled(next)));
+			return obj;
+		}
 		chart_add(next){
 			if(next !== undefined) return next;
 			return null;
@@ -31141,7 +31154,7 @@ var $;
 		}
 		Cell_delete(id){
 			const obj = new this.$.$mol_grid_cell();
-			(obj.sub) = () => ([(this.Action_delete(id))]);
+			(obj.sub) = () => ([...(this.cell_delete_visible(id))]);
 			return obj;
 		}
 		Cell_edit(id){
@@ -31160,7 +31173,8 @@ var $;
 				(this.Bottom()), 
 				(this.Settings_pop()), 
 				(this.Delete()), 
-				(this.Copy_code())
+				(this.Copy_code()), 
+				(this.Deleting())
 			];
 		}
 		Contextmenu_body(){
@@ -31191,6 +31205,8 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_block_table.prototype), "Settings_content"));
 	($mol_mem(($.$shm_hitalama_board_block_table.prototype), "Settings_scroll"));
 	($mol_mem(($.$shm_hitalama_board_block_table.prototype), "Settings_pop"));
+	($mol_mem(($.$shm_hitalama_board_block_table.prototype), "delete_enabled"));
+	($mol_mem(($.$shm_hitalama_board_block_table.prototype), "Deleting"));
 	($mol_mem(($.$shm_hitalama_board_block_table.prototype), "chart_add"));
 	($mol_mem(($.$shm_hitalama_board_block_table.prototype), "Chart_add"));
 	($mol_mem_key(($.$shm_hitalama_board_block_table.prototype), "Cell_text"));
@@ -31223,6 +31239,9 @@ var $;
             }
             col_types() {
                 return ['check', 'index', ...this.block().table_col_types() ?? []];
+            }
+            cell_delete_visible(id) {
+                return this.delete_enabled() ? super.cell_delete_visible(id) : [];
             }
             Cell(id) {
                 if (id.col == 0)

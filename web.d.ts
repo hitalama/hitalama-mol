@@ -24067,25 +24067,25 @@ declare namespace $ {
 		,
 		ReturnType< $mol_pick['bubble_content'] >
 	>
-	type $mol_button_minor__title_shm_hitalama_board_block_table_29 = $mol_type_enforce<
+	type $mol_check_box__title_shm_hitalama_board_block_table_29 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_check_box['title'] >
+	>
+	type $mol_check_box__checked_shm_hitalama_board_block_table_30 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_table['delete_enabled'] >
+		,
+		ReturnType< $mol_check_box['checked'] >
+	>
+	type $mol_button_minor__title_shm_hitalama_board_block_table_31 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_button_minor['title'] >
 	>
-	type $mol_button_minor__click_shm_hitalama_board_block_table_30 = $mol_type_enforce<
+	type $mol_button_minor__click_shm_hitalama_board_block_table_32 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_table['chart_add'] >
 		,
 		ReturnType< $mol_button_minor['click'] >
-	>
-	type $mol_grid_cell__sub_shm_hitalama_board_block_table_31 = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_grid_cell['sub'] >
-	>
-	type $mol_grid_cell__style_shm_hitalama_board_block_table_32 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_table['cell_style'] >
-		,
-		ReturnType< $mol_grid_cell['style'] >
 	>
 	type $mol_grid_cell__sub_shm_hitalama_board_block_table_33 = $mol_type_enforce<
 		readonly(any)[]
@@ -24102,10 +24102,10 @@ declare namespace $ {
 		,
 		ReturnType< $mol_grid_cell['sub'] >
 	>
-	type $mol_grid_cell__sub_shm_hitalama_board_block_table_36 = $mol_type_enforce<
-		readonly(any)[]
+	type $mol_grid_cell__style_shm_hitalama_board_block_table_36 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_table['cell_style'] >
 		,
-		ReturnType< $mol_grid_cell['sub'] >
+		ReturnType< $mol_grid_cell['style'] >
 	>
 	type $mol_grid_cell__sub_shm_hitalama_board_block_table_37 = $mol_type_enforce<
 		readonly(any)[]
@@ -24117,12 +24117,22 @@ declare namespace $ {
 		,
 		ReturnType< $mol_grid_cell['sub'] >
 	>
-	type $mol_check_group__checks_shm_hitalama_board_block_table_39 = $mol_type_enforce<
+	type $mol_grid_cell__sub_shm_hitalama_board_block_table_39 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_grid_cell['sub'] >
+	>
+	type $mol_grid_cell__sub_shm_hitalama_board_block_table_40 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_grid_cell['sub'] >
+	>
+	type $mol_check_group__checks_shm_hitalama_board_block_table_41 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_table['cell_checkboxes'] >
 		,
 		ReturnType< $mol_check_group['checks'] >
 	>
-	type $mol_list__sub_shm_hitalama_board_block_table_40 = $mol_type_enforce<
+	type $mol_list__sub_shm_hitalama_board_block_table_42 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_list['sub'] >
@@ -24154,6 +24164,7 @@ declare namespace $ {
 		Checkbox( id: any): $mol_check_box
 		cell_delete( id: any, next?: any ): any
 		Action_delete( id: any): $mol_button_minor
+		cell_delete_visible( id: any): readonly(any)[]
 		cell_edit( id: any, next?: any ): any
 		Action_edit( id: any): $mol_button_minor
 		cell_checkboxes( ): readonly(any)[]
@@ -24167,6 +24178,8 @@ declare namespace $ {
 		Settings_content( ): $mol_list
 		Settings_scroll( ): $mol_scroll
 		Settings_pop( ): $mol_pick
+		delete_enabled( next?: boolean ): boolean
+		Deleting( ): $mol_check_box
 		chart_add( next?: any ): any
 		Chart_add( ): $mol_button_minor
 		drag_body( ): readonly(any)[]
@@ -24193,6 +24206,7 @@ declare namespace $.$$ {
         rows(): any[][];
         head(): any[];
         col_types(): any[];
+        cell_delete_visible(id: Cell_id): readonly any[];
         Cell(id: Cell_id): $mol_view;
         col_ids(): number[];
         col_head_content(n: number): any[];
