@@ -17904,6 +17904,7 @@ var $;
         'customdom',
         'file',
         'range',
+        'form_edit',
     ];
     class $shm_hitalama_board_block_type extends $hyoo_crus_atom_enum($.$shm_hitalama_board_block_types) {
     }
@@ -17925,6 +17926,7 @@ var $;
         Use_text_from: $hyoo_crus_atom_ref_to(() => $shm_hitalama_board_block),
         Range: $shm_hitalama_board_range,
         Form: $shm_hitalama_board_form,
+        Form_edit: $hyoo_crus_atom_ref_to(() => $shm_hitalama_board_form),
         Table: $hyoo_crus_atom_ref_to(() => $shm_hitalama_board_table),
         Chart: $shm_hitalama_board_chart,
         Use_chart_from: $hyoo_crus_atom_ref_to(() => $shm_hitalama_board_block),
@@ -18395,6 +18397,7 @@ var $;
                 text: block.Text()?.value(),
                 range,
                 use_text_from_ref: block.Use_text_from()?.remote()?.ref().description,
+                form_edit_ref: block.Form_edit()?.remote()?.ref().description,
                 table_ref: block.Table()?.remote()?.ref().description,
                 chart: chart ? $shm_hitalama_board_transfer_chart.serialize(chart) : undefined,
                 use_chart_from_ref: block.Use_chart_from()?.remote()?.ref().description,
@@ -18448,6 +18451,10 @@ var $;
             if (dto.file_ref) {
                 const file = $hyoo_crus_glob.Node($hyoo_crus_ref(ref_remap(dto.file_ref)), $shm_hitalama_file);
                 block.File(null)?.remote(file);
+            }
+            if (dto.form_edit_ref) {
+                const form = $hyoo_crus_glob.Node($hyoo_crus_ref(ref_remap(dto.form_edit_ref)), $shm_hitalama_board_form);
+                block.Form_edit(null)?.remote(form);
             }
         }
     }
@@ -30800,16 +30807,10 @@ var $;
     var $$;
     (function ($$) {
         class $shm_hitalama_board_block_form extends $.$shm_hitalama_board_block_form {
-            text(next) {
-                return this.block().Text(next)?.text(next) ?? '';
-            }
             form() {
                 return this.block().Form(null);
             }
         }
-        __decorate([
-            $mol_mem
-        ], $shm_hitalama_board_block_form.prototype, "text", null);
         __decorate([
             $mol_mem
         ], $shm_hitalama_board_block_form.prototype, "form", null);
@@ -31039,6 +31040,16 @@ var $;
 			(obj.click) = (next) => ((this.cell_delete(id, next)));
 			return obj;
 		}
+		cell_edit(id, next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Action_edit(id){
+			const obj = new this.$.$mol_button_minor();
+			(obj.title) = () => ("Редактировать");
+			(obj.click) = (next) => ((this.cell_edit(id, next)));
+			return obj;
+		}
 		cell_checkboxes(){
 			return [];
 		}
@@ -31053,7 +31064,7 @@ var $;
 		}
 		Col_width_title(id){
 			const obj = new this.$.$mol_view();
-			(obj.sub) = () => ((this.col_head_content(id)));
+			(obj.sub) = () => ([(this.col_settings_title(id))]);
 			return obj;
 		}
 		col_width(id, next){
@@ -31133,6 +31144,11 @@ var $;
 			(obj.sub) = () => ([(this.Action_delete(id))]);
 			return obj;
 		}
+		Cell_edit(id){
+			const obj = new this.$.$mol_grid_cell();
+			(obj.sub) = () => ([(this.Action_edit(id))]);
+			return obj;
+		}
 		All_check(){
 			const obj = new this.$.$mol_check_group();
 			(obj.checks) = () => ((this.cell_checkboxes()));
@@ -31164,6 +31180,8 @@ var $;
 	($mol_mem_key(($.$shm_hitalama_board_block_table.prototype), "Checkbox"));
 	($mol_mem_key(($.$shm_hitalama_board_block_table.prototype), "cell_delete"));
 	($mol_mem_key(($.$shm_hitalama_board_block_table.prototype), "Action_delete"));
+	($mol_mem_key(($.$shm_hitalama_board_block_table.prototype), "cell_edit"));
+	($mol_mem_key(($.$shm_hitalama_board_block_table.prototype), "Action_edit"));
 	($mol_mem(($.$shm_hitalama_board_block_table.prototype), "Settings_trigger_icon"));
 	($mol_mem(($.$shm_hitalama_board_block_table.prototype), "Col_widths_head"));
 	($mol_mem_key(($.$shm_hitalama_board_block_table.prototype), "Col_width_title"));
@@ -31180,6 +31198,7 @@ var $;
 	($mol_mem_key(($.$shm_hitalama_board_block_table.prototype), "Cell_index_number"));
 	($mol_mem_key(($.$shm_hitalama_board_block_table.prototype), "Cell_checkbox"));
 	($mol_mem_key(($.$shm_hitalama_board_block_table.prototype), "Cell_delete"));
+	($mol_mem_key(($.$shm_hitalama_board_block_table.prototype), "Cell_edit"));
 	($mol_mem(($.$shm_hitalama_board_block_table.prototype), "All_check"));
 	($mol_mem(($.$shm_hitalama_board_block_table.prototype), "Contextmenu_body"));
 
@@ -31215,6 +31234,8 @@ var $;
                     return this.Cell_file(id);
                 if (col_type == 'action_delete')
                     return this.Cell_delete(id);
+                if (col_type == 'action_edit')
+                    return this.Cell_edit(id);
                 return this.Cell_text(id);
             }
             col_ids() {
@@ -31223,7 +31244,10 @@ var $;
             col_head_content(n) {
                 if (n == 0)
                     return [this.All_check()];
-                return [this.head()?.[Number(n)] ?? ''];
+                return [this.head()?.[n] || ''];
+            }
+            col_settings_title(n) {
+                return this.head()?.[n] || this.col_types()?.[n] || '';
             }
             cell_index_number(id) {
                 return (Number(id.row[1]) + 1).toString();
@@ -31277,6 +31301,17 @@ var $;
                     rows_checked_next[n] = bool;
                 }
                 this.block().table().Rows_checked()?.val(rows_checked_next);
+            }
+            cell_edit(id) {
+                const row_i = id.row[1];
+                const statistic = this.board().Search_statistics()?.remote_list().at(row_i);
+                const pos = [
+                    this.block().Body_x()?.val() + this.block().Left_edge_x()?.val() + this.block().Right_edge_x()?.val(),
+                    this.block().Body_y()?.val() + this.block().Top_edge_y()?.val(),
+                ];
+                const block = this.board().block_add('form_edit', pos, 450, 780);
+                block?.Form_edit(null)?.remote(statistic);
+                this.Board_page().contextmenu_showed(false);
             }
             cell_checkboxes() {
                 const checkboxes = this.table_row_ids().map(row => this.Checkbox({ col: '0', row }));
@@ -31346,6 +31381,9 @@ var $;
             $mol_action
         ], $shm_hitalama_board_block_table.prototype, "cell_delete", null);
         __decorate([
+            $mol_action
+        ], $shm_hitalama_board_block_table.prototype, "cell_edit", null);
+        __decorate([
             $mol_mem_key
         ], $shm_hitalama_board_block_table.prototype, "col_width_px", null);
         __decorate([
@@ -31405,6 +31443,9 @@ var $;
                 padding: 0,
             },
             Cell_delete: {
+                padding: 0,
+            },
+            Cell_edit: {
                 padding: 0,
             },
             Download: {
@@ -33310,6 +33351,81 @@ var $;
             Cell_delete: {
                 padding: 0,
             },
+            Cell_edit: {
+                padding: 0,
+            },
+        });
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+	($.$shm_hitalama_board_block_form_edit) = class $shm_hitalama_board_block_form_edit extends ($.$shm_hitalama_board_block_float) {
+		form(){
+			const obj = new this.$.$shm_hitalama_board_form();
+			return obj;
+		}
+		board(){
+			const obj = new this.$.$shm_hitalama_board();
+			return obj;
+		}
+		Form(){
+			const obj = new this.$.$shm_hitalama_board_form_view();
+			(obj.form) = () => ((this.form()));
+			(obj.board) = () => ((this.board()));
+			(obj.buttons) = () => ([]);
+			return obj;
+		}
+		content(){
+			return [(this.Drag_view()), (this.Form())];
+		}
+		font_tools(){
+			return [];
+		}
+	};
+	($mol_mem(($.$shm_hitalama_board_block_form_edit.prototype), "form"));
+	($mol_mem(($.$shm_hitalama_board_block_form_edit.prototype), "board"));
+	($mol_mem(($.$shm_hitalama_board_block_form_edit.prototype), "Form"));
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $shm_hitalama_board_block_form_edit extends $.$shm_hitalama_board_block_form_edit {
+            form() {
+                return this.block().Form_edit()?.remote();
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_block_form_edit.prototype, "form", null);
+        $$.$shm_hitalama_board_block_form_edit = $shm_hitalama_board_block_form_edit;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        $mol_style_define($shm_hitalama_board_block_form_edit, {
+            background: {
+                color: $mol_theme.card,
+            },
+            Drag_view: {
+                position: 'absolute',
+                width: '100%',
+                height: '100%',
+            },
+            Form: {
+                padding: $mol_gap.block,
+            },
         });
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
@@ -33434,6 +33550,10 @@ var $;
 			const obj = new this.$.$shm_hitalama_board_block_table_novirt();
 			return obj;
 		}
+		Form_edit(){
+			const obj = new this.$.$shm_hitalama_board_block_form_edit();
+			return obj;
+		}
 		Sub(){
 			const obj = new this.$.$shm_hitalama_board_block_float();
 			(obj.block) = () => ((this.block()));
@@ -33465,7 +33585,8 @@ var $;
 				"customdom": (this.Customdom()), 
 				"file": (this.File()), 
 				"range": (this.Range()), 
-				"table_novirt": (this.Table_novirt())
+				"table_novirt": (this.Table_novirt()), 
+				"form_edit": (this.Form_edit())
 			};
 		}
 	};
@@ -33488,6 +33609,7 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "File"));
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Range"));
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Table_novirt"));
+	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Form_edit"));
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Sub"));
 
 
@@ -34961,8 +35083,8 @@ var $;
                 const form = this.board().block_add('form', form_pos, 450, 780);
                 const table_pos = [form_pos[0] + 460, form_pos[1]];
                 const block_table = this.board().table_novirt_add(table_pos, 1000, 780);
-                block_table.table_head(['Запрос', 'Минус', 'Период', 'Страна', 'Язык', 'Соц.медиа', 'СМИ', 'Type', 'Tags', 'Category', '']);
-                block_table.table_col_types(['any', 'any', 'any', 'any', 'any', 'file', 'file', 'any', 'any', 'any', 'action_delete']);
+                block_table.table_head(['Запрос', 'Минус', 'Период', 'Страна', 'Язык', 'Соц.медиа', 'СМИ', 'Type', 'Tags', 'Category', '', '']);
+                block_table.table_col_types(['any', 'any', 'any', 'any', 'any', 'file', 'file', 'any', 'any', 'any', 'action_edit', 'action_delete']);
                 const rows_method = this.$.$mol_fetch.text($shm_hitalama_app_ghpages_fix_link('/shm/hitalama/board/snippets/_search_statistics_rows.js'));
                 block_table.Table(null)?.ensure(block_table.land())?.Rows_method(null)?.val(rows_method);
                 const code_pos = [form_pos[0], form_pos[1] + 790];
