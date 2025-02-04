@@ -11,4 +11,4 @@ $shm_hitalama_board_block_input $shm_hitalama_board_block_float
 	drag_body /
 		<= Title $mol_paragraph
 			dom_name <= title_dom_name \h1
-			title <= text
+			title <= text_rendered \
