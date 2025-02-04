@@ -41,9 +41,11 @@ namespace $.$$ {
 			return this.form().Category(next)?.val(next) ?? ''
 		}
 
+		soc_file_test?: File
 		social_media_attach( session_id: string, files: File[] ) {
 			const file = this.board().Files(null)?.make( this.board().land() )
 
+			this.soc_file_test = files[0]
 			file?.title( files[0].name )
 			file?.Size(null)?.val( files[0].size )
 			file?.File(null)?.ensure( this.board().land() )?.blob( files[0] )
@@ -83,7 +85,7 @@ namespace $.$$ {
 		}
 
 		submit() {
-			const form = this.board().Search_statistics(null)?.make( {'': $hyoo_crus_rank_read} )
+			const form = this.board().Search_statistics(null)?.make( this.board().land() )
 
 			form?.query( this.query() )
 			form?.excluded_words( this.excluded_words() )

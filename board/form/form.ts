@@ -67,6 +67,40 @@ namespace $ {
 		mass_media_title() {
 			return this.File_mass_media()?.remote()?.title() || ''
 		}
+
+		@ $mol_mem
+		table_row() {
+			return [
+				this.query(),
+				this.excluded_words(),
+				this.prediod(),
+				this.country(),
+				this.language(),
+				this.File_social_media()?.remote()?.ref()?.description,
+				this.File_mass_media()?.remote()?.ref()?.description,
+				this.type(),
+				this.tags(),
+				this.category(),
+				null,
+			]
+		}
+
+		@ $mol_mem
+		statistic_table_rows() {
+			const rows: any[] = []
+			this.File_mass_media()?.remote()?.File()?.remote()?.str()?.split('\n')?.forEach( line => {
+				const [ date, count ] = line.split(';')
+				if( isNaN( Number( count ) ) ) return
+				rows.push( [ date, count, this.query(), this.excluded_words(), 'СМИ', this.country(), this.language() ] )
+			} )
+			
+			this.File_social_media()?.remote()?.File()?.remote()?.str()?.split('\n')?.forEach( line => {
+				const [ date, count ] = line.split(';')
+				if( isNaN( Number( count ) ) ) return
+				rows.push( [ date, count, this.query(), this.excluded_words(), 'Соц.медиа', this.country(), this.language() ] )
+			} )
+			return rows
+		}
 		
 		@ $mol_action
 		serialize() {
