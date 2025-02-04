@@ -45,12 +45,13 @@ namespace $.$$ {
 		Cell_file: {
 			padding: 0,
 		},
-		Download: {
-			whiteSpace: 'normal',
-		},
 
 		Cell_delete: {
 			padding: 0,
+		},
+		
+		Download: {
+			whiteSpace: 'normal',
 		},
 
 		All_check: {
