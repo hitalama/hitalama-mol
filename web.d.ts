@@ -24786,6 +24786,7 @@ declare namespace $ {
 declare namespace $.$$ {
     class $shm_hitalama_board_block_customdom extends $.$shm_hitalama_board_block_customdom {
         code(next?: string): string;
+        data?: any;
         Dom(): any;
         add_code_block(): void;
     }

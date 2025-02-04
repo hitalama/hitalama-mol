@@ -31469,8 +31469,8 @@ var $;
                 return this.block_with_text().Text(next)?.text(next) ?? '';
             }
             run() {
-                const func = new Function('const board = this.board;\nconst page = this.page;\n' + this.code());
-                func.call({ page: this.Board_page(), board: this.board() });
+                const func = new Function('const board = this.board;\nconst page = this.page;\nconst block = this.block;\n' + this.code());
+                func.call({ page: this.Board_page(), board: this.board(), block: this.block() });
             }
         }
         __decorate([
@@ -32521,10 +32521,19 @@ var $;
             code(next) {
                 return this.block().Text(next)?.text(next) ?? '';
             }
+            data;
             Dom() {
-                const func = new Function('const board = this.board;\nconst page = this.page;\n' + this.code());
-                const res = func.call({ page: this.Board_page(), board: this.board() });
-                return res;
+                try {
+                    const func = new Function('const board = this.board;\nconst page = this.page;\nconst view = this.view;\n' + this.code());
+                    const res = func.call({ page: this.Board_page(), board: this.board(), view: this });
+                    return res;
+                }
+                catch (error) {
+                    if (!$mol_promise_like(error)) {
+                        this.data = undefined;
+                    }
+                    throw error;
+                }
             }
             add_code_block() {
                 const left = this.left() + this.width();

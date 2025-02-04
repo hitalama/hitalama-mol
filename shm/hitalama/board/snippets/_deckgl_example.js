@@ -1,10 +1,4 @@
-const {Deck, GeoJsonLayer, ArcLayer} = board.$.$mol_import.script('https://unpkg.com/deck.gl@9.0.38/dist.min.js').deck
-
-// source: Natural Earth http://www.naturalearthdata.com/ via geojson.xyz
-const COUNTRIES =
-	'https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_50m_admin_0_scale_rank.geojson'
-const AIR_PORTS =
-	'https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_10m_airports.geojson'
+const {Deck, GeoJsonLayer, ArcLayer} = $mol_import.script('https://unpkg.com/deck.gl@9.0.38/dist.min.js').deck
 
 const INITIAL_VIEW_STATE = {
 	latitude: 51.47,
@@ -14,8 +8,24 @@ const INITIAL_VIEW_STATE = {
 	pitch: 30
 }
 
+if( view.data ) {
+
+	view.data.deck.setProps({
+		initialViewState: INITIAL_VIEW_STATE,
+	})
+	
+	return view.data.dom
+}
+
+// source: Natural Earth http://www.naturalearthdata.com/ via geojson.xyz
+const COUNTRIES =
+	'https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_50m_admin_0_scale_rank.geojson'
+const AIR_PORTS =
+	'https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_10m_airports.geojson'
+
 const canvas = document.createElement('canvas')
-new Deck( {
+
+const deck = new Deck( {
 	canvas,
 	initialViewState: INITIAL_VIEW_STATE,
 	controller: true,
@@ -60,11 +70,12 @@ new Deck( {
 	]
 } )
 
+const dom = document.createElement('div')
+dom.style.margin = '1.5rem'
+dom.style.flexGrow = 1
+dom.style.position = 'relative'
+dom.style.boxShadow = '0 0 0 1.5rem var(--mol_theme_card)'
+dom.appendChild( canvas )
 
-const wrapper = document.createElement('div')
-wrapper.style.margin = '1.5rem'
-wrapper.style.flexGrow = 1
-wrapper.style.position = 'relative'
-wrapper.style.boxShadow = '0 0 0 1.5rem var(--mol_theme_card)'
-wrapper.appendChild( canvas )
-return wrapper
+view.data = { deck, dom }
+return dom
