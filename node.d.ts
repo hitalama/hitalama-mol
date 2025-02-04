@@ -19042,6 +19042,15 @@ declare namespace $.$$ {
 
 declare namespace $ {
 
+	export class $mol_icon_content_copy extends $mol_icon {
+		path( ): string
+	}
+	
+}
+
+//# sourceMappingURL=copy.view.tree.d.ts.map
+declare namespace $ {
+
 	export class $mol_icon_cog extends $mol_icon {
 		path( ): string
 	}
@@ -19121,142 +19130,157 @@ declare namespace $ {
 		,
 		ReturnType< $mol_grid['Cell'] >
 	>
-	type $mol_link__uri_shm_hitalama_board_block_table_6 = $mol_type_enforce<
+	type $mol_button_copy__sub_shm_hitalama_board_block_table_6 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_button_copy['sub'] >
+	>
+	type $mol_button_copy__text_shm_hitalama_board_block_table_7 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_table['cell_content_text_str'] >
+		,
+		ReturnType< $mol_button_copy['text'] >
+	>
+	type $mol_view__sub_shm_hitalama_board_block_table_8 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_view['sub'] >
+	>
+	type $mol_link__uri_shm_hitalama_board_block_table_9 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_table['cell_file_uri'] >
 		,
 		ReturnType< $mol_link['uri'] >
 	>
-	type $mol_link__file_name_shm_hitalama_board_block_table_7 = $mol_type_enforce<
+	type $mol_link__file_name_shm_hitalama_board_block_table_10 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_table['cell_file_name'] >
 		,
 		ReturnType< $mol_link['file_name'] >
 	>
-	type $mol_link__sub_shm_hitalama_board_block_table_8 = $mol_type_enforce<
+	type $mol_link__sub_shm_hitalama_board_block_table_11 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_link['sub'] >
 	>
-	type $mol_check_box__checked_shm_hitalama_board_block_table_9 = $mol_type_enforce<
+	type $mol_check_box__checked_shm_hitalama_board_block_table_12 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_table['cell_checked'] >
 		,
 		ReturnType< $mol_check_box['checked'] >
 	>
-	type $mol_button_minor__title_shm_hitalama_board_block_table_10 = $mol_type_enforce<
+	type $mol_button_minor__title_shm_hitalama_board_block_table_13 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_button_minor['title'] >
 	>
-	type $mol_button_minor__click_shm_hitalama_board_block_table_11 = $mol_type_enforce<
+	type $mol_button_minor__click_shm_hitalama_board_block_table_14 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_table['cell_delete'] >
 		,
 		ReturnType< $mol_button_minor['click'] >
 	>
-	type $mol_view__sub_shm_hitalama_board_block_table_12 = $mol_type_enforce<
+	type $mol_view__sub_shm_hitalama_board_block_table_15 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_view['sub'] >
 	>
-	type $mol_view__sub_shm_hitalama_board_block_table_13 = $mol_type_enforce<
+	type $mol_view__sub_shm_hitalama_board_block_table_16 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_table['col_head_content'] >
 		,
 		ReturnType< $mol_view['sub'] >
 	>
-	type $mol_number__Dec_shm_hitalama_board_block_table_14 = $mol_type_enforce<
+	type $mol_number__Dec_shm_hitalama_board_block_table_17 = $mol_type_enforce<
 		any
 		,
 		ReturnType< $mol_number['Dec'] >
 	>
-	type $mol_number__Inc_shm_hitalama_board_block_table_15 = $mol_type_enforce<
+	type $mol_number__Inc_shm_hitalama_board_block_table_18 = $mol_type_enforce<
 		any
 		,
 		ReturnType< $mol_number['Inc'] >
 	>
-	type $mol_number__value_shm_hitalama_board_block_table_16 = $mol_type_enforce<
+	type $mol_number__value_shm_hitalama_board_block_table_19 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_table['col_width'] >
 		,
 		ReturnType< $mol_number['value'] >
 	>
-	type $mol_number__hint_shm_hitalama_board_block_table_17 = $mol_type_enforce<
+	type $mol_number__hint_shm_hitalama_board_block_table_20 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_number['hint'] >
 	>
-	type $mol_view__sub_shm_hitalama_board_block_table_18 = $mol_type_enforce<
+	type $mol_view__sub_shm_hitalama_board_block_table_21 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_view['sub'] >
 	>
-	type $mol_list__sub_shm_hitalama_board_block_table_19 = $mol_type_enforce<
+	type $mol_list__sub_shm_hitalama_board_block_table_22 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_list['sub'] >
 	>
-	type $mol_pick__hint_shm_hitalama_board_block_table_20 = $mol_type_enforce<
+	type $mol_pick__hint_shm_hitalama_board_block_table_23 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_pick['hint'] >
 	>
-	type $mol_pick__trigger_content_shm_hitalama_board_block_table_21 = $mol_type_enforce<
+	type $mol_pick__trigger_content_shm_hitalama_board_block_table_24 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_pick['trigger_content'] >
 	>
-	type $mol_pick__bubble_content_shm_hitalama_board_block_table_22 = $mol_type_enforce<
+	type $mol_pick__bubble_content_shm_hitalama_board_block_table_25 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_pick['bubble_content'] >
 	>
-	type $mol_button_minor__title_shm_hitalama_board_block_table_23 = $mol_type_enforce<
+	type $mol_button_minor__title_shm_hitalama_board_block_table_26 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_button_minor['title'] >
 	>
-	type $mol_button_minor__click_shm_hitalama_board_block_table_24 = $mol_type_enforce<
+	type $mol_button_minor__click_shm_hitalama_board_block_table_27 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_table['chart_add'] >
 		,
 		ReturnType< $mol_button_minor['click'] >
 	>
-	type $mol_grid_cell__sub_shm_hitalama_board_block_table_25 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_table['cell_content_text'] >
-		,
-		ReturnType< $mol_grid_cell['sub'] >
-	>
-	type $mol_grid_cell__style_shm_hitalama_board_block_table_26 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_table['cell_style'] >
-		,
-		ReturnType< $mol_grid_cell['style'] >
-	>
-	type $mol_grid_cell__sub_shm_hitalama_board_block_table_27 = $mol_type_enforce<
+	type $mol_grid_cell__sub_shm_hitalama_board_block_table_28 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_grid_cell['sub'] >
 	>
-	type $mol_grid_cell__style_shm_hitalama_board_block_table_28 = $mol_type_enforce<
+	type $mol_grid_cell__style_shm_hitalama_board_block_table_29 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_table['cell_style'] >
 		,
 		ReturnType< $mol_grid_cell['style'] >
-	>
-	type $mol_grid_cell__sub_shm_hitalama_board_block_table_29 = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_grid_cell['sub'] >
 	>
 	type $mol_grid_cell__sub_shm_hitalama_board_block_table_30 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_grid_cell['sub'] >
 	>
-	type $mol_grid_cell__sub_shm_hitalama_board_block_table_31 = $mol_type_enforce<
+	type $mol_grid_cell__style_shm_hitalama_board_block_table_31 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_table['cell_style'] >
+		,
+		ReturnType< $mol_grid_cell['style'] >
+	>
+	type $mol_grid_cell__sub_shm_hitalama_board_block_table_32 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_grid_cell['sub'] >
 	>
-	type $mol_check_group__checks_shm_hitalama_board_block_table_32 = $mol_type_enforce<
+	type $mol_grid_cell__sub_shm_hitalama_board_block_table_33 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_grid_cell['sub'] >
+	>
+	type $mol_grid_cell__sub_shm_hitalama_board_block_table_34 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_grid_cell['sub'] >
+	>
+	type $mol_check_group__checks_shm_hitalama_board_block_table_35 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_table['cell_checkboxes'] >
 		,
 		ReturnType< $mol_check_group['checks'] >
 	>
-	type $mol_list__sub_shm_hitalama_board_block_table_33 = $mol_type_enforce<
+	type $mol_list__sub_shm_hitalama_board_block_table_36 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_list['sub'] >
@@ -19269,6 +19293,10 @@ declare namespace $ {
 		Cell( id: any): $mol_view
 		table_row_ids( ): ReturnType< ReturnType< $shm_hitalama_board_block_table['Table'] >['row_ids'] >
 		Table( ): $mol_grid
+		Copy_icon( id: any): $mol_icon_content_copy
+		cell_content_text_str( id: any): string
+		Cell_copy( id: any): $mol_button_copy
+		Copy_area( id: any): $mol_view
 		col_width_px( id: any): string
 		cell_style( id: any): ({ 
 			'maxWidth': ReturnType< $shm_hitalama_board_block_table['col_width_px'] >,
@@ -19323,6 +19351,7 @@ declare namespace $.$$ {
         col_ids(): number[];
         col_head_content(n: number): any[];
         cell_index_number(id: Cell_id): string;
+        cell_content_text_str(id: Cell_id): string;
         cell_file_name(id: Cell_id): string;
         cell_file_visible(id: Cell_id): readonly any[];
         file_uri_async(ref_str: string): Promise<string>;

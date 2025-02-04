@@ -458,6 +458,8 @@
     "$mol_form_group",
     "$mol_status",
     "$shm_hitalama_board_block_table",
+    "$mol_icon_content_copy",
+    "$mol_icon_content",
     "$mol_icon_cog_outline",
     "$mol_icon_cog",
     "$mol_check_group",
