@@ -34911,12 +34911,18 @@ var $;
                 const pointer_pos = this.get_pointer_pos();
                 let left = Infinity;
                 let top = Infinity;
+                let right = -Infinity;
+                let bottom = -Infinity;
                 dto.blocks?.forEach(b => {
                     left = Math.min(left, b.body_x + b.left_edge_x);
                     top = Math.min(top, b.body_y + b.top_edge_y);
+                    right = Math.max(right, b.body_x + b.right_edge_x);
+                    bottom = Math.max(bottom, b.body_y + b.bottom_edge_y);
                 });
-                const offset_x = pointer_pos[0] - left;
-                const offset_y = pointer_pos[1] - top;
+                const width = right - left;
+                const height = bottom - top;
+                const offset_x = pointer_pos[0] - left - width / 2;
+                const offset_y = pointer_pos[1] - top - height / 2;
                 const dto_translated = {
                     ...dto,
                     blocks: dto.blocks?.map(b => {
