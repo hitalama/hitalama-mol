@@ -31126,6 +31126,9 @@ var $;
 			(obj.checked) = (next) => ((this.delete_enabled(next)));
 			return obj;
 		}
+		deleting_tool_visible(){
+			return [(this.Deleting())];
+		}
 		chart_add(next){
 			if(next !== undefined) return next;
 			return null;
@@ -31183,7 +31186,7 @@ var $;
 				(this.Settings_pop()), 
 				(this.Delete()), 
 				(this.Copy_code()), 
-				(this.Deleting())
+				...(this.deleting_tool_visible())
 			];
 		}
 		Contextmenu_body(){
@@ -31248,6 +31251,9 @@ var $;
             }
             col_types() {
                 return ['check', 'index', ...this.block().table_col_types() ?? []];
+            }
+            deleting_tool_visible() {
+                return this.col_types().includes('action_delete') ? super.deleting_tool_visible() : [];
             }
             cell_delete_visible(id) {
                 return this.delete_enabled() ? super.cell_delete_visible(id) : [];
@@ -31519,6 +31525,14 @@ var $;
 			(obj.spellcheck) = () => (false);
 			return obj;
 		}
+		time_passed(){
+			return "Старт: {start}   Затрачено: {passed}";
+		}
+		Time(){
+			const obj = new this.$.$mol_paragraph();
+			(obj.title) = () => ((this.time_passed()));
+			return obj;
+		}
 		run(next){
 			if(next !== undefined) return next;
 			return null;
@@ -31529,11 +31543,20 @@ var $;
 			(obj.click) = (next) => ((this.run(next)));
 			return obj;
 		}
+		Overlay(){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => ([(this.Time()), (this.Run())]);
+			return obj;
+		}
 		content(){
 			return [(this.Drag_view()), (this.Textarea())];
 		}
 		sub(){
-			return [...(super.sub()), (this.Run())];
+			return [...(super.sub()), (this.Overlay())];
+		}
+		time_start(next){
+			if(next !== undefined) return next;
+			return 0;
 		}
 		font_tools(){
 			return [];
@@ -31541,8 +31564,11 @@ var $;
 	};
 	($mol_mem(($.$shm_hitalama_board_block_code.prototype), "code"));
 	($mol_mem(($.$shm_hitalama_board_block_code.prototype), "Textarea"));
+	($mol_mem(($.$shm_hitalama_board_block_code.prototype), "Time"));
 	($mol_mem(($.$shm_hitalama_board_block_code.prototype), "run"));
 	($mol_mem(($.$shm_hitalama_board_block_code.prototype), "Run"));
+	($mol_mem(($.$shm_hitalama_board_block_code.prototype), "Overlay"));
+	($mol_mem(($.$shm_hitalama_board_block_code.prototype), "time_start"));
 
 
 ;
@@ -31562,9 +31588,40 @@ var $;
             code(next) {
                 return this.block_with_text().Text(next)?.text(next) ?? '';
             }
+            moment_start(next) {
+                return next ?? null;
+            }
+            moment_start_formated() {
+                return this.moment_start()?.toString('hh:mm:ss') ?? '';
+            }
+            set_time_start() {
+                this.time_start(performance.now());
+                this.moment_start(new $mol_time_moment);
+            }
+            time_end;
             run() {
+                this.set_time_start();
                 const func = new Function('const board = this.board;\nconst page = this.page;\nconst view = this.view;\n' + this.code());
                 func.call({ page: this.Board_page(), board: this.board(), vide: this });
+                this.time_end = performance.now();
+            }
+            time_passed() {
+                const start = this.time_start();
+                if (start) {
+                    let end = performance.now();
+                    if (this.time_end && this.time_end > start) {
+                        end = this.time_end;
+                    }
+                    else {
+                        $mol_state_time.now(200);
+                    }
+                    const dt = end - start;
+                    const min = Math.floor(dt / 60000);
+                    const ms = dt - min * 60000;
+                    return super.time_passed().replace('{start}', this.moment_start_formated())
+                        .replace('{passed}', String(min).padStart(2, '0') + ':' + String((ms / 1000).toFixed(3)).padStart(6, '0'));
+                }
+                return '';
             }
         }
         __decorate([
@@ -31573,6 +31630,21 @@ var $;
         __decorate([
             $mol_mem
         ], $shm_hitalama_board_block_code.prototype, "code", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_block_code.prototype, "moment_start", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_block_code.prototype, "moment_start_formated", null);
+        __decorate([
+            $mol_action
+        ], $shm_hitalama_board_block_code.prototype, "set_time_start", null);
+        __decorate([
+            $mol_action
+        ], $shm_hitalama_board_block_code.prototype, "run", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_block_code.prototype, "time_passed", null);
         $$.$shm_hitalama_board_block_code = $shm_hitalama_board_block_code;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
@@ -31602,10 +31674,18 @@ var $;
                 },
                 margin: $mol_gap.block,
             },
-            Run: {
+            Overlay: {
                 position: 'absolute',
                 bottom: '2rem',
                 right: '2rem',
+            },
+            Time: {
+                padding: $mol_gap.text,
+                opacity: 0.6,
+                font: {
+                    family: 'monospace',
+                },
+                whiteSpace: 'pre',
             },
         });
     })($$ = $.$$ || ($.$$ = {}));

@@ -2816,7 +2816,7 @@ $shm_hitalama_board_block_table $shm_hitalama_board_block_float
 												hint \auto
 		<= Delete
 		<= Copy_code
-		<= Deleting $mol_check_box
+		^ deleting_tool_visible / <= Deleting $mol_check_box
 			title \Удаление строк
 			checked? <=> delete_enabled? false
 	Contextmenu_body $mol_list
@@ -2834,9 +2834,14 @@ $shm_hitalama_board_block_code $shm_hitalama_board_block_float
 			spellcheck false
 	sub /
 		^
-		<= Run $mol_button_major
-			title \Выполнить
-			click? <=> run? null
+		<= Overlay $mol_view
+			sub /
+				<= Time $mol_paragraph
+					title <= time_passed \Старт: {start}   Затрачено: {passed}
+				<= Run $mol_button_major
+					title \Выполнить
+					click? <=> run? null
+	time_start? 0
 	font_tools /
 
 $shm_hitalama_chart_line_pane $mol_plot_pane

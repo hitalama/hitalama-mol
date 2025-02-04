@@ -19519,6 +19519,7 @@ declare namespace $ {
 		Settings_pop( ): $mol_pick
 		delete_enabled( next?: boolean ): boolean
 		Deleting( ): $mol_check_box
+		deleting_tool_visible( ): readonly(any)[]
 		chart_add( next?: any ): any
 		Chart_add( ): $mol_button_minor
 		drag_body( ): readonly(any)[]
@@ -19545,6 +19546,7 @@ declare namespace $.$$ {
         rows(): any[][];
         head(): any[];
         col_types(): any[];
+        deleting_tool_visible(): readonly any[];
         cell_delete_visible(id: Cell_id): readonly any[];
         Cell(id: Cell_id): $mol_view;
         col_ids(): number[];
@@ -19589,23 +19591,37 @@ declare namespace $ {
 		,
 		ReturnType< $mol_textarea['spellcheck'] >
 	>
-	type $mol_button_major__title_shm_hitalama_board_block_code_4 = $mol_type_enforce<
+	type $mol_paragraph__title_shm_hitalama_board_block_code_4 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_code['time_passed'] >
+		,
+		ReturnType< $mol_paragraph['title'] >
+	>
+	type $mol_button_major__title_shm_hitalama_board_block_code_5 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_button_major['title'] >
 	>
-	type $mol_button_major__click_shm_hitalama_board_block_code_5 = $mol_type_enforce<
+	type $mol_button_major__click_shm_hitalama_board_block_code_6 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_code['run'] >
 		,
 		ReturnType< $mol_button_major['click'] >
 	>
+	type $mol_view__sub_shm_hitalama_board_block_code_7 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_view['sub'] >
+	>
 	export class $shm_hitalama_board_block_code extends $shm_hitalama_board_block_float {
 		code( next?: string ): string
 		Textarea( ): $mol_textarea
+		time_passed( ): string
+		Time( ): $mol_paragraph
 		run( next?: any ): any
 		Run( ): $mol_button_major
+		Overlay( ): $mol_view
 		content( ): readonly(any)[]
 		sub( ): readonly(any)[]
+		time_start( next?: number ): number
 		font_tools( ): readonly(any)[]
 	}
 	
@@ -19616,7 +19632,12 @@ declare namespace $.$$ {
     class $shm_hitalama_board_block_code extends $.$shm_hitalama_board_block_code {
         block_with_text(): $shm_hitalama_board_block;
         code(next?: string): string;
+        moment_start(next?: $mol_time_moment): $mol_time_moment | null;
+        moment_start_formated(): string;
+        set_time_start(): void;
+        time_end?: number;
         run(): void;
+        time_passed(): string;
     }
 }
 
