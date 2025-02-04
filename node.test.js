@@ -34921,8 +34921,7 @@ var $;
             keydown_listener() {
                 return new $mol_dom_listener(this.$.$mol_dom_context.document, 'keydown', $mol_wire_async(event => {
                     if (event.key == 'Delete') {
-                        if (['INPUT', 'TEXTAREA']
-                            .includes($mol_view_selection.focused()[0].nodeName))
+                        if (input_focused())
                             return;
                         const refs = this.selected_refs();
                         refs.forEach(r => this.block_delete(r));
@@ -34938,6 +34937,8 @@ var $;
                         this.shift_pressed(false);
                     }
                     else if (event.code == 'KeyC' && event.ctrlKey) {
+                        if (input_focused())
+                            return;
                         const refs = this.selected_refs();
                         const blocks = refs.map(r => this.block_by_ref(r));
                         const serialized = this.board().serialize_blocks(blocks);
@@ -34975,8 +34976,7 @@ var $;
             }
             paste_listener() {
                 return new $mol_dom_listener(this.$.$mol_dom_context.document, 'paste', $mol_wire_async(event => {
-                    if (['INPUT', 'TEXTAREA']
-                        .includes($mol_view_selection.focused()[0].nodeName))
+                    if (input_focused())
                         return;
                     const items = (event.clipboardData || event.originalEvent.clipboardData).items;
                     for (let index in items) {
@@ -35142,6 +35142,9 @@ var $;
             $mol_mem
         ], $shm_hitalama_board_page.prototype, "paste_listener", null);
         $$.$shm_hitalama_board_page = $shm_hitalama_board_page;
+        function input_focused() {
+            return ['INPUT', 'TEXTAREA'].includes($mol_view_selection.focused()[0].nodeName);
+        }
         function is_panning(start, end) {
             if (end.timeStamp - start?.timeStamp > 500
                 || Math.abs(end.x - start?.x) > 10
