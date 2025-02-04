@@ -17870,6 +17870,7 @@ var $;
         'iframe',
         'form',
         'table',
+        'table_novirt',
         'code',
         'chart',
         'chart_settings',
@@ -18012,6 +18013,11 @@ var $;
             block?.table().Board(null)?.remote(this);
             return block;
         }
+        table_novirt_add(pos = [0, 0], right_x = 200, bottom_x = 100, name) {
+            const block = this.block_add('table_novirt', pos, right_x, bottom_x, name);
+            block?.table().Board(null)?.remote(this);
+            return block;
+        }
         text_add(pos = [0, 0], text = 'text', right_x = 200, bottom_x = 100) {
             const block = this.block_add('text', pos, right_x, bottom_x);
             block?.Text(null)?.value(text);
@@ -18055,6 +18061,9 @@ var $;
     __decorate([
         $mol_action
     ], $shm_hitalama_board.prototype, "table_add", null);
+    __decorate([
+        $mol_action
+    ], $shm_hitalama_board.prototype, "table_novirt_add", null);
     __decorate([
         $mol_action
     ], $shm_hitalama_board.prototype, "text_add", null);
@@ -30782,31 +30791,6 @@ var $;
 })($ || ($ = {}));
 
 ;
-	($.$shm_hitalama_grid) = class $shm_hitalama_grid extends ($.$mol_grid) {
-		Table_view(){
-			const obj = new this.$.$shm_hitalama_grid_table();
-			(obj.sub) = () => ((this.rows()));
-			return obj;
-		}
-		sub(){
-			return [(this.Head()), (this.Table_view())];
-		}
-	};
-	($mol_mem(($.$shm_hitalama_grid.prototype), "Table_view"));
-	($.$shm_hitalama_grid_table) = class $shm_hitalama_grid_table extends ($.$mol_view) {};
-
-
-;
-"use strict";
-var $;
-(function ($) {
-    $mol_style_attach("shm/hitalama/grid/grid.view.css", "[shm_hitalama_grid_table] {\n\tborder-spacing: 0;\n\tdisplay: table-row-group;\n\tposition: relative;\n}\n\n[shm_hitalama_grid_table] > * {\n\tdisplay: table-row;\n\ttransition: none;\n}\n\n[shm_hitalama_grid_table] > * > * {\n\tdisplay: table-cell;\n\tpadding: var(--mol_gap_text);\n\twhite-space: nowrap;\n\tvertical-align: middle;\n\tbox-shadow: inset 2px 2px 0 -1px var(--mol_theme_line);\n}\n\n[shm_hitalama_grid_table] > * > *:where(:first-child) {\n\tbox-shadow: inset 0px 2px 0 -1px var(--mol_theme_line);\n}\n\n[shm_hitalama_grid_table] > [mol_grid_row]:where(:first-child) > *:where(:first-child) {\n\tbox-shadow: none;\n}\t\n");
-})($ || ($ = {}));
-
-;
-"use strict";
-
-;
 	($.$mol_icon_cog) = class $mol_icon_cog extends ($.$mol_icon) {
 		path(){
 			return "M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z";
@@ -30922,7 +30906,7 @@ var $;
 			return (this.Table().row_ids());
 		}
 		Table(){
-			const obj = new this.$.$shm_hitalama_grid();
+			const obj = new this.$.$mol_grid();
 			(obj.records) = () => ((this.rows()));
 			(obj.col_ids) = () => ((this.col_ids()));
 			(obj.col_head_content) = (id) => ((this.col_head_content(id)));
@@ -33138,6 +33122,54 @@ var $;
 })($ || ($ = {}));
 
 ;
+	($.$shm_hitalama_grid) = class $shm_hitalama_grid extends ($.$mol_grid) {
+		Table_view(){
+			const obj = new this.$.$shm_hitalama_grid_table();
+			(obj.sub) = () => ((this.rows()));
+			return obj;
+		}
+		sub(){
+			return [(this.Head()), (this.Table_view())];
+		}
+	};
+	($mol_mem(($.$shm_hitalama_grid.prototype), "Table_view"));
+	($.$shm_hitalama_grid_table) = class $shm_hitalama_grid_table extends ($.$mol_view) {};
+
+
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_style_attach("shm/hitalama/grid/grid.view.css", "[shm_hitalama_grid_table] {\n\tborder-spacing: 0;\n\tdisplay: table-row-group;\n\tposition: relative;\n}\n\n[shm_hitalama_grid_table] > * {\n\tdisplay: table-row;\n\ttransition: none;\n}\n\n[shm_hitalama_grid_table] > * > * {\n\tdisplay: table-cell;\n\tpadding: var(--mol_gap_text);\n\twhite-space: nowrap;\n\tvertical-align: middle;\n\tbox-shadow: inset 2px 2px 0 -1px var(--mol_theme_line);\n}\n\n[shm_hitalama_grid_table] > * > *:where(:first-child) {\n\tbox-shadow: inset 0px 2px 0 -1px var(--mol_theme_line);\n}\n\n[shm_hitalama_grid_table] > [mol_grid_row]:where(:first-child) > *:where(:first-child) {\n\tbox-shadow: none;\n}\t\n");
+})($ || ($ = {}));
+
+;
+"use strict";
+
+;
+	($.$shm_hitalama_board_block_table_novirt) = class $shm_hitalama_board_block_table_novirt extends ($.$shm_hitalama_board_block_table) {
+		cell_content_text(id){
+			return (this.Table().cell_content_text(id));
+		}
+		table_row_ids(){
+			return (this.Table().row_ids());
+		}
+		Table(){
+			const obj = new this.$.$shm_hitalama_grid();
+			(obj.records) = () => ((this.rows()));
+			(obj.col_ids) = () => ((this.col_ids()));
+			(obj.col_head_content) = (id) => ((this.col_head_content(id)));
+			(obj.Cell) = (id) => ((this.Cell(id)));
+			return obj;
+		}
+	};
+	($mol_mem(($.$shm_hitalama_board_block_table_novirt.prototype), "Table"));
+
+
+;
+"use strict";
+
+;
 	($.$shm_hitalama_board_block_any) = class $shm_hitalama_board_block_any extends ($.$mol_ghost) {
 		height(){
 			return (this.Sub().height());
@@ -33253,6 +33285,10 @@ var $;
 			const obj = new this.$.$shm_hitalama_board_block_range();
 			return obj;
 		}
+		Table_novirt(){
+			const obj = new this.$.$shm_hitalama_board_block_table_novirt();
+			return obj;
+		}
 		Sub(){
 			const obj = new this.$.$shm_hitalama_board_block_float();
 			(obj.block) = () => ((this.block()));
@@ -33283,7 +33319,8 @@ var $;
 				"chart_filter": (this.Chart_filter()), 
 				"customdom": (this.Customdom()), 
 				"file": (this.File()), 
-				"range": (this.Range())
+				"range": (this.Range()), 
+				"table_novirt": (this.Table_novirt())
 			};
 		}
 	};
@@ -33305,6 +33342,7 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Customdom"));
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "File"));
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Range"));
+	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Table_novirt"));
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Sub"));
 
 
@@ -34777,7 +34815,7 @@ var $;
                 const form_pos = this.contextmenu_real_pos();
                 const form = this.board().block_add('form', form_pos, 450, 780);
                 const table_pos = [form_pos[0] + 460, form_pos[1]];
-                const block_table = this.board().table_add(table_pos, 1000, 780);
+                const block_table = this.board().table_novirt_add(table_pos, 1000, 780);
                 block_table.table_head(['Запрос', 'Минус', 'Период', 'Страна', 'Язык', 'СМИ', 'Соц.медиа', 'Type', 'Tags', 'Category', '']);
                 block_table.table_col_types(['any', 'any', 'any', 'any', 'any', 'file', 'file', 'any', 'any', 'any', 'action_delete']);
                 const rows_method = this.$.$mol_fetch.text($shm_hitalama_app_ghpages_fix_link('/shm/hitalama/board/snippets/_search_statistics_rows.js'));

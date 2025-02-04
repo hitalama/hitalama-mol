@@ -14089,10 +14089,10 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    export const $shm_hitalama_board_block_types: readonly ["text", "input", "iframe", "form", "table", "code", "chart", "chart_settings", "chart_filter", "customdom", "file", "range"];
+    export const $shm_hitalama_board_block_types: readonly ["text", "input", "iframe", "form", "table", "table_novirt", "code", "chart", "chart_settings", "chart_filter", "customdom", "file", "range"];
     const $shm_hitalama_board_block_type_base: (abstract new () => {
-        val(next?: "text" | "input" | "iframe" | "form" | "table" | "code" | "chart" | "chart_settings" | "chart_filter" | "customdom" | "file" | "range" | undefined): "text" | "input" | "iframe" | "form" | "table" | "code" | "chart" | "chart_settings" | "chart_filter" | "customdom" | "file" | "range" | null;
-        val_of(peer: string | null, next?: "text" | "input" | "iframe" | "form" | "table" | "code" | "chart" | "chart_settings" | "chart_filter" | "customdom" | "file" | "range" | undefined): "text" | "input" | "iframe" | "form" | "table" | "code" | "chart" | "chart_settings" | "chart_filter" | "customdom" | "file" | "range" | null;
+        val(next?: "text" | "input" | "iframe" | "form" | "table" | "table_novirt" | "code" | "chart" | "chart_settings" | "chart_filter" | "customdom" | "file" | "range" | undefined): "text" | "input" | "iframe" | "form" | "table" | "table_novirt" | "code" | "chart" | "chart_settings" | "chart_filter" | "customdom" | "file" | "range" | null;
+        val_of(peer: string | null, next?: "text" | "input" | "iframe" | "form" | "table" | "table_novirt" | "code" | "chart" | "chart_settings" | "chart_filter" | "customdom" | "file" | "range" | undefined): "text" | "input" | "iframe" | "form" | "table" | "table_novirt" | "code" | "chart" | "chart_settings" | "chart_filter" | "customdom" | "file" | "range" | null;
         pick_unit(peer: string | null): $hyoo_crus_sand | undefined;
         vary(next?: $hyoo_crus_vary_type): $hyoo_crus_vary_type;
         vary_of(peer: string | null, next?: $hyoo_crus_vary_type): $hyoo_crus_vary_type;
@@ -14123,7 +14123,7 @@ declare namespace $ {
         [Symbol.toStringTag]: string;
         [$mol_ambient_ref]: $;
     }) & {
-        options: readonly ["text", "input", "iframe", "form", "table", "code", "chart", "chart_settings", "chart_filter", "customdom", "file", "range"];
+        options: readonly ["text", "input", "iframe", "form", "table", "table_novirt", "code", "chart", "chart_settings", "chart_filter", "customdom", "file", "range"];
         toString(): any;
         tag: keyof typeof $hyoo_crus_sand_tag;
         make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
@@ -14748,7 +14748,7 @@ declare namespace $ {
         text(next?: string): string;
         color(next?: string): string;
         font_size(next?: number): number | "";
-        type(): "text" | "" | "input" | "iframe" | "form" | "table" | "code" | "chart" | "chart_settings" | "chart_filter" | "customdom" | "file" | "range";
+        type(): "text" | "" | "input" | "iframe" | "form" | "table" | "table_novirt" | "code" | "chart" | "chart_settings" | "chart_filter" | "customdom" | "file" | "range";
         range(): $shm_hitalama_board_range;
         table(): $shm_hitalama_board_table;
         table_head(next?: any): any[];
@@ -15945,6 +15945,7 @@ declare namespace $ {
         block(ref: string): $shm_hitalama_board_block;
         block_add(type: (typeof $shm_hitalama_board_block_types)[number], pos?: readonly [number, number] | readonly number[], right_x?: number, bottom_x?: number, name?: string): $shm_hitalama_board_block | null | undefined;
         table_add(pos?: readonly [number, number] | readonly number[], right_x?: number, bottom_x?: number, name?: string): $shm_hitalama_board_block | null | undefined;
+        table_novirt_add(pos?: readonly [number, number] | readonly number[], right_x?: number, bottom_x?: number, name?: string): $shm_hitalama_board_block | null | undefined;
         text_add(pos?: readonly [number, number] | readonly number[], text?: string, right_x?: number, bottom_x?: number): $shm_hitalama_board_block | null | undefined;
         search_statistics(): readonly $shm_hitalama_board_form[];
         search_statistics_cut(index: number): void;
@@ -15963,7 +15964,7 @@ declare namespace $ {
                 top_edge_y: number | null | undefined;
                 left_edge_x: number | null | undefined;
                 opacity: number | null | undefined;
-                type: "text" | "input" | "iframe" | "form" | "table" | "code" | "chart" | "chart_settings" | "chart_filter" | "customdom" | "file" | "range" | null | undefined;
+                type: "text" | "input" | "iframe" | "form" | "table" | "table_novirt" | "code" | "chart" | "chart_settings" | "chart_filter" | "customdom" | "file" | "range" | null | undefined;
                 image_blob_uri: string | undefined;
                 color: string | null | undefined;
                 font_size: number | null | undefined;
@@ -16029,7 +16030,7 @@ declare namespace $ {
                 top_edge_y: number | null | undefined;
                 left_edge_x: number | null | undefined;
                 opacity: number | null | undefined;
-                type: "text" | "input" | "iframe" | "form" | "table" | "code" | "chart" | "chart_settings" | "chart_filter" | "customdom" | "file" | "range" | null | undefined;
+                type: "text" | "input" | "iframe" | "form" | "table" | "table_novirt" | "code" | "chart" | "chart_settings" | "chart_filter" | "customdom" | "file" | "range" | null | undefined;
                 image_blob_uri: string | undefined;
                 color: string | null | undefined;
                 font_size: number | null | undefined;
@@ -16090,7 +16091,7 @@ declare namespace $ {
                 top_edge_y: number | null | undefined;
                 left_edge_x: number | null | undefined;
                 opacity: number | null | undefined;
-                type: "text" | "input" | "iframe" | "form" | "table" | "code" | "chart" | "chart_settings" | "chart_filter" | "customdom" | "file" | "range" | null | undefined;
+                type: "text" | "input" | "iframe" | "form" | "table" | "table_novirt" | "code" | "chart" | "chart_settings" | "chart_filter" | "customdom" | "file" | "range" | null | undefined;
                 image_blob_uri: string | undefined;
                 color: string | null | undefined;
                 font_size: number | null | undefined;
@@ -16160,7 +16161,7 @@ declare namespace $ {
             top_edge_y: number | null | undefined;
             left_edge_x: number | null | undefined;
             opacity: number | null | undefined;
-            type: "text" | "input" | "iframe" | "form" | "table" | "code" | "chart" | "chart_settings" | "chart_filter" | "customdom" | "file" | "range" | null | undefined;
+            type: "text" | "input" | "iframe" | "form" | "table" | "table_novirt" | "code" | "chart" | "chart_settings" | "chart_filter" | "customdom" | "file" | "range" | null | undefined;
             image_blob_uri: string | undefined;
             color: string | null | undefined;
             font_size: number | null | undefined;
@@ -16230,7 +16231,7 @@ declare namespace $ {
                 top_edge_y: number | null | undefined;
                 left_edge_x: number | null | undefined;
                 opacity: number | null | undefined;
-                type: "text" | "input" | "iframe" | "form" | "table" | "code" | "chart" | "chart_settings" | "chart_filter" | "customdom" | "file" | "range" | null | undefined;
+                type: "text" | "input" | "iframe" | "form" | "table" | "table_novirt" | "code" | "chart" | "chart_settings" | "chart_filter" | "customdom" | "file" | "range" | null | undefined;
                 image_blob_uri: string | undefined;
                 color: string | null | undefined;
                 font_size: number | null | undefined;
@@ -16291,7 +16292,7 @@ declare namespace $ {
                 top_edge_y: number | null | undefined;
                 left_edge_x: number | null | undefined;
                 opacity: number | null | undefined;
-                type: "text" | "input" | "iframe" | "form" | "table" | "code" | "chart" | "chart_settings" | "chart_filter" | "customdom" | "file" | "range" | null | undefined;
+                type: "text" | "input" | "iframe" | "form" | "table" | "table_novirt" | "code" | "chart" | "chart_settings" | "chart_filter" | "customdom" | "file" | "range" | null | undefined;
                 image_blob_uri: string | undefined;
                 color: string | null | undefined;
                 font_size: number | null | undefined;
@@ -23701,27 +23702,6 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
-}
-
-declare namespace $ {
-
-	type $shm_hitalama_grid_table__sub_shm_hitalama_grid_1 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_grid['rows'] >
-		,
-		ReturnType< $shm_hitalama_grid_table['sub'] >
-	>
-	export class $shm_hitalama_grid extends $mol_grid {
-		Table_view( ): $shm_hitalama_grid_table
-		sub( ): readonly(any)[]
-	}
-	
-	export class $shm_hitalama_grid_table extends $mol_view {
-	}
-	
-}
-
-//# sourceMappingURL=grid.view.tree.d.ts.map
-declare namespace $ {
 
 	export class $mol_icon_cog extends $mol_icon {
 		path( ): string
@@ -23782,25 +23762,25 @@ declare namespace $ {
 		,
 		Parameters< ReturnType< $shm_hitalama_board_block_table['Table'] >['cell_content_text'] >[0]
 	>
-	type $shm_hitalama_grid__records_shm_hitalama_board_block_table_2 = $mol_type_enforce<
+	type $mol_grid__records_shm_hitalama_board_block_table_2 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_table['rows'] >
 		,
-		ReturnType< $shm_hitalama_grid['records'] >
+		ReturnType< $mol_grid['records'] >
 	>
-	type $shm_hitalama_grid__col_ids_shm_hitalama_board_block_table_3 = $mol_type_enforce<
+	type $mol_grid__col_ids_shm_hitalama_board_block_table_3 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_table['col_ids'] >
 		,
-		ReturnType< $shm_hitalama_grid['col_ids'] >
+		ReturnType< $mol_grid['col_ids'] >
 	>
-	type $shm_hitalama_grid__col_head_content_shm_hitalama_board_block_table_4 = $mol_type_enforce<
+	type $mol_grid__col_head_content_shm_hitalama_board_block_table_4 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_table['col_head_content'] >
 		,
-		ReturnType< $shm_hitalama_grid['col_head_content'] >
+		ReturnType< $mol_grid['col_head_content'] >
 	>
-	type $shm_hitalama_grid__Cell_shm_hitalama_board_block_table_5 = $mol_type_enforce<
+	type $mol_grid__Cell_shm_hitalama_board_block_table_5 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_table['Cell'] >
 		,
-		ReturnType< $shm_hitalama_grid['Cell'] >
+		ReturnType< $mol_grid['Cell'] >
 	>
 	type $mol_link__uri_shm_hitalama_board_block_table_6 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_table['cell_file_uri'] >
@@ -23949,7 +23929,7 @@ declare namespace $ {
 		cell_content_text( id: any): ReturnType< ReturnType< $shm_hitalama_board_block_table['Table'] >['cell_content_text'] >
 		Cell( id: any): $mol_view
 		table_row_ids( ): ReturnType< ReturnType< $shm_hitalama_board_block_table['Table'] >['row_ids'] >
-		Table( ): $shm_hitalama_grid
+		Table( ): $mol_grid
 		col_width_px( id: any): string
 		cell_style( id: any): ({ 
 			'maxWidth': ReturnType< $shm_hitalama_board_block_table['col_width_px'] >,
@@ -25092,6 +25072,63 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
+}
+
+declare namespace $ {
+
+	type $shm_hitalama_grid_table__sub_shm_hitalama_grid_1 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_grid['rows'] >
+		,
+		ReturnType< $shm_hitalama_grid_table['sub'] >
+	>
+	export class $shm_hitalama_grid extends $mol_grid {
+		Table_view( ): $shm_hitalama_grid_table
+		sub( ): readonly(any)[]
+	}
+	
+	export class $shm_hitalama_grid_table extends $mol_view {
+	}
+	
+}
+
+//# sourceMappingURL=grid.view.tree.d.ts.map
+declare namespace $ {
+
+	type __shm_hitalama_board_block_table_novirt_1 = $mol_type_enforce<
+		Parameters< $shm_hitalama_board_block_table_novirt['cell_content_text'] >[0]
+		,
+		Parameters< ReturnType< $shm_hitalama_board_block_table_novirt['Table'] >['cell_content_text'] >[0]
+	>
+	type $shm_hitalama_grid__records_shm_hitalama_board_block_table_novirt_2 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_table_novirt['rows'] >
+		,
+		ReturnType< $shm_hitalama_grid['records'] >
+	>
+	type $shm_hitalama_grid__col_ids_shm_hitalama_board_block_table_novirt_3 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_table_novirt['col_ids'] >
+		,
+		ReturnType< $shm_hitalama_grid['col_ids'] >
+	>
+	type $shm_hitalama_grid__col_head_content_shm_hitalama_board_block_table_novirt_4 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_table_novirt['col_head_content'] >
+		,
+		ReturnType< $shm_hitalama_grid['col_head_content'] >
+	>
+	type $shm_hitalama_grid__Cell_shm_hitalama_board_block_table_novirt_5 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_table_novirt['Cell'] >
+		,
+		ReturnType< $shm_hitalama_grid['Cell'] >
+	>
+	export class $shm_hitalama_board_block_table_novirt extends $shm_hitalama_board_block_table {
+		cell_content_text( id: any): ReturnType< ReturnType< $shm_hitalama_board_block_table_novirt['Table'] >['cell_content_text'] >
+		table_row_ids( ): ReturnType< ReturnType< $shm_hitalama_board_block_table_novirt['Table'] >['row_ids'] >
+		Table( ): $shm_hitalama_grid
+	}
+	
+}
+
+//# sourceMappingURL=novirt.view.tree.d.ts.map
+declare namespace $ {
 
 	type __shm_hitalama_board_block_any_1 = $mol_type_enforce<
 		Parameters< $shm_hitalama_board_block_any['editing'] >[0]
@@ -25196,6 +25233,7 @@ declare namespace $ {
 		Customdom( ): $shm_hitalama_board_block_customdom
 		File( ): $shm_hitalama_board_block_file
 		Range( ): $shm_hitalama_board_block_range
+		Table_novirt( ): $shm_hitalama_board_block_table_novirt
 		Sub( ): $shm_hitalama_board_block_float
 		blocks( ): ({ 
 			'input': ReturnType< $shm_hitalama_board_block_any['Input'] >,
@@ -25210,6 +25248,7 @@ declare namespace $ {
 			'customdom': ReturnType< $shm_hitalama_board_block_any['Customdom'] >,
 			'file': ReturnType< $shm_hitalama_board_block_any['File'] >,
 			'range': ReturnType< $shm_hitalama_board_block_any['Range'] >,
+			'table_novirt': ReturnType< $shm_hitalama_board_block_any['Table_novirt'] >,
 		}) 
 	}
 	
@@ -25218,7 +25257,7 @@ declare namespace $ {
 //# sourceMappingURL=any.view.tree.d.ts.map
 declare namespace $.$$ {
     class $shm_hitalama_board_block_any extends $.$shm_hitalama_board_block_any {
-        Sub(): $.$shm_hitalama_board_block_input | $.$shm_hitalama_board_block_iframe | $.$shm_hitalama_board_block_text | $.$shm_hitalama_board_block_form | $.$shm_hitalama_board_block_table | $.$shm_hitalama_board_block_code | $.$shm_hitalama_board_block_chart | $.$shm_hitalama_board_block_chart_settings | $.$shm_hitalama_board_block_chart_filter | $.$shm_hitalama_board_block_customdom | $.$shm_hitalama_board_block_file | $.$shm_hitalama_board_block_range;
+        Sub(): $.$shm_hitalama_board_block_input | $.$shm_hitalama_board_block_iframe | $.$shm_hitalama_board_block_text | $.$shm_hitalama_board_block_form | $.$shm_hitalama_board_block_table | $.$shm_hitalama_board_block_code | $.$shm_hitalama_board_block_chart | $.$shm_hitalama_board_block_chart_settings | $.$shm_hitalama_board_block_chart_filter | $.$shm_hitalama_board_block_customdom | $.$shm_hitalama_board_block_file | $.$shm_hitalama_board_block_range | $shm_hitalama_board_block_table_novirt;
     }
 }
 
