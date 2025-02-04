@@ -12,6 +12,13 @@ namespace $ {
 		static serialize( block: $shm_hitalama_board_block ) {
 			const image_blob_uri = this.$.$mol_wire_sync(this).image_blob_uri_async( block )
 			const chart = block.Chart()
+
+			const range = block.range() ? {
+				value: block.range().value(),
+				min: block.range().min(),
+				max: block.range().max(),
+			} : undefined
+
 			return {
 				ref: block.ref().description,
 
@@ -37,6 +44,9 @@ namespace $ {
 
 				/** text|code|customdom */
 				text: block.Text()?.value(),
+
+				/** range */
+				range,
 				
 				use_text_from_ref: block.Use_text_from()?.remote()?.ref().description,
 
@@ -73,6 +83,12 @@ namespace $ {
 				const chart = block.Chart(null)
 				chart?.Block(null)?.remote( block )
 				$shm_hitalama_board_transfer_chart.deserialize( chart!, dto.chart )
+			}
+			if( dto.range ) {
+				const range = block.range()
+				range.value( dto.range.value )
+				range.min( dto.range.min )
+				range.max( dto.range.max )
 			}
 			
 			if( dto.image_blob_uri ) {
