@@ -249,6 +249,13 @@ namespace $.$$ {
 		}
 
 		@ $mol_action
+		range_add() {
+			const block = this.board().block_add( 'range', this.contextmenu_real_pos() )
+			this.contextmenu_showed( false )
+			return block
+		}
+
+		@ $mol_action
 		guid_sync() {
 			return $mol_guid()
 		}

@@ -1,0 +1,47 @@
+$shm_hitalama_board_block_range $shm_hitalama_board_block_float
+	sub /
+		<= Drag_view
+		<= Control $rise_range
+			value? <=> value? 0
+			min <= min? 0
+			max <= max? 10
+		^ edges
+		^ toolbar
+	font_tools /
+	- drag_body /
+		<= Title $mol_paragraph
+			dom_name <= title_dom_name \h1
+			title <= text_rendered \
+	tools /
+		<= Top
+		<= Bottom
+		<= Settings_pop $mol_pick
+			hint @ \Options
+			trigger_content /
+				<= Settings_trigger_icon $mol_icon_cog_outline
+			bubble_content /
+				<= Settings_content $mol_list
+					sub /
+						<= Min_row $mol_view
+							sub /
+								<= Min_label $mol_paragraph
+									title \Min
+								<= Min $mol_number
+									value? <=> min?
+						<= Max_row $mol_view
+							sub /
+								<= Max_label $mol_paragraph
+									title \Max
+								<= Max $mol_number
+									value? <=> max?
+		<= Help $mol_pick
+			hint @ \Help
+			trigger_content /
+				<= Help_icon $mol_icon_help
+			bubble_content /
+				<= Help_content $mol_text
+					text <= help_text \
+						\Получить значение:
+						\ board.block('{ref}').range().value()
+		<= Delete
+		<= Title_copy

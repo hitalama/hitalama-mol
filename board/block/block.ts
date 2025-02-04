@@ -12,6 +12,7 @@ namespace $ {
 		'chart_filter',
 		'customdom',
 		'file',
+		'range',
 	] as const
 
 	class $shm_hitalama_board_block_type extends $hyoo_crus_atom_enum( $shm_hitalama_board_block_types ){}
@@ -39,6 +40,9 @@ namespace $ {
 		/** text|code|customdom */
 		Text: $hyoo_crus_text,
 		Use_text_from: $hyoo_crus_atom_ref_to( ()=> $shm_hitalama_board_block ),
+
+		/** range */
+		Range: $shm_hitalama_board_range,
 
 		/** form */
 		Form: $shm_hitalama_board_form,
@@ -69,6 +73,11 @@ namespace $ {
 
 		type() {
 			return this.Type()?.val() ?? ''
+		}
+
+		@ $mol_mem
+		range() {
+			return this.Range(null)!
 		}
 
 		@ $mol_mem

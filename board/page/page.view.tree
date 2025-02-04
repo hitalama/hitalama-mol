@@ -57,6 +57,9 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 			<= Iframe_add $mol_button_minor
 				title \Добавить iframe
 				click? <=> iframe_add? null
+			<= Range_add $mol_button_minor
+				title \Добавить range
+				click? <=> range_add? null
 			<= Form_add $mol_button_minor
 				title \Добавить виджет: Сбор 1% выгрузки БА
 				click? <=> form_add? null

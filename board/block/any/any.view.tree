@@ -32,3 +32,4 @@ $shm_hitalama_board_block_any $mol_ghost
 		chart_filter <= Chart_filter $shm_hitalama_board_block_chart_filter
 		customdom <= Customdom $shm_hitalama_board_block_customdom
 		file <= File $shm_hitalama_board_block_file
+		range <= Range $shm_hitalama_board_block_range

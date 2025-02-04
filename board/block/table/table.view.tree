@@ -38,7 +38,7 @@ $shm_hitalama_board_block_table $shm_hitalama_board_block_float
 		<= Top
 		<= Bottom
 		<= Settings_pop $mol_pick
-			hint @ \Click to show options menu
+			hint @ \Options
 			trigger_content /
 				<= Settings_trigger_icon $mol_icon_cog_outline
 			bubble_content /
