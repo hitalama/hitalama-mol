@@ -8,7 +8,13 @@ $shm_hitalama_board_block_table $shm_hitalama_board_block_float
 			Cell* <= Cell* $mol_view
 			row_ids => table_row_ids
 	Cell_text* $mol_grid_cell
-		sub <= cell_content_text*
+		sub /
+			^ cell_content_text*
+			<= Copy_area* $mol_view
+				sub /
+					<= Cell_copy* $mol_button_copy
+						sub / <= Copy_icon* $mol_icon_content_copy
+						text <= cell_content_text_str* \
 		style <= cell_style* *
 			maxWidth <= col_width_px* \auto
 			width <= col_width_px* \auto

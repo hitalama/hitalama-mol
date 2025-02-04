@@ -12,6 +12,21 @@ namespace $.$$ {
 			height: '100%',
 		},
 
+		Cell_copy: {
+			display: 'none',
+		},
+
+		Copy_area: {
+			position: 'absolute',
+			top: 0,
+			right: 0,
+			":hover": {
+				['Cell_copy' as '$mol_view']: {
+					display: 'block',
+				},
+			},
+		},
+
 		Table: {
 			padding: $mol_gap.block,
 			overflowX: 'inherit',
@@ -19,6 +34,7 @@ namespace $.$$ {
 
 		Cell_text: {
 			whiteSpace: 'normal',
+			position: 'relative',
 		},
 
 		Cell_checkbox: {

@@ -47,15 +47,20 @@ namespace $.$$ {
 		}
 
 		@ $mol_mem_key
+		cell_content_text_str( id: Cell_id ) {
+			return this.cell_content_text( id ).toString()
+		}
+
+		@ $mol_mem_key
 		cell_file_name( id: Cell_id ) {
-			const ref_str = this.cell_content_text( id ).toString()
+			const ref_str = this.cell_content_text_str( id )
 			const file = $hyoo_crus_glob.Node( $hyoo_crus_ref( ref_str ), $shm_hitalama_file )
 			return file.title()
 		}
 
 		@ $mol_mem_key
 		cell_file_visible( id: Cell_id ) {
-			const ref_str = this.cell_content_text( id ).toString()
+			const ref_str = this.cell_content_text_str( id )
 			return ref_str ? super.cell_file_visible( id ) : []
 		}
 
@@ -73,7 +78,7 @@ namespace $.$$ {
 
 		@ $mol_mem_key
 		cell_file_uri( id: Cell_id ) {
-			const ref_str = this.cell_content_text( id ).toString()
+			const ref_str = this.cell_content_text_str( id )
 			const uri = this.file_uri( ref_str )
 			return uri
 		}
