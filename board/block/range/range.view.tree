@@ -37,7 +37,6 @@ $shm_hitalama_board_block_range $shm_hitalama_board_block_float
 									title \Step
 								<= Step $mol_number
 									value? <=> step?
-									step 1
 									precision 0.01
 									precision_change 1
 		<= Delete
