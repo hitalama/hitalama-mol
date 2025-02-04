@@ -18615,8 +18615,10 @@ var $;
                     return [$shm_hitalama_board_transfer_file.serialize(f)];
                 }
                 catch (error) {
-                    if (!$mol_promise_like(error))
+                    if (!$mol_promise_like(error)) {
+                        console.error(error);
                         return [];
+                    }
                     throw error;
                 }
             });
@@ -41816,6 +41818,9 @@ var $;
 
 ;
 	($.$shm_hitalama_board_form_view) = class $shm_hitalama_board_form_view extends ($.$mol_form) {
+		query_bid(){
+			return "";
+		}
 		query(next){
 			if(next !== undefined) return next;
 			return "";
@@ -41828,6 +41833,7 @@ var $;
 		Query_field(){
 			const obj = new this.$.$mol_form_field();
 			(obj.name) = () => ("Поисковой запрос");
+			(obj.bid) = () => ((this.query_bid()));
 			(obj.Content) = () => ((this.Query()));
 			return obj;
 		}
@@ -41904,6 +41910,9 @@ var $;
 			(obj.Content) = () => ((this.Language()));
 			return obj;
 		}
+		file_bid(){
+			return "";
+		}
 		social_media_attach(id, next){
 			if(next !== undefined) return next;
 			return null;
@@ -41927,6 +41936,7 @@ var $;
 		Social_media_field(id){
 			const obj = new this.$.$mol_form_field();
 			(obj.name) = () => ("Соц.медиа");
+			(obj.bid) = () => ((this.file_bid()));
 			(obj.content) = () => ((this.content_social_media(id)));
 			return obj;
 		}
@@ -41956,6 +41966,7 @@ var $;
 		Mass_media_field(id){
 			const obj = new this.$.$mol_form_field();
 			(obj.name) = () => ("СМИ");
+			(obj.bid) = () => ((this.file_bid()));
 			(obj.content) = () => ((this.content_mass_media(id)));
 			return obj;
 		}
@@ -42063,9 +42074,6 @@ var $;
 		submit(next){
 			if(next !== undefined) return next;
 			return null;
-		}
-		submit_allowed(){
-			return true;
 		}
 		Publish(){
 			const obj = new this.$.$mol_button_major();
@@ -42243,6 +42251,12 @@ var $;
             type_select(id, event) {
                 this.type(id);
                 this.focused(true);
+            }
+            query_bid() {
+                return this.query() ? '' : '*';
+            }
+            file_bid() {
+                return this.social_media_title() || this.mass_media_title() ? '' : '*';
             }
             submit() {
                 const form = this.board().Search_statistics(null)?.make({ '': $hyoo_crus_rank_read });

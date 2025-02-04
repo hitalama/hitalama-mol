@@ -23182,160 +23182,160 @@ declare namespace $ {
 		,
 		ReturnType< $mol_form_field['name'] >
 	>
-	type $mol_form_field__Content_shm_hitalama_board_form_view_3 = $mol_type_enforce<
+	type $mol_form_field__bid_shm_hitalama_board_form_view_3 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_form_view['query_bid'] >
+		,
+		ReturnType< $mol_form_field['bid'] >
+	>
+	type $mol_form_field__Content_shm_hitalama_board_form_view_4 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_form_view['Query'] >
 		,
 		ReturnType< $mol_form_field['Content'] >
 	>
-	type $mol_textarea__value_shm_hitalama_board_form_view_4 = $mol_type_enforce<
+	type $mol_textarea__value_shm_hitalama_board_form_view_5 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_form_view['excluded_words'] >
 		,
 		ReturnType< $mol_textarea['value'] >
 	>
-	type $mol_form_field__name_shm_hitalama_board_form_view_5 = $mol_type_enforce<
+	type $mol_form_field__name_shm_hitalama_board_form_view_6 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_form_field['name'] >
 	>
-	type $mol_form_field__Content_shm_hitalama_board_form_view_6 = $mol_type_enforce<
+	type $mol_form_field__Content_shm_hitalama_board_form_view_7 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_form_view['Excluded_words'] >
 		,
 		ReturnType< $mol_form_field['Content'] >
 	>
-	type $mol_date__value_shm_hitalama_board_form_view_7 = $mol_type_enforce<
+	type $mol_date__value_shm_hitalama_board_form_view_8 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_form_view['date_from'] >
 		,
 		ReturnType< $mol_date['value'] >
 	>
-	type $mol_date__value_shm_hitalama_board_form_view_8 = $mol_type_enforce<
+	type $mol_date__value_shm_hitalama_board_form_view_9 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_form_view['date_to'] >
 		,
 		ReturnType< $mol_date['value'] >
 	>
-	type $mol_form_field__name_shm_hitalama_board_form_view_9 = $mol_type_enforce<
+	type $mol_form_field__name_shm_hitalama_board_form_view_10 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_form_field['name'] >
 	>
-	type $mol_form_field__content_shm_hitalama_board_form_view_10 = $mol_type_enforce<
+	type $mol_form_field__content_shm_hitalama_board_form_view_11 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_form_field['content'] >
 	>
-	type $mol_string__value_shm_hitalama_board_form_view_11 = $mol_type_enforce<
+	type $mol_string__value_shm_hitalama_board_form_view_12 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_form_view['country'] >
 		,
 		ReturnType< $mol_string['value'] >
 	>
-	type $mol_form_field__name_shm_hitalama_board_form_view_12 = $mol_type_enforce<
+	type $mol_form_field__name_shm_hitalama_board_form_view_13 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_form_field['name'] >
 	>
-	type $mol_form_field__Content_shm_hitalama_board_form_view_13 = $mol_type_enforce<
+	type $mol_form_field__Content_shm_hitalama_board_form_view_14 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_form_view['Country'] >
 		,
 		ReturnType< $mol_form_field['Content'] >
 	>
-	type $mol_string__value_shm_hitalama_board_form_view_14 = $mol_type_enforce<
+	type $mol_string__value_shm_hitalama_board_form_view_15 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_form_view['language'] >
 		,
 		ReturnType< $mol_string['value'] >
 	>
-	type $mol_form_field__name_shm_hitalama_board_form_view_15 = $mol_type_enforce<
+	type $mol_form_field__name_shm_hitalama_board_form_view_16 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_form_field['name'] >
 	>
-	type $mol_form_field__Content_shm_hitalama_board_form_view_16 = $mol_type_enforce<
+	type $mol_form_field__Content_shm_hitalama_board_form_view_17 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_form_view['Language'] >
 		,
 		ReturnType< $mol_form_field['Content'] >
 	>
-	type $mol_attach__attach_new_shm_hitalama_board_form_view_17 = $mol_type_enforce<
+	type $mol_attach__attach_new_shm_hitalama_board_form_view_18 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_form_view['social_media_attach'] >
 		,
 		ReturnType< $mol_attach['attach_new'] >
 	>
-	type $mol_paragraph__title_shm_hitalama_board_form_view_18 = $mol_type_enforce<
+	type $mol_paragraph__title_shm_hitalama_board_form_view_19 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_form_view['social_media_title'] >
 		,
 		ReturnType< $mol_paragraph['title'] >
 	>
-	type $mol_form_field__name_shm_hitalama_board_form_view_19 = $mol_type_enforce<
+	type $mol_form_field__name_shm_hitalama_board_form_view_20 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_form_field['name'] >
 	>
-	type $mol_form_field__content_shm_hitalama_board_form_view_20 = $mol_type_enforce<
+	type $mol_form_field__bid_shm_hitalama_board_form_view_21 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_form_view['file_bid'] >
+		,
+		ReturnType< $mol_form_field['bid'] >
+	>
+	type $mol_form_field__content_shm_hitalama_board_form_view_22 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_form_view['content_social_media'] >
 		,
 		ReturnType< $mol_form_field['content'] >
 	>
-	type $mol_attach__attach_new_shm_hitalama_board_form_view_21 = $mol_type_enforce<
+	type $mol_attach__attach_new_shm_hitalama_board_form_view_23 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_form_view['mass_media_attach'] >
 		,
 		ReturnType< $mol_attach['attach_new'] >
 	>
-	type $mol_paragraph__title_shm_hitalama_board_form_view_22 = $mol_type_enforce<
+	type $mol_paragraph__title_shm_hitalama_board_form_view_24 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_form_view['mass_media_title'] >
 		,
 		ReturnType< $mol_paragraph['title'] >
 	>
-	type $mol_form_field__name_shm_hitalama_board_form_view_23 = $mol_type_enforce<
+	type $mol_form_field__name_shm_hitalama_board_form_view_25 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_form_field['name'] >
 	>
-	type $mol_form_field__content_shm_hitalama_board_form_view_24 = $mol_type_enforce<
+	type $mol_form_field__bid_shm_hitalama_board_form_view_26 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_form_view['file_bid'] >
+		,
+		ReturnType< $mol_form_field['bid'] >
+	>
+	type $mol_form_field__content_shm_hitalama_board_form_view_27 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_form_view['content_mass_media'] >
 		,
 		ReturnType< $mol_form_field['content'] >
 	>
-	type __shm_hitalama_board_form_view_25 = $mol_type_enforce<
+	type __shm_hitalama_board_form_view_28 = $mol_type_enforce<
 		Parameters< $shm_hitalama_board_form_view['type_suggests_showed'] >[0]
 		,
 		Parameters< ReturnType< $shm_hitalama_board_form_view['Type'] >['suggests_showed'] >[0]
 	>
-	type __shm_hitalama_board_form_view_26 = $mol_type_enforce<
+	type __shm_hitalama_board_form_view_29 = $mol_type_enforce<
 		Parameters< $shm_hitalama_board_form_view['type_focused'] >[0]
 		,
 		Parameters< ReturnType< $shm_hitalama_board_form_view['Type'] >['focused'] >[0]
 	>
-	type $mol_search__hint_shm_hitalama_board_form_view_27 = $mol_type_enforce<
+	type $mol_search__hint_shm_hitalama_board_form_view_30 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_search['hint'] >
 	>
-	type $mol_search__query_shm_hitalama_board_form_view_28 = $mol_type_enforce<
+	type $mol_search__query_shm_hitalama_board_form_view_31 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_form_view['type'] >
 		,
 		ReturnType< $mol_search['query'] >
 	>
-	type $mol_search__suggest_select_shm_hitalama_board_form_view_29 = $mol_type_enforce<
+	type $mol_search__suggest_select_shm_hitalama_board_form_view_32 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_form_view['type_select'] >
 		,
 		ReturnType< $mol_search['suggest_select'] >
 	>
-	type $mol_search__suggests_shm_hitalama_board_form_view_30 = $mol_type_enforce<
+	type $mol_search__suggests_shm_hitalama_board_form_view_33 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_search['suggests'] >
-	>
-	type $mol_form_field__name_shm_hitalama_board_form_view_31 = $mol_type_enforce<
-		string
-		,
-		ReturnType< $mol_form_field['name'] >
-	>
-	type $mol_form_field__Content_shm_hitalama_board_form_view_32 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_form_view['Type'] >
-		,
-		ReturnType< $mol_form_field['Content'] >
-	>
-	type $mol_string__value_shm_hitalama_board_form_view_33 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_form_view['tags'] >
-		,
-		ReturnType< $mol_string['value'] >
 	>
 	type $mol_form_field__name_shm_hitalama_board_form_view_34 = $mol_type_enforce<
 		string
@@ -23343,12 +23343,12 @@ declare namespace $ {
 		ReturnType< $mol_form_field['name'] >
 	>
 	type $mol_form_field__Content_shm_hitalama_board_form_view_35 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_form_view['Tags'] >
+		ReturnType< $shm_hitalama_board_form_view['Type'] >
 		,
 		ReturnType< $mol_form_field['Content'] >
 	>
 	type $mol_string__value_shm_hitalama_board_form_view_36 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_form_view['category'] >
+		ReturnType< $shm_hitalama_board_form_view['tags'] >
 		,
 		ReturnType< $mol_string['value'] >
 	>
@@ -23358,61 +23358,77 @@ declare namespace $ {
 		ReturnType< $mol_form_field['name'] >
 	>
 	type $mol_form_field__Content_shm_hitalama_board_form_view_38 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_form_view['Category'] >
+		ReturnType< $shm_hitalama_board_form_view['Tags'] >
 		,
 		ReturnType< $mol_form_field['Content'] >
 	>
-	type $mol_form_group__sub_shm_hitalama_board_form_view_39 = $mol_type_enforce<
-		readonly(any)[]
+	type $mol_string__value_shm_hitalama_board_form_view_39 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_form_view['category'] >
 		,
-		ReturnType< $mol_form_group['sub'] >
+		ReturnType< $mol_string['value'] >
 	>
-	type $mol_form_group__sub_shm_hitalama_board_form_view_40 = $mol_type_enforce<
-		readonly(any)[]
+	type $mol_form_field__name_shm_hitalama_board_form_view_40 = $mol_type_enforce<
+		string
 		,
-		ReturnType< $mol_form_group['sub'] >
+		ReturnType< $mol_form_field['name'] >
 	>
-	type $mol_form_group__sub_shm_hitalama_board_form_view_41 = $mol_type_enforce<
-		readonly(any)[]
+	type $mol_form_field__Content_shm_hitalama_board_form_view_41 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_form_view['Category'] >
 		,
-		ReturnType< $mol_form_group['sub'] >
+		ReturnType< $mol_form_field['Content'] >
 	>
 	type $mol_form_group__sub_shm_hitalama_board_form_view_42 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_form_group['sub'] >
 	>
-	type $mol_button_major__title_shm_hitalama_board_form_view_43 = $mol_type_enforce<
+	type $mol_form_group__sub_shm_hitalama_board_form_view_43 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_form_group['sub'] >
+	>
+	type $mol_form_group__sub_shm_hitalama_board_form_view_44 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_form_group['sub'] >
+	>
+	type $mol_form_group__sub_shm_hitalama_board_form_view_45 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_form_group['sub'] >
+	>
+	type $mol_button_major__title_shm_hitalama_board_form_view_46 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_button_major['title'] >
 	>
-	type $mol_button_major__click_shm_hitalama_board_form_view_44 = $mol_type_enforce<
+	type $mol_button_major__click_shm_hitalama_board_form_view_47 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_form_view['submit'] >
 		,
 		ReturnType< $mol_button_major['click'] >
 	>
-	type $mol_button_major__enabled_shm_hitalama_board_form_view_45 = $mol_type_enforce<
+	type $mol_button_major__enabled_shm_hitalama_board_form_view_48 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_form_view['submit_allowed'] >
 		,
 		ReturnType< $mol_button_major['enabled'] >
 	>
-	type $mol_status__message_shm_hitalama_board_form_view_46 = $mol_type_enforce<
+	type $mol_status__message_shm_hitalama_board_form_view_49 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_form_view['result'] >
 		,
 		ReturnType< $mol_status['message'] >
 	>
-	type $mol_button_minor__title_shm_hitalama_board_form_view_47 = $mol_type_enforce<
+	type $mol_button_minor__title_shm_hitalama_board_form_view_50 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_button_minor['title'] >
 	>
-	type $mol_button_minor__click_shm_hitalama_board_form_view_48 = $mol_type_enforce<
+	type $mol_button_minor__click_shm_hitalama_board_form_view_51 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_form_view['clear'] >
 		,
 		ReturnType< $mol_button_minor['click'] >
 	>
 	export class $shm_hitalama_board_form_view extends $mol_form {
+		query_bid( ): string
 		query( next?: string ): string
 		Query( ): $mol_string
 		Query_field( ): $mol_form_field
@@ -23430,6 +23446,7 @@ declare namespace $ {
 		language( next?: string ): string
 		Language( ): $mol_string
 		Language_field( ): $mol_form_field
+		file_bid( ): string
 		social_media_attach( id: any, next?: any ): any
 		Social_media_file( id: any): $mol_attach
 		social_media_title( ): string
@@ -23462,7 +23479,6 @@ declare namespace $ {
 		Tags_group( ): $mol_form_group
 		form_body( ): readonly(any)[]
 		submit( next?: any ): any
-		submit_allowed( ): boolean
 		Publish( ): $mol_button_major
 		result( next?: string ): string
 		Result( ): $mol_status
@@ -23495,6 +23511,8 @@ declare namespace $.$$ {
         social_media_title(): string;
         mass_media_title(): string;
         type_select(id: string, event?: MouseEvent): void;
+        query_bid(): string;
+        file_bid(): string;
         submit(): void;
         clear(): void;
         social_media_field(): $.$mol_form_field[];
