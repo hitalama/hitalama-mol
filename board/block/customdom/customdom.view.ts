@@ -6,11 +6,19 @@ namespace $.$$ {
 			return this.block().Text( next )?.text( next ) ?? ''
 		}
 
+		data?: any
 		@ $mol_mem
 		Dom() {
-			const func = new Function( 'const board = this.board;\nconst page = this.page;\n'+ this.code() )
-			const res = func.call( { page: this.Board_page(), board: this.board() } )
-			return res
+			try {
+				const func = new Function( 'const board = this.board;\nconst page = this.page;\nconst view = this.view;\n'+ this.code() )
+				const res = func.call( { page: this.Board_page(), board: this.board(), view: this } )
+				return res
+			} catch (error) {
+				if( !$mol_promise_like( error ) ) {
+					this.data = undefined
+				}
+				throw error
+			}
 		}
 
 		@ $mol_action
