@@ -7,7 +7,12 @@ $shm_hitalama_board_block_code $shm_hitalama_board_block_float
 			spellcheck false
 	sub /
 		^
-		<= Run $mol_button_major
-			title \Выполнить
-			click? <=> run? null
+		<= Overlay $mol_view
+			sub /
+				<= Time $mol_paragraph
+					title <= time_passed \Старт: {start}   Затрачено: {passed}
+				<= Run $mol_button_major
+					title \Выполнить
+					click? <=> run? null
+	time_start? 0
 	font_tools /

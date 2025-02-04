@@ -23,10 +23,19 @@ namespace $.$$ {
 			margin: $mol_gap.block,
 		},
 
-		Run: {
+		Overlay: {
 			position: 'absolute',
 			bottom: '2rem',
 			right: '2rem',	
+		},
+
+		Time: {
+			padding: $mol_gap.text,
+			opacity: 0.6,
+			font: {
+				family: 'monospace',
+			},
+			whiteSpace: 'pre',
 		},
 		
 	} )

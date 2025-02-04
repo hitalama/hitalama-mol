@@ -21,6 +21,10 @@ namespace $.$$ {
 			return [ 'check', 'index', ... this.block().table_col_types() ?? [] ]
 		}
 
+		deleting_tool_visible() {
+			return this.col_types().includes( 'action_delete' ) ? super.deleting_tool_visible() : []
+		}
+
 		cell_delete_visible( id: Cell_id ) {
 			return this.delete_enabled() ? super.cell_delete_visible(id) : []
 		}

@@ -72,7 +72,7 @@ $shm_hitalama_board_block_table $shm_hitalama_board_block_float
 												hint \auto
 		<= Delete
 		<= Copy_code
-		<= Deleting $mol_check_box
+		^ deleting_tool_visible / <= Deleting $mol_check_box
 			title \Удаление строк
 			checked? <=> delete_enabled? false
 	Contextmenu_body $mol_list
