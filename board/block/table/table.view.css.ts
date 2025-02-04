@@ -30,6 +30,7 @@ namespace $.$$ {
 		Table: {
 			padding: $mol_gap.block,
 			overflowX: 'inherit',
+			height: 'fit-content',
 		},
 
 		Cell_text: {
