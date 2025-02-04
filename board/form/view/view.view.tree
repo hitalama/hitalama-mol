@@ -5,6 +5,7 @@ $shm_hitalama_board_form_view $mol_form
 	form_fields /
 		<= Query_field $mol_form_field
 			name \Поисковой запрос
+			bid <= query_bid \
 			Content <= Query $mol_string
 				value? <=> query? \
 		<= Excluded_words_field $mol_form_field
@@ -29,6 +30,7 @@ $shm_hitalama_board_form_view $mol_form
 				value? <=> language? \
 		^ social_media_field / <= Social_media_field*0 $mol_form_field
 			name \Соц.медиа
+			bid <= file_bid \
 			content <= content_social_media* /
 				<= Social_media_file* $mol_attach
 					attach_new? <=> social_media_attach*? null
@@ -36,6 +38,7 @@ $shm_hitalama_board_form_view $mol_form
 					title <= social_media_title \
 		^ mass_media_field / <= Mass_media_field*0 $mol_form_field
 			name \СМИ
+			bid <= file_bid \
 			content <= content_mass_media* /
 				<= Mass_media_file* $mol_attach
 					attach_new? <=> mass_media_attach*? null
@@ -83,7 +86,7 @@ $shm_hitalama_board_form_view $mol_form
 		<= Publish $mol_button_major
 			title \Отправить
 			click? <=> submit? null
-			enabled <= submit_allowed true
+			enabled <= submit_allowed
 		<= Result $mol_status
 			message <= result? \
 		<= Clear $mol_button_minor

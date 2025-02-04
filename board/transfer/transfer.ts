@@ -20,7 +20,10 @@ namespace $ {
 				try {
 					return [ $shm_hitalama_board_transfer_file.serialize( f ) ]
 				} catch (error) {
-					if( !$mol_promise_like( error ) ) return []
+					if( !$mol_promise_like( error ) ) {
+						console.error( error )
+						return []
+					}
 					throw error
 				}
 			} )

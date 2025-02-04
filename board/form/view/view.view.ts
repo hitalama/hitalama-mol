@@ -74,6 +74,14 @@ namespace $.$$ {
 			this.focused( true )
 		}
 
+		query_bid(): string {
+			return this.query() ? '' : '*'
+		}
+
+		file_bid(): string {
+			return this.social_media_title() || this.mass_media_title() ? '' : '*'
+		}
+
 		submit() {
 			const form = this.board().Search_statistics(null)?.make( {'': $hyoo_crus_rank_read} )
 
