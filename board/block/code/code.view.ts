@@ -14,8 +14,8 @@ namespace $.$$ {
 		}
 
 		run() {
-			const func = new Function( 'const board = this.board;\nconst page = this.page;\nconst block = this.block;\n'+ this.code() )
-			func.call( { page: this.Board_page(), board: this.board(), block: this.block() } )
+			const func = new Function( 'const board = this.board;\nconst page = this.page;\nconst view = this.view;\n'+ this.code() )
+			func.call( { page: this.Board_page(), board: this.board(), vide: this } )
 		}
 		
 	}
