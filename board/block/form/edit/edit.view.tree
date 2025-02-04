@@ -1,0 +1,8 @@
+$shm_hitalama_board_block_form_edit $shm_hitalama_board_block_float
+	content /
+		<= Drag_view
+		<= Form $shm_hitalama_board_form_view
+			form <= form $shm_hitalama_board_form
+			board <= board $shm_hitalama_board
+			buttons /
+	font_tools /

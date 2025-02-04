@@ -38,6 +38,11 @@ $shm_hitalama_board_block_table $shm_hitalama_board_block_float
 			<= Action_delete* $mol_button_minor
 				title \Удалить
 				click? <=> cell_delete*? null
+	Cell_edit* $mol_grid_cell
+		sub /
+			<= Action_edit* $mol_button_minor
+				title \Редактировать
+				click? <=> cell_edit*? null
 	All_check $mol_check_group
 		checks <= cell_checkboxes /
 	tools /
@@ -58,7 +63,7 @@ $shm_hitalama_board_block_table $shm_hitalama_board_block_float
 									<= Col_width_row* $mol_view
 										sub /
 											<= Col_width_title* $mol_view
-												sub <= col_head_content*
+												sub / <= col_settings_title*
 											<= Col_width* $mol_number
 												Dec null
 												Inc null

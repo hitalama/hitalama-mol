@@ -267,8 +267,8 @@ namespace $.$$ {
 			
 			const table_pos = [ form_pos[0] + 460, form_pos[1]] as const
 			const block_table = this.board().table_novirt_add( table_pos, 1000, 780 )!
-			block_table.table_head( [ 'Запрос', 'Минус', 'Период', 'Страна', 'Язык', 'Соц.медиа', 'СМИ', 'Type', 'Tags', 'Category', '' ] )
-			block_table.table_col_types( [ 'any', 'any', 'any', 'any', 'any', 'file', 'file', 'any', 'any', 'any', 'action_delete' ] )
+			block_table.table_head( [ 'Запрос', 'Минус', 'Период', 'Страна', 'Язык', 'Соц.медиа', 'СМИ', 'Type', 'Tags', 'Category', '', '' ] )
+			block_table.table_col_types( [ 'any', 'any', 'any', 'any', 'any', 'file', 'file', 'any', 'any', 'any', 'action_edit', 'action_delete' ] )
 			const rows_method = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( '/shm/hitalama/board/snippets/_search_statistics_rows.js' ) )
 			block_table.Table(null)?.ensure( block_table.land() )?.Rows_method(null)?.val( rows_method )
 

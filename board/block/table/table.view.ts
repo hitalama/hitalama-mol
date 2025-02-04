@@ -28,6 +28,7 @@ namespace $.$$ {
 			const col_type = this.col_types()?.[id.col]
 			if( col_type == 'file' ) return this.Cell_file( id )
 			if( col_type == 'action_delete' ) return this.Cell_delete( id )
+			if( col_type == 'action_edit' ) return this.Cell_edit( id )
 
 			return this.Cell_text( id )
 		}
@@ -38,7 +39,11 @@ namespace $.$$ {
 		
 		col_head_content( n: number ) {
 			if( n == 0 ) return [ this.All_check() ]
-			return [ this.head()?.[  Number( n ) ] ?? '' ]
+			return [ this.head()?.[n] || '' ]
+		}
+
+		col_settings_title( n: number ) {
+			return this.head()?.[n] || this.col_types()?.[n] || ''
 		}
 
 		@ $mol_mem_key
@@ -112,6 +117,22 @@ namespace $.$$ {
 			}
 
 			this.block().table().Rows_checked()?.val(rows_checked_next)
+		}
+
+		@ $mol_action
+		cell_edit( id: Cell_id ) {
+			const row_i = id.row[1]!
+			const statistic = this.board().Search_statistics()?.remote_list().at( row_i )
+
+			const pos = [
+				this.block().Body_x()?.val()! + this.block().Left_edge_x()?.val()! + this.block().Right_edge_x()?.val()!,
+				this.block().Body_y()?.val()! + this.block().Top_edge_y()?.val()!,
+			]
+
+			const block = this.board().block_add( 'form_edit', pos, 450, 780 )
+			block?.Form_edit(null)?.remote( statistic )
+
+			this.Board_page().contextmenu_showed( false )
 		}
 
 		cell_checkboxes() {

@@ -34,3 +34,4 @@ $shm_hitalama_board_block_any $mol_ghost
 		file <= File $shm_hitalama_board_block_file
 		range <= Range $shm_hitalama_board_block_range
 		table_novirt <= Table_novirt $shm_hitalama_board_block_table_novirt
+		form_edit <= Form_edit $shm_hitalama_board_block_form_edit

@@ -50,6 +50,9 @@ namespace $ {
 				range,
 				
 				use_text_from_ref: block.Use_text_from()?.remote()?.ref().description,
+				
+				/** form_edit */
+				form_edit_ref: block.Form_edit()?.remote()?.ref().description,
 
 				/** table|chart */
 				table_ref: block.Table()?.remote()?.ref().description,
@@ -116,6 +119,10 @@ namespace $ {
 			if( dto.file_ref ) {
 				const file = $hyoo_crus_glob.Node( $hyoo_crus_ref( ref_remap( dto.file_ref )! ), $shm_hitalama_file )
 				block.File(null)?.remote( file )
+			}
+			if( dto.form_edit_ref ) {
+				const form = $hyoo_crus_glob.Node( $hyoo_crus_ref( ref_remap( dto.form_edit_ref )! ), $shm_hitalama_board_form )
+				block.Form_edit(null)?.remote( form )
 			}
 		}
 		

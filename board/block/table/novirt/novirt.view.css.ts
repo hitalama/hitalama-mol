@@ -18,6 +18,10 @@ namespace $.$$ {
 		Cell_delete: {
 			padding: 0,
 		},
+
+		Cell_edit: {
+			padding: 0,
+		},
 		
 	} )
 	
