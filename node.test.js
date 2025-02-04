@@ -17573,7 +17573,7 @@ var $;
         prediod() {
             const from = this.Date_from()?.val();
             const to = this.Date_to()?.val();
-            return (to && from) ? to + ' – ' + from : '';
+            return (from && to) ? from + ' – ' + to : '';
         }
         social_media_title() {
             return this.File_social_media()?.remote()?.title() || '';
