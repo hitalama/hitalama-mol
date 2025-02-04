@@ -44,6 +44,10 @@ namespace $.$$ {
 			return this.block().title()
 		}
 
+		copy_code() {
+			return this.copy_code_template().replace( '{ref}', this.block().ref().description?.toString()! )
+		}
+
 		@ $mol_mem
 		opacity( next?: number ) {
 			return this.block().Opacity(next)?.val(next) ?? 1

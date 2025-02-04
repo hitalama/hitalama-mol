@@ -16,10 +16,6 @@ namespace $.$$ {
 		step( next?: number ): number {
 			return this.block().range().step( next )
 		}
-
-		copy_text(): string {
-			return super.copy_text().replace( '{ref}', this.block().ref().description?.toString()! )
-		}
 		
 	}
 }

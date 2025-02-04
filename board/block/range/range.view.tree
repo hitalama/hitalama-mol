@@ -41,6 +41,5 @@ $shm_hitalama_board_block_range $shm_hitalama_board_block_float
 									precision 0.01
 									precision_change 1
 		<= Delete
-		<= Title_copy $mol_button_copy
-			title <= title
-			text <= copy_text \board.block('{ref}').range().value()
+		<= Copy_code
+	copy_code_template \board.block('{ref}').range().value()

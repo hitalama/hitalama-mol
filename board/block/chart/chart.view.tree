@@ -10,7 +10,7 @@ $shm_hitalama_board_block_chart $shm_hitalama_board_block_float
 		<= Top
 		<= Bottom
 		<= Delete
-		<= Title_copy
+		<= Copy_code
 	Contextmenu_body $mol_list
 		sub /
 			<= Settings_add $mol_button_minor
