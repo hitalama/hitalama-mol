@@ -17507,6 +17507,38 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    class $shm_hitalama_board_range extends $hyoo_crus_entity.with({
+        Block: $hyoo_crus_atom_ref_to(() => $shm_hitalama_board_block),
+        Value: $hyoo_crus_atom_real,
+        Min: $hyoo_crus_atom_real,
+        Max: $hyoo_crus_atom_real,
+    }) {
+        value(next) {
+            return this.Value(next)?.val(next) ?? 0;
+        }
+        min(next) {
+            return this.Min(next)?.val(next) ?? 0;
+        }
+        max(next) {
+            return this.Max(next)?.val(next) ?? 10;
+        }
+    }
+    __decorate([
+        $mol_mem
+    ], $shm_hitalama_board_range.prototype, "value", null);
+    __decorate([
+        $mol_mem
+    ], $shm_hitalama_board_range.prototype, "min", null);
+    __decorate([
+        $mol_mem
+    ], $shm_hitalama_board_range.prototype, "max", null);
+    $.$shm_hitalama_board_range = $shm_hitalama_board_range;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
     class $shm_hitalama_board_form extends $hyoo_crus_entity.with({
         Query: $hyoo_crus_atom_str,
         Excluded_words: $hyoo_crus_atom_str,
@@ -17853,6 +17885,7 @@ var $;
         'chart_filter',
         'customdom',
         'file',
+        'range',
     ];
     class $shm_hitalama_board_block_type extends $hyoo_crus_atom_enum($.$shm_hitalama_board_block_types) {
     }
@@ -17872,6 +17905,7 @@ var $;
         Src: $hyoo_crus_atom_str,
         Text: $hyoo_crus_text,
         Use_text_from: $hyoo_crus_atom_ref_to(() => $shm_hitalama_board_block),
+        Range: $shm_hitalama_board_range,
         Form: $shm_hitalama_board_form,
         Table: $hyoo_crus_atom_ref_to(() => $shm_hitalama_board_table),
         Chart: $shm_hitalama_board_chart,
@@ -17890,6 +17924,9 @@ var $;
         type() {
             return this.Type()?.val() ?? '';
         }
+        range() {
+            return this.Range(null);
+        }
         table() {
             return this.Table(null)?.ensure(this.land());
         }
@@ -17906,6 +17943,9 @@ var $;
             return this.File()?.remote()?.File()?.remote()?.str();
         }
     }
+    __decorate([
+        $mol_mem
+    ], $shm_hitalama_board_block.prototype, "range", null);
     __decorate([
         $mol_mem
     ], $shm_hitalama_board_block.prototype, "table", null);
@@ -32566,6 +32606,547 @@ var $;
 })($ || ($ = {}));
 
 ;
+	($.$rise_range) = class $rise_range extends ($.$mol_view) {
+		label_min(){
+			return "";
+		}
+		Min(){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => ([(this.label_min())]);
+			return obj;
+		}
+		label_medium(){
+			return "";
+		}
+		Medium(){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => ([(this.label_medium())]);
+			return obj;
+		}
+		label_max(){
+			return "";
+		}
+		Max(){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => ([(this.label_max())]);
+			return obj;
+		}
+		Labels(){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => ([
+				(this.Min()), 
+				(this.Medium()), 
+				(this.Max())
+			]);
+			return obj;
+		}
+		disabled(){
+			return false;
+		}
+		min(next){
+			if(next !== undefined) return next;
+			return 0;
+		}
+		max(next){
+			if(next !== undefined) return next;
+			return 10;
+		}
+		step(next){
+			if(next !== undefined) return next;
+			return 1;
+		}
+		value(next){
+			if(next !== undefined) return next;
+			return 0;
+		}
+		event_input(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Input(){
+			const obj = new this.$.$rise_range_input();
+			(obj.disabled) = () => ((this.disabled()));
+			(obj.min) = () => ((this.min()));
+			(obj.max) = () => ((this.max()));
+			(obj.step) = () => ((this.step()));
+			(obj.value) = (next) => ((this.value(next)));
+			(obj.event_input) = (next) => ((this.event_input(next)));
+			return obj;
+		}
+		Value(){
+			const obj = new this.$.$rise_range_value();
+			(obj.sub) = () => ([(this.value())]);
+			(obj.disabled) = () => ((this.disabled()));
+			return obj;
+		}
+		Current(){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => ([(this.Value())]);
+			return obj;
+		}
+		percent(){
+			return "0%";
+		}
+		minimal_height(){
+			return 48;
+		}
+		unit(){
+			return "";
+		}
+		medium(next){
+			if(next !== undefined) return next;
+			return 5;
+		}
+		enabled(){
+			return true;
+		}
+		sub(){
+			return [
+				(this.Labels()), 
+				(this.Input()), 
+				(this.Current())
+			];
+		}
+		attr(){
+			return {...(super.attr()), "disabled": (this.disabled())};
+		}
+		style(){
+			return {...(super.style()), "--rise_range_percent": (this.percent())};
+		}
+	};
+	($mol_mem(($.$rise_range.prototype), "Min"));
+	($mol_mem(($.$rise_range.prototype), "Medium"));
+	($mol_mem(($.$rise_range.prototype), "Max"));
+	($mol_mem(($.$rise_range.prototype), "Labels"));
+	($mol_mem(($.$rise_range.prototype), "min"));
+	($mol_mem(($.$rise_range.prototype), "max"));
+	($mol_mem(($.$rise_range.prototype), "step"));
+	($mol_mem(($.$rise_range.prototype), "value"));
+	($mol_mem(($.$rise_range.prototype), "event_input"));
+	($mol_mem(($.$rise_range.prototype), "Input"));
+	($mol_mem(($.$rise_range.prototype), "Value"));
+	($mol_mem(($.$rise_range.prototype), "Current"));
+	($mol_mem(($.$rise_range.prototype), "medium"));
+	($.$rise_range_input) = class $rise_range_input extends ($.$mol_view) {
+		disabled(){
+			return false;
+		}
+		min(next){
+			if(next !== undefined) return next;
+			return 0;
+		}
+		max(next){
+			if(next !== undefined) return next;
+			return 10;
+		}
+		step(next){
+			if(next !== undefined) return next;
+			return 1;
+		}
+		value(next){
+			if(next !== undefined) return next;
+			return 0;
+		}
+		event_input(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		dom_name(){
+			return "input";
+		}
+		attr(){
+			return {
+				...(super.attr()), 
+				"type": "range", 
+				"disabled": (this.disabled())
+			};
+		}
+		field(){
+			return {
+				...(super.field()), 
+				"min": (this.min()), 
+				"max": (this.max()), 
+				"step": (this.step()), 
+				"value": (this.value())
+			};
+		}
+		event(){
+			return {...(super.event()), "input": (next) => (this.event_input(next))};
+		}
+	};
+	($mol_mem(($.$rise_range_input.prototype), "min"));
+	($mol_mem(($.$rise_range_input.prototype), "max"));
+	($mol_mem(($.$rise_range_input.prototype), "step"));
+	($mol_mem(($.$rise_range_input.prototype), "value"));
+	($mol_mem(($.$rise_range_input.prototype), "event_input"));
+	($.$rise_range_value) = class $rise_range_value extends ($.$mol_view) {
+		disabled(){
+			return false;
+		}
+		attr(){
+			return {...(super.attr()), "disabled": (this.disabled())};
+		}
+	};
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $rise_range extends $.$rise_range {
+            event_input(event) {
+                const el = event.target;
+                this.value(Number(el.value));
+            }
+            medium() {
+                return Math.round((this.min() + this.max()) / 2);
+            }
+            label_min() {
+                return this.min() + ' ' + this.unit();
+            }
+            label_max() {
+                return this.max() + ' ' + this.unit();
+            }
+            label_medium() {
+                return this.medium() + ' ' + this.unit();
+            }
+            percent() {
+                const val = this.value() - this.min();
+                const range = this.max() - this.min();
+                return (val / range) * 100 + '%';
+            }
+            disabled() {
+                return !this.enabled();
+            }
+        }
+        __decorate([
+            $mol_action
+        ], $rise_range.prototype, "event_input", null);
+        $$.$rise_range = $rise_range;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        const Thumb_size = $mol_gap.block;
+        const Track_height = $mol_gap.space;
+        const Track_margin = $mol_gap.block;
+        $mol_style_define($rise_range, {
+            flex: {
+                grow: 1,
+                direction: 'column',
+            },
+            padding: {
+                top: $mol_gap.space,
+                bottom: $mol_gap.space,
+            },
+            Labels: {
+                pointerEvents: 'none',
+                left: 0,
+                right: 0,
+                justify: {
+                    content: 'space-between',
+                },
+            },
+            Current: {
+                pointerEvents: 'none',
+                position: 'relative',
+                height: '1.5rem',
+                margin: {
+                    left: $mol_style_func.calc(`${Thumb_size} / 2`),
+                    right: $mol_style_func.calc(`${Thumb_size} / 2`),
+                },
+            },
+            '[disabled]': {
+                'true': {
+                    Value: {
+                        color: $mol_theme.shade,
+                    },
+                },
+            },
+            Value: {
+                position: 'absolute',
+                left: $mol_style_func.vary('--rise_range_percent'),
+                transform: 'translateX(-50%)',
+                color: $mol_theme.current,
+            },
+        });
+        const Track = {
+            height: Track_height,
+            border: {
+                radius: $mol_gap.round,
+            },
+            background: {
+                color: $mol_theme.line,
+            },
+        };
+        const Thumb = {
+            height: Thumb_size,
+            width: Thumb_size,
+            margin: {
+                top: $mol_style_func.calc(`(${Track_height} - ${Thumb_size}) / 2`),
+            },
+            appearance: 'none',
+            border: {
+                radius: '50%',
+            },
+            background: {
+                color: $mol_theme.current,
+            },
+        };
+        $mol_style_define($rise_range_input, {
+            height: $mol_style_func.calc(`${Thumb_size} + 2 * ${Track_margin}`),
+            margin: {
+                top: $mol_style_func.calc(`-1 * ${Track_margin} / 2 - var(--mol_gap_space)`),
+                bottom: $mol_style_func.calc(`-1 * ${Track_margin} / 2`),
+                left: 0,
+                right: 0,
+            },
+            '::-webkit-slider-runnable-track': Track,
+            ['::-moz-range-track']: Track,
+            '::-webkit-slider-thumb': Thumb,
+            ['::-moz-range-thumb']: Thumb,
+            appearance: 'none',
+            background: {
+                color: 'transparent',
+            },
+            cursor: 'pointer',
+            ':disabled': {
+                cursor: 'default',
+                '::-webkit-slider-thumb': {
+                    background: {
+                        color: $mol_theme.shade,
+                    },
+                },
+                ['::-moz-range-thumb']: {
+                    background: {
+                        color: $mol_theme.shade,
+                    },
+                },
+            },
+            ':focus': {
+                outline: 'none',
+            },
+        });
+        $mol_style_define($rise_range_value, {
+            '[disabled]': {
+                'true': {
+                    color: $mol_theme.shade,
+                },
+            },
+        });
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+	($.$mol_icon_help) = class $mol_icon_help extends ($.$mol_icon) {
+		path(){
+			return "M10,19H13V22H10V19M12,2C17.35,2.22 19.68,7.62 16.5,11.67C15.67,12.67 14.33,13.33 13.67,14.17C13,15 13,16 13,17H10C10,15.33 10,13.92 10.67,12.92C11.33,11.92 12.67,11.33 13.5,10.67C15.92,8.43 15.32,5.26 12,5A3,3 0 0,0 9,8H6A6,6 0 0,1 12,2Z";
+		}
+	};
+
+
+;
+"use strict";
+
+;
+	($.$shm_hitalama_board_block_range) = class $shm_hitalama_board_block_range extends ($.$shm_hitalama_board_block_float) {
+		value(next){
+			if(next !== undefined) return next;
+			return 0;
+		}
+		min(next){
+			if(next !== undefined) return next;
+			return 0;
+		}
+		max(next){
+			if(next !== undefined) return next;
+			return 10;
+		}
+		Control(){
+			const obj = new this.$.$rise_range();
+			(obj.value) = (next) => ((this.value(next)));
+			(obj.min) = () => ((this.min()));
+			(obj.max) = () => ((this.max()));
+			return obj;
+		}
+		Settings_trigger_icon(){
+			const obj = new this.$.$mol_icon_cog_outline();
+			return obj;
+		}
+		Min_label(){
+			const obj = new this.$.$mol_paragraph();
+			(obj.title) = () => ("Min");
+			return obj;
+		}
+		Min(){
+			const obj = new this.$.$mol_number();
+			(obj.value) = (next) => ((this.min(next)));
+			return obj;
+		}
+		Min_row(){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => ([(this.Min_label()), (this.Min())]);
+			return obj;
+		}
+		Max_label(){
+			const obj = new this.$.$mol_paragraph();
+			(obj.title) = () => ("Max");
+			return obj;
+		}
+		Max(){
+			const obj = new this.$.$mol_number();
+			(obj.value) = (next) => ((this.max(next)));
+			return obj;
+		}
+		Max_row(){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => ([(this.Max_label()), (this.Max())]);
+			return obj;
+		}
+		Settings_content(){
+			const obj = new this.$.$mol_list();
+			(obj.sub) = () => ([(this.Min_row()), (this.Max_row())]);
+			return obj;
+		}
+		Settings_pop(){
+			const obj = new this.$.$mol_pick();
+			(obj.hint) = () => ((this.$.$mol_locale.text("$shm_hitalama_board_block_range_Settings_pop_hint")));
+			(obj.trigger_content) = () => ([(this.Settings_trigger_icon())]);
+			(obj.bubble_content) = () => ([(this.Settings_content())]);
+			return obj;
+		}
+		Help_icon(){
+			const obj = new this.$.$mol_icon_help();
+			return obj;
+		}
+		help_text(){
+			return "Получить значение:\n board.block('{ref}').range().value()";
+		}
+		Help_content(){
+			const obj = new this.$.$mol_text();
+			(obj.text) = () => ((this.help_text()));
+			return obj;
+		}
+		Help(){
+			const obj = new this.$.$mol_pick();
+			(obj.hint) = () => ((this.$.$mol_locale.text("$shm_hitalama_board_block_range_Help_hint")));
+			(obj.trigger_content) = () => ([(this.Help_icon())]);
+			(obj.bubble_content) = () => ([(this.Help_content())]);
+			return obj;
+		}
+		sub(){
+			return [
+				(this.Drag_view()), 
+				(this.Control()), 
+				...(this.edges()), 
+				...(this.toolbar())
+			];
+		}
+		font_tools(){
+			return [];
+		}
+		tools(){
+			return [
+				(this.Top()), 
+				(this.Bottom()), 
+				(this.Settings_pop()), 
+				(this.Help()), 
+				(this.Delete()), 
+				(this.Title_copy())
+			];
+		}
+	};
+	($mol_mem(($.$shm_hitalama_board_block_range.prototype), "value"));
+	($mol_mem(($.$shm_hitalama_board_block_range.prototype), "min"));
+	($mol_mem(($.$shm_hitalama_board_block_range.prototype), "max"));
+	($mol_mem(($.$shm_hitalama_board_block_range.prototype), "Control"));
+	($mol_mem(($.$shm_hitalama_board_block_range.prototype), "Settings_trigger_icon"));
+	($mol_mem(($.$shm_hitalama_board_block_range.prototype), "Min_label"));
+	($mol_mem(($.$shm_hitalama_board_block_range.prototype), "Min"));
+	($mol_mem(($.$shm_hitalama_board_block_range.prototype), "Min_row"));
+	($mol_mem(($.$shm_hitalama_board_block_range.prototype), "Max_label"));
+	($mol_mem(($.$shm_hitalama_board_block_range.prototype), "Max"));
+	($mol_mem(($.$shm_hitalama_board_block_range.prototype), "Max_row"));
+	($mol_mem(($.$shm_hitalama_board_block_range.prototype), "Settings_content"));
+	($mol_mem(($.$shm_hitalama_board_block_range.prototype), "Settings_pop"));
+	($mol_mem(($.$shm_hitalama_board_block_range.prototype), "Help_icon"));
+	($mol_mem(($.$shm_hitalama_board_block_range.prototype), "Help_content"));
+	($mol_mem(($.$shm_hitalama_board_block_range.prototype), "Help"));
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $shm_hitalama_board_block_range extends $.$shm_hitalama_board_block_range {
+            value(next) {
+                return this.block().range().value(next);
+            }
+            min(next) {
+                return this.block().range().min(next);
+            }
+            max(next) {
+                return this.block().range().max(next);
+            }
+            help_text() {
+                return super.help_text().replace('{ref}', this.block().ref().description?.toString());
+            }
+        }
+        $$.$shm_hitalama_board_block_range = $shm_hitalama_board_block_range;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        $mol_style_define($shm_hitalama_board_block_range, {
+            Drag_view: {
+                position: 'absolute',
+                width: '100%',
+                height: '100%',
+            },
+            Control: {
+                justify: {
+                    content: 'center',
+                },
+                Input: {
+                    zIndex: 1,
+                },
+            },
+            Settings_content: {
+                padding: $mol_gap.space,
+            },
+            Min_label: {
+                width: '4rem',
+                padding: $mol_gap.text,
+            },
+            Max_label: {
+                width: '4rem',
+                padding: $mol_gap.text,
+            },
+        });
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
 	($.$shm_hitalama_board_block_any) = class $shm_hitalama_board_block_any extends ($.$mol_ghost) {
 		height(){
 			return (this.Sub().height());
@@ -32677,6 +33258,10 @@ var $;
 			const obj = new this.$.$shm_hitalama_board_block_file();
 			return obj;
 		}
+		Range(){
+			const obj = new this.$.$shm_hitalama_board_block_range();
+			return obj;
+		}
 		Sub(){
 			const obj = new this.$.$shm_hitalama_board_block_float();
 			(obj.block) = () => ((this.block()));
@@ -32706,7 +33291,8 @@ var $;
 				"chart_settings": (this.Chart_settings()), 
 				"chart_filter": (this.Chart_filter()), 
 				"customdom": (this.Customdom()), 
-				"file": (this.File())
+				"file": (this.File()), 
+				"range": (this.Range())
 			};
 		}
 	};
@@ -32727,6 +33313,7 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Chart_filter"));
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Customdom"));
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "File"));
+	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Range"));
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Sub"));
 
 
@@ -33682,6 +34269,16 @@ var $;
 			(obj.click) = (next) => ((this.iframe_add(next)));
 			return obj;
 		}
+		range_add(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Range_add(){
+			const obj = new this.$.$mol_button_minor();
+			(obj.title) = () => ("Добавить range");
+			(obj.click) = (next) => ((this.range_add(next)));
+			return obj;
+		}
 		form_add(next){
 			if(next !== undefined) return next;
 			return null;
@@ -33907,6 +34504,7 @@ var $;
 				(this.Text_add()), 
 				(this.Input_add()), 
 				(this.Iframe_add()), 
+				(this.Range_add()), 
 				(this.Form_add()), 
 				(this.Deckgl_example_add()), 
 				(this.Echarts_example_add())
@@ -33946,6 +34544,8 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Input_add"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "iframe_add"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Iframe_add"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "range_add"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "Range_add"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "form_add"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Form_add"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "deckgl_example_add"));
@@ -34171,6 +34771,11 @@ var $;
             iframe_add() {
                 const block = this.board().block_add('iframe', this.contextmenu_real_pos(), 500, 700);
                 block?.Src(null)?.val('https://www.google.com/search?igu=1');
+                this.contextmenu_showed(false);
+                return block;
+            }
+            range_add() {
+                const block = this.board().block_add('range', this.contextmenu_real_pos());
                 this.contextmenu_showed(false);
                 return block;
             }
@@ -34441,6 +35046,9 @@ var $;
         __decorate([
             $mol_action
         ], $shm_hitalama_board_page.prototype, "iframe_add", null);
+        __decorate([
+            $mol_action
+        ], $shm_hitalama_board_page.prototype, "range_add", null);
         __decorate([
             $mol_action
         ], $shm_hitalama_board_page.prototype, "guid_sync", null);

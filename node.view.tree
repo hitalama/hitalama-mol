@@ -2787,7 +2787,7 @@ $shm_hitalama_board_block_table $shm_hitalama_board_block_float
 		<= Top
 		<= Bottom
 		<= Settings_pop $mol_pick
-			hint @ \Click to show options menu
+			hint @ \Options
 			trigger_content /
 				<= Settings_trigger_icon $mol_icon_cog_outline
 			bubble_content /
@@ -3028,6 +3028,110 @@ $shm_hitalama_board_block_file $shm_hitalama_board_block_float
 				title \Распаковка
 				click? <=> unpacking? null
 
+$rise_range $mol_view
+	minimal_height 48
+	unit \
+	medium? 5
+	enabled true
+	sub /
+		<= Labels $mol_view
+			sub /
+				<= Min $mol_view
+					sub / <= label_min \
+				<= Medium $mol_view
+					sub / <= label_medium \
+				<= Max $mol_view
+					sub / <= label_max \
+		<= Input $rise_range_input
+			disabled <= disabled false
+			min <= min? 0
+			max <= max? 10
+			step <= step? 1
+			value? <=> value? 0
+			event_input? <=> event_input? null
+		<= Current $mol_view
+			sub /
+				<= Value $rise_range_value
+					sub / <= value
+					disabled <= disabled
+	attr *
+		^
+		disabled <= disabled
+	style *
+		^
+		--rise_range_percent <= percent \0%
+
+$rise_range_input $mol_view
+	dom_name \input
+	attr *
+		^
+		type \range
+		disabled <= disabled false
+	field *
+		^
+		min <= min? 0
+		max <= max? 10
+		step <= step? 1
+		value <= value? 0
+	event *
+		^
+		input? <=> event_input? null
+
+$rise_range_value $mol_view
+	attr *
+		^
+		disabled <= disabled false
+
+$mol_icon_help $mol_icon path \M10,19H13V22H10V19M12,2C17.35,2.22 19.68,7.62 16.5,11.67C15.67,12.67 14.33,13.33 13.67,14.17C13,15 13,16 13,17H10C10,15.33 10,13.92 10.67,12.92C11.33,11.92 12.67,11.33 13.5,10.67C15.92,8.43 15.32,5.26 12,5A3,3 0 0,0 9,8H6A6,6 0 0,1 12,2Z
+
+$shm_hitalama_board_block_range $shm_hitalama_board_block_float
+	sub /
+		<= Drag_view
+		<= Control $rise_range
+			value? <=> value? 0
+			min <= min? 0
+			max <= max? 10
+		^ edges
+		^ toolbar
+	font_tools /
+	- drag_body /
+		<= Title $mol_paragraph
+			dom_name <= title_dom_name \h1
+			title <= text_rendered \
+	tools /
+		<= Top
+		<= Bottom
+		<= Settings_pop $mol_pick
+			hint @ \Options
+			trigger_content /
+				<= Settings_trigger_icon $mol_icon_cog_outline
+			bubble_content /
+				<= Settings_content $mol_list
+					sub /
+						<= Min_row $mol_view
+							sub /
+								<= Min_label $mol_paragraph
+									title \Min
+								<= Min $mol_number
+									value? <=> min?
+						<= Max_row $mol_view
+							sub /
+								<= Max_label $mol_paragraph
+									title \Max
+								<= Max $mol_number
+									value? <=> max?
+		<= Help $mol_pick
+			hint @ \Help
+			trigger_content /
+				<= Help_icon $mol_icon_help
+			bubble_content /
+				<= Help_content $mol_text
+					text <= help_text \
+						\Получить значение:
+						\ board.block('{ref}').range().value()
+		<= Delete
+		<= Title_copy
+
 $shm_hitalama_board_block_any $mol_ghost
 	Sub $shm_hitalama_board_block_float
 		height => height
@@ -3062,6 +3166,7 @@ $shm_hitalama_board_block_any $mol_ghost
 		chart_filter <= Chart_filter $shm_hitalama_board_block_chart_filter
 		customdom <= Customdom $shm_hitalama_board_block_customdom
 		file <= File $shm_hitalama_board_block_file
+		range <= Range $shm_hitalama_board_block_range
 
 $mol_icon_cursor_default $mol_icon path \M13.64,21.97C13.14,22.21 12.54,22 12.31,21.5L10.13,16.76L7.62,18.78C7.45,18.92 7.24,19 7,19A1,1 0 0,1 6,18V3A1,1 0 0,1 7,2C7.24,2 7.47,2.09 7.64,2.23L7.65,2.22L19.14,11.86C19.57,12.22 19.62,12.85 19.27,13.27C19.12,13.45 18.91,13.57 18.7,13.61L15.54,14.23L17.74,18.96C18,19.46 17.76,20.05 17.26,20.28L13.64,21.97Z
 
@@ -3229,6 +3334,9 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 			<= Iframe_add $mol_button_minor
 				title \Добавить iframe
 				click? <=> iframe_add? null
+			<= Range_add $mol_button_minor
+				title \Добавить range
+				click? <=> range_add? null
 			<= Form_add $mol_button_minor
 				title \Добавить виджет: Сбор 1% выгрузки БА
 				click? <=> form_add? null

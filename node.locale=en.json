@@ -21,5 +21,7 @@
 	"$shm_hitalama_board_block_float_Font_size_tool_hint": "Font size",
 	"$shm_hitalama_board_block_float_Inc_hint": "Increase font size",
 	"$shm_hitalama_board_block_float_Top_hint": "Bring to top",
-	"$shm_hitalama_board_block_table_Settings_pop_hint": "Click to show options menu"
+	"$shm_hitalama_board_block_range_Help_hint": "Help",
+	"$shm_hitalama_board_block_range_Settings_pop_hint": "Options",
+	"$shm_hitalama_board_block_table_Settings_pop_hint": "Options"
 }
