@@ -1,4 +1,9 @@
 namespace $.$$ {
+
+	const Label = {
+		width: '4rem',
+		padding: $mol_gap.text,
+	} as const
 	
 	$mol_style_define( $shm_hitalama_board_block_range, {
 		
@@ -22,12 +27,13 @@ namespace $.$$ {
 		},
 
 		Min_label: {
-			width: '4rem',
-			padding: $mol_gap.text,
+			... Label,
 		},
 		Max_label: {
-			width: '4rem',
-			padding: $mol_gap.text,
+			... Label,
+		},
+		Step_label: {
+			... Label,
 		},
 		
 	} )

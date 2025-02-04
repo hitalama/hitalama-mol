@@ -5,13 +5,10 @@ $shm_hitalama_board_block_range $shm_hitalama_board_block_float
 			value? <=> value? 0
 			min <= min? 0
 			max <= max? 10
+			step <= step? 1
 		^ edges
 		^ toolbar
 	font_tools /
-	- drag_body /
-		<= Title $mol_paragraph
-			dom_name <= title_dom_name \h1
-			title <= text_rendered \
 	tools /
 		<= Top
 		<= Bottom
@@ -34,14 +31,16 @@ $shm_hitalama_board_block_range $shm_hitalama_board_block_float
 									title \Max
 								<= Max $mol_number
 									value? <=> max?
-		<= Help $mol_pick
-			hint @ \Help
-			trigger_content /
-				<= Help_icon $mol_icon_help
-			bubble_content /
-				<= Help_content $mol_text
-					text <= help_text \
-						\Получить значение:
-						\ board.block('{ref}').range().value()
+						<= Step_row $mol_view
+							sub /
+								<= Step_label $mol_paragraph
+									title \Step
+								<= Step $mol_number
+									value? <=> step?
+									step 1
+									precision 0.01
+									precision_change 1
 		<= Delete
-		<= Title_copy
+		<= Title_copy $mol_button_copy
+			title <= title
+			text <= copy_text \board.block('{ref}').range().value()

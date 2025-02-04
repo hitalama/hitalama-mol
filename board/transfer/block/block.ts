@@ -17,6 +17,7 @@ namespace $ {
 				value: block.range().value(),
 				min: block.range().min(),
 				max: block.range().max(),
+				step: block.range().step(),
 			} : undefined
 
 			return {
@@ -89,6 +90,7 @@ namespace $ {
 				range.value( dto.range.value )
 				range.min( dto.range.min )
 				range.max( dto.range.max )
+				range.step( dto.range.step )
 			}
 			
 			if( dto.image_blob_uri ) {

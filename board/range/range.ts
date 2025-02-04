@@ -6,6 +6,7 @@ namespace $ {
 		Value: $hyoo_crus_atom_real,
 		Min: $hyoo_crus_atom_real,
 		Max: $hyoo_crus_atom_real,
+		Step: $hyoo_crus_atom_real,
 
 	}){
 
@@ -22,6 +23,11 @@ namespace $ {
 		@ $mol_mem
 		max( next?: number ) {
 			return this.Max(next)?.val(next) ?? 10
+		}
+
+		@ $mol_mem
+		step( next?: number ) {
+			return this.Step(next)?.val(next) ?? 1
 		}
 		
 	}
