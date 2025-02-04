@@ -415,9 +415,7 @@ namespace $.$$ {
 
 					if( event.key == 'Delete' ) {
 
-						if( ['INPUT', 'TEXTAREA']
-							.includes( $mol_view_selection.focused()[0].nodeName )
-						) return
+						if( input_focused() ) return
 						
 						const refs = this.selected_refs()
 						refs.forEach( r => this.block_delete( r ) )
@@ -444,6 +442,8 @@ namespace $.$$ {
 					}
 
 					else if( event.code == 'KeyC' && event.ctrlKey ) {
+
+						if( input_focused() ) return
 						
 						const refs = this.selected_refs()
 						const blocks = refs.map( r => this.block_by_ref( r ) )
@@ -501,9 +501,7 @@ namespace $.$$ {
 				'paste',
 				$mol_wire_async( event => {
 
-					if( ['INPUT', 'TEXTAREA']
-						.includes( $mol_view_selection.focused()[0].nodeName )
-					) return
+					if( input_focused() ) return
 
 					const items = ( event.clipboardData || event.originalEvent.clipboardData ).items
 					for( let index in items ) {
@@ -530,6 +528,10 @@ namespace $.$$ {
 			)
 		}
 
+	}
+
+	function input_focused() {
+		return ['INPUT', 'TEXTAREA'].includes( $mol_view_selection.focused()[0].nodeName )
 	}
 
 	function is_panning( start: PointerEvent, end: PointerEvent ) {
