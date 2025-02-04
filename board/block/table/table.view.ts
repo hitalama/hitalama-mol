@@ -21,6 +21,10 @@ namespace $.$$ {
 			return [ 'check', 'index', ... this.block().table_col_types() ?? [] ]
 		}
 
+		cell_delete_visible( id: Cell_id ) {
+			return this.delete_enabled() ? super.cell_delete_visible(id) : []
+		}
+
 		Cell( id: Cell_id ) : $mol_view {
 			if( id.col == 0 ) return this.Cell_checkbox( id )
 			if( id.col == 1 ) return this.Cell_index_number( id )

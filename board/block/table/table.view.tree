@@ -35,9 +35,10 @@ $shm_hitalama_board_block_table $shm_hitalama_board_block_float
 				checked? <=> cell_checked*? false
 	Cell_delete* $mol_grid_cell
 		sub /
-			<= Action_delete* $mol_button_minor
-				title \Удалить
-				click? <=> cell_delete*? null
+			^ cell_delete_visible* /
+				<= Action_delete* $mol_button_minor
+					title \Удалить
+					click? <=> cell_delete*? null
 	Cell_edit* $mol_grid_cell
 		sub /
 			<= Action_edit* $mol_button_minor
@@ -71,6 +72,9 @@ $shm_hitalama_board_block_table $shm_hitalama_board_block_float
 												hint \auto
 		<= Delete
 		<= Copy_code
+		<= Deleting $mol_check_box
+			title \Удаление строк
+			checked? <=> delete_enabled? false
 	Contextmenu_body $mol_list
 		sub /
 			<= Chart_add $mol_button_minor
