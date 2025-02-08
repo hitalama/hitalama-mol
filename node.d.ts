@@ -20808,6 +20808,7 @@ declare namespace $ {
 declare namespace $.$$ {
     class $shm_hitalama_board_block_code_css extends $.$shm_hitalama_board_block_code_css {
         attach(): HTMLStyleElement | null;
+        enabled(next?: boolean): boolean;
     }
 }
 

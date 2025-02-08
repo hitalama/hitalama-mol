@@ -45379,6 +45379,9 @@ var $;
                     });
                 return style_el;
             }
+            enabled(next) {
+                return this.block().Enabled(next)?.val(next) ?? true;
+            }
         }
         __decorate([
             $mol_mem
