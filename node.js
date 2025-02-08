@@ -17610,6 +17610,11 @@ var $;
             const to = this.Date_to()?.val();
             return (from && to) ? from + ' – ' + to : '';
         }
+        period() {
+            const from = this.Date_from()?.val();
+            const to = this.Date_to()?.val();
+            return (from && to) ? from + ' – ' + to : '';
+        }
         social_media_title() {
             return this.File_social_media()?.remote()?.title() || '';
         }
@@ -17620,7 +17625,7 @@ var $;
             return [
                 this.query(),
                 this.excluded_words(),
-                this.prediod(),
+                this.period(),
                 this.country(),
                 this.language(),
                 this.File_social_media()?.remote()?.ref()?.description,

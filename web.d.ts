@@ -13451,6 +13451,7 @@ declare namespace $ {
         tags(next?: string): string;
         category(next?: string): string;
         prediod(): string;
+        period(): string;
         social_media_title(): string;
         mass_media_title(): string;
         table_row(): (string | null | undefined)[];
