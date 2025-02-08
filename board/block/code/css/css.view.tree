@@ -1,6 +1,8 @@
 $shm_hitalama_board_block_code_css $shm_hitalama_board_block_code
 	Overlay null
-	auto / <= attach null
+	auto /
+		^
+		<= attach null
 	tools /
 		<= Top
 		<= Bottom
