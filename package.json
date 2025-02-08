@@ -484,6 +484,8 @@
     "$shm_hitalama_board_block_table_novirt",
     "$shm_hitalama_grid",
     "$shm_hitalama_board_block_form_edit",
+    "$shm_hitalama_board_block_code_css",
+    "$rise_toggle",
     "$shm_hitalama_board_presence_cursor",
     "$mol_icon_cursor_default",
     "$mol_icon_cursor",

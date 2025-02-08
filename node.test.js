@@ -17942,6 +17942,7 @@ var $;
         'file',
         'range',
         'form_edit',
+        'code_css',
     ];
     class $shm_hitalama_board_block_type extends $hyoo_crus_atom_enum($.$shm_hitalama_board_block_types) {
     }
@@ -17961,6 +17962,7 @@ var $;
         Src: $hyoo_crus_atom_str,
         Text: $hyoo_crus_text,
         Use_text_from: $hyoo_crus_atom_ref_to(() => $shm_hitalama_board_block),
+        Enabled: $hyoo_crus_atom_bool,
         Range: $shm_hitalama_board_range,
         Form: $shm_hitalama_board_form,
         Form_edit: $hyoo_crus_atom_ref_to(() => $shm_hitalama_board_form),
@@ -18432,6 +18434,7 @@ var $;
                 font_size: block.Font_size()?.val(),
                 src: block.Src()?.val(),
                 text: block.Text()?.value(),
+                enabled: block.Enabled()?.val(),
                 range,
                 use_text_from_ref: block.Use_text_from()?.remote()?.ref().description,
                 form_edit_ref: block.Form_edit()?.remote()?.ref().description,
@@ -18455,6 +18458,7 @@ var $;
             block.Font_size(null)?.val(dto.font_size);
             block.Src(dto.src)?.val(dto.src);
             block.Text(dto.text)?.value(dto.text);
+            block.Enabled(dto.enabled)?.val(dto.enabled);
             if (dto.chart) {
                 const chart = block.Chart(null);
                 chart?.Block(null)?.remote(block);
@@ -33569,6 +33573,111 @@ var $;
 })($ || ($ = {}));
 
 ;
+	($.$rise_toggle) = class $rise_toggle extends ($.$mol_check) {
+		minimal_height(){
+			return 24;
+		}
+		minimal_width(){
+			return 24;
+		}
+		sub(){
+			return [];
+		}
+	};
+
+
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_style_attach("rise/toggle/toggle.view.css", "[rise_toggle] {\n    background-color: var(--mol_theme_shade);\n    width: 2.5rem;\n    height: 1.375rem;\n    border-radius: 2rem;\n    cursor: pointer;\n    position: relative;\n    transition: 0.2s;\n}\n[rise_toggle]:hover {\n    background-color: var(--mol_theme_shade);\n}\n[rise_toggle]::before {\n    position: absolute;\n    content: '';\n    background-color: var(--mol_theme_back);\n    width: 1.25rem;\n    height: 1.25rem;\n    border-radius: 2rem;\n    margin: -0.625rem;\n    transition: 0.2s;\n}\n\n[rise_toggle]:where([mol_check_checked]) {\n    background-color: var(--mol_theme_current);\n}\n[rise_toggle]:where([mol_check_checked]):hover {\n    background-color: var(--mol_theme_current);\n}\n[rise_toggle]:where([mol_check_checked])::before {\n    transform: translateX(1rem);\n}\n");
+})($ || ($ = {}));
+
+;
+"use strict";
+
+;
+	($.$shm_hitalama_board_block_code_css) = class $shm_hitalama_board_block_code_css extends ($.$shm_hitalama_board_block_code) {
+		attach(){
+			return null;
+		}
+		enabled(next){
+			if(next !== undefined) return next;
+			return true;
+		}
+		Toggle(){
+			const obj = new this.$.$rise_toggle();
+			(obj.checked) = (next) => ((this.enabled(next)));
+			return obj;
+		}
+		Overlay(){
+			return null;
+		}
+		auto(){
+			return [(this.attach())];
+		}
+		tools(){
+			return [
+				(this.Top()), 
+				(this.Bottom()), 
+				(this.Toggle()), 
+				(this.Delete()), 
+				(this.Copy_code())
+			];
+		}
+	};
+	($mol_mem(($.$shm_hitalama_board_block_code_css.prototype), "enabled"));
+	($mol_mem(($.$shm_hitalama_board_block_code_css.prototype), "Toggle"));
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $shm_hitalama_board_block_code_css extends $.$shm_hitalama_board_block_code_css {
+            attach() {
+                if (!this.enabled())
+                    return null;
+                const id = this.block().ref().description;
+                const style_el = this.$.$mol_style_attach(id, this.block().text());
+                if (style_el)
+                    Object.assign(style_el, {
+                        destructor() {
+                            style_el.remove();
+                        }
+                    });
+                return style_el;
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_block_code_css.prototype, "attach", null);
+        $$.$shm_hitalama_board_block_code_css = $shm_hitalama_board_block_code_css;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        $mol_style_define($shm_hitalama_board_block_code_css, {
+            Toggle: {
+                align: {
+                    self: 'center',
+                },
+            },
+        });
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
 	($.$shm_hitalama_board_block_any) = class $shm_hitalama_board_block_any extends ($.$mol_ghost) {
 		height(){
 			return (this.Sub().height());
@@ -33692,6 +33801,10 @@ var $;
 			const obj = new this.$.$shm_hitalama_board_block_form_edit();
 			return obj;
 		}
+		Code_css(){
+			const obj = new this.$.$shm_hitalama_board_block_code_css();
+			return obj;
+		}
 		Sub(){
 			const obj = new this.$.$shm_hitalama_board_block_float();
 			(obj.block) = () => ((this.block()));
@@ -33724,7 +33837,8 @@ var $;
 				"file": (this.File()), 
 				"range": (this.Range()), 
 				"table_novirt": (this.Table_novirt()), 
-				"form_edit": (this.Form_edit())
+				"form_edit": (this.Form_edit()), 
+				"code_css": (this.Code_css())
 			};
 		}
 	};
@@ -33748,6 +33862,7 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Range"));
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Table_novirt"));
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Form_edit"));
+	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Code_css"));
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Sub"));
 
 
@@ -34743,6 +34858,16 @@ var $;
 			(obj.click) = (next) => ((this.echarts_example_add(next)));
 			return obj;
 		}
+		code_css_add(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Code_css_add(){
+			const obj = new this.$.$mol_button_minor();
+			(obj.title) = () => ("Добавить css");
+			(obj.click) = (next) => ((this.code_css_add(next)));
+			return obj;
+		}
 		event_drop(next){
 			if(next !== undefined) return next;
 			return null;
@@ -34941,7 +35066,8 @@ var $;
 				(this.Range_add()), 
 				(this.Form_add()), 
 				(this.Deckgl_example_add()), 
-				(this.Echarts_example_add())
+				(this.Echarts_example_add()), 
+				(this.Code_css_add())
 			]);
 			return obj;
 		}
@@ -34986,6 +35112,8 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Deckgl_example_add"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "echarts_example_add"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "Echarts_example_add"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "code_css_add"));
+	($mol_mem(($.$shm_hitalama_board_page.prototype), "Code_css_add"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "event_drop"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "back_event_pointerdown"));
 	($mol_mem(($.$shm_hitalama_board_page.prototype), "back_event_contextmenu"));
@@ -35246,6 +35374,13 @@ var $;
                 this.contextmenu_showed(false);
                 return block;
             }
+            code_css_add() {
+                const block = this.board().block_add('code_css', this.contextmenu_real_pos(), 600, 300);
+                const code_str = this.$.$mol_fetch.text($shm_hitalama_app_ghpages_fix_link('/shm/hitalama/board/snippets/_css_example.css'));
+                block?.Text(null)?.value(code_str);
+                this.contextmenu_showed(false);
+                return block;
+            }
             async image_blob_size(blob) {
                 const bmp = await createImageBitmap(blob);
                 const { width, height } = bmp;
@@ -35501,6 +35636,9 @@ var $;
         __decorate([
             $mol_action
         ], $shm_hitalama_board_page.prototype, "echarts_example_add", null);
+        __decorate([
+            $mol_action
+        ], $shm_hitalama_board_page.prototype, "code_css_add", null);
         __decorate([
             $mol_action
         ], $shm_hitalama_board_page.prototype, "image_add", null);

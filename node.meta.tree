@@ -93,6 +93,7 @@
 	deploy \shm/hitalama/board/snippets/_deckgl_example.js
 	deploy \shm/hitalama/board/snippets/_echarts_example.js
 	deploy \shm/hitalama/board/snippets/_search_statistics_rows.js
+	deploy \shm/hitalama/board/snippets/_css_example.css
 \/shm/hitalama/app
 	include \/shm/hitalama/log
 	deploy \/shm/hitalama/app/foot/foot_logo.png

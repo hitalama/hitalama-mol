@@ -1,0 +1,8 @@
+:root {
+	--mol_theme_hue: 0deg;
+}
+
+[shm_hitalama_board_block_input] {
+	background-color: darkred;
+	color: white;
+}
