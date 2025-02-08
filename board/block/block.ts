@@ -15,6 +15,7 @@ namespace $ {
 		'file',
 		'range',
 		'form_edit',
+		'code_css',
 	] as const
 
 	class $shm_hitalama_board_block_type extends $hyoo_crus_atom_enum( $shm_hitalama_board_block_types ){}
@@ -42,6 +43,9 @@ namespace $ {
 		/** text|code|customdom */
 		Text: $hyoo_crus_text,
 		Use_text_from: $hyoo_crus_atom_ref_to( ()=> $shm_hitalama_board_block ),
+
+		/** code_css */
+		Enabled: $hyoo_crus_atom_bool,
 
 		/** range */
 		Range: $shm_hitalama_board_range,

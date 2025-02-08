@@ -3,3 +3,4 @@ deploy \shm/hitalama/board/snippets/_table_from_csv.js
 deploy \shm/hitalama/board/snippets/_deckgl_example.js
 deploy \shm/hitalama/board/snippets/_echarts_example.js
 deploy \shm/hitalama/board/snippets/_search_statistics_rows.js
+deploy \shm/hitalama/board/snippets/_css_example.css

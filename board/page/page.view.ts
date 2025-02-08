@@ -299,6 +299,15 @@ namespace $.$$ {
 			return block
 		}
 
+		@ $mol_action
+		code_css_add() {
+			const block = this.board().block_add( 'code_css', this.contextmenu_real_pos(), 600, 300 )
+			const code_str = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( '/shm/hitalama/board/snippets/_css_example.css' ) )
+			block?.Text(null)?.value( code_str )
+			this.contextmenu_showed( false )
+			return block
+		}
+
 		async image_blob_size( blob: Blob ) {
 			const bmp = await createImageBitmap( blob )
 			const { width, height } = bmp

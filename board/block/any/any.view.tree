@@ -35,3 +35,5 @@ $shm_hitalama_board_block_any $mol_ghost
 		range <= Range $shm_hitalama_board_block_range
 		table_novirt <= Table_novirt $shm_hitalama_board_block_table_novirt
 		form_edit <= Form_edit $shm_hitalama_board_block_form_edit
+		code_css <= Code_css $shm_hitalama_board_block_code_css
+		- ^ custom

@@ -69,6 +69,9 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 			<= Echarts_example_add $mol_button_minor
 				title \Добавить ECharts example
 				click? <=> echarts_example_add? null
+			<= Code_css_add $mol_button_minor
+				title \Добавить css
+				click? <=> code_css_add? null
 	Pane $shm_hitalama_board_pane
 		event_drop? <=> event_drop? null
 		select_start? => select_start?

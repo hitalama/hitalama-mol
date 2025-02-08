@@ -46,6 +46,8 @@ namespace $ {
 				/** text|code|customdom */
 				text: block.Text()?.value(),
 
+				enabled: block.Enabled()?.val(),
+
 				/** range */
 				range,
 				
@@ -82,6 +84,7 @@ namespace $ {
 			block.Font_size( null )?.val( dto.font_size )
 			block.Src( dto.src )?.val( dto.src )
 			block.Text( dto.text )?.value( dto.text )
+			block.Enabled( dto.enabled )?.val( dto.enabled )
 
 			if( dto.chart ) {
 				const chart = block.Chart(null)
