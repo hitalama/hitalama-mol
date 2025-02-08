@@ -54,7 +54,14 @@ namespace $ {
 			return this.Category(next)?.val(next) ?? ''
 		}
 
+		/** @deprecated Use period */
 		prediod() {
+			const from = this.Date_from()?.val()
+			const to = this.Date_to()?.val()
+			return (from && to) ? from + ' – ' + to : ''
+		}
+
+		period() {
 			const from = this.Date_from()?.val()
 			const to = this.Date_to()?.val()
 			return (from && to) ? from + ' – ' + to : ''
@@ -73,7 +80,7 @@ namespace $ {
 			return [
 				this.query(),
 				this.excluded_words(),
-				this.prediod(),
+				this.period(),
 				this.country(),
 				this.language(),
 				this.File_social_media()?.remote()?.ref()?.description,
