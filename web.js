@@ -45340,7 +45340,7 @@ var $;
 			return null;
 		}
 		auto(){
-			return [(this.attach())];
+			return [...(super.auto()), (this.attach())];
 		}
 		tools(){
 			return [
