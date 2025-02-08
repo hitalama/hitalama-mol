@@ -14,6 +14,10 @@ namespace $.$$ {
 			} )
 			return style_el
 		}
+
+		enabled( next?: boolean ): boolean {
+			return this.block().Enabled(next)?.val(next) ?? true
+		}
 		
 	}
 }
