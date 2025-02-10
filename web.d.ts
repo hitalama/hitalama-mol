@@ -496,6 +496,20 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    class $mol_promise<Result = void> extends Promise<Result> {
+        done: (value: Result | PromiseLike<Result>) => void;
+        fail: (reason?: any) => void;
+        constructor(executor?: (done: (value: Result | PromiseLike<Result>) => void, fail: (reason?: any) => void) => void);
+    }
+}
+
+declare namespace $ {
+    class $mol_promise_blocker<Result> extends $mol_promise<Result> {
+        static [Symbol.toStringTag]: string;
+    }
+}
+
+declare namespace $ {
     class $mol_decor<Value> {
         readonly value: Value;
         constructor(value: Value);
@@ -2433,7 +2447,9 @@ declare namespace $ {
 //# sourceMappingURL=catalog.view.tree.d.ts.map
 declare namespace $.$$ {
     class $mol_book2_catalog extends $.$mol_book2_catalog {
+        spread_current(): any;
         pages(): any[];
+        auto(): void;
         spread_ids(): readonly string[];
         menu_body(): ($.$mol_list | $.$mol_search)[];
         menu_filter_enabled(): boolean;
@@ -6931,13 +6947,6 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
-}
-
-declare namespace $ {
-    function $mol_promise<Result = void>(): Promise<Result> & {
-        done: (res: Result | PromiseLike<Result>) => void;
-        fail: (error?: any) => void;
-    };
 }
 
 declare namespace $ {
@@ -14867,6 +14876,8 @@ declare namespace $ {
         };
     };
     export class $shm_hitalama_board_block extends $shm_hitalama_board_block_base {
+        view(next?: $mol_view): $mol_view | undefined;
+        css_id(): string;
         text(next?: string): string;
         color(next?: string): string;
         font_size(next?: number): number | "";
@@ -22678,6 +22689,7 @@ declare namespace $ {
 		side_body( ): readonly(any)[]
 		Sidebar( ): $mol_view
 		sidebar( ): readonly(any)[]
+		bind_view( ): any
 		editing( next?: boolean ): boolean
 		toolbar_transform( ): string
 		color( next?: string ): string
@@ -22762,6 +22774,7 @@ declare namespace $.$$ {
         top_edge_y_stick(next?: number): number;
         left_edge_x_stick(next?: number): number;
         title(): string;
+        bind_view(): void;
         copy_code(): string;
         opacity(next?: number): number;
         font_size(next?: number): number;
@@ -25469,6 +25482,7 @@ declare namespace $ {
 //# sourceMappingURL=css.view.tree.d.ts.map
 declare namespace $.$$ {
     class $shm_hitalama_board_block_code_css extends $.$shm_hitalama_board_block_code_css {
+        preprocessed(): any;
         attach(): HTMLStyleElement | null;
         enabled(next?: boolean): boolean;
     }

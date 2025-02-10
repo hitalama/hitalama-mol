@@ -2328,6 +2328,7 @@ $shm_hitalama_board_block_float $rise_resize_ratio
 				sub <= side_body /
 	auto /
 		^
+		<= bind_view null
 		<= editing? false
 	font_size_options /number
 		10
