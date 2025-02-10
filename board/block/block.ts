@@ -67,6 +67,17 @@ namespace $ {
 
 	}){
 
+		@ $mol_mem
+		view( next?: $mol_view ) {
+			return next
+		}
+
+		@ $mol_mem
+		css_id() {
+			$mol_wire_solid()
+			return CSS.escape( this.view()?.dom_id()! )
+		}
+
 		text( next?: string ) {
 			return this.Text(next)?.value(next) ?? ''
 		}

@@ -44,6 +44,10 @@ namespace $.$$ {
 			return this.block().title()
 		}
 
+		bind_view() {
+			this.block().view( this )
+		}
+
 		copy_code() {
 			return this.copy_code_template().replace( '{ref}', this.block().ref().description?.toString()! )
 		}
