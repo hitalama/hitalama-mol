@@ -1,0 +1,5 @@
+$my_button $shm_hitalama_board_block_float
+	controls /
+		<= Button $mol_button
+			ttile \Кнопка
+			click? <=> click? null

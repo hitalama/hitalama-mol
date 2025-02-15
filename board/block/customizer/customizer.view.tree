@@ -1,0 +1,41 @@
+$shm_hitalama_board_block_customizer $shm_hitalama_board_block_float
+	controls /
+		<= Controls $mol_list
+			sub /
+				- <= Head $mol_view
+					sub /
+						<= Type $mol_string
+							value? <=> self_type? \my_button
+						<= Base $mol_select
+							value? <=> base_type? \$mol_view
+				<= Source_type $mol_deck
+					current? <=> soure_type_current? \0
+					items /
+						<= View_tree $mol_textarea
+							title \Composition
+							hint \$hyoo_studio_example $mol_view
+							sidebar_showed true
+							value? <=> code_view_tree? \
+								\$my_widget $shm_hitalama_board_block_float
+								\
+						<= Css $mol_textarea
+							title \Styles
+							hint \
+							sidebar_showed true
+							value? <=> code_css? \
+								\[my_widget] {
+								\
+								\}
+								\
+						<= Js $mol_textarea
+							title \Behavior
+							hint \
+							sidebar_showed true
+							value? <=> code_js? \
+								\$.$my_widget = class $my_widget extends $.$my_widget {
+								\	
+								\}
+								\
+	attr *
+		^
+		mol_theme \$mol_theme_special

@@ -7,6 +7,7 @@ namespace $.$$ {
 			
 			const type = this.block().Type()?.val()!
 			const obj = this.blocks()[ type ] ?? super.Sub()
+			// const obj = this.blocks()[ type ] ?? this.Custom( type ) ?? super.Sub()
 
 			obj.block = () => this.block()
 			obj.board = () => this.board()
@@ -25,6 +26,73 @@ namespace $.$$ {
 			return obj
 			
 		}
+
+		// @ $mol_mem
+		// source_js_decorators(  ) {
+		// 	const list = new Array<string>()
+
+		// 	const add = (prop_name: string, key: boolean, next: boolean) => {
+		// 		if (!key && !next) return
+		// 		if (this.source_js().includes(`/*${prop_name}*/`))
+		// 		list.push(`($mol_mem${key ? '_key' : ''}(($.${ this.self() }.prototype), "${ prop_name }"));`)
+		// 	}
+
+		// 	this.props().forEach(prop => add(prop.name(), prop.multiple(), prop.changeable()))
+
+		// 	return list.join('\n')
+		// }
+
+		// @ $mol_mem_key
+		// Custom( type: string ) {
+		// 	const obj = new this.$.$shm_hitalama_board_block_text()
+
+		// 	const code_tree = ''
+		// 	const code_js = ''
+		// 	const code_css = ''
+			
+		// 	const tree = this.$.$mol_view_tree2_normalize(
+		// 		this.$.$mol_tree2_from_string( code_tree )
+		// 	).kids[0]
+
+		// 	const base_js = this.$.$mol_tree2_text_to_string_mapped_js(
+		// 		this.$.$mol_tree2_js_to_text(
+		// 			this.$.$mol_view_tree2_to_js(
+		// 				tree.list([ tree ])
+		// 			)
+		// 		)
+		// 	)
+
+		// 	const base_class = ''
+		// 	const class_name = ''
+		// 	// const my_class = new Function()
+		// 	const func = new Function( 'const $ = this.$;\n' + 
+		// 		`
+		// 			class ${ class_name } extends $.${ base_class } {
+		// 				${ code_js }
+		// 			}
+		// 			return new ${ class_name }
+		// 		`
+		// 	)
+		// 	// const view_class = func.call( { $: this.$ } )
+
+		// 	// const my_class_func = new Function( `$.${ class_name } = class ${ class_name } extends $.${ class_name } {
+		// 	// 	${ code_js }
+		// 	// }` )
+		// 	// const my_class = my_class_func.call( { $: this.$ } )
+			
+		// 	this.$.$mol_style_attach( class_name, code_css )
+		// 	// return `
+		// 	// 	$.${ class_name } = ${ base_js }
+
+		// 	// 	$.${ class_name } = class ${ class_name } extends $.${ class_name } {
+		// 	// 		${ code_js }
+		// 	// 	}
+
+		// 	// 	$.$mol_style_attach(${ class_name }, \`${ code_css }\` )
+		// 	// `
+
+		// 	return obj
+		// }
 		
 	}
 	
