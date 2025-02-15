@@ -145,6 +145,10 @@ namespace $.$$ {
 		}
 
 		event_contextmenu( event: PointerEvent ) {
+			if( ['INPUT', 'TEXTAREA'].includes( (event?.target as HTMLElement)?.nodeName ) ) {
+				return
+			}
+
 			event.preventDefault()
 
 			if( !this.pointerdown_last
