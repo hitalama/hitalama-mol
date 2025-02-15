@@ -42,36 +42,18 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 					uri <= exported_json \
 					file_name <= exported_file_name \
 					title \Экспорт
+		- <= Side_panel $mol_view
+			sub /
+				<= Side_panel_body $mol_view
+					sub /
 		<= Pane
 	contextmenu_body? /
 	get_pointer_pos /
 	contextmenu_real_pos /
-	Back_contextmenu_body $mol_list
-		sub /
-			<= Text_add $mol_button_minor
-				title \Добавить текст
-				click? <=> text_add? null
-			<= Input_add $mol_button_minor
-				title \Добавить input
-				click? <=> input_add? null
-			<= Iframe_add $mol_button_minor
-				title \Добавить iframe
-				click? <=> iframe_add? null
-			<= Range_add $mol_button_minor
-				title \Добавить range
-				click? <=> range_add? null
-			<= Form_add $mol_button_minor
-				title \Добавить виджет: Сбор 1% выгрузки БА
-				click? <=> form_add? null
-			<= Deckgl_example_add $mol_button_minor
-				title \Добавить deck.gl example
-				click? <=> deckgl_example_add? null
-			<= Echarts_example_add $mol_button_minor
-				title \Добавить ECharts example
-				click? <=> echarts_example_add? null
-			<= Code_css_add $mol_button_minor
-				title \Добавить css
-				click? <=> code_css_add? null
+	Back_contextmenu_body $shm_hitalama_board_page_contexmenu
+		board <= board
+		contextmenu_real_pos <= contextmenu_real_pos
+		contextmenu_showed? <=> contextmenu_showed? false
 	Pane $shm_hitalama_board_pane
 		event_drop? <=> event_drop? null
 		select_start? => select_start?
@@ -118,6 +100,3 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 			^ cursors /
 				<= Cursor* $shm_hitalama_board_presence_cursor
 					pos <= cursor_pos* null
-	- cursors /
-		<= Cursor $shm_hitalama_board_presence_cursor
-			pos <= cursor_pos /number

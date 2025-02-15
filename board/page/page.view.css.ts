@@ -32,6 +32,27 @@ namespace $.$$ {
 			right: 0,
 		},
 
+		// Side_panel: {
+		// 	background: {
+		// 		color: $mol_theme.back,
+		// 	},
+		// 	border: {
+		// 		radius: $mol_gap.round,
+		// 	},
+		// 	box: {
+		// 		shadow: [[ 0, `0.5rem`, `0.5rem`, `-0.5rem`, $mol_style_func.hsla( 0, 0, 0, .25 ) ]] as any,
+		// 	},
+		// 	position: 'absolute',
+		// 	zIndex: $mol_layer.float,
+		// 	right: 0,
+		// },
+		// Side_panel_body: {
+		// 	background: {
+		// 		color: $mol_theme.card,
+		// 	},
+		// 	padding: $mol_gap.block,
+		// },
+
 		Title: {
 			['fieldSizing' as any]: 'content',
 			maxWidth: '30rem',
@@ -46,12 +67,6 @@ namespace $.$$ {
 				bottom: $mol_gap.block,
 			},
 		},
-
-		// Cut: {
-		// 	margin: {
-		// 		top: '1rem',
-		// 	},
-		// },
 
 		Pane: {
 			overflow: 'hidden',

@@ -1,0 +1,29 @@
+$shm_hitalama_board_page_contexmenu $mol_list
+	board $shm_hitalama_board
+	contextmenu_real_pos /
+	contextmenu_showed? false
+	sub /
+		<= Text_add $mol_button_minor
+			title \Добавить текст
+			click? <=> text_add? null
+		<= Input_add $mol_button_minor
+			title \Добавить input
+			click? <=> input_add? null
+		<= Iframe_add $mol_button_minor
+			title \Добавить iframe
+			click? <=> iframe_add? null
+		<= Range_add $mol_button_minor
+			title \Добавить range
+			click? <=> range_add? null
+		<= Form_add $mol_button_minor
+			title \Добавить виджет: Сбор 1% выгрузки БА
+			click? <=> form_add? null
+		<= Deckgl_example_add $mol_button_minor
+			title \Добавить deck.gl example
+			click? <=> deckgl_example_add? null
+		<= Echarts_example_add $mol_button_minor
+			title \Добавить ECharts example
+			click? <=> echarts_example_add? null
+		<= Code_css_add $mol_button_minor
+			title \Добавить css
+			click? <=> code_css_add? null
