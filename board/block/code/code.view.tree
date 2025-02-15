@@ -15,4 +15,3 @@ $shm_hitalama_board_block_code $shm_hitalama_board_block_float
 					title \Выполнить
 					click? <=> run? null
 	time_start? 0
-	font_tools /

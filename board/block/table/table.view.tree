@@ -82,8 +82,8 @@ $shm_hitalama_board_block_table $shm_hitalama_board_block_float
 		^ deleting_tool_visible / <= Deleting $mol_check_box
 			title \Удаление строк
 			checked? <=> delete_enabled? false
-	Contextmenu_body $mol_list
-		sub /
-			<= Chart_add $mol_button_minor
-				title \Добавить график
-				click? <=> chart_add? null
+	contextmenu_body /
+		<= Chart_add $mol_button_minor
+			title \Добавить график
+			click? <=> chart_add? null
+		^

@@ -9,7 +9,6 @@ $shm_hitalama_board_block_iframe $shm_hitalama_board_block_float
 		^ blocker / <= Blocker $mol_view
 		^ edges
 		^ toolbar
-	font_tools /
 	tools /
 		<= Src $mol_string
 			value? <=> src? \

@@ -10,22 +10,13 @@ $shm_hitalama_board_block_float $rise_resize_ratio
 		^ sidebar /
 			<= Sidebar $mol_view
 				sub <= side_body /
+	content /
+		<= Drag_view
+		^ controls /
 	auto /
 		^
 		<= bind_view null
 		<= editing? false
-	font_size_options /number
-		10
-		12
-		14
-		18
-		24
-		36
-		48
-		64
-		80
-		144
-		288
 	toolbar /
 		<= Toolbar $mol_view
 			style *
@@ -37,34 +28,6 @@ $shm_hitalama_board_block_float $rise_resize_ratio
 					<= Cut_icon $mol_icon_content_cut
 				- <= Paste $mol_button_minor sub /
 					<= Paste_icon $mol_icon_content_paste
-				^ font_tools /
-					<= Color $shm_hitalama_color_pick
-						color? <=> color? \var(--mol_theme_text)
-						hint @ \Font color
-					<= Font_size_tool $mol_search
-						hint @ \Font size
-						query? <=> font_size_selected? \
-						anchor_content /
-							<= Font_size $mol_number
-								minimal_width 64
-								value? <=> font_size? 14
-								Dec null
-								Inc null
-						suggests <= font_size_suggests /string
-					<= Inc_dec $mol_view
-						sub /
-							<= Inc $mol_button_minor
-								hint @ \Increase font size
-								minimal_height 20
-								minimal_width 20
-								event_click? <=> font_size_inc? null
-								sub / <= inc_icon $mol_icon_chevron_up
-							<= Dec $mol_button_minor
-								hint @ \Decrease font size
-								minimal_height 20
-								minimal_width 20
-								event_click? <=> font_size_dec? null
-								sub / <= dec_icon $mol_icon_chevron_down
 				<= Top $mol_button_minor 
 					hint @ \Bring to top
 					sub /
@@ -99,7 +62,14 @@ $shm_hitalama_board_block_float $rise_resize_ratio
 		pointerleave? <=> pointerleave? null
 	on_contextmenu? null
 	hovered? false
-	Contextmenu_body null
+	Contextmenu_body $mol_list
+		sub /
+			^ contextmenu_body /
+				<= Contextmenu_common $mol_list
+					sub /
+						<= Customize $mol_button_minor
+							title \Кастомизация
+							click? <=> customizer_add? null
 	attr *
 		^
 		shm_hitalama_board_block_float_selected <= selected? false

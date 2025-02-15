@@ -10,7 +10,10 @@ namespace $.$$ {
 		}
 
 		contextmenu_body() {
-			return this.contextmenu_for()[ this.ext() ] ?? []
+			return [
+				... this.contextmenu_for()[ this.ext() ] ?? [],
+				... super.contextmenu_body(),
+			]
 		}
 
 		unpacking() {

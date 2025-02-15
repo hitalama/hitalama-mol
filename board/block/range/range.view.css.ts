@@ -13,6 +13,11 @@ namespace $.$$ {
 			height: '100%',
 		},
 
+		Content: {
+			overflow: 'visible',
+			contain: 'none',
+		},
+
 		Control: {
 			justify: {
 				content: 'center',

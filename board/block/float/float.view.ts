@@ -57,55 +57,6 @@ namespace $.$$ {
 			return this.block().Opacity(next)?.val(next) ?? 1
 		}
 
-		@ $mol_mem
-		font_size( next?: number ) {
-			if( next !== undefined ) this.board().Last_font_size(null)?.val(next)
-			
-			return this.block().Font_size(next)?.val(next) ?? 14
-		}
-
-		@ $mol_mem
-		font_tools() {
-			const text = this.block().Text()?.value() || ''
-			return text === '' ? [] : super.font_tools()
-		}
-
-		@ $mol_mem
-		font_size_px() {
-			return this.font_size() + 'px'
-		}
-
-		font_size_suggests(): readonly ( string )[] {
-			return this.font_size_options().map( n => n.toString() )
-		}
-
-		font_size_inc() {
-			const current = this.font_size()
-			const options = this.font_size_options()
-			const next = options.find( n => n > current )
-			if( next ) this.font_size( next )
-		}
-
-		font_size_dec() {
-			const current = this.font_size()
-			const options = this.font_size_options()
-			const next = options.findLast( n => n < current )
-			if( next ) this.font_size( next )
-		}
-
-		font_size_selected( next?: string ): string {
-			if( next ) this.font_size( Number( next ) )
-			return next ?? ''
-		}
-
-		@ $mol_mem
-		color( next?: string ) {
-			if( next === undefined ) return this.block().Color()?.val() || 'var(--mol_theme_text)'
-
-			this.board().Last_color(null)?.val(next)
-			return this.block().Color(null)?.val(next)!
-		}
-
 		opacity_str(): string {
 			return this.opacity().toString()
 		}
@@ -164,6 +115,17 @@ namespace $.$$ {
 
 		pointerleave( next?: any ) {
 			this.hovered( false )
+		}
+
+		@ $mol_action
+		customizer_add() {
+			const left = this.left() + this.width()
+			const top = this.top()
+
+			const block = this.board().block_add( 'customizer', [ left, top ], 180, 290 )
+			// block?.Use_chart_from(null)?.remote( this.block() )
+
+			this.Board_page().contextmenu_showed( false )
 		}
 		
 	}

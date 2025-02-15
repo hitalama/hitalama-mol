@@ -1,18 +1,5 @@
 $shm_hitalama_board_block_form $shm_hitalama_board_block_float
-	content /
-		<= Drag_view
+	controls /
 		<= Form $shm_hitalama_board_form_view
 			form <= form $shm_hitalama_board_form
 			board <= board $shm_hitalama_board
-	- sub /
-		- <= Head $mol_view
-			sub /
-		<= Drag_view
-		<= Form $shm_hitalama_board_form_view
-			form <= form $shm_hitalama_board_form
-			board <= board $shm_hitalama_board
-		^ edges
-		^ toolbar
-	font_tools /
-	- drag_body /
-		<= Form

@@ -1,9 +1,4 @@
 $shm_hitalama_board_block_chart_filter $shm_hitalama_board_block_float
-	tools /
-		<= Top
-		<= Bottom
-		<= Delete
-		<= Copy_code
 	content /
 		<= Drag_view
 		<= Form $mol_list

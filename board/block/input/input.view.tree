@@ -7,7 +7,6 @@ $shm_hitalama_board_block_input $shm_hitalama_board_block_float
 		<= Drag_view
 		^ edges
 		^ toolbar
-	font_tools /
 	drag_body /
 		<= Title $mol_paragraph
 			dom_name <= title_dom_name \h1

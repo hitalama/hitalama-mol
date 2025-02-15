@@ -62,35 +62,6 @@ namespace $.$$ {
 			}
 		},
 
-		Font_size: {
-			width: '4rem',
-		},
-		Font_size_tool: {
-			flex: 'none',
-			alignSelf: 'auto',
-		},
-		Inc_dec: {
-			flex: {
-				direction: 'column',
-			},
-		},
-		Inc: {
-			padding: {
-				top: 0,
-				bottom: 0,
-				left: $mol_gap.space,
-				right: $mol_gap.block,
-			},
-		},
-		Dec: {
-			padding: {
-				top: 0,
-				bottom: 0,
-				left: $mol_gap.space,
-				right: $mol_gap.block,
-			},
-		},
-
 		flex: {
 			direction: 'column'
 		},
@@ -100,6 +71,10 @@ namespace $.$$ {
 				left: $mol_gap.block,
 			},
 			color: '#ff6666',
+		},
+
+		Customize: {
+			boxShadow: '0 -1px 0 0 var(--mol_theme_line)',
 		},
 
 		// background: {

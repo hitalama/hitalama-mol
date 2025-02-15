@@ -1,14 +1,10 @@
 $shm_hitalama_board_block_range $shm_hitalama_board_block_float
-	sub /
-		<= Drag_view
+	controls /
 		<= Control $rise_range
 			value? <=> value? 0
 			min <= min? 0
 			max <= max? 10
 			step <= step? 1
-		^ edges
-		^ toolbar
-	font_tools /
 	tools /
 		<= Top
 		<= Bottom
