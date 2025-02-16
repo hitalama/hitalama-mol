@@ -2287,7 +2287,7 @@ $shm_hitalama_board_block_float $rise_resize_ratio
 		shm_hitalama_board_block_float_dragged <= dragged?
 
 $shm_hitalama_board_block_input $shm_hitalama_board_block_float
-	sub /
+	- sub /
 		<= Head $mol_view
 			sub /
 				<= Input $mol_string
@@ -2295,7 +2295,12 @@ $shm_hitalama_board_block_input $shm_hitalama_board_block_float
 		<= Drag_view
 		^ edges
 		^ toolbar
-	drag_body /
+	- drag_body /
+	controls /
+		- <= Head $mol_view
+			sub /
+		<= Input $mol_string
+			value? <=> text? \
 		<= Title $mol_paragraph
 			dom_name <= title_dom_name \h1
 			title <= text_rendered \
@@ -3177,27 +3182,34 @@ $shm_hitalama_board_block_customizer $shm_hitalama_board_block_float
 	controls /
 		<= Controls $mol_list
 			sub /
-				- <= Head $mol_view
+				<= Head $mol_view
 					sub /
-						<= Type $mol_string
-							value? <=> self_type? \my_button
-						<= Base $mol_select
+						<= Deck_switch
+						<= Name $mol_string
+							value? <=> title? \
+						- <= Base $mol_select
 							value? <=> base_type? \$mol_view
-				<= Source_type $mol_deck
-					current? <=> soure_type_current? \0
-					items /
-						<= View_tree $mol_textarea
-							title \Composition
-							sidebar_showed true
-							value? <=> code_view_tree? \
-						<= Css $mol_textarea
-							title \Styles
-							sidebar_showed true
-							value? <=> code_css? \
-						<= Js $mol_textarea
-							title \Behavior
-							sidebar_showed true
-							value? <=> code_js? \
+						<= Create $mol_button_major
+							title \Создать
+							click? <=> create_instance? null
+				<= Deck_content
+	Deck $mol_deck
+		Switch => Deck_switch
+		Content => Deck_content
+		current? <=> soure_type_current? \0
+		items /
+			<= View_tree $mol_textarea
+				title \View
+				sidebar_showed true
+				value? <=> code_view_tree? \
+			<= Css $mol_textarea
+				title \Style
+				sidebar_showed true
+				value? <=> code_css? \
+			<= Js $mol_textarea
+				title \Logic
+				sidebar_showed true
+				value? <=> code_js? \
 	attr *
 		^
 		mol_theme \$mol_theme_special
@@ -3241,8 +3253,7 @@ $shm_hitalama_board_block_any $mol_ghost
 		form_edit <= Form_edit $shm_hitalama_board_block_form_edit
 		code_css <= Code_css $shm_hitalama_board_block_code_css
 		customizer <= Customizer $shm_hitalama_board_block_customizer
-		- ^ custom
-	Custom $shm_hitalama_board_block_float
+		custom <= Custom $shm_hitalama_board_block_float
 
 $mol_icon_cursor_default $mol_icon path \M13.64,21.97C13.14,22.21 12.54,22 12.31,21.5L10.13,16.76L7.62,18.78C7.45,18.92 7.24,19 7,19A1,1 0 0,1 6,18V3A1,1 0 0,1 7,2C7.24,2 7.47,2.09 7.64,2.23L7.65,2.22L19.14,11.86C19.57,12.22 19.62,12.85 19.27,13.27C19.12,13.45 18.91,13.57 18.7,13.61L15.54,14.23L17.74,18.96C18,19.46 17.76,20.05 17.26,20.28L13.64,21.97Z
 
@@ -3286,6 +3297,9 @@ $shm_hitalama_board_page_contexmenu $mol_list
 		<= Code_css_add $mol_button_minor
 			title \Добавить css
 			click? <=> code_css_add? null
+		<= Customizer_add $mol_button_minor
+			title \Добавить редактор виджетов
+			click? <=> customizer_add? null
 
 $shm_hitalama_board_touch $mol_touch
 

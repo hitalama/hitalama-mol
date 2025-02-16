@@ -1,3 +1,5 @@
 [my_button_button] {
-	z-index: 1;
+	margin: 1rem;
+	flex-grow: 1;
+	justify-content: center;
 }

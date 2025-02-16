@@ -17857,6 +17857,26 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    class $shm_hitalama_board_custom extends $hyoo_crus_entity.with({
+        Class_name: $hyoo_crus_atom_str,
+        Code_view_tree: $hyoo_crus_text,
+        Code_css: $hyoo_crus_text,
+        Code_js: $hyoo_crus_text,
+    }) {
+        class_name() {
+            return this.Code_view_tree()?.value().split(' ', 1)[0];
+        }
+    }
+    __decorate([
+        $mol_mem
+    ], $shm_hitalama_board_custom.prototype, "class_name", null);
+    $.$shm_hitalama_board_custom = $shm_hitalama_board_custom;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
     class $shm_hitalama_board_range extends $hyoo_crus_entity.with({
         Block: $hyoo_crus_atom_ref_to(() => $shm_hitalama_board_block),
         Value: $hyoo_crus_atom_real,
@@ -18272,26 +18292,6 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    class $shm_hitalama_board_custom extends $hyoo_crus_entity.with({
-        Class_name: $hyoo_crus_atom_str,
-        Code_view_tree: $hyoo_crus_text,
-        Code_css: $hyoo_crus_text,
-        Code_js: $hyoo_crus_text,
-    }) {
-        class_name() {
-            return this.Code_view_tree()?.value().split(' ', 1)[0];
-        }
-    }
-    __decorate([
-        $mol_mem
-    ], $shm_hitalama_board_custom.prototype, "class_name", null);
-    $.$shm_hitalama_board_custom = $shm_hitalama_board_custom;
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
     $.$shm_hitalama_board_block_types = [
         'text',
         'input',
@@ -18309,6 +18309,7 @@ var $;
         'form_edit',
         'code_css',
         'customizer',
+        'custom',
     ];
     class $shm_hitalama_board_block_type extends $hyoo_crus_atom_enum($.$shm_hitalama_board_block_types) {
     }
@@ -18321,7 +18322,7 @@ var $;
         Left_edge_x: $hyoo_crus_atom_real,
         Opacity: $hyoo_crus_atom_real,
         Type: $shm_hitalama_board_block_type,
-        Type_custom: $hyoo_crus_atom_str,
+        Type_custom: $hyoo_crus_atom_ref_to(() => $shm_hitalama_board_custom),
         Board: $hyoo_crus_atom_ref_to(() => $shm_hitalama_board),
         Image: $hyoo_crus_file,
         Color: $hyoo_crus_atom_str,
@@ -18655,6 +18656,8 @@ var $;
                 left_edge_x: block.Left_edge_x()?.val(),
                 opacity: block.Opacity()?.val(),
                 type: block.Type()?.val(),
+                type_custom: block.Type_custom()?.remote()?.ref().description,
+                custom: block.Custom()?.remote()?.ref().description,
                 image_blob_uri,
                 color: block.Color()?.val(),
                 font_size: block.Font_size()?.val(),
@@ -18703,6 +18706,14 @@ var $;
             }
         }
         static deserialize_refs(block, dto, ref_remap) {
+            if (dto.type_custom) {
+                const custom = $hyoo_crus_glob.Node($hyoo_crus_ref(ref_remap(dto.type_custom)), $shm_hitalama_board_custom);
+                block.Type_custom(null)?.remote(custom);
+            }
+            if (dto.custom) {
+                const custom = $hyoo_crus_glob.Node($hyoo_crus_ref(ref_remap(dto.custom)), $shm_hitalama_board_custom);
+                block.Custom(null)?.remote(custom);
+            }
             if (dto.use_chart_from_ref) {
                 const use_from = $hyoo_crus_glob.Node($hyoo_crus_ref(ref_remap(dto.use_chart_from_ref)), $shm_hitalama_board_block);
                 block.Use_chart_from(null)?.remote(use_from);
@@ -39932,24 +39943,29 @@ var $;
                 this.hovered(false);
             }
             get_custom_guid() {
-                return $mol_guid(12).replace(/[0-9]/g, '');
+                return $mol_guid(12).replace(/[0-9]/g, '').toLowerCase();
             }
             customizer_add() {
                 const left = this.left() + this.width();
                 const top = this.top();
                 const board = this.board();
-                const block = board.block_add('customizer', [left, top], 180, 290);
+                const block = board.block_add('customizer', [left, top], 600, 400);
                 const custom = board.Customs(null)?.make(board.land());
                 block?.Custom(null)?.remote(custom);
-                const code_js = this.$.$mol_fetch.text($shm_hitalama_app_ghpages_fix_link('shm/hitalama/board/snippets/_my_widget.js'));
-                custom?.Code_js(null)?.value(code_js);
-                const code_view_tree = this.$.$mol_fetch.text($shm_hitalama_app_ghpages_fix_link('shm/hitalama/board/snippets/_my_widget.view.tree'));
-                custom?.Code_view_tree(null)?.value(code_view_tree);
-                const code_css = this.$.$mol_fetch.text($shm_hitalama_app_ghpages_fix_link('shm/hitalama/board/snippets/_my_widget.view.css'));
-                custom?.Code_css(null)?.value(code_css);
                 const type_custom = this.block().type() + '_' + this.get_custom_guid();
                 custom?.title(type_custom);
-                this.block().Type_custom(null)?.val(type_custom);
+                const code_js = this.$.$mol_fetch.text($shm_hitalama_app_ghpages_fix_link('shm/hitalama/board/snippets/_my_widget.js'))
+                    .replaceAll('my_widget', 'my_' + type_custom);
+                custom?.Code_js(null)?.value(code_js);
+                const code_view_tree = this.$.$mol_fetch.text($shm_hitalama_app_ghpages_fix_link('shm/hitalama/board/snippets/_my_widget.view.tree'))
+                    .replace('shm_hitalama_board_block_float', 'shm_hitalama_board_block_' + this.block().type())
+                    .replace('my_widget', 'my_' + type_custom);
+                custom?.Code_view_tree(null)?.value(code_view_tree);
+                const code_css = this.$.$mol_fetch.text($shm_hitalama_app_ghpages_fix_link('shm/hitalama/board/snippets/_my_widget.view.css'))
+                    .replaceAll('my_widget', 'my_' + type_custom);
+                custom?.Code_css(null)?.value(code_css);
+                this.block().Type_custom(null)?.remote(custom);
+                this.block().Type(null)?.val('custom');
                 this.Board_page().contextmenu_showed(false);
             }
         }
@@ -40054,6 +40070,11 @@ var $;
                     pointerEvents: 'auto',
                 }
             },
+            Drag_view: {
+                position: 'absolute',
+                width: '100%',
+                height: '100%',
+            },
             flex: {
                 direction: 'column'
             },
@@ -40081,11 +40102,6 @@ var $;
 			(obj.value) = (next) => ((this.text(next)));
 			return obj;
 		}
-		Head(){
-			const obj = new this.$.$mol_view();
-			(obj.sub) = () => ([(this.Input())]);
-			return obj;
-		}
 		title_dom_name(){
 			return "h1";
 		}
@@ -40098,21 +40114,12 @@ var $;
 			(obj.title) = () => ((this.text_rendered()));
 			return obj;
 		}
-		sub(){
-			return [
-				(this.Head()), 
-				(this.Drag_view()), 
-				...(this.edges()), 
-				...(this.toolbar())
-			];
-		}
-		drag_body(){
-			return [(this.Title())];
+		controls(){
+			return [(this.Input()), (this.Title())];
 		}
 	};
 	($mol_mem(($.$shm_hitalama_board_block_input.prototype), "text"));
 	($mol_mem(($.$shm_hitalama_board_block_input.prototype), "Input"));
-	($mol_mem(($.$shm_hitalama_board_block_input.prototype), "Head"));
 	($mol_mem(($.$shm_hitalama_board_block_input.prototype), "Title"));
 
 
@@ -40155,19 +40162,27 @@ var $;
             background: {
                 color: $mol_theme.card,
             },
-            Head: {
-                padding: $mol_gap.space,
+            Fullsize_wrapper: {
+                flex: {
+                    direction: 'column',
+                },
             },
             Title: {
                 align: {
                     items: 'center',
                 },
-            },
-            Drag_view: {
                 justify: {
                     content: 'center',
                 },
-                padding: $mol_gap.block,
+                flex: {
+                    grow: 1,
+                },
+            },
+            Input: {
+                flex: {
+                    grow: 0,
+                },
+                margin: $mol_gap.space,
             },
         });
     })($$ = $.$$ || ($.$$ = {}));
@@ -40315,6 +40330,9 @@ var $;
                 width: '100%',
             },
             Drag_view: {
+                position: 'static',
+                width: 'auto',
+                height: 'auto',
                 flex: {
                     grow: 0,
                 },
@@ -42737,11 +42755,6 @@ var $;
             background: {
                 color: $mol_theme.card,
             },
-            Drag_view: {
-                position: 'absolute',
-                width: '100%',
-                height: '100%',
-            },
             Form: {
                 padding: $mol_gap.block,
             },
@@ -43340,11 +43353,6 @@ var $;
             background: {
                 color: $mol_theme.card,
             },
-            Drag_view: {
-                position: 'absolute',
-                width: '100%',
-                height: '100%',
-            },
             Cell_copy: {
                 display: 'none',
             },
@@ -43555,11 +43563,6 @@ var $;
         $mol_style_define($shm_hitalama_board_block_code, {
             background: {
                 color: $mol_theme.card,
-            },
-            Drag_view: {
-                position: 'absolute',
-                width: '100%',
-                height: '100%',
             },
             Textarea: {
                 pointerEvents: 'none',
@@ -43910,11 +43913,6 @@ var $;
         $mol_style_define($shm_hitalama_board_block_chart, {
             background: {
                 color: $mol_theme.card,
-            },
-            Drag_view: {
-                position: 'absolute',
-                width: '100%',
-                height: '100%',
             },
             Filters_add: {
                 width: 'fit-content',
@@ -44299,11 +44297,6 @@ var $;
             background: {
                 color: $mol_theme.card,
             },
-            Drag_view: {
-                position: 'absolute',
-                height: '100%',
-                width: '100%',
-            },
             Form: {
                 padding: $mol_gap.block,
                 gap: $mol_gap.space,
@@ -44500,11 +44493,6 @@ var $;
             background: {
                 color: $mol_theme.card,
             },
-            Drag_view: {
-                position: 'absolute',
-                height: '100%',
-                width: '100%',
-            },
             Form: {
                 padding: $mol_gap.block,
                 gap: $mol_gap.space,
@@ -44617,13 +44605,7 @@ var $;
 (function ($) {
     var $$;
     (function ($$) {
-        $mol_style_define($shm_hitalama_board_block_customdom, {
-            Drag_view: {
-                position: 'absolute',
-                width: '100%',
-                height: '100%',
-            },
-        });
+        $mol_style_define($shm_hitalama_board_block_customdom, {});
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
 
@@ -45227,11 +45209,6 @@ var $;
             padding: $mol_gap.text,
         };
         $mol_style_define($shm_hitalama_board_block_range, {
-            Drag_view: {
-                position: 'absolute',
-                width: '100%',
-                height: '100%',
-            },
             Content: {
                 overflow: 'visible',
                 contain: 'none',
@@ -45392,11 +45369,6 @@ var $;
             background: {
                 color: $mol_theme.card,
             },
-            Drag_view: {
-                position: 'absolute',
-                width: '100%',
-                height: '100%',
-            },
             Form: {
                 padding: $mol_gap.block,
             },
@@ -45523,6 +45495,45 @@ var $;
 
 ;
 	($.$shm_hitalama_board_block_customizer) = class $shm_hitalama_board_block_customizer extends ($.$shm_hitalama_board_block_float) {
+		title(next){
+			if(next !== undefined) return next;
+			return "";
+		}
+		Name(){
+			const obj = new this.$.$mol_string();
+			(obj.value) = (next) => ((this.title(next)));
+			return obj;
+		}
+		create_instance(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Create(){
+			const obj = new this.$.$mol_button_major();
+			(obj.title) = () => ("Создать");
+			(obj.click) = (next) => ((this.create_instance(next)));
+			return obj;
+		}
+		Head(){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => ([
+				(this.Deck_switch()), 
+				(this.Name()), 
+				(this.Create())
+			]);
+			return obj;
+		}
+		Controls(){
+			const obj = new this.$.$mol_list();
+			(obj.sub) = () => ([(this.Head()), (this.Deck_content())]);
+			return obj;
+		}
+		Deck_switch(){
+			return (this.Deck().Switch());
+		}
+		Deck_content(){
+			return (this.Deck().Content());
+		}
 		soure_type_current(next){
 			if(next !== undefined) return next;
 			return "0";
@@ -45533,7 +45544,7 @@ var $;
 		}
 		View_tree(){
 			const obj = new this.$.$mol_textarea();
-			(obj.title) = () => ("Composition");
+			(obj.title) = () => ("View");
 			(obj.sidebar_showed) = () => (true);
 			(obj.value) = (next) => ((this.code_view_tree(next)));
 			return obj;
@@ -45544,7 +45555,7 @@ var $;
 		}
 		Css(){
 			const obj = new this.$.$mol_textarea();
-			(obj.title) = () => ("Styles");
+			(obj.title) = () => ("Style");
 			(obj.sidebar_showed) = () => (true);
 			(obj.value) = (next) => ((this.code_css(next)));
 			return obj;
@@ -45555,12 +45566,15 @@ var $;
 		}
 		Js(){
 			const obj = new this.$.$mol_textarea();
-			(obj.title) = () => ("Behavior");
+			(obj.title) = () => ("Logic");
 			(obj.sidebar_showed) = () => (true);
 			(obj.value) = (next) => ((this.code_js(next)));
 			return obj;
 		}
-		Source_type(){
+		controls(){
+			return [(this.Controls())];
+		}
+		Deck(){
 			const obj = new this.$.$mol_deck();
 			(obj.current) = (next) => ((this.soure_type_current(next)));
 			(obj.items) = () => ([
@@ -45570,18 +45584,16 @@ var $;
 			]);
 			return obj;
 		}
-		Controls(){
-			const obj = new this.$.$mol_list();
-			(obj.sub) = () => ([(this.Source_type())]);
-			return obj;
-		}
-		controls(){
-			return [(this.Controls())];
-		}
 		attr(){
 			return {...(super.attr()), "mol_theme": "$mol_theme_special"};
 		}
 	};
+	($mol_mem(($.$shm_hitalama_board_block_customizer.prototype), "title"));
+	($mol_mem(($.$shm_hitalama_board_block_customizer.prototype), "Name"));
+	($mol_mem(($.$shm_hitalama_board_block_customizer.prototype), "create_instance"));
+	($mol_mem(($.$shm_hitalama_board_block_customizer.prototype), "Create"));
+	($mol_mem(($.$shm_hitalama_board_block_customizer.prototype), "Head"));
+	($mol_mem(($.$shm_hitalama_board_block_customizer.prototype), "Controls"));
 	($mol_mem(($.$shm_hitalama_board_block_customizer.prototype), "soure_type_current"));
 	($mol_mem(($.$shm_hitalama_board_block_customizer.prototype), "code_view_tree"));
 	($mol_mem(($.$shm_hitalama_board_block_customizer.prototype), "View_tree"));
@@ -45589,8 +45601,7 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_block_customizer.prototype), "Css"));
 	($mol_mem(($.$shm_hitalama_board_block_customizer.prototype), "code_js"));
 	($mol_mem(($.$shm_hitalama_board_block_customizer.prototype), "Js"));
-	($mol_mem(($.$shm_hitalama_board_block_customizer.prototype), "Source_type"));
-	($mol_mem(($.$shm_hitalama_board_block_customizer.prototype), "Controls"));
+	($mol_mem(($.$shm_hitalama_board_block_customizer.prototype), "Deck"));
 
 
 ;
@@ -45603,6 +45614,9 @@ var $;
     var $$;
     (function ($$) {
         class $shm_hitalama_board_block_customizer extends $.$shm_hitalama_board_block_customizer {
+            title(next) {
+                return this.block().Custom()?.remote()?.title(next) ?? '';
+            }
             code_js(next) {
                 return this.block().Custom()?.remote()?.Code_js(next)?.text(next) ?? '';
             }
@@ -45612,7 +45626,14 @@ var $;
             code_css(next) {
                 return this.block().Custom()?.remote()?.Code_css(next)?.text(next) ?? '';
             }
+            create_instance() {
+                const block = this.board().block_add('custom', this.Board_page().get_pointer_pos());
+                block?.Type_custom(null)?.remote(this.block().Custom()?.remote());
+            }
         }
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_block_customizer.prototype, "title", null);
         __decorate([
             $mol_mem
         ], $shm_hitalama_board_block_customizer.prototype, "code_js", null);
@@ -45622,6 +45643,9 @@ var $;
         __decorate([
             $mol_mem
         ], $shm_hitalama_board_block_customizer.prototype, "code_css", null);
+        __decorate([
+            $mol_action
+        ], $shm_hitalama_board_block_customizer.prototype, "create_instance", null);
         $$.$shm_hitalama_board_block_customizer = $shm_hitalama_board_block_customizer;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
@@ -45632,21 +45656,50 @@ var $;
 (function ($) {
     var $$;
     (function ($$) {
+        const Textarea = {
+            pointerEvents: 'none',
+            Edit: {
+                pointerEvents: 'auto',
+            },
+            padding: {
+                left: $mol_gap.block,
+            },
+            margin: {
+                left: $mol_gap.block,
+                right: $mol_gap.block,
+                bottom: $mol_gap.block,
+            },
+        };
         $mol_style_define($shm_hitalama_board_block_customizer, {
             background: {
                 color: $mol_theme.card,
-            },
-            Drag_view: {
-                position: 'absolute',
-                width: '100%',
-                height: '100%',
             },
             Controls: {
                 flex: {
                     grow: 1,
                 },
             },
-            Source_type: {
+            Head: {
+                margin: {
+                    top: $mol_gap.space,
+                    left: $mol_gap.space,
+                    bottom: $mol_gap.space,
+                    right: $mol_gap.block,
+                },
+                gap: $mol_gap.block,
+            },
+            Name: {
+                ['fieldSizing']: 'content',
+                flex: {
+                    grow: 0,
+                },
+            },
+            Create: {
+                margin: {
+                    left: 'auto',
+                },
+            },
+            Deck: {
                 flex: {
                     grow: 1,
                 },
@@ -45655,6 +45708,15 @@ var $;
                         grow: 0,
                     },
                 },
+            },
+            View_tree: {
+                ...Textarea
+            },
+            Css: {
+                ...Textarea
+            },
+            Js: {
+                ...Textarea
             },
         });
     })($$ = $.$$ || ($.$$ = {}));
@@ -45792,6 +45854,10 @@ var $;
 			const obj = new this.$.$shm_hitalama_board_block_customizer();
 			return obj;
 		}
+		Custom(){
+			const obj = new this.$.$shm_hitalama_board_block_float();
+			return obj;
+		}
 		Sub(){
 			const obj = new this.$.$shm_hitalama_board_block_float();
 			(obj.block) = () => ((this.block()));
@@ -45826,12 +45892,9 @@ var $;
 				"table_novirt": (this.Table_novirt()), 
 				"form_edit": (this.Form_edit()), 
 				"code_css": (this.Code_css()), 
-				"customizer": (this.Customizer())
+				"customizer": (this.Customizer()), 
+				"custom": (this.Custom())
 			};
-		}
-		Custom(){
-			const obj = new this.$.$shm_hitalama_board_block_float();
-			return obj;
 		}
 	};
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "block"));
@@ -45856,8 +45919,8 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Form_edit"));
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Code_css"));
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Customizer"));
-	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Sub"));
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Custom"));
+	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Sub"));
 
 
 ;
@@ -46812,53 +46875,46 @@ var $;
     var $$;
     (function ($$) {
         class $shm_hitalama_board_block_any extends $.$shm_hitalama_board_block_any {
-            custom() {
-                const title = this.block().Type_custom()?.val();
-                if (!title)
-                    return;
-                const custom = this.board().Customs()?.remote_list().find(c => c.title() == title);
-                return custom;
-            }
             custom_expose() {
-                const custom = this.custom();
+                const custom = this.block().Type_custom()?.remote();
                 const class_name = custom.class_name();
                 const code_css = custom.Code_css()?.value();
                 this.$.$mol_style_attach(class_name, code_css);
                 const code_tree = custom.Code_view_tree()?.value();
-                console.log('code_tree', code_tree);
                 const code_js = custom.Code_js()?.value();
                 const tree = this.$.$mol_view_tree2_normalize(this.$.$mol_tree2_from_string(code_tree)).kids[0];
                 const base_js = this.$.$mol_tree2_text_to_string_mapped_js(this.$.$mol_tree2_js_to_text(this.$.$mol_view_tree2_to_js(tree.list([tree]))));
                 const code = `const $ = this.$;\n` +
                     `$.${class_name} = ${base_js};\n` +
                     `${code_js};`;
-                console.log('code', code);
                 const func = new Function(code);
                 func.call({ $: this.$ });
             }
             Custom() {
-                const class_name = this.custom()?.class_name();
+                if (this.block().type() !== 'custom')
+                    return super.Sub();
+                const custom = this.block().Type_custom()?.remote();
+                const code_css = custom.Code_css()?.value();
+                const code_tree = custom.Code_view_tree()?.value();
+                const code_js = custom.Code_js()?.value();
+                const class_name = custom?.class_name();
                 try {
                     this.custom_expose();
+                    const obj = new this.$[class_name];
+                    return obj;
                 }
                 catch (error) {
                     if (!$mol_promise_like(error)) {
                         console.error(error);
-                        return super.Custom();
+                        return super.Sub();
                     }
                     else
                         throw error;
                 }
-                const obj = new this.$[class_name];
-                return obj;
             }
             Sub() {
                 const type = this.block().Type()?.val();
-                console.log('type', type);
-                console.log('this.custom_class_name()', this.custom());
-                const obj = this.custom()
-                    ? this.Custom()
-                    : this.blocks()[type] ?? super.Sub();
+                const obj = this.blocks()[type] ?? super.Sub();
                 obj.block = () => this.block();
                 obj.board = () => this.board();
                 obj.Board_page = () => this.Board_page();
@@ -46875,9 +46931,6 @@ var $;
                 return obj;
             }
         }
-        __decorate([
-            $mol_mem
-        ], $shm_hitalama_board_block_any.prototype, "custom", null);
         __decorate([
             $mol_mem
         ], $shm_hitalama_board_block_any.prototype, "custom_expose", null);
@@ -47076,6 +47129,16 @@ var $;
 			(obj.click) = (next) => ((this.code_css_add(next)));
 			return obj;
 		}
+		customizer_add(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Customizer_add(){
+			const obj = new this.$.$mol_button_minor();
+			(obj.title) = () => ("Добавить редактор виджетов");
+			(obj.click) = (next) => ((this.customizer_add(next)));
+			return obj;
+		}
 		board(){
 			const obj = new this.$.$shm_hitalama_board();
 			return obj;
@@ -47096,7 +47159,8 @@ var $;
 				(this.Form_add()), 
 				(this.Deckgl_example_add()), 
 				(this.Echarts_example_add()), 
-				(this.Code_css_add())
+				(this.Code_css_add()), 
+				(this.Customizer_add())
 			];
 		}
 	};
@@ -47116,6 +47180,8 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_page_contexmenu.prototype), "Echarts_example_add"));
 	($mol_mem(($.$shm_hitalama_board_page_contexmenu.prototype), "code_css_add"));
 	($mol_mem(($.$shm_hitalama_board_page_contexmenu.prototype), "Code_css_add"));
+	($mol_mem(($.$shm_hitalama_board_page_contexmenu.prototype), "customizer_add"));
+	($mol_mem(($.$shm_hitalama_board_page_contexmenu.prototype), "Customizer_add"));
 	($mol_mem(($.$shm_hitalama_board_page_contexmenu.prototype), "board"));
 	($mol_mem(($.$shm_hitalama_board_page_contexmenu.prototype), "contextmenu_showed"));
 
@@ -47192,6 +47258,27 @@ var $;
                 this.contextmenu_showed(false);
                 return block;
             }
+            get_custom_guid() {
+                return $mol_guid(12).replace(/[0-9]/g, '').toLowerCase();
+            }
+            customizer_add() {
+                const board = this.board();
+                const block = board.block_add('customizer', this.contextmenu_real_pos(), 830, 400);
+                const custom = board.Customs(null)?.make(board.land());
+                block?.Custom(null)?.remote(custom);
+                const type_custom = 'button_' + this.get_custom_guid();
+                custom?.title(type_custom);
+                const code_js = this.$.$mol_fetch.text($shm_hitalama_app_ghpages_fix_link('shm/hitalama/board/snippets/_custom_button.js'))
+                    .replaceAll('my_button', 'my_' + type_custom);
+                custom?.Code_js(null)?.value(code_js);
+                const code_view_tree = this.$.$mol_fetch.text($shm_hitalama_app_ghpages_fix_link('shm/hitalama/board/snippets/_custom_button.view.tree'))
+                    .replace('my_button', 'my_' + type_custom);
+                custom?.Code_view_tree(null)?.value(code_view_tree);
+                const code_css = this.$.$mol_fetch.text($shm_hitalama_app_ghpages_fix_link('shm/hitalama/board/snippets/_custom_button.view.css'))
+                    .replaceAll('my_button', 'my_' + type_custom);
+                custom?.Code_css(null)?.value(code_css);
+                this.contextmenu_showed(false);
+            }
         }
         __decorate([
             $mol_action
@@ -47220,6 +47307,12 @@ var $;
         __decorate([
             $mol_action
         ], $shm_hitalama_board_page_contexmenu.prototype, "code_css_add", null);
+        __decorate([
+            $mol_action
+        ], $shm_hitalama_board_page_contexmenu.prototype, "get_custom_guid", null);
+        __decorate([
+            $mol_action
+        ], $shm_hitalama_board_page_contexmenu.prototype, "customizer_add", null);
         $$.$shm_hitalama_board_page_contexmenu = $shm_hitalama_board_page_contexmenu;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
