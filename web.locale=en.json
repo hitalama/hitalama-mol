@@ -15,12 +15,12 @@
 	"$mol_text_code_Copy_hint": "Copy whole code",
 	"$mol_text_header_Link_hint": "Permalink to this section",
 	"$shm_hitalama_board_block_float_Bottom_hint": "Send to back",
-	"$shm_hitalama_board_block_float_Color_hint": "Font color",
-	"$shm_hitalama_board_block_float_Dec_hint": "Decrease font size",
 	"$shm_hitalama_board_block_float_Delete_hint": "Delete",
-	"$shm_hitalama_board_block_float_Font_size_tool_hint": "Font size",
-	"$shm_hitalama_board_block_float_Inc_hint": "Increase font size",
 	"$shm_hitalama_board_block_float_Top_hint": "Bring to top",
 	"$shm_hitalama_board_block_range_Settings_pop_hint": "Options",
-	"$shm_hitalama_board_block_table_Settings_pop_hint": "Options"
+	"$shm_hitalama_board_block_table_Settings_pop_hint": "Options",
+	"$shm_hitalama_board_block_text_Color_hint": "Font color",
+	"$shm_hitalama_board_block_text_Dec_hint": "Decrease font size",
+	"$shm_hitalama_board_block_text_Font_size_tool_hint": "Font size",
+	"$shm_hitalama_board_block_text_Inc_hint": "Increase font size"
 }

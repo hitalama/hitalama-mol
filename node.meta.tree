@@ -87,6 +87,8 @@
 	deploy \/shm/hitalama/token/logo/logo_vk.svg
 \/shm/hitalama/duckdb/page
 	deploy \/shm/hitalama/duckdb/parquet/demo.parquet
+\/mol/view/tree2/to/js
+	include \/mol/view/tree2/to/js/test
 \/shm/hitalama/board/page
 	deploy \shm/hitalama/board/snippets/_table.js
 	deploy \shm/hitalama/board/snippets/_table_from_csv.js
@@ -94,6 +96,12 @@
 	deploy \shm/hitalama/board/snippets/_echarts_example.js
 	deploy \shm/hitalama/board/snippets/_search_statistics_rows.js
 	deploy \shm/hitalama/board/snippets/_css_example.css
+	deploy \shm/hitalama/board/snippets/_custom_button.js
+	deploy \shm/hitalama/board/snippets/_custom_button.view.tree
+	deploy \shm/hitalama/board/snippets/_custom_button.view.css
+	deploy \shm/hitalama/board/snippets/_my_widget.js
+	deploy \shm/hitalama/board/snippets/_my_widget.view.tree
+	deploy \shm/hitalama/board/snippets/_my_widget.view.css
 \/shm/hitalama/app
 	include \/shm/hitalama/log
 	deploy \/shm/hitalama/app/foot/foot_logo.png

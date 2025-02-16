@@ -2201,6 +2201,125 @@ $rise_resize_ratio $rise_resize
 			on_drag_end? <=> resize_end?
 			y? <=> bottom_right_edge_ratio_y? 0
 
+$mol_icon_arrow_collapse $mol_icon path \M19.5,3.09L15,7.59V4H13V11H20V9H16.41L20.91,4.5L19.5,3.09M4,13V15H7.59L3.09,19.5L4.5,20.91L9,16.41V20H11V13H4Z
+
+$mol_icon_arrow_collapse_up $mol_icon path \M4.08,11.92L12,4L19.92,11.92L18.5,13.33L13,7.83V22H11V7.83L5.5,13.33L4.08,11.92M12,4H22V2H2V4H12Z
+
+$mol_icon_arrow_collapse_down $mol_icon path \M19.92,12.08L12,20L4.08,12.08L5.5,10.67L11,16.17V2H13V16.17L18.5,10.66L19.92,12.08M12,20H2V22H22V20H12Z
+
+$mol_icon_trash_can $mol_icon path \M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M9,8H11V17H9V8M13,8H15V17H13V8Z
+
+$shm_hitalama_board_block_float $rise_resize_ratio
+	block $shm_hitalama_board_block
+	board $shm_hitalama_board
+	Board_page $shm_hitalama_board_page
+	zoom 1
+	sub /
+		<= Content
+		^ edges
+		^ toolbar
+		^ sidebar /
+			<= Sidebar $mol_view
+				sub <= side_body /
+	content /
+		<= Drag_view
+		^ controls /
+	auto /
+		^
+		<= bind_view null
+		<= editing? false
+	toolbar /
+		<= Toolbar $mol_view
+			style *
+				transform <= toolbar_transform \
+			sub <= tools /
+				- <= Copy $mol_button_minor sub /
+					<= Copy_icon $mol_icon_content_copy
+				- <= Cut $mol_button_minor sub /
+					<= Cut_icon $mol_icon_content_cut
+				- <= Paste $mol_button_minor sub /
+					<= Paste_icon $mol_icon_content_paste
+				<= Top $mol_button_minor 
+					hint @ \Bring to top
+					sub /
+						<= Top_icon $mol_icon_arrow_collapse_up
+					click? <=> to_top? null
+				<= Bottom $mol_button_minor
+					hint @ \Send to back
+					sub /
+						<= Bottom_icon $mol_icon_arrow_collapse_down
+					click? <=> to_bottom? null
+				<= Delete $mol_button_minor
+					hint @ \Delete
+					sub /
+						<= Delete_icon $mol_icon_trash_can
+					click? <=> delete? null
+				<= Copy_code $mol_button_copy
+					title <= title \
+					text <= copy_code \
+	copy_code_template \board.block('{ref}').text()
+	opacity? 1
+	has_scrollbar false
+	style *
+		^
+		opacity <= opacity_str \1
+		transition <= transition <= transition_smooth \top 0.2s, left 0.2s, right 0.2s, bottom 0.2s, width 0.2s, height 0.2s
+	font_size_px \
+	event *
+		^
+		contextmenu? <=> event_contextmenu? null
+		pointerdown? <=> pointerdown? null
+		pointerenter? <=> pointerenter? null
+		pointerleave? <=> pointerleave? null
+	on_contextmenu? null
+	hovered? false
+	Contextmenu_body $mol_list
+		sub /
+			^ contextmenu_body /
+				<= Contextmenu_common $mol_list
+					sub /
+						<= Customize $mol_button_minor
+							title \Кастомизация
+							click? <=> customizer_add? null
+	attr *
+		^
+		shm_hitalama_board_block_float_selected <= selected? false
+		shm_hitalama_board_block_float_dragged <= dragged?
+
+$shm_hitalama_board_block_input $shm_hitalama_board_block_float
+	sub /
+		<= Head $mol_view
+			sub /
+				<= Input $mol_string
+					value? <=> text? \
+		<= Drag_view
+		^ edges
+		^ toolbar
+	drag_body /
+		<= Title $mol_paragraph
+			dom_name <= title_dom_name \h1
+			title <= text_rendered \
+
+$shm_hitalama_board_block_iframe $shm_hitalama_board_block_float
+	sub /
+		<= Drag_view
+		^ iframe_visible /
+			<= Iframe $mol_frame
+				uri <= src
+			<= Tg_post_dom $mol_view
+				sub / ^ tg_post_script /
+		^ blocker / <= Blocker $mol_view
+		^ edges
+		^ toolbar
+	tools /
+		<= Src $mol_string
+			value? <=> src? \
+			focused => src_focused
+		^
+	drag_body /
+		<= Title $mol_paragraph
+			title <= src
+
 $shm_hitalama_color_dot $mol_view
 	style *
 		backgroundColor <= color \
@@ -2306,157 +2425,6 @@ $mol_icon_chevron_up $mol_icon path \M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8
 
 $mol_icon_chevron_down $mol_icon path \M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z
 
-$mol_icon_arrow_collapse $mol_icon path \M19.5,3.09L15,7.59V4H13V11H20V9H16.41L20.91,4.5L19.5,3.09M4,13V15H7.59L3.09,19.5L4.5,20.91L9,16.41V20H11V13H4Z
-
-$mol_icon_arrow_collapse_up $mol_icon path \M4.08,11.92L12,4L19.92,11.92L18.5,13.33L13,7.83V22H11V7.83L5.5,13.33L4.08,11.92M12,4H22V2H2V4H12Z
-
-$mol_icon_arrow_collapse_down $mol_icon path \M19.92,12.08L12,20L4.08,12.08L5.5,10.67L11,16.17V2H13V16.17L18.5,10.66L19.92,12.08M12,20H2V22H22V20H12Z
-
-$mol_icon_trash_can $mol_icon path \M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M9,8H11V17H9V8M13,8H15V17H13V8Z
-
-$shm_hitalama_board_block_float $rise_resize_ratio
-	block $shm_hitalama_board_block
-	board $shm_hitalama_board
-	Board_page $shm_hitalama_board_page
-	zoom 1
-	sub /
-		<= Content
-		^ edges
-		^ toolbar
-		^ sidebar /
-			<= Sidebar $mol_view
-				sub <= side_body /
-	auto /
-		^
-		<= bind_view null
-		<= editing? false
-	font_size_options /number
-		10
-		12
-		14
-		18
-		24
-		36
-		48
-		64
-		80
-		144
-		288
-	toolbar /
-		<= Toolbar $mol_view
-			style *
-				transform <= toolbar_transform \
-			sub <= tools /
-				- <= Copy $mol_button_minor sub /
-					<= Copy_icon $mol_icon_content_copy
-				- <= Cut $mol_button_minor sub /
-					<= Cut_icon $mol_icon_content_cut
-				- <= Paste $mol_button_minor sub /
-					<= Paste_icon $mol_icon_content_paste
-				^ font_tools /
-					<= Color $shm_hitalama_color_pick
-						color? <=> color? \var(--mol_theme_text)
-						hint @ \Font color
-					<= Font_size_tool $mol_search
-						hint @ \Font size
-						query? <=> font_size_selected? \
-						anchor_content /
-							<= Font_size $mol_number
-								minimal_width 64
-								value? <=> font_size? 14
-								Dec null
-								Inc null
-						suggests <= font_size_suggests /string
-					<= Inc_dec $mol_view
-						sub /
-							<= Inc $mol_button_minor
-								hint @ \Increase font size
-								minimal_height 20
-								minimal_width 20
-								event_click? <=> font_size_inc? null
-								sub / <= inc_icon $mol_icon_chevron_up
-							<= Dec $mol_button_minor
-								hint @ \Decrease font size
-								minimal_height 20
-								minimal_width 20
-								event_click? <=> font_size_dec? null
-								sub / <= dec_icon $mol_icon_chevron_down
-				<= Top $mol_button_minor 
-					hint @ \Bring to top
-					sub /
-						<= Top_icon $mol_icon_arrow_collapse_up
-					click? <=> to_top? null
-				<= Bottom $mol_button_minor
-					hint @ \Send to back
-					sub /
-						<= Bottom_icon $mol_icon_arrow_collapse_down
-					click? <=> to_bottom? null
-				<= Delete $mol_button_minor
-					hint @ \Delete
-					sub /
-						<= Delete_icon $mol_icon_trash_can
-					click? <=> delete? null
-				<= Copy_code $mol_button_copy
-					title <= title \
-					text <= copy_code \
-	copy_code_template \board.block('{ref}').text()
-	opacity? 1
-	has_scrollbar false
-	style *
-		^
-		opacity <= opacity_str \1
-		transition <= transition <= transition_smooth \top 0.2s, left 0.2s, right 0.2s, bottom 0.2s, width 0.2s, height 0.2s
-	font_size_px \
-	event *
-		^
-		contextmenu? <=> event_contextmenu? null
-		pointerdown? <=> pointerdown? null
-		pointerenter? <=> pointerenter? null
-		pointerleave? <=> pointerleave? null
-	on_contextmenu? null
-	hovered? false
-	Contextmenu_body null
-	attr *
-		^
-		shm_hitalama_board_block_float_selected <= selected? false
-		shm_hitalama_board_block_float_dragged <= dragged?
-
-$shm_hitalama_board_block_input $shm_hitalama_board_block_float
-	sub /
-		<= Head $mol_view
-			sub /
-				<= Input $mol_string
-					value? <=> text? \
-		<= Drag_view
-		^ edges
-		^ toolbar
-	font_tools /
-	drag_body /
-		<= Title $mol_paragraph
-			dom_name <= title_dom_name \h1
-			title <= text_rendered \
-
-$shm_hitalama_board_block_iframe $shm_hitalama_board_block_float
-	sub /
-		<= Drag_view
-		^ iframe_visible /
-			<= Iframe $mol_frame
-				uri <= src
-			<= Tg_post_dom $mol_view
-				sub / ^ tg_post_script /
-		^ blocker / <= Blocker $mol_view
-		^ edges
-		^ toolbar
-	font_tools /
-	tools /
-		<= Src $mol_string
-			value? <=> src? \
-			focused => src_focused
-		^
-	drag_body /
-		<= Title $mol_paragraph
-			title <= src
-
 $shm_hitalama_board_block_text $shm_hitalama_board_block_float
 	sub /
 		<= Text $mol_textarea
@@ -2477,6 +2445,48 @@ $shm_hitalama_board_block_text $shm_hitalama_board_block_float
 				pointerup? <=> blocker_pointerup? null
 		^ image / <= Image $mol_image
 			uri <= image_uri \
+	tools /
+		^ font_tools /
+			<= Color $shm_hitalama_color_pick
+				color? <=> color? \var(--mol_theme_text)
+				hint @ \Font color
+			<= Font_size_tool $mol_search
+				hint @ \Font size
+				query? <=> font_size_selected? \
+				anchor_content /
+					<= Font_size $mol_number
+						minimal_width 64
+						value? <=> font_size? 14
+						Dec null
+						Inc null
+				suggests <= font_size_suggests /string
+			<= Inc_dec $mol_view
+				sub /
+					<= Inc $mol_button_minor
+						hint @ \Increase font size
+						minimal_height 20
+						minimal_width 20
+						event_click? <=> font_size_inc? null
+						sub / <= inc_icon $mol_icon_chevron_up
+					<= Dec $mol_button_minor
+						hint @ \Decrease font size
+						minimal_height 20
+						minimal_width 20
+						event_click? <=> font_size_dec? null
+						sub / <= dec_icon $mol_icon_chevron_down
+		^
+	font_size_options /number
+		10
+		12
+		14
+		18
+		24
+		36
+		48
+		64
+		80
+		144
+		288
 
 $mol_form $mol_list
 	submit_allowed true
@@ -2711,23 +2721,10 @@ $shm_hitalama_board_form_view $mol_form
 			- enabled <= changed false
 
 $shm_hitalama_board_block_form $shm_hitalama_board_block_float
-	content /
-		<= Drag_view
+	controls /
 		<= Form $shm_hitalama_board_form_view
 			form <= form $shm_hitalama_board_form
 			board <= board $shm_hitalama_board
-	- sub /
-		- <= Head $mol_view
-			sub /
-		<= Drag_view
-		<= Form $shm_hitalama_board_form_view
-			form <= form $shm_hitalama_board_form
-			board <= board $shm_hitalama_board
-		^ edges
-		^ toolbar
-	font_tools /
-	- drag_body /
-		<= Form
 
 $mol_icon_content_copy $mol_icon path \M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z
 
@@ -2827,11 +2824,11 @@ $shm_hitalama_board_block_table $shm_hitalama_board_block_float
 		^ deleting_tool_visible / <= Deleting $mol_check_box
 			title \Удаление строк
 			checked? <=> delete_enabled? false
-	Contextmenu_body $mol_list
-		sub /
-			<= Chart_add $mol_button_minor
-				title \Добавить график
-				click? <=> chart_add? null
+	contextmenu_body /
+		<= Chart_add $mol_button_minor
+			title \Добавить график
+			click? <=> chart_add? null
+		^
 
 $shm_hitalama_board_block_code $shm_hitalama_board_block_float
 	content /
@@ -2850,7 +2847,6 @@ $shm_hitalama_board_block_code $shm_hitalama_board_block_float
 					title \Выполнить
 					click? <=> run? null
 	time_start? 0
-	font_tools /
 
 $shm_hitalama_chart_line_pane $mol_plot_pane
 	Touch $mol_touch
@@ -2901,26 +2897,21 @@ $shm_hitalama_board_block_chart $shm_hitalama_board_block_float
 			series_y* <= series_y* /
 	width_min 200
 	height_min 200
-	tools /
-		<= Top
-		<= Bottom
-		<= Delete
-		<= Copy_code
-	Contextmenu_body $mol_list
-		sub /
-			<= Settings_add $mol_button_minor
-				title \Добавить виджет настроек
-				click? <=> settings_add? null
-			<= Filters_add $mol_pop_over
-				align \right_bottom
-				Anchor <= Filters_add_anchor $mol_button_minor
-					title \Добавить фильтр
-				bubble_content /
-					<= Filters $mol_list
-						sub <= filter_buttons /
-							<= Filter_add*0 $mol_button_minor
-								title <= filter_name* \
-								click? <=> filter_add*? null
+	contextmenu_body /
+		<= Settings_add $mol_button_minor
+			title \Добавить виджет настроек
+			click? <=> settings_add? null
+		<= Filters_add $mol_pop_over
+			align \right_bottom
+			Anchor <= Filters_add_anchor $mol_button_minor
+				title \Добавить фильтр
+			bubble_content /
+				<= Filters $mol_list
+					sub <= filter_buttons /
+						<= Filter_add*0 $mol_button_minor
+							title <= filter_name* \
+							click? <=> filter_add*? null
+		^
 
 $mol_select_list $mol_view
 	value? /string
@@ -3002,11 +2993,6 @@ $shm_hitalama_check_list $mol_list
 		checked? <=> checked*? false
 
 $shm_hitalama_board_block_chart_filter $shm_hitalama_board_block_float
-	tools /
-		<= Top
-		<= Bottom
-		<= Delete
-		<= Copy_code
 	content /
 		<= Drag_view
 		<= Form $mol_list
@@ -3040,13 +3026,10 @@ $shm_hitalama_board_block_file $shm_hitalama_board_block_float
 		<= Drag_view
 		^ edges
 		^ toolbar
-	font_tools /
 	drag_body /
 		<= Title $mol_paragraph
 			dom_name <= title_dom_name \h1
 			title <= name \
-	Contextmenu_body $mol_list
-		sub <= contextmenu_body /
 	contextmenu_for *any
 		csv /
 			<= Unpacking $mol_button_minor
@@ -3108,16 +3091,12 @@ $rise_range_value $mol_view
 		disabled <= disabled false
 
 $shm_hitalama_board_block_range $shm_hitalama_board_block_float
-	sub /
-		<= Drag_view
+	controls /
 		<= Control $rise_range
 			value? <=> value? 0
 			min <= min? 0
 			max <= max? 10
 			step <= step? 1
-		^ edges
-		^ toolbar
-	font_tools /
 	tools /
 		<= Top
 		<= Bottom
@@ -3170,13 +3149,11 @@ $shm_hitalama_board_block_table_novirt $shm_hitalama_board_block_table
 		row_ids => table_row_ids
 
 $shm_hitalama_board_block_form_edit $shm_hitalama_board_block_float
-	content /
-		<= Drag_view
+	controls /
 		<= Form $shm_hitalama_board_form_view
 			form <= form $shm_hitalama_board_form
 			board <= board $shm_hitalama_board
 			buttons /
-	font_tools /
 
 $rise_toggle $mol_check
 	minimal_height 24
@@ -3195,6 +3172,35 @@ $shm_hitalama_board_block_code_css $shm_hitalama_board_block_code
 			checked? <=> enabled? true
 		<= Delete
 		<= Copy_code
+
+$shm_hitalama_board_block_customizer $shm_hitalama_board_block_float
+	controls /
+		<= Controls $mol_list
+			sub /
+				- <= Head $mol_view
+					sub /
+						<= Type $mol_string
+							value? <=> self_type? \my_button
+						<= Base $mol_select
+							value? <=> base_type? \$mol_view
+				<= Source_type $mol_deck
+					current? <=> soure_type_current? \0
+					items /
+						<= View_tree $mol_textarea
+							title \Composition
+							sidebar_showed true
+							value? <=> code_view_tree? \
+						<= Css $mol_textarea
+							title \Styles
+							sidebar_showed true
+							value? <=> code_css? \
+						<= Js $mol_textarea
+							title \Behavior
+							sidebar_showed true
+							value? <=> code_js? \
+	attr *
+		^
+		mol_theme \$mol_theme_special
 
 $shm_hitalama_board_block_any $mol_ghost
 	Sub $shm_hitalama_board_block_float
@@ -3234,7 +3240,9 @@ $shm_hitalama_board_block_any $mol_ghost
 		table_novirt <= Table_novirt $shm_hitalama_board_block_table_novirt
 		form_edit <= Form_edit $shm_hitalama_board_block_form_edit
 		code_css <= Code_css $shm_hitalama_board_block_code_css
+		customizer <= Customizer $shm_hitalama_board_block_customizer
 		- ^ custom
+	Custom $shm_hitalama_board_block_float
 
 $mol_icon_cursor_default $mol_icon path \M13.64,21.97C13.14,22.21 12.54,22 12.31,21.5L10.13,16.76L7.62,18.78C7.45,18.92 7.24,19 7,19A1,1 0 0,1 6,18V3A1,1 0 0,1 7,2C7.24,2 7.47,2.09 7.64,2.23L7.65,2.22L19.14,11.86C19.57,12.22 19.62,12.85 19.27,13.27C19.12,13.45 18.91,13.57 18.7,13.61L15.54,14.23L17.74,18.96C18,19.46 17.76,20.05 17.26,20.28L13.64,21.97Z
 
@@ -3248,6 +3256,36 @@ $shm_hitalama_board_presence_cursor $mol_view
 		<= Icon $mol_icon_cursor_default
 		<= Name $mol_view
 			sub / <= name \afasfs
+
+$shm_hitalama_board_page_contexmenu $mol_list
+	board $shm_hitalama_board
+	contextmenu_real_pos /
+	contextmenu_showed? false
+	sub /
+		<= Text_add $mol_button_minor
+			title \Добавить текст
+			click? <=> text_add? null
+		<= Input_add $mol_button_minor
+			title \Добавить input
+			click? <=> input_add? null
+		<= Iframe_add $mol_button_minor
+			title \Добавить iframe
+			click? <=> iframe_add? null
+		<= Range_add $mol_button_minor
+			title \Добавить range
+			click? <=> range_add? null
+		<= Form_add $mol_button_minor
+			title \Добавить виджет: Сбор 1% выгрузки БА
+			click? <=> form_add? null
+		<= Deckgl_example_add $mol_button_minor
+			title \Добавить deck.gl example
+			click? <=> deckgl_example_add? null
+		<= Echarts_example_add $mol_button_minor
+			title \Добавить ECharts example
+			click? <=> echarts_example_add? null
+		<= Code_css_add $mol_button_minor
+			title \Добавить css
+			click? <=> code_css_add? null
 
 $shm_hitalama_board_touch $mol_touch
 
@@ -3387,36 +3425,18 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 					uri <= exported_json \
 					file_name <= exported_file_name \
 					title \Экспорт
+		- <= Side_panel $mol_view
+			sub /
+				<= Side_panel_body $mol_view
+					sub /
 		<= Pane
 	contextmenu_body? /
 	get_pointer_pos /
 	contextmenu_real_pos /
-	Back_contextmenu_body $mol_list
-		sub /
-			<= Text_add $mol_button_minor
-				title \Добавить текст
-				click? <=> text_add? null
-			<= Input_add $mol_button_minor
-				title \Добавить input
-				click? <=> input_add? null
-			<= Iframe_add $mol_button_minor
-				title \Добавить iframe
-				click? <=> iframe_add? null
-			<= Range_add $mol_button_minor
-				title \Добавить range
-				click? <=> range_add? null
-			<= Form_add $mol_button_minor
-				title \Добавить виджет: Сбор 1% выгрузки БА
-				click? <=> form_add? null
-			<= Deckgl_example_add $mol_button_minor
-				title \Добавить deck.gl example
-				click? <=> deckgl_example_add? null
-			<= Echarts_example_add $mol_button_minor
-				title \Добавить ECharts example
-				click? <=> echarts_example_add? null
-			<= Code_css_add $mol_button_minor
-				title \Добавить css
-				click? <=> code_css_add? null
+	Back_contextmenu_body $shm_hitalama_board_page_contexmenu
+		board <= board
+		contextmenu_real_pos <= contextmenu_real_pos
+		contextmenu_showed? <=> contextmenu_showed? false
 	Pane $shm_hitalama_board_pane
 		event_drop? <=> event_drop? null
 		select_start? => select_start?
@@ -3463,9 +3483,6 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 			^ cursors /
 				<= Cursor* $shm_hitalama_board_presence_cursor
 					pos <= cursor_pos* null
-	- cursors /
-		<= Cursor $shm_hitalama_board_presence_cursor
-			pos <= cursor_pos /number
 
 $shm_hitalama_board_catalog $shm_hitalama_entity_catalog
 	menu_title \Карты
