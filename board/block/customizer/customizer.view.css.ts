@@ -1,15 +1,24 @@
 namespace $.$$ {
+
+	const Textarea = {
+		pointerEvents: 'none',
+		Edit: {
+			pointerEvents: 'auto',
+		},
+		padding: {
+			left: $mol_gap.block,
+		},
+		margin: {
+			left: $mol_gap.block,
+			right: $mol_gap.block,
+			bottom: $mol_gap.block,
+		},
+	} as const
 	
 	$mol_style_define( $shm_hitalama_board_block_customizer, {
 		
 		background: {
 			color: $mol_theme.card,
-		},
-
-		Drag_view: {
-			position: 'absolute',
-			width: '100%',
-			height: '100%',
 		},
 
 		Controls: {
@@ -18,7 +27,30 @@ namespace $.$$ {
 			},
 		},
 
-		Source_type: {
+		Head: {
+			margin: {
+				top: $mol_gap.space,
+				left: $mol_gap.space,
+				bottom: $mol_gap.space,
+				right: $mol_gap.block,
+			},
+			gap: $mol_gap.block,
+		},
+
+		Name: {
+			['fieldSizing' as any]: 'content',
+			flex: {
+				grow: 0,
+			},
+		},
+
+		Create: {
+			margin: {
+				left: 'auto',
+			},
+		},
+
+		Deck: {
 			flex: {
 				grow: 1,
 			},
@@ -27,6 +59,16 @@ namespace $.$$ {
 					grow: 0,
 				},
 			},
+		},
+
+		View_tree: {
+			...Textarea
+		},
+		Css: {
+			...Textarea
+		},
+		Js: {
+			...Textarea
 		},
 
 

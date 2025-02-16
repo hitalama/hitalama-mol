@@ -2,27 +2,34 @@ $shm_hitalama_board_block_customizer $shm_hitalama_board_block_float
 	controls /
 		<= Controls $mol_list
 			sub /
-				- <= Head $mol_view
+				<= Head $mol_view
 					sub /
-						<= Type $mol_string
-							value? <=> self_type? \my_button
-						<= Base $mol_select
+						<= Deck_switch
+						<= Name $mol_string
+							value? <=> title? \
+						- <= Base $mol_select
 							value? <=> base_type? \$mol_view
-				<= Source_type $mol_deck
-					current? <=> soure_type_current? \0
-					items /
-						<= View_tree $mol_textarea
-							title \Composition
-							sidebar_showed true
-							value? <=> code_view_tree? \
-						<= Css $mol_textarea
-							title \Styles
-							sidebar_showed true
-							value? <=> code_css? \
-						<= Js $mol_textarea
-							title \Behavior
-							sidebar_showed true
-							value? <=> code_js? \
+						<= Create $mol_button_major
+							title \Создать
+							click? <=> create_instance? null
+				<= Deck_content
+	Deck $mol_deck
+		Switch => Deck_switch
+		Content => Deck_content
+		current? <=> soure_type_current? \0
+		items /
+			<= View_tree $mol_textarea
+				title \View
+				sidebar_showed true
+				value? <=> code_view_tree? \
+			<= Css $mol_textarea
+				title \Style
+				sidebar_showed true
+				value? <=> code_css? \
+			<= Js $mol_textarea
+				title \Logic
+				sidebar_showed true
+				value? <=> code_js? \
 	attr *
 		^
 		mol_theme \$mol_theme_special

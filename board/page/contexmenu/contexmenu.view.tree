@@ -27,3 +27,6 @@ $shm_hitalama_board_page_contexmenu $mol_list
 		<= Code_css_add $mol_button_minor
 			title \Добавить css
 			click? <=> code_css_add? null
+		<= Customizer_add $mol_button_minor
+			title \Добавить редактор виджетов
+			click? <=> customizer_add? null

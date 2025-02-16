@@ -5,22 +5,30 @@ namespace $.$$ {
 		background: {
 			color: $mol_theme.card,
 		},
-		
-		Head: {
-			padding: $mol_gap.space,
+
+		Fullsize_wrapper: {
+			flex: {
+				direction: 'column',
+			},
 		},
 
 		Title: {
 			align: {
 				items: 'center',
 			},
-		},
-
-		Drag_view: {
 			justify: {
 				content: 'center',
 			},
-			padding: $mol_gap.block,
+			flex: {
+				grow: 1,
+			},
+		},
+
+		Input: {
+			flex: {
+				grow: 0,
+			},
+			margin: $mol_gap.space,
 		},
 		
 	} )

@@ -13,6 +13,9 @@ namespace $.$$ {
 		},
 		
 		Drag_view: {
+			position: 'static',
+			width: 'auto',
+			height: 'auto',
 			flex: {
 				grow: 0,
 			},

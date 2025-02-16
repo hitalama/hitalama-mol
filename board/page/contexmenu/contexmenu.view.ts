@@ -83,6 +83,38 @@ namespace $.$$ {
 			this.contextmenu_showed( false )
 			return block
 		}
+
+		@ $mol_action
+		get_custom_guid() {
+			return $mol_guid(12).replace(/[0-9]/g, '').toLowerCase()
+		}
+		
+		@ $mol_action
+		customizer_add() {
+			const board = this.board()
+			const block = board.block_add( 'customizer', this.contextmenu_real_pos(), 830, 400 )
+			const custom = board.Customs(null)?.make( board.land() )
+
+			block?.Custom(null)?.remote( custom )
+
+			const type_custom = 'button_' + this.get_custom_guid()
+			custom?.title( type_custom )
+			
+			const code_js = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( 'shm/hitalama/board/snippets/_custom_button.js' ) )
+				.replaceAll( 'my_button', 'my_' + type_custom )
+			custom?.Code_js(null)?.value( code_js )
+
+			const code_view_tree = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( 'shm/hitalama/board/snippets/_custom_button.view.tree' ) )
+				.replace( 'my_button', 'my_' + type_custom )
+
+			custom?.Code_view_tree(null)?.value( code_view_tree )
+
+			const code_css = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( 'shm/hitalama/board/snippets/_custom_button.view.css' ) )
+				.replaceAll( 'my_button', 'my_' + type_custom )
+			custom?.Code_css(null)?.value( code_css )
+
+			this.contextmenu_showed( false )
+		}
 		
 	}
 }

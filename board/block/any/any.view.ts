@@ -3,24 +3,14 @@ namespace $.$$ {
 	export class $shm_hitalama_board_block_any extends $.$shm_hitalama_board_block_any {
 
 		@ $mol_mem
-		custom() {
-			const title = this.block().Type_custom()?.val()
-			if( !title ) return
-
-			const custom = this.board().Customs()?.remote_list().find( c => c.title() == title )
-			return custom
-		}
-
-		@ $mol_mem
 		custom_expose() {
-			const custom = this.custom()!
+			const custom = this.block().Type_custom()?.remote()!
 
 			const class_name = custom.class_name()!
 			const code_css = custom.Code_css()?.value()!
 			this.$.$mol_style_attach( class_name, code_css )
 
 			const code_tree = custom.Code_view_tree()?.value()!
-			console.log('code_tree', code_tree)
 			const code_js = custom.Code_js()?.value()!
 			
 			const tree = this.$.$mol_view_tree2_normalize(
@@ -39,39 +29,39 @@ namespace $.$$ {
 				`$.${ class_name } = ${ base_js };\n`+
 				`${code_js};`
 			
-			console.log('code', code)
 			const func = new Function( code )
 			func.call( { $: this.$ } )
 		}
 		
 		@ $mol_mem
 		Custom(){
-			const class_name = this.custom()?.class_name()!
+			if( this.block().type() !== 'custom' ) return super.Sub()
+				
+			const custom = this.block().Type_custom()?.remote()!
+			const code_css = custom.Code_css()?.value()!
+			const code_tree = custom.Code_view_tree()?.value()!
+			const code_js = custom.Code_js()?.value()!
+
+			const class_name = custom?.class_name()!
 
 			try {
 				this.custom_expose()
+				const obj = new (this.$ as any)[ class_name ]
+				return obj as $shm_hitalama_board_block_float
+				
 			} catch (error) {
 				if( !$mol_promise_like(error) ) {
 					console.error( error )
-					return super.Custom()
+					return super.Sub()
 				}
 				else throw error
 			}
-			
-			// console.log('class_name', class_name)
-			const obj = new (this.$ as any)[ class_name ]
-			return obj as $shm_hitalama_board_block_float
 		}
 
 		@ $mol_mem
 		Sub() {
-
 			const type = this.block().Type()?.val()!
-			console.log('type', type)
-			console.log('this.custom_class_name()', this.custom())
-			const obj = this.custom()
-				? this.Custom()
-				: this.blocks()[ type ] ?? super.Sub()
+			const obj = this.blocks()[ type ] ?? super.Sub()
 
 			obj.block = () => this.block()
 			obj.board = () => this.board()
@@ -88,7 +78,6 @@ namespace $.$$ {
 			obj.zoom = () => this.zoom()
 
 			return obj
-			
 		}
 
 		// @ $mol_mem

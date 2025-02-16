@@ -33,7 +33,12 @@ namespace $ {
 				left_edge_x: block.Left_edge_x()?.val(),
 				opacity: block.Opacity()?.val(),
 				type: block.Type()?.val(),
+
+				type_custom: block.Type_custom()?.remote()?.ref().description,
 		
+				/** customizer */
+				custom: block.Custom()?.remote()?.ref().description,
+
 				// Board: $hyoo_crus_atom_ref_to( ()=> $shm_hitalama_board ),
 		
 				image_blob_uri,
@@ -107,6 +112,14 @@ namespace $ {
 
 		@ $mol_action
 		static deserialize_refs( block: $shm_hitalama_board_block, dto: ReturnType< typeof $shm_hitalama_board_transfer_block['serialize'] >, ref_remap: (ref: string)=> string ) {
+			if( dto.type_custom ) {
+				const custom = $hyoo_crus_glob.Node( $hyoo_crus_ref( ref_remap( dto.type_custom )! ), $shm_hitalama_board_custom )
+				block.Type_custom(null)?.remote( custom )
+			}
+			if( dto.custom ) {
+				const custom = $hyoo_crus_glob.Node( $hyoo_crus_ref( ref_remap( dto.custom )! ), $shm_hitalama_board_custom )
+				block.Custom(null)?.remote( custom )
+			}
 			if( dto.use_chart_from_ref ) {
 				const use_from = $hyoo_crus_glob.Node( $hyoo_crus_ref( ref_remap( dto.use_chart_from_ref )! ), $shm_hitalama_board_block )
 				block.Use_chart_from(null)?.remote( use_from )

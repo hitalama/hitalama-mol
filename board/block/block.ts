@@ -17,6 +17,7 @@ namespace $ {
 		'form_edit',
 		'code_css',
 		'customizer',
+		'custom',
 	] as const
 
 	class $shm_hitalama_board_block_type extends $hyoo_crus_atom_enum( $shm_hitalama_board_block_types ){}
@@ -31,7 +32,7 @@ namespace $ {
 		Left_edge_x: $hyoo_crus_atom_real,
 		Opacity: $hyoo_crus_atom_real,
 		Type: $shm_hitalama_board_block_type,
-		Type_custom: $hyoo_crus_atom_str,
+		Type_custom: $hyoo_crus_atom_ref_to( ()=> $shm_hitalama_board_custom ),
 
 		Board: $hyoo_crus_atom_ref_to( ()=> $shm_hitalama_board ),
 
@@ -67,7 +68,7 @@ namespace $ {
 		/** file */
 		File: $hyoo_crus_atom_ref_to( ()=> $shm_hitalama_file ),
 
-		/** customizer */
+		/** customizer, or custom type */
 		Custom: $hyoo_crus_atom_ref_to( ()=> $shm_hitalama_board_custom ),
 
 	}){
