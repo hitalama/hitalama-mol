@@ -136,17 +136,17 @@ namespace $.$$ {
 			const type_custom = this.block().type() + '_' + this.get_custom_guid()
 			custom?.title( type_custom )
 			
-			const code_js = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( 'shm/hitalama/board/snippets/_my_widget.js' ) )
+			const code_js = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( '/shm/hitalama/board/snippets/_my_widget.js' ) )
 				.replaceAll( 'my_widget', 'my_' + type_custom )
 			custom?.Code_js(null)?.value( code_js )
 
-			const code_view_tree = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( 'shm/hitalama/board/snippets/_my_widget.view.tree' ) )
+			const code_view_tree = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( '/shm/hitalama/board/snippets/_my_widget.view.tree' ) )
 				.replace( 'shm_hitalama_board_block_float', 'shm_hitalama_board_block_' + this.block().type() )
 				.replace( 'my_widget', 'my_' + type_custom )
 
 			custom?.Code_view_tree(null)?.value( code_view_tree )
 
-			const code_css = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( 'shm/hitalama/board/snippets/_my_widget.view.css' ) )
+			const code_css = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( '/shm/hitalama/board/snippets/_my_widget.view.css' ) )
 				.replaceAll( 'my_widget', 'my_' + type_custom )
 			custom?.Code_css(null)?.value( code_css )
 			
