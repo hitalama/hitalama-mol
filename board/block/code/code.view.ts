@@ -29,6 +29,10 @@ namespace $.$$ {
 			this.moment_start( new $mol_time_moment )
 		}
 
+		page() {
+			return this.Board_page()
+		}
+
 		time_end?: number
 		@ $mol_action
 		run() {

@@ -31,6 +31,7 @@ namespace $ {
 		Left_edge_x: $hyoo_crus_atom_real,
 		Opacity: $hyoo_crus_atom_real,
 		Type: $shm_hitalama_board_block_type,
+		Type_custom: $hyoo_crus_atom_str,
 
 		Board: $hyoo_crus_atom_ref_to( ()=> $shm_hitalama_board ),
 

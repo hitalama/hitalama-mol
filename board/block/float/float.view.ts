@@ -118,12 +118,31 @@ namespace $.$$ {
 		}
 
 		@ $mol_action
+		get_custom_guid() {
+			return $mol_guid(12).replace(/[0-9]/g, '')
+		}
+
+		@ $mol_action
 		customizer_add() {
 			const left = this.left() + this.width()
 			const top = this.top()
 
-			const block = this.board().block_add( 'customizer', [ left, top ], 180, 290 )
-			// block?.Use_chart_from(null)?.remote( this.block() )
+			const board = this.board()
+			const block = board.block_add( 'customizer', [ left, top ], 180, 290 )
+			const custom = board.Customs(null)?.make( board.land() )
+
+			block?.Custom(null)?.remote( custom )
+
+			const code_js = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( 'shm/hitalama/board/snippets/_my_widget.js' ) )
+			custom?.Code_js(null)?.value( code_js )
+			const code_view_tree = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( 'shm/hitalama/board/snippets/_my_widget.view.tree' ) )
+			custom?.Code_view_tree(null)?.value( code_view_tree )
+			const code_css = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( 'shm/hitalama/board/snippets/_my_widget.view.css' ) )
+			custom?.Code_css(null)?.value( code_css )
+			
+			const type_custom = this.block().type() + '_' + this.get_custom_guid()
+			custom?.title( type_custom )
+			this.block().Type_custom(null)?.val( type_custom )
 
 			this.Board_page().contextmenu_showed( false )
 		}

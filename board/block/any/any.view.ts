@@ -1,13 +1,77 @@
 namespace $.$$ {
 
 	export class $shm_hitalama_board_block_any extends $.$shm_hitalama_board_block_any {
+
+		@ $mol_mem
+		custom() {
+			const title = this.block().Type_custom()?.val()
+			if( !title ) return
+
+			const custom = this.board().Customs()?.remote_list().find( c => c.title() == title )
+			return custom
+		}
+
+		@ $mol_mem
+		custom_expose() {
+			const custom = this.custom()!
+
+			const class_name = custom.class_name()!
+			const code_css = custom.Code_css()?.value()!
+			this.$.$mol_style_attach( class_name, code_css )
+
+			const code_tree = custom.Code_view_tree()?.value()!
+			console.log('code_tree', code_tree)
+			const code_js = custom.Code_js()?.value()!
+			
+			const tree = this.$.$mol_view_tree2_normalize(
+				this.$.$mol_tree2_from_string( code_tree )
+			).kids[0]
+
+			const base_js = this.$.$mol_tree2_text_to_string_mapped_js(
+				this.$.$mol_tree2_js_to_text(
+					this.$.$mol_view_tree2_to_js(
+						tree.list([ tree ])
+					)
+				)
+			)
+			
+			const code = `const $ = this.$;\n`+
+				`$.${ class_name } = ${ base_js };\n`+
+				`${code_js};`
+			
+			console.log('code', code)
+			const func = new Function( code )
+			func.call( { $: this.$ } )
+		}
 		
 		@ $mol_mem
-		Sub() {
+		Custom(){
+			const class_name = this.custom()?.class_name()!
+
+			try {
+				this.custom_expose()
+			} catch (error) {
+				if( !$mol_promise_like(error) ) {
+					console.error( error )
+					return super.Custom()
+				}
+				else throw error
+			}
 			
+			// console.log('class_name', class_name)
+			const obj = new (this.$ as any)[ class_name ]
+			return obj as $shm_hitalama_board_block_float
+		}
+
+		@ $mol_mem
+		Sub() {
+
 			const type = this.block().Type()?.val()!
-			const obj = this.blocks()[ type ] ?? super.Sub()
-			// const obj = this.blocks()[ type ] ?? this.Custom( type ) ?? super.Sub()
+			console.log('type', type)
+			console.log('this.custom_class_name()', this.custom())
+			const obj = this.custom()
+				? this.Custom()
+				: this.blocks()[ type ] ?? super.Sub()
 
 			obj.block = () => this.block()
 			obj.board = () => this.board()
@@ -40,58 +104,6 @@ namespace $.$$ {
 		// 	this.props().forEach(prop => add(prop.name(), prop.multiple(), prop.changeable()))
 
 		// 	return list.join('\n')
-		// }
-
-		// @ $mol_mem_key
-		// Custom( type: string ) {
-		// 	const obj = new this.$.$shm_hitalama_board_block_text()
-
-		// 	const code_tree = ''
-		// 	const code_js = ''
-		// 	const code_css = ''
-			
-		// 	const tree = this.$.$mol_view_tree2_normalize(
-		// 		this.$.$mol_tree2_from_string( code_tree )
-		// 	).kids[0]
-
-		// 	const base_js = this.$.$mol_tree2_text_to_string_mapped_js(
-		// 		this.$.$mol_tree2_js_to_text(
-		// 			this.$.$mol_view_tree2_to_js(
-		// 				tree.list([ tree ])
-		// 			)
-		// 		)
-		// 	)
-
-		// 	const base_class = ''
-		// 	const class_name = ''
-		// 	// const my_class = new Function()
-		// 	const func = new Function( 'const $ = this.$;\n' + 
-		// 		`
-		// 			class ${ class_name } extends $.${ base_class } {
-		// 				${ code_js }
-		// 			}
-		// 			return new ${ class_name }
-		// 		`
-		// 	)
-		// 	// const view_class = func.call( { $: this.$ } )
-
-		// 	// const my_class_func = new Function( `$.${ class_name } = class ${ class_name } extends $.${ class_name } {
-		// 	// 	${ code_js }
-		// 	// }` )
-		// 	// const my_class = my_class_func.call( { $: this.$ } )
-			
-		// 	this.$.$mol_style_attach( class_name, code_css )
-		// 	// return `
-		// 	// 	$.${ class_name } = ${ base_js }
-
-		// 	// 	$.${ class_name } = class ${ class_name } extends $.${ class_name } {
-		// 	// 		${ code_js }
-		// 	// 	}
-
-		// 	// 	$.$mol_style_attach(${ class_name }, \`${ code_css }\` )
-		// 	// `
-
-		// 	return obj
 		// }
 		
 	}

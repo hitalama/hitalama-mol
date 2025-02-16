@@ -4,3 +4,9 @@ deploy \shm/hitalama/board/snippets/_deckgl_example.js
 deploy \shm/hitalama/board/snippets/_echarts_example.js
 deploy \shm/hitalama/board/snippets/_search_statistics_rows.js
 deploy \shm/hitalama/board/snippets/_css_example.css
+deploy \shm/hitalama/board/snippets/_custom_button.js
+deploy \shm/hitalama/board/snippets/_custom_button.view.tree
+deploy \shm/hitalama/board/snippets/_custom_button.view.css
+deploy \shm/hitalama/board/snippets/_my_widget.js
+deploy \shm/hitalama/board/snippets/_my_widget.view.tree
+deploy \shm/hitalama/board/snippets/_my_widget.view.css

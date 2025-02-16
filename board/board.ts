@@ -18,7 +18,7 @@ namespace $ {
 
 		Presences: $hyoo_crus_atom_ref_to( ()=> $shm_hitalama_board_presence_dict ),
 
-		Custom_blocks: $hyoo_crus_list_ref_to( ()=> $shm_hitalama_board_custom ),
+		Customs: $hyoo_crus_list_ref_to( ()=> $shm_hitalama_board_custom ),
 
 	}){
 		

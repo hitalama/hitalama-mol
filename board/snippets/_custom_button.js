@@ -5,4 +5,3 @@ $.$my_button = class $my_button extends $.$my_button {
 	}
 
 }
- 

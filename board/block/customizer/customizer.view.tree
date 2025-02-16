@@ -13,29 +13,16 @@ $shm_hitalama_board_block_customizer $shm_hitalama_board_block_float
 					items /
 						<= View_tree $mol_textarea
 							title \Composition
-							hint \$hyoo_studio_example $mol_view
 							sidebar_showed true
 							value? <=> code_view_tree? \
-								\$my_widget $shm_hitalama_board_block_float
-								\
 						<= Css $mol_textarea
 							title \Styles
-							hint \
 							sidebar_showed true
 							value? <=> code_css? \
-								\[my_widget] {
-								\
-								\}
-								\
 						<= Js $mol_textarea
 							title \Behavior
-							hint \
 							sidebar_showed true
 							value? <=> code_js? \
-								\$.$my_widget = class $my_widget extends $.$my_widget {
-								\	
-								\}
-								\
 	attr *
 		^
 		mol_theme \$mol_theme_special
