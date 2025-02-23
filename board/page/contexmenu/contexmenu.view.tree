@@ -30,3 +30,7 @@ $shm_hitalama_board_page_contexmenu $mol_list
 		<= Customizer_add $mol_button_minor
 			title \Добавить редактор виджетов
 			click? <=> customizer_add? null
+		^ customs /
+			<= Custom_add*0 $mol_button_minor
+				title <= custom_add_title* \Добавить {title}
+				click? <=> custom_add*? null

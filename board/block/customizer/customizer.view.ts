@@ -21,6 +21,11 @@ namespace $.$$ {
 			return this.block().Custom()?.remote()?.Code_css( next )?.text( next ) ?? ''
 		}
 
+		@ $mol_mem
+		visible_in_menu( next?: boolean ): boolean {
+			return this.block().Custom()?.remote()?.Visible_in_contextmenu( next )?.val( next ) ?? false
+		}
+
 		@ $mol_action
 		create_instance() {
 			const block = this.board().block_add( 'custom', this.Board_page().get_pointer_pos() )

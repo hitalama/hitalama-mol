@@ -7,6 +7,10 @@ $shm_hitalama_board_block_customizer $shm_hitalama_board_block_float
 						<= Deck_switch
 						<= Name $mol_string
 							value? <=> title? \
+						<= Visible $mol_check_box
+							title \Отображать в меню
+							checked? <=> visible_in_menu? false
+							- value? <=> title? \
 						- <= Base $mol_select
 							value? <=> base_type? \$mol_view
 						<= Create $mol_button_major

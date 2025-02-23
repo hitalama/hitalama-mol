@@ -92,26 +92,47 @@ namespace $.$$ {
 		@ $mol_action
 		customizer_add() {
 			const board = this.board()
-			const block = board.block_add( 'customizer', this.contextmenu_real_pos(), 830, 400 )
+			const block = board.block_add( 'customizer', this.contextmenu_real_pos(), 1200, 600 )
 			const custom = board.Customs(null)?.make( board.land() )
 
 			block?.Custom(null)?.remote( custom )
 
-			const type_custom = 'button_' + this.get_custom_guid()
-			custom?.title( type_custom )
 			
-			const code_js = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( '/shm/hitalama/board/snippets/_custom_button.js' ) )
-				.replaceAll( 'my_button', 'my_' + type_custom )
+			const type_custom = 'widget_ba_messagecount_' + this.get_custom_guid()
+			custom?.title( 'BA messagecount' )
+			// custom?.title( type_custom )
+			
+			const code_js = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( '/shm/hitalama/board/snippets/_widget_ba_messagecount.js' ) )
+				.replaceAll( 'widget_ba_messagecount', type_custom )
 			custom?.Code_js(null)?.value( code_js )
 
-			const code_view_tree = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( '/shm/hitalama/board/snippets/_custom_button.view.tree' ) )
-				.replace( 'my_button', 'my_' + type_custom )
+			const code_view_tree = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( '/shm/hitalama/board/snippets/_widget_ba_messagecount.view.tree' ) )
+				.replace( 'widget_ba_messagecount', type_custom )
 
 			custom?.Code_view_tree(null)?.value( code_view_tree )
 
-			const code_css = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( '/shm/hitalama/board/snippets/_custom_button.view.css' ) )
-				.replaceAll( 'my_button', 'my_' + type_custom )
+			const code_css = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( '/shm/hitalama/board/snippets/_widget_ba_messagecount.view.css' ) )
+				.replaceAll( 'widget_ba_messagecount', type_custom )
 			custom?.Code_css(null)?.value( code_css )
+
+			this.contextmenu_showed( false )
+		}
+
+		customs() {
+			const visible = this.board().Customs()?.remote_list().filter( c => c.Visible_in_contextmenu()?.val() )
+			return visible?.map( c => this.Custom_add( c.ref() ) ) ?? []
+		}
+
+		custom_add_title( ref: $hyoo_crus_ref ) {
+			const custom = $hyoo_crus_glob.Node( ref, $shm_hitalama_board_custom )
+			return super.custom_add_title(0).replace( '{title}', custom.title() )
+		}
+
+		custom_add( ref: $hyoo_crus_ref ) {
+			const custom = $hyoo_crus_glob.Node( ref, $shm_hitalama_board_custom )
+
+			const block = this.board().block_add( 'custom', this.contextmenu_real_pos() )
+			block?.Type_custom(null)?.remote( custom )
 
 			this.contextmenu_showed( false )
 		}

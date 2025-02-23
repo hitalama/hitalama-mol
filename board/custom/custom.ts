@@ -8,6 +8,8 @@ namespace $ {
 		Code_css: $hyoo_crus_text,
 		Code_js: $hyoo_crus_text,
 
+		Visible_in_contextmenu: $hyoo_crus_atom_bool,
+
 	}) {
 
 		@ $mol_mem

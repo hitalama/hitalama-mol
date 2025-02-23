@@ -1,0 +1,10 @@
+[widget_ba_messagecount_button] {
+	margin: var(--mol_gap_block);
+	flex-grow: 0;
+	width: fit-content;
+	justify-content: center;
+}
+
+[widget_ba_messagecount_period] {
+	align-items: center;
+}

@@ -43,6 +43,8 @@ namespace $ {
 		/** iframe */
 		Src: $hyoo_crus_atom_str,
 
+		Data: $hyoo_crus_atom_json,
+
 		/** text|code|customdom */
 		Text: $hyoo_crus_text,
 		Use_text_from: $hyoo_crus_atom_ref_to( ()=> $shm_hitalama_board_block ),
@@ -86,6 +88,10 @@ namespace $ {
 
 		text( next?: string ) {
 			return this.Text(next)?.value(next) ?? ''
+		}
+
+		data( next?: any ) {
+			return this.Data(next)?.val(next)
 		}
 
 		color( next?: string ) {

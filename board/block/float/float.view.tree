@@ -3,13 +3,23 @@ $shm_hitalama_board_block_float $rise_resize_ratio
 	board $shm_hitalama_board
 	Board_page $shm_hitalama_board_page
 	zoom 1
-	sub /
+	-
+	scrollable true
+	sub_scrollable /
 		<= Content
 		^ edges
 		^ toolbar
-		^ sidebar /
-			<= Sidebar $mol_view
-				sub <= side_body /
+		^ sidebar
+	sub_overflows /
+		<= Drag_view
+		^ controls
+		^ edges
+		^ toolbar
+		^ sidebar
+	-
+	sidebar /
+		<= Sidebar $mol_view
+			sub <= side_body /
 	content /
 		<= Drag_view
 		^ controls /

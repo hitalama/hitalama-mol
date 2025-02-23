@@ -1,0 +1,13 @@
+$widget_ba_messagecount $shm_hitalama_board_block_float
+	scrollable false
+	controls /
+		<= Period $mol_view
+			sub /
+				<= Date_from $mol_date
+					value? <=> date_from? \
+				\–
+				<= Date_to $mol_date
+					value? <=> date_to? \
+		<= Button $mol_button_major
+			title \Создать таблицу
+			click? <=> click? null

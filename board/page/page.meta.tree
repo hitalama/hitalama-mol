@@ -10,3 +10,6 @@ deploy \shm/hitalama/board/snippets/_custom_button.view.css
 deploy \shm/hitalama/board/snippets/_my_widget.js
 deploy \shm/hitalama/board/snippets/_my_widget.view.tree
 deploy \shm/hitalama/board/snippets/_my_widget.view.css
+deploy \shm/hitalama/board/snippets/_widget_ba_messagecount.js
+deploy \shm/hitalama/board/snippets/_widget_ba_messagecount.view.tree
+deploy \shm/hitalama/board/snippets/_widget_ba_messagecount.view.css

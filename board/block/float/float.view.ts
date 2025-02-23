@@ -2,6 +2,10 @@ namespace $.$$ {
 
 	export class $shm_hitalama_board_block_float extends $.$shm_hitalama_board_block_float {
 
+		sub(): readonly ( any )[] {
+			return this.scrollable() ? this.sub_scrollable() : this.sub_overflows()
+		}
+
 		repos_x( val: number ): number {
 			return val / this.zoom()
 		}
