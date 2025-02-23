@@ -3410,6 +3410,10 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    function $mol_crypto_restack(error: any): never;
+}
+
+declare namespace $ {
     class $mol_crypto_key extends $mol_buffer {
         static from<This extends typeof $mol_crypto_key>(this: This, serial: number | string | ArrayBufferView<ArrayBuffer>): InstanceType<This>;
         toString(): string;
@@ -8409,6 +8413,7 @@ declare namespace $ {
         readonly Code_view_tree: (auto?: any) => $hyoo_crus_text | null;
         readonly Code_css: (auto?: any) => $hyoo_crus_text | null;
         readonly Code_js: (auto?: any) => $hyoo_crus_text | null;
+        readonly Visible_in_contextmenu: (auto?: any) => $hyoo_crus_atom_bool | null;
     }>) & {
         schema: {
             [x: string]: typeof $hyoo_crus_node;
@@ -8417,6 +8422,7 @@ declare namespace $ {
             readonly Code_view_tree: typeof $hyoo_crus_text;
             readonly Code_css: typeof $hyoo_crus_text;
             readonly Code_js: typeof $hyoo_crus_text;
+            readonly Visible_in_contextmenu: typeof $hyoo_crus_atom_bool;
         };
     };
     export class $shm_hitalama_board_custom extends $shm_hitalama_board_custom_base {
@@ -9634,6 +9640,7 @@ declare namespace $ {
         readonly Color: (auto?: any) => $hyoo_crus_atom_str | null;
         readonly Font_size: (auto?: any) => $hyoo_crus_atom_real | null;
         readonly Src: (auto?: any) => $hyoo_crus_atom_str | null;
+        readonly Data: (auto?: any) => $hyoo_crus_atom_json | null;
         readonly Text: (auto?: any) => $hyoo_crus_text | null;
         readonly Use_text_from: (auto?: any) => {
             Value: Value;
@@ -10087,6 +10094,7 @@ declare namespace $ {
             readonly Color: typeof $hyoo_crus_atom_str;
             readonly Font_size: typeof $hyoo_crus_atom_real;
             readonly Src: typeof $hyoo_crus_atom_str;
+            readonly Data: typeof $hyoo_crus_atom_json;
             readonly Text: typeof $hyoo_crus_text;
             readonly Use_text_from: {
                 new (): {
@@ -10476,6 +10484,7 @@ declare namespace $ {
         view(next?: $mol_view): $mol_view | undefined;
         css_id(): string;
         text(next?: string): string;
+        data(next?: any): {} | null | undefined;
         color(next?: string): string;
         font_size(next?: number): number | "";
         type(): "text" | "" | "input" | "iframe" | "form" | "table" | "table_novirt" | "code" | "chart" | "chart_settings" | "chart_filter" | "customdom" | "file" | "range" | "form_edit" | "code_css" | "customizer" | "custom";
@@ -18075,7 +18084,6 @@ declare namespace $ {
 	export class $shm_hitalama_board_block_float extends $rise_resize_ratio {
 		side_body( ): readonly(any)[]
 		Sidebar( ): $mol_view
-		sidebar( ): readonly(any)[]
 		controls( ): readonly(any)[]
 		bind_view( ): any
 		editing( next?: boolean ): boolean
@@ -18110,7 +18118,10 @@ declare namespace $ {
 		board( ): $shm_hitalama_board
 		Board_page( ): $shm_hitalama_board_page
 		zoom( ): number
-		sub( ): readonly(any)[]
+		scrollable( ): boolean
+		sub_scrollable( ): readonly(any)[]
+		sub_overflows( ): readonly(any)[]
+		sidebar( ): readonly(any)[]
 		content( ): readonly(any)[]
 		auto( ): readonly(any)[]
 		toolbar( ): readonly(any)[]
@@ -18142,6 +18153,7 @@ declare namespace $ {
 //# sourceMappingURL=float.view.tree.d.ts.map
 declare namespace $.$$ {
     class $shm_hitalama_board_block_float extends $.$shm_hitalama_board_block_float {
+        sub(): readonly (any)[];
         repos_x(val: number): number;
         repos_y(val: number): number;
         x_stick(next?: number): number;
@@ -21203,77 +21215,87 @@ declare namespace $ {
 		,
 		ReturnType< $mol_string['value'] >
 	>
-	type $mol_button_major__title_shm_hitalama_board_block_customizer_2 = $mol_type_enforce<
+	type $mol_check_box__title_shm_hitalama_board_block_customizer_2 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_check_box['title'] >
+	>
+	type $mol_check_box__checked_shm_hitalama_board_block_customizer_3 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_customizer['visible_in_menu'] >
+		,
+		ReturnType< $mol_check_box['checked'] >
+	>
+	type $mol_button_major__title_shm_hitalama_board_block_customizer_4 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_button_major['title'] >
 	>
-	type $mol_button_major__click_shm_hitalama_board_block_customizer_3 = $mol_type_enforce<
+	type $mol_button_major__click_shm_hitalama_board_block_customizer_5 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_customizer['create_instance'] >
 		,
 		ReturnType< $mol_button_major['click'] >
 	>
-	type $mol_view__sub_shm_hitalama_board_block_customizer_4 = $mol_type_enforce<
+	type $mol_view__sub_shm_hitalama_board_block_customizer_6 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_view['sub'] >
 	>
-	type $mol_list__sub_shm_hitalama_board_block_customizer_5 = $mol_type_enforce<
+	type $mol_list__sub_shm_hitalama_board_block_customizer_7 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_list['sub'] >
 	>
-	type $mol_textarea__title_shm_hitalama_board_block_customizer_6 = $mol_type_enforce<
+	type $mol_textarea__title_shm_hitalama_board_block_customizer_8 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_textarea['title'] >
 	>
-	type $mol_textarea__sidebar_showed_shm_hitalama_board_block_customizer_7 = $mol_type_enforce<
+	type $mol_textarea__sidebar_showed_shm_hitalama_board_block_customizer_9 = $mol_type_enforce<
 		boolean
 		,
 		ReturnType< $mol_textarea['sidebar_showed'] >
 	>
-	type $mol_textarea__value_shm_hitalama_board_block_customizer_8 = $mol_type_enforce<
+	type $mol_textarea__value_shm_hitalama_board_block_customizer_10 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_customizer['code_view_tree'] >
 		,
 		ReturnType< $mol_textarea['value'] >
 	>
-	type $mol_textarea__title_shm_hitalama_board_block_customizer_9 = $mol_type_enforce<
+	type $mol_textarea__title_shm_hitalama_board_block_customizer_11 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_textarea['title'] >
 	>
-	type $mol_textarea__sidebar_showed_shm_hitalama_board_block_customizer_10 = $mol_type_enforce<
+	type $mol_textarea__sidebar_showed_shm_hitalama_board_block_customizer_12 = $mol_type_enforce<
 		boolean
 		,
 		ReturnType< $mol_textarea['sidebar_showed'] >
 	>
-	type $mol_textarea__value_shm_hitalama_board_block_customizer_11 = $mol_type_enforce<
+	type $mol_textarea__value_shm_hitalama_board_block_customizer_13 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_customizer['code_css'] >
 		,
 		ReturnType< $mol_textarea['value'] >
 	>
-	type $mol_textarea__title_shm_hitalama_board_block_customizer_12 = $mol_type_enforce<
+	type $mol_textarea__title_shm_hitalama_board_block_customizer_14 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_textarea['title'] >
 	>
-	type $mol_textarea__sidebar_showed_shm_hitalama_board_block_customizer_13 = $mol_type_enforce<
+	type $mol_textarea__sidebar_showed_shm_hitalama_board_block_customizer_15 = $mol_type_enforce<
 		boolean
 		,
 		ReturnType< $mol_textarea['sidebar_showed'] >
 	>
-	type $mol_textarea__value_shm_hitalama_board_block_customizer_14 = $mol_type_enforce<
+	type $mol_textarea__value_shm_hitalama_board_block_customizer_16 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_customizer['code_js'] >
 		,
 		ReturnType< $mol_textarea['value'] >
 	>
-	type $mol_deck__current_shm_hitalama_board_block_customizer_15 = $mol_type_enforce<
+	type $mol_deck__current_shm_hitalama_board_block_customizer_17 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_customizer['soure_type_current'] >
 		,
 		ReturnType< $mol_deck['current'] >
 	>
-	type $mol_deck__items_shm_hitalama_board_block_customizer_16 = $mol_type_enforce<
+	type $mol_deck__items_shm_hitalama_board_block_customizer_18 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_deck['items'] >
@@ -21281,6 +21303,8 @@ declare namespace $ {
 	export class $shm_hitalama_board_block_customizer extends $shm_hitalama_board_block_float {
 		title( next?: string ): string
 		Name( ): $mol_string
+		visible_in_menu( next?: boolean ): boolean
+		Visible( ): $mol_check_box
 		create_instance( next?: any ): any
 		Create( ): $mol_button_major
 		Head( ): $mol_view
@@ -21310,6 +21334,7 @@ declare namespace $.$$ {
         code_js(next?: string): string;
         code_view_tree(next?: string): string;
         code_css(next?: string): string;
+        visible_in_menu(next?: boolean): boolean;
         create_instance(): void;
     }
 }
@@ -21712,6 +21737,16 @@ declare namespace $ {
 		,
 		ReturnType< $mol_button_minor['click'] >
 	>
+	type $mol_button_minor__title_shm_hitalama_board_page_contexmenu_19 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_page_contexmenu['custom_add_title'] >
+		,
+		ReturnType< $mol_button_minor['title'] >
+	>
+	type $mol_button_minor__click_shm_hitalama_board_page_contexmenu_20 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_page_contexmenu['custom_add'] >
+		,
+		ReturnType< $mol_button_minor['click'] >
+	>
 	export class $shm_hitalama_board_page_contexmenu extends $mol_list {
 		text_add( next?: any ): any
 		Text_add( ): $mol_button_minor
@@ -21731,6 +21766,10 @@ declare namespace $ {
 		Code_css_add( ): $mol_button_minor
 		customizer_add( next?: any ): any
 		Customizer_add( ): $mol_button_minor
+		custom_add_title( id: any): string
+		custom_add( id: any, next?: any ): any
+		Custom_add( id: any): $mol_button_minor
+		customs( ): readonly(any)[]
 		board( ): $shm_hitalama_board
 		contextmenu_real_pos( ): readonly(any)[]
 		contextmenu_showed( next?: boolean ): boolean
@@ -21753,6 +21792,9 @@ declare namespace $.$$ {
         code_css_add(): $shm_hitalama_board_block | null | undefined;
         get_custom_guid(): string;
         customizer_add(): void;
+        customs(): $mol_button_minor[];
+        custom_add_title(ref: $hyoo_crus_ref): string;
+        custom_add(ref: $hyoo_crus_ref): void;
     }
 }
 

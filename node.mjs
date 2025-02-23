@@ -3207,9 +3207,14 @@ var $;
             return $mol_dev_format_span({}, $mol_dev_format_native(this));
         }
         *view_find(check, path = []) {
-            if (check(this))
+            if (path.length === 0 && check(this))
                 return yield [...path, this];
             try {
+                for (const item of this.sub()) {
+                    if (item instanceof $mol_view && check(item)) {
+                        return yield [...path, item];
+                    }
+                }
                 for (const item of this.sub()) {
                     if (item instanceof $mol_view) {
                         yield* item.view_find(check, [...path, this]);
@@ -9663,6 +9668,17 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    function $mol_crypto_restack(error) {
+        error = new Error(error instanceof Error ? error.message : String(error), { cause: error });
+        $mol_fail_hidden(error);
+    }
+    $.$mol_crypto_restack = $mol_crypto_restack;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
     const ecdsa = {
         name: 'ECDSA',
         hash: 'SHA-1',
@@ -9704,7 +9720,7 @@ var $;
                 kty: "EC",
                 x: str.slice(0, 43),
                 y: str.slice(43, 86),
-            }, ecdsa, Boolean('extractable'), ['verify']);
+            }, ecdsa, Boolean('extractable'), ['verify']).catch($mol_crypto_restack);
         }
         async native_derive() {
             const serial = this.toString();
@@ -9713,10 +9729,10 @@ var $;
                 key_ops: [],
                 x: serial.slice(0, 43),
                 y: serial.slice(43, 86),
-            }, ecdh, true, []);
+            }, ecdh, true, []).catch($mol_crypto_restack);
         }
         async verify(data, sign) {
-            return await $mol_crypto_native.subtle.verify(ecdsa, await this.native(), sign, data);
+            return await $mol_crypto_native.subtle.verify(ecdsa, await this.native(), sign, data).catch($mol_crypto_restack);
         }
     }
     __decorate([
@@ -9731,8 +9747,8 @@ var $;
         static size_bin = 96;
         static size_sign = 64;
         static async generate() {
-            const pair = await $mol_crypto_native.subtle.generateKey(ecdsa, Boolean('extractable'), ['sign', 'verify']);
-            const { x, y, d } = await $mol_crypto_native.subtle.exportKey('jwk', pair.privateKey);
+            const pair = await $mol_crypto_native.subtle.generateKey(ecdsa, Boolean('extractable'), ['sign', 'verify']).catch($mol_crypto_restack);
+            const { x, y, d } = await $mol_crypto_native.subtle.exportKey('jwk', pair.privateKey).catch($mol_crypto_restack);
             return this.from(x + y + d);
         }
         async native() {
@@ -9745,7 +9761,7 @@ var $;
                 x: str.slice(0, 43),
                 y: str.slice(43, 86),
                 d: str.slice(86, 129),
-            }, ecdsa, Boolean('extractable'), ['sign']);
+            }, ecdsa, Boolean('extractable'), ['sign']).catch($mol_crypto_restack);
         }
         async native_derive() {
             const serial = this.toString();
@@ -9755,13 +9771,13 @@ var $;
                 x: serial.slice(0, 43),
                 y: serial.slice(43, 86),
                 d: serial.slice(86, 129),
-            }, ecdh, Boolean('extractable'), ['deriveKey', 'deriveBits']);
+            }, ecdh, Boolean('extractable'), ['deriveKey', 'deriveBits']).catch($mol_crypto_restack);
         }
         public() {
             return new $mol_crypto_key_public(this.buffer, this.byteOffset, this.byteOffset + 64);
         }
         async sign(data) {
-            return new Uint8Array(await $mol_crypto_native.subtle.sign(ecdsa, await this.native(), data));
+            return new Uint8Array(await $mol_crypto_native.subtle.sign(ecdsa, await this.native(), data).catch($mol_crypto_restack));
         }
     }
     __decorate([
@@ -9791,10 +9807,6 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    function restack(error) {
-        error = new Error(error instanceof Error ? error.message : String(error), { cause: error });
-        $mol_fail_hidden(error);
-    }
     class $mol_crypto_sacred extends $mol_buffer {
         static size = 16;
         static make() {
@@ -9815,7 +9827,7 @@ var $;
             return sacred;
         }
         static async from_native(native) {
-            const buf = await $mol_crypto_native.subtle.exportKey('raw', native).catch(restack);
+            const buf = await $mol_crypto_native.subtle.exportKey('raw', native).catch($mol_crypto_restack);
             const sacred = this.from(new Uint8Array(buf));
             sacred._native = native;
             return sacred;
@@ -9833,7 +9845,7 @@ var $;
             return this._native ?? (this._native = await $mol_crypto_native.subtle.importKey('raw', this, {
                 name: 'AES-CBC',
                 length: 128,
-            }, true, ['encrypt', 'decrypt']).catch(restack));
+            }, true, ['encrypt', 'decrypt']).catch($mol_crypto_restack));
         }
         async encrypt(open, salt) {
             return new Uint8Array(await $mol_crypto_native.subtle.encrypt({
@@ -9841,7 +9853,7 @@ var $;
                 length: 128,
                 tagLength: 32,
                 iv: salt,
-            }, await this.native(), open).catch(restack));
+            }, await this.native(), open).catch($mol_crypto_restack));
         }
         async decrypt(closed, salt) {
             return new Uint8Array(await $mol_crypto_native.subtle.decrypt({
@@ -9849,7 +9861,7 @@ var $;
                 length: 128,
                 tagLength: 32,
                 iv: salt,
-            }, await this.native(), closed).catch(restack));
+            }, await this.native(), closed).catch($mol_crypto_restack));
         }
         async close(sacred, salt) {
             const buf = new Uint8Array(sacred.buffer, sacred.byteOffset + 1, sacred.byteLength - 1);
@@ -11840,20 +11852,14 @@ var $;
                 if (secret_land) {
                     if (!dest)
                         $mol_fail(new Error(`Encrypted land can't be shared to everyone`));
-                    const prev = this.gift.get(dest instanceof $hyoo_crus_auth ? dest.lord() : dest);
-                    if (prev && prev.rank() >= $hyoo_crus_rank_read) {
-                        unit.bill().set(prev.bill());
+                    if (typeof dest === 'symbol') {
+                        $mol_fail(new Error(`No pub key for lord (${dest.description})`));
                     }
-                    else {
-                        if (typeof dest === 'symbol') {
-                            $mol_fail(new Error(`No pub key for lord (${dest.description})`));
-                        }
-                        const secret_mutual = this.secret_mutual(dest.toString());
-                        if (secret_mutual) {
-                            const secret_bin = $mol_wire_sync(secret_land).serial();
-                            const bill = $mol_wire_sync(secret_mutual).encrypt(secret_bin, unit.salt());
-                            unit.bill().set(bill);
-                        }
+                    const secret_mutual = this.secret_mutual(dest.toString());
+                    if (secret_mutual) {
+                        const secret_bin = $mol_wire_sync(secret_land).serial();
+                        const bill = $mol_wire_sync(secret_mutual).encrypt(secret_bin, unit.salt());
+                        unit.bill().set(bill);
                     }
                 }
             }
@@ -17563,6 +17569,7 @@ var $;
         Code_view_tree: $hyoo_crus_text,
         Code_css: $hyoo_crus_text,
         Code_js: $hyoo_crus_text,
+        Visible_in_contextmenu: $hyoo_crus_atom_bool,
     }) {
         class_name() {
             return this.Code_view_tree()?.value().split(' ', 1)[0];
@@ -18029,6 +18036,7 @@ var $;
         Color: $hyoo_crus_atom_str,
         Font_size: $hyoo_crus_atom_real,
         Src: $hyoo_crus_atom_str,
+        Data: $hyoo_crus_atom_json,
         Text: $hyoo_crus_text,
         Use_text_from: $hyoo_crus_atom_ref_to(() => $shm_hitalama_board_block),
         Enabled: $hyoo_crus_atom_bool,
@@ -18050,6 +18058,9 @@ var $;
         }
         text(next) {
             return this.Text(next)?.value(next) ?? '';
+        }
+        data(next) {
+            return this.Data(next)?.val(next);
         }
         color(next) {
             return this.Color(next)?.val(next) ?? '';
@@ -27886,9 +27897,6 @@ var $;
 			(obj.sub) = () => ((this.side_body()));
 			return obj;
 		}
-		sidebar(){
-			return [(this.Sidebar())];
-		}
 		controls(){
 			return [];
 		}
@@ -28035,13 +28043,28 @@ var $;
 		zoom(){
 			return 1;
 		}
-		sub(){
+		scrollable(){
+			return true;
+		}
+		sub_scrollable(){
 			return [
 				(this.Content()), 
 				...(this.edges()), 
 				...(this.toolbar()), 
 				...(this.sidebar())
 			];
+		}
+		sub_overflows(){
+			return [
+				(this.Drag_view()), 
+				...(this.controls()), 
+				...(this.edges()), 
+				...(this.toolbar()), 
+				...(this.sidebar())
+			];
+		}
+		sidebar(){
+			return [(this.Sidebar())];
 		}
 		content(){
 			return [(this.Drag_view()), ...(this.controls())];
@@ -28146,6 +28169,9 @@ var $;
     var $$;
     (function ($$) {
         class $shm_hitalama_board_block_float extends $.$shm_hitalama_board_block_float {
+            sub() {
+                return this.scrollable() ? this.sub_scrollable() : this.sub_overflows();
+            }
             repos_x(val) {
                 return val / this.zoom();
             }
@@ -33787,6 +33813,16 @@ var $;
 			(obj.value) = (next) => ((this.title(next)));
 			return obj;
 		}
+		visible_in_menu(next){
+			if(next !== undefined) return next;
+			return false;
+		}
+		Visible(){
+			const obj = new this.$.$mol_check_box();
+			(obj.title) = () => ("Отображать в меню");
+			(obj.checked) = (next) => ((this.visible_in_menu(next)));
+			return obj;
+		}
 		create_instance(next){
 			if(next !== undefined) return next;
 			return null;
@@ -33802,6 +33838,7 @@ var $;
 			(obj.sub) = () => ([
 				(this.Deck_switch()), 
 				(this.Name()), 
+				(this.Visible()), 
 				(this.Create())
 			]);
 			return obj;
@@ -33873,6 +33910,8 @@ var $;
 	};
 	($mol_mem(($.$shm_hitalama_board_block_customizer.prototype), "title"));
 	($mol_mem(($.$shm_hitalama_board_block_customizer.prototype), "Name"));
+	($mol_mem(($.$shm_hitalama_board_block_customizer.prototype), "visible_in_menu"));
+	($mol_mem(($.$shm_hitalama_board_block_customizer.prototype), "Visible"));
 	($mol_mem(($.$shm_hitalama_board_block_customizer.prototype), "create_instance"));
 	($mol_mem(($.$shm_hitalama_board_block_customizer.prototype), "Create"));
 	($mol_mem(($.$shm_hitalama_board_block_customizer.prototype), "Head"));
@@ -33909,6 +33948,9 @@ var $;
             code_css(next) {
                 return this.block().Custom()?.remote()?.Code_css(next)?.text(next) ?? '';
             }
+            visible_in_menu(next) {
+                return this.block().Custom()?.remote()?.Visible_in_contextmenu(next)?.val(next) ?? false;
+            }
             create_instance() {
                 const block = this.board().block_add('custom', this.Board_page().get_pointer_pos());
                 block?.Type_custom(null)?.remote(this.block().Custom()?.remote());
@@ -33926,6 +33968,9 @@ var $;
         __decorate([
             $mol_mem
         ], $shm_hitalama_board_block_customizer.prototype, "code_css", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_block_customizer.prototype, "visible_in_menu", null);
         __decorate([
             $mol_action
         ], $shm_hitalama_board_block_customizer.prototype, "create_instance", null);
@@ -35422,6 +35467,22 @@ var $;
 			(obj.click) = (next) => ((this.customizer_add(next)));
 			return obj;
 		}
+		custom_add_title(id){
+			return "Добавить {title}";
+		}
+		custom_add(id, next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Custom_add(id){
+			const obj = new this.$.$mol_button_minor();
+			(obj.title) = () => ((this.custom_add_title(id)));
+			(obj.click) = (next) => ((this.custom_add(id, next)));
+			return obj;
+		}
+		customs(){
+			return [(this.Custom_add("0"))];
+		}
 		board(){
 			const obj = new this.$.$shm_hitalama_board();
 			return obj;
@@ -35443,7 +35504,8 @@ var $;
 				(this.Deckgl_example_add()), 
 				(this.Echarts_example_add()), 
 				(this.Code_css_add()), 
-				(this.Customizer_add())
+				(this.Customizer_add()), 
+				...(this.customs())
 			];
 		}
 	};
@@ -35465,6 +35527,8 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_page_contexmenu.prototype), "Code_css_add"));
 	($mol_mem(($.$shm_hitalama_board_page_contexmenu.prototype), "customizer_add"));
 	($mol_mem(($.$shm_hitalama_board_page_contexmenu.prototype), "Customizer_add"));
+	($mol_mem_key(($.$shm_hitalama_board_page_contexmenu.prototype), "custom_add"));
+	($mol_mem_key(($.$shm_hitalama_board_page_contexmenu.prototype), "Custom_add"));
 	($mol_mem(($.$shm_hitalama_board_page_contexmenu.prototype), "board"));
 	($mol_mem(($.$shm_hitalama_board_page_contexmenu.prototype), "contextmenu_showed"));
 
@@ -35546,20 +35610,34 @@ var $;
             }
             customizer_add() {
                 const board = this.board();
-                const block = board.block_add('customizer', this.contextmenu_real_pos(), 830, 400);
+                const block = board.block_add('customizer', this.contextmenu_real_pos(), 1200, 600);
                 const custom = board.Customs(null)?.make(board.land());
                 block?.Custom(null)?.remote(custom);
-                const type_custom = 'button_' + this.get_custom_guid();
-                custom?.title(type_custom);
-                const code_js = this.$.$mol_fetch.text($shm_hitalama_app_ghpages_fix_link('/shm/hitalama/board/snippets/_custom_button.js'))
-                    .replaceAll('my_button', 'my_' + type_custom);
+                const type_custom = 'widget_ba_messagecount_' + this.get_custom_guid();
+                custom?.title('BA messagecount');
+                const code_js = this.$.$mol_fetch.text($shm_hitalama_app_ghpages_fix_link('/shm/hitalama/board/snippets/_widget_ba_messagecount.js'))
+                    .replaceAll('widget_ba_messagecount', type_custom);
                 custom?.Code_js(null)?.value(code_js);
-                const code_view_tree = this.$.$mol_fetch.text($shm_hitalama_app_ghpages_fix_link('/shm/hitalama/board/snippets/_custom_button.view.tree'))
-                    .replace('my_button', 'my_' + type_custom);
+                const code_view_tree = this.$.$mol_fetch.text($shm_hitalama_app_ghpages_fix_link('/shm/hitalama/board/snippets/_widget_ba_messagecount.view.tree'))
+                    .replace('widget_ba_messagecount', type_custom);
                 custom?.Code_view_tree(null)?.value(code_view_tree);
-                const code_css = this.$.$mol_fetch.text($shm_hitalama_app_ghpages_fix_link('/shm/hitalama/board/snippets/_custom_button.view.css'))
-                    .replaceAll('my_button', 'my_' + type_custom);
+                const code_css = this.$.$mol_fetch.text($shm_hitalama_app_ghpages_fix_link('/shm/hitalama/board/snippets/_widget_ba_messagecount.view.css'))
+                    .replaceAll('widget_ba_messagecount', type_custom);
                 custom?.Code_css(null)?.value(code_css);
+                this.contextmenu_showed(false);
+            }
+            customs() {
+                const visible = this.board().Customs()?.remote_list().filter(c => c.Visible_in_contextmenu()?.val());
+                return visible?.map(c => this.Custom_add(c.ref())) ?? [];
+            }
+            custom_add_title(ref) {
+                const custom = $hyoo_crus_glob.Node(ref, $shm_hitalama_board_custom);
+                return super.custom_add_title(0).replace('{title}', custom.title());
+            }
+            custom_add(ref) {
+                const custom = $hyoo_crus_glob.Node(ref, $shm_hitalama_board_custom);
+                const block = this.board().block_add('custom', this.contextmenu_real_pos());
+                block?.Type_custom(null)?.remote(custom);
                 this.contextmenu_showed(false);
             }
         }

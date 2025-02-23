@@ -102,6 +102,9 @@
 	deploy \shm/hitalama/board/snippets/_my_widget.js
 	deploy \shm/hitalama/board/snippets/_my_widget.view.tree
 	deploy \shm/hitalama/board/snippets/_my_widget.view.css
+	deploy \shm/hitalama/board/snippets/_widget_ba_messagecount.js
+	deploy \shm/hitalama/board/snippets/_widget_ba_messagecount.view.tree
+	deploy \shm/hitalama/board/snippets/_widget_ba_messagecount.view.css
 \/shm/hitalama/app
 	include \/shm/hitalama/log
 	deploy \/shm/hitalama/app/foot/foot_logo.png
