@@ -40,9 +40,6 @@ namespace $ {
 		Color: $hyoo_crus_atom_str,
 		Font_size: $hyoo_crus_atom_real,
 
-		/** iframe */
-		Src: $hyoo_crus_atom_str,
-
 		Data: $hyoo_crus_atom_json,
 
 		/** text|code|customdom */

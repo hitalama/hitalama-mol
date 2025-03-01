@@ -1,19 +1,33 @@
 $shm_hitalama_board_block_iframe $shm_hitalama_board_block_float
+	auto /
+		<= html_update null
 	sub /
 		<= Drag_view
 		^ iframe_visible /
-			<= Iframe $mol_frame
-				uri <= src
+			<= Iframe $shm_hitalama_board_block_iframe_frame
+				uri <= uri \
+				html <= html? null
+				event_load? <=> iframe_on_load? null
 			<= Tg_post_dom $mol_view
 				sub / ^ tg_post_script /
 		^ blocker / <= Blocker $mol_view
 		^ edges
 		^ toolbar
 	tools /
-		<= Src $mol_string
-			value? <=> src? \
-			focused => src_focused
+		^ uri_edit / <= Uri $mol_string
+			value? <=> text? \
+			focused => uri_edit_focused
+		<= Add_code $mol_button_minor
+			hint \Код
+			sub /
+				<= Add_code_icon $mol_icon_code_braces
+			click? <=> add_code_block? null
 		^
 	drag_body /
-		<= Title $mol_paragraph
-			title <= src
+		<= Iframe_title $mol_paragraph
+			title <= iframe_title? \
+
+$shm_hitalama_board_block_iframe_frame $mol_frame
+	event *
+		^
+		load? <=> event_load? null

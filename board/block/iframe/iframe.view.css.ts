@@ -11,6 +11,12 @@ namespace $.$$ {
 			height: '100%',
 			width: '100%',
 		},
+
+		Uri: {
+			flex: {
+				shrink: 0,
+			},
+		},
 		
 		Drag_view: {
 			position: 'static',
@@ -22,7 +28,7 @@ namespace $.$$ {
 			padding: $mol_gap.text,
 		},
 
-		Title: {
+		Iframe_title: {
 			textOverflow: 'ellipsis',
 			whiteSpace: 'nowrap',
 			overflow: 'hidden',

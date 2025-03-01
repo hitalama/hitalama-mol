@@ -45,9 +45,6 @@ namespace $ {
 				color: block.Color()?.val(),
 				font_size: block.Font_size()?.val(),
 
-				/** iframe */
-				src: block.Src()?.val(),
-
 				/** text|code|customdom */
 				text: block.Text()?.value(),
 
@@ -87,7 +84,6 @@ namespace $ {
 			block.Type( dto.type )?.val( dto.type! )
 			block.Color( null )?.val( dto.color )
 			block.Font_size( null )?.val( dto.font_size )
-			block.Src( dto.src )?.val( dto.src )
 			block.Text( dto.text )?.value( dto.text )
 			block.Enabled( dto.enabled )?.val( dto.enabled )
 

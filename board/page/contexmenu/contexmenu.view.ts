@@ -19,7 +19,7 @@ namespace $.$$ {
 		@ $mol_action
 		iframe_add() {
 			const block = this.board().block_add( 'iframe', this.contextmenu_real_pos(), 500, 700 )
-			block?.Src(null)?.val( 'https://www.google.com/search?igu=1' )
+			block?.text( 'https://www.google.com/search?igu=1' )
 			this.contextmenu_showed( false )
 			return block
 		}
