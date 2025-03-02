@@ -1,9 +1,9 @@
 $mol_scroll $mol_view
 	scroll_top? 0
 	scroll_left? 0
-	field *
+	attr *
 		^
-		tabIndex <= tabindex -1
+		tabindex <= tabindex -1
 	event *
 		^
 		scroll?event <=> event_scroll?event null
@@ -2315,25 +2315,41 @@ $shm_hitalama_board_block_input $shm_hitalama_board_block_float
 			dom_name <= title_dom_name \h1
 			title <= text_rendered \
 
+$mol_icon_code_braces $mol_icon path \M8,3A2,2 0 0,0 6,5V9A2,2 0 0,1 4,11H3V13H4A2,2 0 0,1 6,15V19A2,2 0 0,0 8,21H10V19H8V14A2,2 0 0,0 6,12A2,2 0 0,0 8,10V5H10V3M16,3A2,2 0 0,1 18,5V9A2,2 0 0,0 20,11H21V13H20A2,2 0 0,0 18,15V19A2,2 0 0,1 16,21H14V19H16V14A2,2 0 0,1 18,12A2,2 0 0,1 16,10V5H14V3H16Z
+
 $shm_hitalama_board_block_iframe $shm_hitalama_board_block_float
+	auto /
+		<= html_update null
 	sub /
 		<= Drag_view
 		^ iframe_visible /
-			<= Iframe $mol_frame
-				uri <= src
+			<= Iframe $shm_hitalama_board_block_iframe_frame
+				uri <= uri \
+				html <= html? null
+				event_load? <=> iframe_on_load? null
 			<= Tg_post_dom $mol_view
 				sub / ^ tg_post_script /
 		^ blocker / <= Blocker $mol_view
 		^ edges
 		^ toolbar
 	tools /
-		<= Src $mol_string
-			value? <=> src? \
-			focused => src_focused
+		^ uri_edit / <= Uri $mol_string
+			value? <=> text? \
+			focused => uri_edit_focused
+		<= Add_code $mol_button_minor
+			hint \Код
+			sub /
+				<= Add_code_icon $mol_icon_code_braces
+			click? <=> add_code_block? null
 		^
 	drag_body /
-		<= Title $mol_paragraph
-			title <= src
+		<= Iframe_title $mol_paragraph
+			title <= iframe_title? \
+
+$shm_hitalama_board_block_iframe_frame $mol_frame
+	event *
+		^
+		load? <=> event_load? null
 
 $shm_hitalama_color_dot $mol_view
 	style *
@@ -3017,8 +3033,6 @@ $shm_hitalama_board_block_chart_filter $shm_hitalama_board_block_float
 					Content <= Filter_options $shm_hitalama_check_list
 						options <= filter_options /
 						value? <=> filter_options_checked? /
-
-$mol_icon_code_braces $mol_icon path \M8,3A2,2 0 0,0 6,5V9A2,2 0 0,1 4,11H3V13H4A2,2 0 0,1 6,15V19A2,2 0 0,0 8,21H10V19H8V14A2,2 0 0,0 6,12A2,2 0 0,0 8,10V5H10V3M16,3A2,2 0 0,1 18,5V9A2,2 0 0,0 20,11H21V13H20A2,2 0 0,0 18,15V19A2,2 0 0,1 16,21H14V19H16V14A2,2 0 0,1 18,12A2,2 0 0,1 16,10V5H14V3H16Z
 
 $shm_hitalama_board_block_customdom $shm_hitalama_board_block_float
 	content /

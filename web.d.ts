@@ -932,9 +932,9 @@ declare namespace $ {
 		event_scroll( next?: any ): any
 		scroll_top( next?: number ): number
 		scroll_left( next?: number ): number
-		field( ): ({ 
-			'tabIndex': ReturnType< $mol_scroll['tabindex'] >,
-		})  & ReturnType< $mol_view['field'] >
+		attr( ): ({ 
+			'tabindex': ReturnType< $mol_scroll['tabindex'] >,
+		})  & ReturnType< $mol_view['attr'] >
 		event( ): ({ 
 			scroll( next?: ReturnType< $mol_scroll['event_scroll'] > ): ReturnType< $mol_scroll['event_scroll'] >,
 		})  & ReturnType< $mol_view['event'] >
@@ -14293,7 +14293,6 @@ declare namespace $ {
         readonly Image: (auto?: any) => $hyoo_crus_file | null;
         readonly Color: (auto?: any) => $hyoo_crus_atom_str | null;
         readonly Font_size: (auto?: any) => $hyoo_crus_atom_real | null;
-        readonly Src: (auto?: any) => $hyoo_crus_atom_str | null;
         readonly Data: (auto?: any) => $hyoo_crus_atom_json | null;
         readonly Text: (auto?: any) => $hyoo_crus_text | null;
         readonly Use_text_from: (auto?: any) => {
@@ -14747,7 +14746,6 @@ declare namespace $ {
             readonly Image: typeof $hyoo_crus_file;
             readonly Color: typeof $hyoo_crus_atom_str;
             readonly Font_size: typeof $hyoo_crus_atom_real;
-            readonly Src: typeof $hyoo_crus_atom_str;
             readonly Data: typeof $hyoo_crus_atom_json;
             readonly Text: typeof $hyoo_crus_text;
             readonly Use_text_from: {
@@ -16469,7 +16467,6 @@ declare namespace $ {
                 image_blob_uri: string | undefined;
                 color: string | null | undefined;
                 font_size: number | null | undefined;
-                src: string | null | undefined;
                 text: string | undefined;
                 enabled: boolean | null | undefined;
                 range: {
@@ -16545,7 +16542,6 @@ declare namespace $ {
                 image_blob_uri: string | undefined;
                 color: string | null | undefined;
                 font_size: number | null | undefined;
-                src: string | null | undefined;
                 text: string | undefined;
                 enabled: boolean | null | undefined;
                 range: {
@@ -16616,7 +16612,6 @@ declare namespace $ {
                 image_blob_uri: string | undefined;
                 color: string | null | undefined;
                 font_size: number | null | undefined;
-                src: string | null | undefined;
                 text: string | undefined;
                 enabled: boolean | null | undefined;
                 range: {
@@ -16696,7 +16691,6 @@ declare namespace $ {
             image_blob_uri: string | undefined;
             color: string | null | undefined;
             font_size: number | null | undefined;
-            src: string | null | undefined;
             text: string | undefined;
             enabled: boolean | null | undefined;
             range: {
@@ -16776,7 +16770,6 @@ declare namespace $ {
                 image_blob_uri: string | undefined;
                 color: string | null | undefined;
                 font_size: number | null | undefined;
-                src: string | null | undefined;
                 text: string | undefined;
                 enabled: boolean | null | undefined;
                 range: {
@@ -16847,7 +16840,6 @@ declare namespace $ {
                 image_blob_uri: string | undefined;
                 color: string | null | undefined;
                 font_size: number | null | undefined;
-                src: string | null | undefined;
                 text: string | undefined;
                 enabled: boolean | null | undefined;
                 range: {
@@ -22888,40 +22880,91 @@ declare namespace $.$$ {
 
 declare namespace $ {
 
-	type $mol_frame__uri_shm_hitalama_board_block_iframe_1 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_iframe['src'] >
+	export class $mol_icon_code_braces extends $mol_icon {
+		path( ): string
+	}
+	
+}
+
+//# sourceMappingURL=braces.view.tree.d.ts.map
+declare namespace $ {
+
+	type $shm_hitalama_board_block_iframe_frame__uri_shm_hitalama_board_block_iframe_1 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_iframe['uri'] >
 		,
-		ReturnType< $mol_frame['uri'] >
+		ReturnType< $shm_hitalama_board_block_iframe_frame['uri'] >
 	>
-	type $mol_view__sub_shm_hitalama_board_block_iframe_2 = $mol_type_enforce<
+	type $shm_hitalama_board_block_iframe_frame__html_shm_hitalama_board_block_iframe_2 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_iframe['html'] >
+		,
+		ReturnType< $shm_hitalama_board_block_iframe_frame['html'] >
+	>
+	type $shm_hitalama_board_block_iframe_frame__event_load_shm_hitalama_board_block_iframe_3 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_iframe['iframe_on_load'] >
+		,
+		ReturnType< $shm_hitalama_board_block_iframe_frame['event_load'] >
+	>
+	type $mol_view__sub_shm_hitalama_board_block_iframe_4 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_view['sub'] >
 	>
-	type $mol_string__value_shm_hitalama_board_block_iframe_3 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_iframe['src'] >
+	type $mol_string__value_shm_hitalama_board_block_iframe_5 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_iframe['text'] >
 		,
 		ReturnType< $mol_string['value'] >
 	>
-	type $mol_paragraph__title_shm_hitalama_board_block_iframe_4 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_iframe['src'] >
+	type $mol_button_minor__hint_shm_hitalama_board_block_iframe_6 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_button_minor['hint'] >
+	>
+	type $mol_button_minor__sub_shm_hitalama_board_block_iframe_7 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_button_minor['sub'] >
+	>
+	type $mol_button_minor__click_shm_hitalama_board_block_iframe_8 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_iframe['add_code_block'] >
+		,
+		ReturnType< $mol_button_minor['click'] >
+	>
+	type $mol_paragraph__title_shm_hitalama_board_block_iframe_9 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_iframe['iframe_title'] >
 		,
 		ReturnType< $mol_paragraph['title'] >
 	>
 	export class $shm_hitalama_board_block_iframe extends $shm_hitalama_board_block_float {
-		Iframe( ): $mol_frame
+		html_update( ): any
+		uri( ): string
+		html( next?: any ): any
+		iframe_on_load( next?: any ): any
+		Iframe( ): $shm_hitalama_board_block_iframe_frame
 		tg_post_script( ): readonly(any)[]
 		Tg_post_dom( ): $mol_view
 		iframe_visible( ): readonly(any)[]
 		Blocker( ): $mol_view
 		blocker( ): readonly(any)[]
-		src( next?: string ): string
-		src_focused( ): ReturnType< ReturnType< $shm_hitalama_board_block_iframe['Src'] >['focused'] >
-		Src( ): $mol_string
-		Title( ): $mol_paragraph
+		text( next?: string ): string
+		uri_edit_focused( ): ReturnType< ReturnType< $shm_hitalama_board_block_iframe['Uri'] >['focused'] >
+		Uri( ): $mol_string
+		uri_edit( ): readonly(any)[]
+		Add_code_icon( ): $mol_icon_code_braces
+		add_code_block( next?: any ): any
+		Add_code( ): $mol_button_minor
+		iframe_title( next?: string ): string
+		Iframe_title( ): $mol_paragraph
+		auto( ): readonly(any)[]
 		sub( ): readonly(any)[]
 		tools( ): readonly(any)[]
 		drag_body( ): readonly(any)[]
+	}
+	
+	export class $shm_hitalama_board_block_iframe_frame extends $mol_frame {
+		event_load( next?: any ): any
+		event( ): ({ 
+			load( next?: ReturnType< $shm_hitalama_board_block_iframe_frame['event_load'] > ): ReturnType< $shm_hitalama_board_block_iframe_frame['event_load'] >,
+		})  & ReturnType< $mol_frame['event'] >
 	}
 	
 }
@@ -22929,12 +22972,19 @@ declare namespace $ {
 //# sourceMappingURL=iframe.view.tree.d.ts.map
 declare namespace $.$$ {
     class $shm_hitalama_board_block_iframe extends $.$shm_hitalama_board_block_iframe {
-        src(next?: string): string;
+        uri_used(): boolean;
+        uri_edit(): readonly any[];
+        iframe_on_load(): void;
+        iframe_title(next?: string): string;
+        text(next?: string): string;
+        uri(): string;
+        html_update(): null | undefined;
         blocker(): readonly (any)[];
         editing(): boolean;
         tg_post(): string | undefined;
         tg_post_script(): HTMLScriptElement[];
-        iframe_visible(): $mol_view[] | $.$mol_frame[];
+        iframe_visible(): $mol_view[] | $shm_hitalama_board_block_iframe_frame[];
+        add_code_block(): void;
     }
 }
 
@@ -25350,15 +25400,6 @@ declare namespace $.$$ {
 declare namespace $.$$ {
 }
 
-declare namespace $ {
-
-	export class $mol_icon_code_braces extends $mol_icon {
-		path( ): string
-	}
-	
-}
-
-//# sourceMappingURL=braces.view.tree.d.ts.map
 declare namespace $ {
 
 	type $mol_button_minor__hint_shm_hitalama_board_block_customdom_1 = $mol_type_enforce<
