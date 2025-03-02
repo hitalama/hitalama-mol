@@ -93,19 +93,9 @@ namespace $.$$ {
 			return result
 		}
 
-		@ $mol_mem
-		conn() {
-			const files = this.files_checked().map( f => ({
-				name: f.title()!,
-				buffer: f.File()?.remote()?.buffer()!
-			}) )
-
-			return $shm_hitalama_duckdb.connection( files )
-		}
-
 		@ $mol_action
 		conn_query( query: string ) {
-			return $mol_wire_sync(this).conn().query( query )
+			return $shm_hitalama_duckdb.connect_files( this.files_checked() ).query( query )
 		}
 
 		@ $mol_mem_key

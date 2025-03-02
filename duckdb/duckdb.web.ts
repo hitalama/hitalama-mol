@@ -4,8 +4,9 @@ namespace $ {
 
 	export class $shm_hitalama_duckdb extends $mol_object2 {
 		
-		// @ $mol_action
+		@ $mol_mem
 		static async db() {
+			$mol_wire_solid()
 			const JSDELIVR_BUNDLES = $shm_hitalama_duckdb_lib.getJsDelivrBundles()
 
 			const bundle = await $shm_hitalama_duckdb_lib.selectBundle( JSDELIVR_BUNDLES )
@@ -23,6 +24,7 @@ namespace $ {
 			return db
 		}
 
+		
 		static async file_query( file_name: string, buffer: Uint8Array, query: string ) {
 			let conn_prom: Promise<AsyncDuckDBConnection> | null
 			const load_db = async () => {
@@ -55,12 +57,73 @@ namespace $ {
 
 		static async connection( files: { name: string, buffer: Uint8Array }[] ) {
 			const db = await this.db()
+			return await db.connect()
+		}
+
+		static async connect_files_async( sources: $shm_hitalama_file[] ) {
+			const files = sources.map( f => ({
+				name: f.title()!,
+				buffer: f.File()?.remote()?.buffer()!
+			}) )
+
+			const db = await this.db()
+			const connection = await $shm_hitalama_duckdb.connection( files )
 			for (const file of files) {
 				await db.registerFileBuffer( file.name, file.buffer )
 			}
-			return db.connect()
+
+			return connection
+		}
+		
+		@ $mol_mem
+		static connect_files( sources?: $shm_hitalama_file[] ) {
+			return $mol_wire_sync($shm_hitalama_duckdb).connect_files_async( sources! )
+		}
+		
+		@ $mol_action
+		static files_query( files: $shm_hitalama_file[], query: string, limit?: number ) {
+			const conn = $shm_hitalama_duckdb.connect_files( files )
+			const table = $mol_wire_sync(conn).query( query )
+			const res = get_head_and_rows( limit ? table.slice( 0, limit ) : table )
+			return res
 		}
 
+	}
+
+	function get_head_and_rows( table: Awaited<ReturnType<ReturnType<typeof $shm_hitalama_duckdb.connect_files>[ 'query' ]>> ) {
+
+		const head = []
+		const rows: any[][] = []
+
+		for( let col_i = 0; col_i < table.schema.fields.length; col_i++ ) {
+			const field = table.schema.fields[col_i]
+			head[col_i] = field.name
+
+			const vector = table.getChild( field.name )
+			if( !vector ) {
+				continue
+			}
+			const arr = vector.toArray()
+
+			for( let row_i = 0; row_i < arr.length; row_i++ ) {
+				rows[ row_i ] = rows[ row_i ] ?? []
+				rows[ row_i ][ col_i ] = String(arr[row_i])
+			}
+		}
+
+		return {head, rows}
+	}
+
+	function get_columns( table: Awaited<ReturnType<ReturnType<typeof $shm_hitalama_duckdb.connect_files>[ 'query' ]>> ) {
+		const rec: Record< string, any[] > = {}
+		for( let field of table.schema.fields ) {
+			const vector = table.getChild( field.name )
+			if( !vector ) {
+				continue
+			}
+			rec[ field.name ] = vector.toArray()
+		}
+		return rec
 	}
 
 }
