@@ -25708,7 +25708,7 @@ var $;
             const arr = vector.toArray();
             for (let row_i = 0; row_i < arr.length; row_i++) {
                 rows[row_i] = rows[row_i] ?? [];
-                rows[row_i][col_i] = String(arr[row_i]);
+                rows[row_i][col_i] = format_val(field.typeId, arr[row_i]);
             }
         }
         return { head, rows };
@@ -25723,6 +25723,15 @@ var $;
             rec[field.name] = vector.toArray();
         }
         return rec;
+    }
+    function format_val(field_type_id, val) {
+        if (field_type_id == 8) {
+            const date = new $mol_time_moment(val);
+            return date.toString('DD.MM.YYYY');
+        }
+        if (typeof val === "bigint")
+            return String(val);
+        return val;
     }
 })($ || ($ = {}));
 
