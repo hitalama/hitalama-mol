@@ -32,6 +32,102 @@ $.$$ = $
 "use strict";
 var $;
 (function ($) {
+    function $mol_log3_area_lazy(event) {
+        const self = this;
+        const stack = self.$mol_log3_stack;
+        const deep = stack.length;
+        let logged = false;
+        stack.push(() => {
+            logged = true;
+            self.$mol_log3_area.call(self, event);
+        });
+        return () => {
+            if (logged)
+                self.console.groupEnd();
+            if (stack.length > deep)
+                stack.length = deep;
+        };
+    }
+    $.$mol_log3_area_lazy = $mol_log3_area_lazy;
+    $.$mol_log3_stack = [];
+})($ || ($ = {}));
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    function $mol_log3_web_make(level, color) {
+        return function $mol_log3_logger(event) {
+            const pending = this.$mol_log3_stack.pop();
+            if (pending)
+                pending();
+            let tpl = '%c';
+            const chunks = Object.entries(event);
+            for (let i = 0; i < chunks.length; ++i) {
+                tpl += (typeof chunks[i][1] === 'string') ? '%s: %s\n' : '%s: %o\n';
+            }
+            const style = `color:${color};font-weight:bolder`;
+            this.console[level](tpl.trim(), style, ...[].concat(...chunks));
+            const self = this;
+            return () => self.console.groupEnd();
+        };
+    }
+    $.$mol_log3_web_make = $mol_log3_web_make;
+    $.$mol_log3_come = $mol_log3_web_make('info', 'royalblue');
+    $.$mol_log3_done = $mol_log3_web_make('info', 'forestgreen');
+    $.$mol_log3_fail = $mol_log3_web_make('error', 'orangered');
+    $.$mol_log3_warn = $mol_log3_web_make('warn', 'goldenrod');
+    $.$mol_log3_rise = $mol_log3_web_make('log', 'magenta');
+    $.$mol_log3_area = $mol_log3_web_make('group', 'cyan');
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    function $shm_hitalama_web_hidden(event) {
+        const place_name = event.place?.toString();
+        if (place_name?.startsWith('$' + 'hyoo_crus_glob'))
+            return true;
+        if (place_name?.startsWith('$' + 'mol_wire'))
+            return true;
+        return false;
+    }
+    $.$shm_hitalama_web_hidden = $shm_hitalama_web_hidden;
+    function $shm_hitalama_web_make(level, color) {
+        return function $mol_log3_logger(event) {
+            if (color != 'orangered' && $shm_hitalama_web_hidden(event))
+                return () => { };
+            const pending = this.$mol_log3_stack.pop();
+            if (pending)
+                pending();
+            let tpl = '%c';
+            const chunks = Object.values(event);
+            for (let i = 0; i < chunks.length; ++i) {
+                tpl += (typeof chunks[i] === 'string') ? ' ▫ %s' : ' ▫ %o';
+            }
+            const style = `color:${color};font-weight:bolder`;
+            this.console[level](tpl, style, ...chunks);
+            const self = this;
+            return () => self.console.groupEnd();
+        };
+    }
+    $.$shm_hitalama_web_make = $shm_hitalama_web_make;
+    $.$mol_log3_come = $shm_hitalama_web_make('info', 'royalblue');
+    $.$mol_log3_done = $shm_hitalama_web_make('info', 'forestgreen');
+    $.$mol_log3_fail = $shm_hitalama_web_make('error', 'orangered');
+    $.$mol_log3_warn = $shm_hitalama_web_make('warn', 'goldenrod');
+    $.$mol_log3_rise = $shm_hitalama_web_make('log', 'magenta');
+    $.$mol_log3_area = $shm_hitalama_web_make('group', 'cyan');
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
     $.$mol_ambient_ref = Symbol('$mol_ambient_ref');
     function $mol_ambient(overrides) {
         return Object.setPrototypeOf(overrides, this || $);
@@ -1112,62 +1208,6 @@ var $;
     function compare_primitive(left, right) {
         return Object.is(left[Symbol.toPrimitive]('default'), right[Symbol.toPrimitive]('default'));
     }
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
-    function $mol_log3_area_lazy(event) {
-        const self = this;
-        const stack = self.$mol_log3_stack;
-        const deep = stack.length;
-        let logged = false;
-        stack.push(() => {
-            logged = true;
-            self.$mol_log3_area.call(self, event);
-        });
-        return () => {
-            if (logged)
-                self.console.groupEnd();
-            if (stack.length > deep)
-                stack.length = deep;
-        };
-    }
-    $.$mol_log3_area_lazy = $mol_log3_area_lazy;
-    $.$mol_log3_stack = [];
-})($ || ($ = {}));
-
-;
-"use strict";
-
-;
-"use strict";
-var $;
-(function ($) {
-    function $mol_log3_web_make(level, color) {
-        return function $mol_log3_logger(event) {
-            const pending = this.$mol_log3_stack.pop();
-            if (pending)
-                pending();
-            let tpl = '%c';
-            const chunks = Object.entries(event);
-            for (let i = 0; i < chunks.length; ++i) {
-                tpl += (typeof chunks[i][1] === 'string') ? '%s: %s\n' : '%s: %o\n';
-            }
-            const style = `color:${color};font-weight:bolder`;
-            this.console[level](tpl.trim(), style, ...[].concat(...chunks));
-            const self = this;
-            return () => self.console.groupEnd();
-        };
-    }
-    $.$mol_log3_web_make = $mol_log3_web_make;
-    $.$mol_log3_come = $mol_log3_web_make('info', 'royalblue');
-    $.$mol_log3_done = $mol_log3_web_make('info', 'forestgreen');
-    $.$mol_log3_fail = $mol_log3_web_make('error', 'orangered');
-    $.$mol_log3_warn = $mol_log3_web_make('warn', 'goldenrod');
-    $.$mol_log3_rise = $mol_log3_web_make('log', 'magenta');
-    $.$mol_log3_area = $mol_log3_web_make('group', 'cyan');
 })($ || ($ = {}));
 
 ;
@@ -25585,6 +25625,7 @@ var $;
 (function ($) {
     class $shm_hitalama_duckdb extends $mol_object2 {
         static async db() {
+            $mol_wire_solid();
             const JSDELIVR_BUNDLES = $shm_hitalama_duckdb_lib.getJsDelivrBundles();
             const bundle = await $shm_hitalama_duckdb_lib.selectBundle(JSDELIVR_BUNDLES);
             const worker_url = URL.createObjectURL(new Blob([`importScripts("${bundle.mainWorker}");`], { type: 'text/javascript' }));
@@ -25620,13 +25661,69 @@ var $;
         }
         static async connection(files) {
             const db = await this.db();
+            return await db.connect();
+        }
+        static async connect_files_async(sources) {
+            const files = sources.map(f => ({
+                name: f.title(),
+                buffer: f.File()?.remote()?.buffer()
+            }));
+            const db = await this.db();
+            const connection = await $shm_hitalama_duckdb.connection(files);
             for (const file of files) {
                 await db.registerFileBuffer(file.name, file.buffer);
             }
-            return db.connect();
+            return connection;
+        }
+        static connect_files(sources) {
+            return $mol_wire_sync($shm_hitalama_duckdb).connect_files_async(sources);
+        }
+        static files_query(files, query, limit) {
+            const conn = $shm_hitalama_duckdb.connect_files(files);
+            const table = $mol_wire_sync(conn).query(query);
+            const res = get_head_and_rows(limit ? table.slice(0, limit) : table);
+            return res;
         }
     }
+    __decorate([
+        $mol_mem
+    ], $shm_hitalama_duckdb, "db", null);
+    __decorate([
+        $mol_mem
+    ], $shm_hitalama_duckdb, "connect_files", null);
+    __decorate([
+        $mol_action
+    ], $shm_hitalama_duckdb, "files_query", null);
     $.$shm_hitalama_duckdb = $shm_hitalama_duckdb;
+    function get_head_and_rows(table) {
+        const head = [];
+        const rows = [];
+        for (let col_i = 0; col_i < table.schema.fields.length; col_i++) {
+            const field = table.schema.fields[col_i];
+            head[col_i] = field.name;
+            const vector = table.getChild(field.name);
+            if (!vector) {
+                continue;
+            }
+            const arr = vector.toArray();
+            for (let row_i = 0; row_i < arr.length; row_i++) {
+                rows[row_i] = rows[row_i] ?? [];
+                rows[row_i][col_i] = String(arr[row_i]);
+            }
+        }
+        return { head, rows };
+    }
+    function get_columns(table) {
+        const rec = {};
+        for (let field of table.schema.fields) {
+            const vector = table.getChild(field.name);
+            if (!vector) {
+                continue;
+            }
+            rec[field.name] = vector.toArray();
+        }
+        return rec;
+    }
 })($ || ($ = {}));
 
 ;
@@ -37895,6 +37992,157 @@ var $;
 (function ($) {
     var $$;
     (function ($$) {
+        class $shm_hitalama_duckdb_page extends $.$shm_hitalama_duckdb_page {
+            project_id(next) {
+                return next ?? (this.projects().at(0)?.ref().description ?? '');
+            }
+            logs_project_id(next) {
+                return next ?? (this.project_id() ?? '');
+            }
+            projects_dict() {
+                const dict = {
+                    ...Object.fromEntries(this.projects().map(p => [p.ref().description, p.title()])),
+                };
+                return dict;
+            }
+            project() {
+                return $hyoo_crus_glob.Node($hyoo_crus_ref(this.project_id()), $shm_hitalama_project);
+            }
+            projects() {
+                return $shm_hitalama_profile.current()?.Projects()?.remote_list() ?? [];
+            }
+            files_label() {
+                return this.project_id() ? super.files_label() : [];
+            }
+            files() {
+                return this.project().Files()?.remote_list() ?? [];
+            }
+            file_views() {
+                return this.files().map(f => this.File(f.ref().description)) ?? [];
+            }
+            files_checked() {
+                return this.files().filter(f => this.file_checked(f.ref().description)) ?? [];
+            }
+            file_name(id) {
+                const file = $hyoo_crus_glob.Node($hyoo_crus_ref(id), $shm_hitalama_file);
+                return file.title() ?? '';
+            }
+            query_default(file_id) {
+                const name = this.file_name(file_id);
+                return name ? `SELECT * FROM parquet_scan('${name}');` : '';
+            }
+            get_last_query() {
+                const project = $hyoo_crus_glob.Node($hyoo_crus_ref(this.project_id()), $shm_hitalama_project);
+                return project.Query_logs()?.remote_list()?.at(-1)?.Query()?.val();
+            }
+            query(next) {
+                if (next !== undefined)
+                    return next;
+                const last_query = this.get_last_query();
+                if (last_query)
+                    return last_query;
+                const file_id = this.files()?.[0]?.ref().description;
+                return file_id ? this.query_default(file_id) : '';
+            }
+            run(next) {
+                this.query_current(this.query());
+                const log = this.project().Query_logs(null)?.local_make();
+                log?.Query(null).val(this.query());
+                log?.Time(null).val((new $mol_time_moment).valueOf());
+            }
+            duckdb_res() {
+                if (!this.query_current())
+                    return null;
+                const table_arr = $mol_wire_sync(this).conn_query(this.query_current()).toArray().slice(0, 100);
+                const result = table_arr.map((row) => row.toJSON());
+                return result;
+            }
+            conn_query(query) {
+                return $shm_hitalama_duckdb.connect_files(this.files_checked()).query(query);
+            }
+            query_log(ref) {
+                return $hyoo_crus_glob.Node(ref, $shm_hitalama_project_query_log);
+            }
+            query_time(ref) {
+                const val = this.query_log(ref).Time()?.val();
+                const moment = new $mol_time_moment(val);
+                return moment.toString('YYYY-MM-DD hh:mm:ss');
+            }
+            query_sql(ref) {
+                return this.query_log(ref).Query()?.val() ?? '';
+            }
+            logs() {
+                const project = $hyoo_crus_glob.Node($hyoo_crus_ref(this.logs_project_id()), $shm_hitalama_project);
+                return project.Query_logs()?.remote_list().map(l => this.Query_log(l.ref())).reverse() ?? [];
+            }
+            logs_clear() {
+                this.project().Query_logs()?.remote_list([]);
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_duckdb_page.prototype, "project_id", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_duckdb_page.prototype, "logs_project_id", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_duckdb_page.prototype, "project", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_duckdb_page.prototype, "projects", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_duckdb_page.prototype, "files", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_duckdb_page.prototype, "file_views", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_duckdb_page.prototype, "files_checked", null);
+        __decorate([
+            $mol_mem_key
+        ], $shm_hitalama_duckdb_page.prototype, "file_name", null);
+        __decorate([
+            $mol_mem_key
+        ], $shm_hitalama_duckdb_page.prototype, "query_default", null);
+        __decorate([
+            $mol_action
+        ], $shm_hitalama_duckdb_page.prototype, "get_last_query", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_duckdb_page.prototype, "query", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_duckdb_page.prototype, "duckdb_res", null);
+        __decorate([
+            $mol_action
+        ], $shm_hitalama_duckdb_page.prototype, "conn_query", null);
+        __decorate([
+            $mol_mem_key
+        ], $shm_hitalama_duckdb_page.prototype, "query_log", null);
+        __decorate([
+            $mol_mem_key
+        ], $shm_hitalama_duckdb_page.prototype, "query_time", null);
+        __decorate([
+            $mol_mem_key
+        ], $shm_hitalama_duckdb_page.prototype, "query_sql", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_duckdb_page.prototype, "logs", null);
+        __decorate([
+            $mol_action
+        ], $shm_hitalama_duckdb_page.prototype, "logs_clear", null);
+        $$.$shm_hitalama_duckdb_page = $shm_hitalama_duckdb_page;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
         $mol_style_define($shm_hitalama_duckdb_page, {
             Query: {
                 flex: {
@@ -37972,167 +38220,6 @@ var $;
                 },
             },
         });
-    })($$ = $.$$ || ($.$$ = {}));
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
-    var $$;
-    (function ($$) {
-        class $shm_hitalama_duckdb_page extends $.$shm_hitalama_duckdb_page {
-            project_id(next) {
-                return next ?? (this.projects().at(0)?.ref().description ?? '');
-            }
-            logs_project_id(next) {
-                return next ?? (this.project_id() ?? '');
-            }
-            projects_dict() {
-                const dict = {
-                    ...Object.fromEntries(this.projects().map(p => [p.ref().description, p.title()])),
-                };
-                return dict;
-            }
-            project() {
-                return $hyoo_crus_glob.Node($hyoo_crus_ref(this.project_id()), $shm_hitalama_project);
-            }
-            projects() {
-                return $shm_hitalama_profile.current()?.Projects()?.remote_list() ?? [];
-            }
-            files_label() {
-                return this.project_id() ? super.files_label() : [];
-            }
-            files() {
-                return this.project().Files()?.remote_list() ?? [];
-            }
-            file_views() {
-                return this.files().map(f => this.File(f.ref().description)) ?? [];
-            }
-            files_checked() {
-                return this.files().filter(f => this.file_checked(f.ref().description)) ?? [];
-            }
-            file_name(id) {
-                const file = $hyoo_crus_glob.Node($hyoo_crus_ref(id), $shm_hitalama_file);
-                return file.title() ?? '';
-            }
-            query_default(file_id) {
-                const name = this.file_name(file_id);
-                return name ? `SELECT * FROM parquet_scan('${name}');` : '';
-            }
-            get_last_query() {
-                const project = $hyoo_crus_glob.Node($hyoo_crus_ref(this.project_id()), $shm_hitalama_project);
-                return project.Query_logs()?.remote_list()?.at(-1)?.Query()?.val();
-            }
-            query(next) {
-                if (next !== undefined)
-                    return next;
-                const last_query = this.get_last_query();
-                if (last_query)
-                    return last_query;
-                const file_id = this.files()?.[0]?.ref().description;
-                return file_id ? this.query_default(file_id) : '';
-            }
-            run(next) {
-                this.query_current(this.query());
-                const log = this.project().Query_logs(null)?.local_make();
-                log?.Query(null).val(this.query());
-                log?.Time(null).val((new $mol_time_moment).valueOf());
-            }
-            duckdb_res() {
-                if (!this.query_current())
-                    return null;
-                const table_arr = $mol_wire_sync(this).conn_query(this.query_current()).toArray().slice(0, 100);
-                const result = table_arr.map((row) => row.toJSON());
-                return result;
-            }
-            conn() {
-                const files = this.files_checked().map(f => ({
-                    name: f.title(),
-                    buffer: f.File()?.remote()?.buffer()
-                }));
-                return $shm_hitalama_duckdb.connection(files);
-            }
-            conn_query(query) {
-                return $mol_wire_sync(this).conn().query(query);
-            }
-            query_log(ref) {
-                return $hyoo_crus_glob.Node(ref, $shm_hitalama_project_query_log);
-            }
-            query_time(ref) {
-                const val = this.query_log(ref).Time()?.val();
-                const moment = new $mol_time_moment(val);
-                return moment.toString('YYYY-MM-DD hh:mm:ss');
-            }
-            query_sql(ref) {
-                return this.query_log(ref).Query()?.val() ?? '';
-            }
-            logs() {
-                const project = $hyoo_crus_glob.Node($hyoo_crus_ref(this.logs_project_id()), $shm_hitalama_project);
-                return project.Query_logs()?.remote_list().map(l => this.Query_log(l.ref())).reverse() ?? [];
-            }
-            logs_clear() {
-                this.project().Query_logs()?.remote_list([]);
-            }
-        }
-        __decorate([
-            $mol_mem
-        ], $shm_hitalama_duckdb_page.prototype, "project_id", null);
-        __decorate([
-            $mol_mem
-        ], $shm_hitalama_duckdb_page.prototype, "logs_project_id", null);
-        __decorate([
-            $mol_mem
-        ], $shm_hitalama_duckdb_page.prototype, "project", null);
-        __decorate([
-            $mol_mem
-        ], $shm_hitalama_duckdb_page.prototype, "projects", null);
-        __decorate([
-            $mol_mem
-        ], $shm_hitalama_duckdb_page.prototype, "files", null);
-        __decorate([
-            $mol_mem
-        ], $shm_hitalama_duckdb_page.prototype, "file_views", null);
-        __decorate([
-            $mol_mem
-        ], $shm_hitalama_duckdb_page.prototype, "files_checked", null);
-        __decorate([
-            $mol_mem_key
-        ], $shm_hitalama_duckdb_page.prototype, "file_name", null);
-        __decorate([
-            $mol_mem_key
-        ], $shm_hitalama_duckdb_page.prototype, "query_default", null);
-        __decorate([
-            $mol_action
-        ], $shm_hitalama_duckdb_page.prototype, "get_last_query", null);
-        __decorate([
-            $mol_mem
-        ], $shm_hitalama_duckdb_page.prototype, "query", null);
-        __decorate([
-            $mol_mem
-        ], $shm_hitalama_duckdb_page.prototype, "duckdb_res", null);
-        __decorate([
-            $mol_mem
-        ], $shm_hitalama_duckdb_page.prototype, "conn", null);
-        __decorate([
-            $mol_action
-        ], $shm_hitalama_duckdb_page.prototype, "conn_query", null);
-        __decorate([
-            $mol_mem_key
-        ], $shm_hitalama_duckdb_page.prototype, "query_log", null);
-        __decorate([
-            $mol_mem_key
-        ], $shm_hitalama_duckdb_page.prototype, "query_time", null);
-        __decorate([
-            $mol_mem_key
-        ], $shm_hitalama_duckdb_page.prototype, "query_sql", null);
-        __decorate([
-            $mol_mem
-        ], $shm_hitalama_duckdb_page.prototype, "logs", null);
-        __decorate([
-            $mol_action
-        ], $shm_hitalama_duckdb_page.prototype, "logs_clear", null);
-        $$.$shm_hitalama_duckdb_page = $shm_hitalama_duckdb_page;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
 
@@ -44781,6 +44868,16 @@ var $;
 			(obj.click) = (next) => ((this.unpacking(next)));
 			return obj;
 		}
+		unpacking_parquet(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Unpacking_parquet(){
+			const obj = new this.$.$mol_button_minor();
+			(obj.title) = () => ("Распаковка");
+			(obj.click) = (next) => ((this.unpacking_parquet(next)));
+			return obj;
+		}
 		sub(){
 			return [
 				(this.Drag_view()), 
@@ -44792,12 +44889,14 @@ var $;
 			return [(this.Title())];
 		}
 		contextmenu_for(){
-			return {"csv": [(this.Unpacking())]};
+			return {"csv": [(this.Unpacking())], "parquet": [(this.Unpacking_parquet())]};
 		}
 	};
 	($mol_mem(($.$shm_hitalama_board_block_file.prototype), "Title"));
 	($mol_mem(($.$shm_hitalama_board_block_file.prototype), "unpacking"));
 	($mol_mem(($.$shm_hitalama_board_block_file.prototype), "Unpacking"));
+	($mol_mem(($.$shm_hitalama_board_block_file.prototype), "unpacking_parquet"));
+	($mol_mem(($.$shm_hitalama_board_block_file.prototype), "Unpacking_parquet"));
 
 
 ;
@@ -44827,6 +44926,14 @@ var $;
                 const code = this.board().block_add('code', pos, 800, 400);
                 const code_str = this.$.$mol_fetch.text($shm_hitalama_app_ghpages_fix_link('/shm/hitalama/board/snippets/_table_from_csv.js'))
                     .replace('BLOCK_ID', `'${this.block().ref().description?.toString()}'`);
+                code?.Text(null)?.value(code_str);
+                this.Board_page().contextmenu_showed(false);
+            }
+            unpacking_parquet() {
+                const pos = this.Board_page().get_pointer_pos();
+                const code = this.board().block_add('code', pos, 1000, 400);
+                const code_str = this.$.$mol_fetch.text($shm_hitalama_app_ghpages_fix_link('/shm/hitalama/board/snippets/_table_from_parquet.js'))
+                    .replaceAll('BLOCK_ID', `'${this.block().ref().description?.toString()}'`);
                 code?.Text(null)?.value(code_str);
                 this.Board_page().contextmenu_showed(false);
             }
@@ -49739,46 +49846,6 @@ var $;
 	($mol_mem(($.$shm_hitalama_app.prototype), "Register"));
 	($mol_mem(($.$shm_hitalama_app.prototype), "Board"));
 
-
-;
-"use strict";
-var $;
-(function ($) {
-    function $shm_hitalama_web_hidden(event) {
-        const place_name = event.place?.toString();
-        if (place_name?.startsWith('$' + 'hyoo_crus_glob'))
-            return true;
-        if (place_name?.startsWith('$' + 'mol_wire'))
-            return true;
-        return false;
-    }
-    $.$shm_hitalama_web_hidden = $shm_hitalama_web_hidden;
-    function $shm_hitalama_web_make(level, color) {
-        return function $mol_log3_logger(event) {
-            if (color != 'orangered' && $shm_hitalama_web_hidden(event))
-                return () => { };
-            const pending = this.$mol_log3_stack.pop();
-            if (pending)
-                pending();
-            let tpl = '%c';
-            const chunks = Object.values(event);
-            for (let i = 0; i < chunks.length; ++i) {
-                tpl += (typeof chunks[i] === 'string') ? ' ▫ %s' : ' ▫ %o';
-            }
-            const style = `color:${color};font-weight:bolder`;
-            this.console[level](tpl, style, ...chunks);
-            const self = this;
-            return () => self.console.groupEnd();
-        };
-    }
-    $.$shm_hitalama_web_make = $shm_hitalama_web_make;
-    $.$mol_log3_come = $shm_hitalama_web_make('info', 'royalblue');
-    $.$mol_log3_done = $shm_hitalama_web_make('info', 'forestgreen');
-    $.$mol_log3_fail = $shm_hitalama_web_make('error', 'orangered');
-    $.$mol_log3_warn = $shm_hitalama_web_make('warn', 'goldenrod');
-    $.$mol_log3_rise = $shm_hitalama_web_make('log', 'magenta');
-    $.$mol_log3_area = $shm_hitalama_web_make('group', 'cyan');
-})($ || ($ = {}));
 
 ;
 "use strict";

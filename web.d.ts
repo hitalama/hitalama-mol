@@ -14,6 +14,44 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    type $mol_log3_event<Fields> = {
+        [key in string]: unknown;
+    } & {
+        time?: string;
+        place: unknown;
+        message: string;
+    } & Fields;
+    type $mol_log3_logger<Fields, Res = void> = (this: $, event: $mol_log3_event<Fields>) => Res;
+    let $mol_log3_come: $mol_log3_logger<{}>;
+    let $mol_log3_done: $mol_log3_logger<{}>;
+    let $mol_log3_fail: $mol_log3_logger<{}>;
+    let $mol_log3_warn: $mol_log3_logger<{
+        hint: string;
+    }>;
+    let $mol_log3_rise: $mol_log3_logger<{}>;
+    let $mol_log3_area: $mol_log3_logger<{}, () => void>;
+    function $mol_log3_area_lazy(this: $, event: $mol_log3_event<{}>): () => void;
+    let $mol_log3_stack: (() => void)[];
+}
+
+declare namespace $ {
+    type $mol_type_keys_extract<Input, Upper, Lower = never> = {
+        [Field in keyof Input]: unknown extends Input[Field] ? never : Input[Field] extends never ? never : Input[Field] extends Upper ? [
+            Lower
+        ] extends [Input[Field]] ? Field : never : never;
+    }[keyof Input];
+}
+
+declare namespace $ {
+    function $mol_log3_web_make(level: $mol_type_keys_extract<Console, Function>, color: string): (this: $, event: $mol_log3_event<{}>) => () => void;
+}
+
+declare namespace $ {
+    function $shm_hitalama_web_hidden(event: $mol_log3_event<{}>): boolean;
+    function $shm_hitalama_web_make(level: $mol_type_keys_extract<Console, Function>, color: string): (this: $, event: $mol_log3_event<{}>) => () => void;
+}
+
+declare namespace $ {
     const $mol_ambient_ref: unique symbol;
     type $mol_ambient_context = $;
     function $mol_ambient(this: $ | void, overrides: Partial<$>): $;
@@ -254,39 +292,6 @@ declare namespace $ {
 declare namespace $ {
     let $mol_compare_deep_cache: WeakMap<any, WeakMap<any, boolean>>;
     function $mol_compare_deep<Value>(left: Value, right: Value): boolean;
-}
-
-declare namespace $ {
-    type $mol_log3_event<Fields> = {
-        [key in string]: unknown;
-    } & {
-        time?: string;
-        place: unknown;
-        message: string;
-    } & Fields;
-    type $mol_log3_logger<Fields, Res = void> = (this: $, event: $mol_log3_event<Fields>) => Res;
-    let $mol_log3_come: $mol_log3_logger<{}>;
-    let $mol_log3_done: $mol_log3_logger<{}>;
-    let $mol_log3_fail: $mol_log3_logger<{}>;
-    let $mol_log3_warn: $mol_log3_logger<{
-        hint: string;
-    }>;
-    let $mol_log3_rise: $mol_log3_logger<{}>;
-    let $mol_log3_area: $mol_log3_logger<{}, () => void>;
-    function $mol_log3_area_lazy(this: $, event: $mol_log3_event<{}>): () => void;
-    let $mol_log3_stack: (() => void)[];
-}
-
-declare namespace $ {
-    type $mol_type_keys_extract<Input, Upper, Lower = never> = {
-        [Field in keyof Input]: unknown extends Input[Field] ? never : Input[Field] extends never ? never : Input[Field] extends Upper ? [
-            Lower
-        ] extends [Input[Field]] ? Field : never : never;
-    }[keyof Input];
-}
-
-declare namespace $ {
-    function $mol_log3_web_make(level: $mol_type_keys_extract<Console, Function>, color: string): (this: $, event: $mol_log3_event<{}>) => () => void;
 }
 
 declare namespace $ {
@@ -21126,6 +21131,12 @@ declare namespace $ {
             name: string;
             buffer: Uint8Array;
         }[]): Promise<import("@duckdb/duckdb-wasm").AsyncDuckDBConnection>;
+        static connect_files_async(sources: $shm_hitalama_file[]): Promise<import("@duckdb/duckdb-wasm").AsyncDuckDBConnection>;
+        static connect_files(sources?: $shm_hitalama_file[]): import("@duckdb/duckdb-wasm").AsyncDuckDBConnection;
+        static files_query(files: $shm_hitalama_file[], query: string, limit?: number): {
+            head: string[];
+            rows: any[][];
+        };
     }
 }
 
@@ -21717,10 +21728,7 @@ declare namespace $ {
 	
 }
 
-//# sourceMappingURL=page.view.tree.d.ts.map
-declare namespace $.$$ {
-}
-
+//# sourceMappingURL=page.web.view.tree.d.ts.map
 declare namespace $.$$ {
     class $shm_hitalama_duckdb_page extends $.$shm_hitalama_duckdb_page {
         project_id(next?: string): string;
@@ -21738,7 +21746,6 @@ declare namespace $.$$ {
         query(next?: string): string;
         run(next?: any): void;
         duckdb_res(): any[] | null;
-        conn(): Promise<import("@duckdb/duckdb-wasm").AsyncDuckDBConnection>;
         conn_query(query: string): Promise<import("apache-arrow").Table<any>>;
         query_log(ref: $hyoo_crus_ref): $shm_hitalama_project_query_log;
         query_time(ref: $hyoo_crus_ref): string;
@@ -21746,6 +21753,9 @@ declare namespace $.$$ {
         logs(): $mol_view[];
         logs_clear(): void;
     }
+}
+
+declare namespace $.$$ {
 }
 
 declare namespace $ {
@@ -25463,12 +25473,24 @@ declare namespace $ {
 		,
 		ReturnType< $mol_button_minor['click'] >
 	>
+	type $mol_button_minor__title_shm_hitalama_board_block_file_5 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_button_minor['title'] >
+	>
+	type $mol_button_minor__click_shm_hitalama_board_block_file_6 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_file['unpacking_parquet'] >
+		,
+		ReturnType< $mol_button_minor['click'] >
+	>
 	export class $shm_hitalama_board_block_file extends $shm_hitalama_board_block_float {
 		title_dom_name( ): string
 		name( ): string
 		Title( ): $mol_paragraph
 		unpacking( next?: any ): any
 		Unpacking( ): $mol_button_minor
+		unpacking_parquet( next?: any ): any
+		Unpacking_parquet( ): $mol_button_minor
 		sub( ): readonly(any)[]
 		drag_body( ): readonly(any)[]
 		contextmenu_for( ): Record<string, any>
@@ -25483,6 +25505,7 @@ declare namespace $.$$ {
         ext(): string;
         contextmenu_body(): any[];
         unpacking(): void;
+        unpacking_parquet(): void;
     }
 }
 
@@ -27481,11 +27504,6 @@ declare namespace $ {
 
 //# sourceMappingURL=list.view.tree.d.ts.map
 declare namespace $ {
-    function $shm_hitalama_web_hidden(event: $mol_log3_event<{}>): boolean;
-    function $shm_hitalama_web_make(level: $mol_type_keys_extract<Console, Function>, color: string): (this: $, event: $mol_log3_event<{}>) => () => void;
-}
-
-declare namespace $ {
 
 	type $mol_paragraph__title_shm_hitalama_app_1 = $mol_type_enforce<
 		string
@@ -27594,7 +27612,7 @@ declare namespace $ {
 	
 }
 
-//# sourceMappingURL=app.view.tree.d.ts.map
+//# sourceMappingURL=app.web.view.tree.d.ts.map
 declare namespace $.$$ {
     class $shm_hitalama_app extends $.$shm_hitalama_app {
         profiles_ref(): string;
