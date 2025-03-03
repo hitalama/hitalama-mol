@@ -111,7 +111,7 @@ namespace $ {
 			}
 		}
 
-		return {head, rows}
+		return {head, rows, table: [...table].map( ( row: any ) => row.toJSON() )}
 	}
 
 	function get_columns( table: Awaited<ReturnType<ReturnType<typeof $shm_hitalama_duckdb.connect_files>[ 'query' ]>> ) {
