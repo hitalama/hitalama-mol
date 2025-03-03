@@ -25711,7 +25711,7 @@ var $;
                 rows[row_i][col_i] = format_val(field.typeId, arr[row_i]);
             }
         }
-        return { head, rows };
+        return { head, rows, table: [...table].map((row) => row.toJSON()) };
     }
     function get_columns(table) {
         const rec = {};

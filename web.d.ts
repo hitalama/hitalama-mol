@@ -21136,6 +21136,7 @@ declare namespace $ {
         static files_query(files: $shm_hitalama_file[], query: string, limit?: number): {
             head: string[];
             rows: any[][];
+            table: any[];
         };
     }
 }
