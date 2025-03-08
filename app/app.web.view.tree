@@ -10,7 +10,7 @@ $shm_hitalama_app $mol_book2_catalog
 		<= Foot_label $mol_paragraph
 			title \разработано в
 		<= Foot_logo $mol_image
-			uri <= logo_uri \/shm/hitalama/app/foot/foot_logo.png
+			uri <= logo_uri \/shm/hitalama/app/foot/foot_logo_light.png
 	pages /
 		<= Menu
 		<= Main $mol_page

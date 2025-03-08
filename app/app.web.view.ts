@@ -37,8 +37,11 @@ namespace $.$$ {
 			]
 		}
 
+		@ $mol_mem
 		logo_uri() {
-			return $shm_hitalama_app_ghpages_fix_link( super.logo_uri() )
+			const uri = $shm_hitalama_app_ghpages_fix_link( super.logo_uri() )
+			if( this.$.$mol_lights() ) return uri.replace( 'light', 'dark' )
+			return uri
 		}
 		
 		@ $mol_mem

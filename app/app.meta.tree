@@ -1,2 +1,3 @@
 include \/shm/hitalama/log
-deploy \/shm/hitalama/app/foot/foot_logo.png
+deploy \/shm/hitalama/app/foot/foot_logo_light.png
+deploy \/shm/hitalama/app/foot/foot_logo_dark.png
