@@ -1029,6 +1029,9 @@ $shm_hitalama_board_page_contexmenu $mol_list
 		<= Customizer_add $mol_button_minor
 			title \Добавить редактор виджетов
 			click? <=> customizer_add? null
+		<= Form_custom_add $mol_button_minor
+			title \Добавить редактор формы
+			click? <=> form_custom_add? null
 		^ customs /
 			<= Custom_add*0 $mol_button_minor
 				title <= custom_add_title* \Добавить {title}
@@ -1180,7 +1183,8 @@ $shm_hitalama_board_pane $mol_view
 	select_start? null
 	select_resize? null
 	client_pos_to_pane_pos* null
-	prevent_zoom? false
+	prevent_shift_x? false
+	prevent_shift_y? false
 	event *
 		^
 		pointermove? <=> pointer_move? null
@@ -1272,7 +1276,8 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 		client_pos_to_pane_pos* => client_pos_to_pane_pos*
 		back_event_pointerdown? <=> back_event_pointerdown? null
 		back_event_contextmenu? <=> back_event_contextmenu? null
-		prevent_zoom <= prevent_zoom false
+		prevent_shift_x <= prevent_shift_x false
+		prevent_shift_y <= prevent_shift_y false
 		outside /
 			^ contextmenu_visible /
 				<= Context_menu $shm_hitalama_contextmenu
@@ -1297,7 +1302,8 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 					sticks_x <= sticks_x* / 0
 					selected? <=> selected*? false
 					hovered? <=> hovered*? false
-					has_scrollbar => has_scrollbar* false
+					has_scrollbar_x => has_scrollbar_x* false
+					has_scrollbar_y => has_scrollbar_y* false
 					editing? => editing*? false
 					drags_synced <= drags_synced* /$rise_drag
 					on_contextmenu? <=> block_event_contextmenu*? null
@@ -1576,7 +1582,8 @@ $shm_hitalama_board_block_float $rise_resize_ratio
 					text <= copy_code \
 	copy_code_template \#value('{ref}')
 	opacity? 1
-	has_scrollbar false
+	has_scrollbar_x false
+	has_scrollbar_y false
 	style *
 		^
 		opacity <= opacity_str \1
@@ -2957,6 +2964,23 @@ $shm_hitalama_board_block_customizer $shm_hitalama_board_block_float
 		^
 		mol_theme \$mol_theme_special
 
+$shm_hitalama_board_block_form_custom $shm_hitalama_board_block_float
+	controls /
+		<= Form $mol_form
+			form_fields <= form_fields /
+				<= Field*0 $mol_form_field
+					name <= field_name* \
+					Content <= Field_value* $mol_string
+						value? <=> field_value*? \
+			buttons /
+				<= Publish $mol_button_major
+					title \Отправить
+					click? <=> submit? null
+					enabled <= submit_allowed true
+				<= Clear $mol_button_minor
+					title \Очистить
+					click? <=> clear? null
+
 $shm_hitalama_board_block_any $mol_ghost
 	Sub $shm_hitalama_board_block_float
 		height => height
@@ -2974,7 +2998,8 @@ $shm_hitalama_board_block_any $mol_ghost
 		selected? <=> selected? false
 		hovered? <=> hovered? false
 		editing? => editing?
-		has_scrollbar => has_scrollbar
+		has_scrollbar_x => has_scrollbar_x
+		has_scrollbar_y => has_scrollbar_y
 		drags_synced <= drags_synced /$rise_drag
 		on_contextmenu? <=> on_contextmenu? null
 		Contextmenu_body => Contextmenu_body
@@ -2996,6 +3021,7 @@ $shm_hitalama_board_block_any $mol_ghost
 		form_edit <= Form_edit $shm_hitalama_board_block_form_edit
 		code_css <= Code_css $shm_hitalama_board_block_code_css
 		customizer <= Customizer $shm_hitalama_board_block_customizer
+		form_custom <= Form_custom $shm_hitalama_board_block_form_custom
 		custom <= Custom $shm_hitalama_board_block_float
 
 $shm_hitalama_profile_switch $mol_view

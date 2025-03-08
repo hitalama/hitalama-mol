@@ -18130,19 +18130,14 @@ var $;
             const method = this.Head_method()?.val();
             if (!method)
                 return this.Head(next)?.val(next) ?? [];
-            const vars = 'const next = this.next;const board = this.board;\n';
-            const func = new Function(vars + method);
-            const res = func.call({ next, board: this.board() });
-            return res;
+            return this.board().execute(method, { next, table: this });
         }
         table_rows(next) {
             const method = this.Rows_method()?.val();
             if (!method)
                 return this.Rows(next)?.val(next) ?? [];
-            const vars = 'const next = this.next;const board = this.board;\n';
-            const func = new Function(vars + method);
-            const res = func.call({ next, board: this.board() });
-            return res;
+            const table = this;
+            return this.board().execute(method, { next, table });
         }
         col_types(next) {
             const types_raw = this.Col_types(next)?.val(next) ?? [];
@@ -19205,6 +19200,16 @@ var $;
 			(obj.click) = (next) => ((this.customizer_add(next)));
 			return obj;
 		}
+		form_custom_add(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Form_custom_add(){
+			const obj = new this.$.$mol_button_minor();
+			(obj.title) = () => ("Добавить редактор формы");
+			(obj.click) = (next) => ((this.form_custom_add(next)));
+			return obj;
+		}
 		custom_add_title(id){
 			return "Добавить {title}";
 		}
@@ -19243,6 +19248,7 @@ var $;
 				(this.Echarts_example_add()), 
 				(this.Code_css_add()), 
 				(this.Customizer_add()), 
+				(this.Form_custom_add()), 
 				...(this.customs())
 			];
 		}
@@ -19265,6 +19271,8 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_page_contexmenu.prototype), "Code_css_add"));
 	($mol_mem(($.$shm_hitalama_board_page_contexmenu.prototype), "customizer_add"));
 	($mol_mem(($.$shm_hitalama_board_page_contexmenu.prototype), "Customizer_add"));
+	($mol_mem(($.$shm_hitalama_board_page_contexmenu.prototype), "form_custom_add"));
+	($mol_mem(($.$shm_hitalama_board_page_contexmenu.prototype), "Form_custom_add"));
 	($mol_mem_key(($.$shm_hitalama_board_page_contexmenu.prototype), "custom_add"));
 	($mol_mem_key(($.$shm_hitalama_board_page_contexmenu.prototype), "Custom_add"));
 	($mol_mem(($.$shm_hitalama_board_page_contexmenu.prototype), "board"));
@@ -19364,6 +19372,28 @@ var $;
                 custom?.Code_css(null)?.value(code_css);
                 this.contextmenu_showed(false);
             }
+            form_custom_add() {
+                const [x, y] = this.contextmenu_real_pos();
+                const field_names = ['Фамилия', 'Имя', 'Отчество'];
+                const text = this.board().text_add([x - 200, y], field_names.join('\n'));
+                const block = this.board().block_add('form_custom', [x, y], 300, 600);
+                block?.Use_text_from(null)?.remote(text);
+                this.contextmenu_showed(false);
+                const block_table = this.board().table_novirt_add([x + 300, y], 1000, 780);
+                const table = block_table.Table(null)?.ensure(block_table.land());
+                table?.Head_method(null)?.val(`
+				const text = board.block_value('${text.ref().description}')
+				return text.split('\\n')
+			`);
+                table?.Rows_method(null)?.val(`
+				const data = board.block_data('${block.ref().description}')
+				const head = table.table_head()
+				return data?.map( obj => {
+					return head.map( n => obj[n] )
+				} ) ?? []
+			`);
+                return block;
+            }
             customs() {
                 const visible = this.board().Customs()?.remote_list().filter(c => c.Visible_in_contextmenu()?.val());
                 return visible?.map(c => this.Custom_add(c.ref())) ?? [];
@@ -19412,6 +19442,9 @@ var $;
         __decorate([
             $mol_action
         ], $shm_hitalama_board_page_contexmenu.prototype, "customizer_add", null);
+        __decorate([
+            $mol_action
+        ], $shm_hitalama_board_page_contexmenu.prototype, "form_custom_add", null);
         $$.$shm_hitalama_board_page_contexmenu = $shm_hitalama_board_page_contexmenu;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
@@ -20419,7 +20452,11 @@ var $;
 		client_pos_to_pane_pos(id){
 			return null;
 		}
-		prevent_zoom(next){
+		prevent_shift_x(next){
+			if(next !== undefined) return next;
+			return false;
+		}
+		prevent_shift_y(next){
 			if(next !== undefined) return next;
 			return false;
 		}
@@ -20462,7 +20499,8 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_pane.prototype), "select_rect_end_y"));
 	($mol_mem(($.$shm_hitalama_board_pane.prototype), "select_start"));
 	($mol_mem(($.$shm_hitalama_board_pane.prototype), "select_resize"));
-	($mol_mem(($.$shm_hitalama_board_pane.prototype), "prevent_zoom"));
+	($mol_mem(($.$shm_hitalama_board_pane.prototype), "prevent_shift_x"));
+	($mol_mem(($.$shm_hitalama_board_pane.prototype), "prevent_shift_y"));
 
 
 ;
@@ -20604,14 +20642,14 @@ var $;
                 this.shift_pressed(event.shiftKey);
                 if (this.viewport_shifting())
                     return;
-                if (this.prevent_zoom())
-                    return;
                 const shift = this.shift();
                 if (this.shift_pressed() && (Math.abs(event.deltaX) == 0)) {
+                    if (this.prevent_shift_x())
+                        return;
                     this.shift(new this.$.$mol_vector_2d(shift.x - event.deltaY, shift.y));
                 }
                 else {
-                    this.shift(new this.$.$mol_vector_2d(shift.x - event.deltaX, shift.y - event.deltaY));
+                    this.shift(new this.$.$mol_vector_2d(shift.x - (this.prevent_shift_x() ? 0 : event.deltaX), shift.y - (this.prevent_shift_y() ? 0 : event.deltaY)));
                 }
             }
             content_pointer_events() {
@@ -20958,7 +20996,10 @@ var $;
 			if(next !== undefined) return next;
 			return null;
 		}
-		prevent_zoom(){
+		prevent_shift_x(){
+			return false;
+		}
+		prevent_shift_y(){
 			return false;
 		}
 		contextmenu_pos(next){
@@ -21018,8 +21059,11 @@ var $;
 			if(next !== undefined) return next;
 			return false;
 		}
-		has_scrollbar(id){
-			return (this.Block(id).has_scrollbar());
+		has_scrollbar_x(id){
+			return (this.Block(id).has_scrollbar_x());
+		}
+		has_scrollbar_y(id){
+			return (this.Block(id).has_scrollbar_y());
 		}
 		editing(id, next){
 			return (this.Block(id).editing(next));
@@ -21117,7 +21161,8 @@ var $;
 			(obj.select_resize) = () => ((this.select_resize()));
 			(obj.back_event_pointerdown) = (next) => ((this.back_event_pointerdown(next)));
 			(obj.back_event_contextmenu) = (next) => ((this.back_event_contextmenu(next)));
-			(obj.prevent_zoom) = () => ((this.prevent_zoom()));
+			(obj.prevent_shift_x) = () => ((this.prevent_shift_x()));
+			(obj.prevent_shift_y) = () => ((this.prevent_shift_y()));
 			(obj.outside) = () => ([...(this.contextmenu_visible())]);
 			(obj.body) = () => ([...(this.blocks()), ...(this.cursors())]);
 			return obj;
@@ -21407,11 +21452,17 @@ var $;
                     this.hovered_ref(null);
                 return next ?? false;
             }
-            prevent_zoom() {
+            prevent_shift_y() {
                 const ref = this.hovered_ref();
                 if (!ref)
                     return false;
-                return this.has_scrollbar(ref) ?? false;
+                return this.has_scrollbar_y(ref) ?? false;
+            }
+            prevent_shift_x() {
+                const ref = this.hovered_ref();
+                if (!ref)
+                    return false;
+                return this.has_scrollbar_x(ref) ?? false;
             }
             select_resize() {
                 let [left, top] = this.select_rect_pos();
@@ -21691,7 +21742,10 @@ var $;
         ], $shm_hitalama_board_page.prototype, "hovered", null);
         __decorate([
             $mol_mem
-        ], $shm_hitalama_board_page.prototype, "prevent_zoom", null);
+        ], $shm_hitalama_board_page.prototype, "prevent_shift_y", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_page.prototype, "prevent_shift_x", null);
         __decorate([
             $mol_mem_key
         ], $shm_hitalama_board_page.prototype, "block_event_contextmenu", null);
@@ -21833,6 +21887,7 @@ var $;
         'code_css',
         'customizer',
         'custom',
+        'form_custom',
     ];
     class $shm_hitalama_board_block_type extends $hyoo_crus_atom_enum($.$shm_hitalama_board_block_types) {
     }
@@ -21891,7 +21946,7 @@ var $;
         preprocessed(page, view) {
             const text = this.text();
             const board = this.Board()?.remote();
-            return board.execute('return `' + text + '`', page, view);
+            return board.execute('return `' + text + '`', { page, block: this, view });
         }
         table() {
             return this.Table(null)?.ensure(this.land());
@@ -23199,7 +23254,10 @@ var $;
 			if(next !== undefined) return next;
 			return 1;
 		}
-		has_scrollbar(){
+		has_scrollbar_x(){
+			return false;
+		}
+		has_scrollbar_y(){
 			return false;
 		}
 		style(){
@@ -23340,9 +23398,13 @@ var $;
                 super.on_drag_start(event);
                 this.selected(true);
             }
-            has_scrollbar() {
+            has_scrollbar_y() {
                 const el = this.Content().dom_node_actual();
                 return el.scrollHeight > el.clientHeight;
+            }
+            has_scrollbar_x() {
+                const el = this.Content().dom_node_actual();
+                return el.scrollWidth > el.clientWidth;
             }
             pointerdown_last;
             pointerdown(event) {
@@ -23420,7 +23482,10 @@ var $;
         ], $shm_hitalama_board_block_float.prototype, "transition", null);
         __decorate([
             $mol_mem
-        ], $shm_hitalama_board_block_float.prototype, "has_scrollbar", null);
+        ], $shm_hitalama_board_block_float.prototype, "has_scrollbar_y", null);
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_block_float.prototype, "has_scrollbar_x", null);
         __decorate([
             $mol_action
         ], $shm_hitalama_board_block_float.prototype, "get_custom_guid", null);
@@ -27261,7 +27326,7 @@ var $;
             time_end;
             run() {
                 this.set_time_start();
-                this.board().execute(this.code(), this.Board_page(), this);
+                this.board().execute(this.code(), { page: this.Board_page(), block: this.block(), view: this });
                 this.time_end = performance.now();
             }
             time_passed() {
@@ -30508,7 +30573,7 @@ var $;
             data;
             Dom() {
                 try {
-                    return this.board().execute(this.code(), this.Board_page(), this);
+                    return this.board().execute(this.code(), { page: this.Board_page(), block: this.block(), view: this });
                 }
                 catch (error) {
                     if (!$mol_promise_like(error)) {
@@ -31751,6 +31816,134 @@ var $;
 })($ || ($ = {}));
 
 ;
+	($.$shm_hitalama_board_block_form_custom) = class $shm_hitalama_board_block_form_custom extends ($.$shm_hitalama_board_block_float) {
+		field_name(id){
+			return "";
+		}
+		field_value(id, next){
+			if(next !== undefined) return next;
+			return "";
+		}
+		Field_value(id){
+			const obj = new this.$.$mol_string();
+			(obj.value) = (next) => ((this.field_value(id, next)));
+			return obj;
+		}
+		Field(id){
+			const obj = new this.$.$mol_form_field();
+			(obj.name) = () => ((this.field_name(id)));
+			(obj.Content) = () => ((this.Field_value(id)));
+			return obj;
+		}
+		form_fields(){
+			return [(this.Field("0"))];
+		}
+		submit(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		submit_allowed(){
+			return true;
+		}
+		Publish(){
+			const obj = new this.$.$mol_button_major();
+			(obj.title) = () => ("Отправить");
+			(obj.click) = (next) => ((this.submit(next)));
+			(obj.enabled) = () => ((this.submit_allowed()));
+			return obj;
+		}
+		clear(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Clear(){
+			const obj = new this.$.$mol_button_minor();
+			(obj.title) = () => ("Очистить");
+			(obj.click) = (next) => ((this.clear(next)));
+			return obj;
+		}
+		Form(){
+			const obj = new this.$.$mol_form();
+			(obj.form_fields) = () => ((this.form_fields()));
+			(obj.buttons) = () => ([(this.Publish()), (this.Clear())]);
+			return obj;
+		}
+		controls(){
+			return [(this.Form())];
+		}
+	};
+	($mol_mem_key(($.$shm_hitalama_board_block_form_custom.prototype), "field_value"));
+	($mol_mem_key(($.$shm_hitalama_board_block_form_custom.prototype), "Field_value"));
+	($mol_mem_key(($.$shm_hitalama_board_block_form_custom.prototype), "Field"));
+	($mol_mem(($.$shm_hitalama_board_block_form_custom.prototype), "submit"));
+	($mol_mem(($.$shm_hitalama_board_block_form_custom.prototype), "Publish"));
+	($mol_mem(($.$shm_hitalama_board_block_form_custom.prototype), "clear"));
+	($mol_mem(($.$shm_hitalama_board_block_form_custom.prototype), "Clear"));
+	($mol_mem(($.$shm_hitalama_board_block_form_custom.prototype), "Form"));
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $shm_hitalama_board_block_form_custom extends $.$shm_hitalama_board_block_form_custom {
+            block_with_text() {
+                const use_from = this.block().Use_text_from()?.remote();
+                return use_from ?? this.block();
+            }
+            field_names() {
+                const field_names = this.block_with_text().text().split('\n');
+                return field_names;
+            }
+            form_fields() {
+                return this.field_names().map(name => this.Field(name));
+            }
+            field_name(id) {
+                return id;
+            }
+            clear() {
+                this.field_names().forEach(name => {
+                    this.field_value(name, '');
+                });
+            }
+            submit() {
+                const data = this.block().data() ?? [];
+                const obj = Object.fromEntries(this.field_names().map(n => [n, this.field_value(n)]));
+                this.block().data([[...data, obj]]);
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_board_block_form_custom.prototype, "block_with_text", null);
+        $$.$shm_hitalama_board_block_form_custom = $shm_hitalama_board_block_form_custom;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        $mol_style_define($shm_hitalama_board_block_form_custom, {
+            Form: {
+                Body: {
+                    padding: {
+                        left: $mol_gap.block,
+                        right: $mol_gap.block,
+                    },
+                },
+            },
+        });
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
 	($.$shm_hitalama_board_block_any) = class $shm_hitalama_board_block_any extends ($.$mol_ghost) {
 		height(){
 			return (this.Sub().height());
@@ -31802,8 +31995,11 @@ var $;
 		editing(next){
 			return (this.Sub().editing(next));
 		}
-		has_scrollbar(){
-			return (this.Sub().has_scrollbar());
+		has_scrollbar_x(){
+			return (this.Sub().has_scrollbar_x());
+		}
+		has_scrollbar_y(){
+			return (this.Sub().has_scrollbar_y());
 		}
 		drags_synced(){
 			return [];
@@ -31882,6 +32078,10 @@ var $;
 			const obj = new this.$.$shm_hitalama_board_block_customizer();
 			return obj;
 		}
+		Form_custom(){
+			const obj = new this.$.$shm_hitalama_board_block_form_custom();
+			return obj;
+		}
 		Custom(){
 			const obj = new this.$.$shm_hitalama_board_block_float();
 			return obj;
@@ -31921,6 +32121,7 @@ var $;
 				"form_edit": (this.Form_edit()), 
 				"code_css": (this.Code_css()), 
 				"customizer": (this.Customizer()), 
+				"form_custom": (this.Form_custom()), 
 				"custom": (this.Custom())
 			};
 		}
@@ -31947,6 +32148,7 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Form_edit"));
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Code_css"));
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Customizer"));
+	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Form_custom"));
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Custom"));
 	($mol_mem(($.$shm_hitalama_board_block_any.prototype), "Sub"));
 
@@ -33009,12 +33211,21 @@ var $;
             $mol_wire_solid();
             return this.$.$mol_fetch.text($shm_hitalama_app_ghpages_fix_link('/shm/hitalama/board/snippets/_execute_init.js'));
         }
-        execute(code, page, view) {
-            const func = new Function($shm_hitalama_board.execute_init_code() + code);
-            const res = func.call({ board: this, page, view });
+        execute(code, context) {
+            context = {
+                board: this,
+                ...context,
+            };
+            let vars = '';
+            for (const key in context) {
+                vars += `const ${key} = this.${key};\n`;
+            }
+            const code_full = vars + $shm_hitalama_board.execute_init_code() + code;
+            const func = new Function(code_full);
+            const res = func.call(context);
             return res;
         }
-        block_add(type, pos = [0, 0], right_x = 200, bottom_x = 100, name) {
+        block_add(type, pos = [0, 0], width = 200, height = 100, name) {
             if (name) {
                 const by_name = this.Block_by_name(null)?.key(name);
                 if (by_name)
@@ -33028,22 +33239,22 @@ var $;
             block?.Type(null)?.val(type);
             block?.Body_x(null)?.val(pos[0]);
             block?.Body_y(null)?.val(pos[1]);
-            block?.Right_edge_x(null)?.val(right_x);
-            block?.Bottom_edge_y(null)?.val(bottom_x);
+            block?.Right_edge_x(null)?.val(width);
+            block?.Bottom_edge_y(null)?.val(height);
             return block;
         }
-        table_add(pos = [0, 0], right_x = 200, bottom_x = 100, name) {
-            const block = this.block_add('table', pos, right_x, bottom_x, name);
+        table_add(pos = [0, 0], width = 200, height = 100, name) {
+            const block = this.block_add('table', pos, width, height, name);
             block?.table().Board(null)?.remote(this);
             return block;
         }
-        table_novirt_add(pos = [0, 0], right_x = 200, bottom_x = 100, name) {
-            const block = this.block_add('table_novirt', pos, right_x, bottom_x, name);
+        table_novirt_add(pos = [0, 0], width = 200, height = 100, name) {
+            const block = this.block_add('table_novirt', pos, width, height, name);
             block?.table().Board(null)?.remote(this);
             return block;
         }
-        text_add(pos = [0, 0], text = 'text', right_x = 200, bottom_x = 100) {
-            const block = this.block_add('text', pos, right_x, bottom_x);
+        text_add(pos = [0, 0], text = 'text', width = 200, height = 100) {
+            const block = this.block_add('text', pos, width, height);
             block?.Text(null)?.value(text);
             block?.Font_size(null)?.val(this.Last_font_size()?.val());
             block?.Color(null)?.val(this.Last_color()?.val());
