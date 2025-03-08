@@ -53,7 +53,8 @@ $shm_hitalama_board_pane $mol_view
 	select_start? null
 	select_resize? null
 	client_pos_to_pane_pos* null
-	prevent_zoom? false
+	prevent_shift_x? false
+	prevent_shift_y? false
 	event *
 		^
 		pointermove? <=> pointer_move? null

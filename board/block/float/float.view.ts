@@ -89,9 +89,15 @@ namespace $.$$ {
 		}
 		
 		@ $mol_mem
-		has_scrollbar() {
+		has_scrollbar_y() {
 			const el = this.Content().dom_node_actual()
 			return el.scrollHeight > el.clientHeight
+		}
+		
+		@ $mol_mem
+		has_scrollbar_x() {
+			const el = this.Content().dom_node_actual()
+			return el.scrollWidth > el.clientWidth
 		}
 
 		pointerdown_last?: PointerEvent

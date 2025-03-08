@@ -183,14 +183,20 @@ namespace $.$$ {
 			this.shift_pressed( event.shiftKey )
 
 			if( this.viewport_shifting() ) return
-			if( this.prevent_zoom() ) return
+			// if( this.prevent_shift() ) return
 
 			const shift = this.shift()
 
 			if( this.shift_pressed() && (Math.abs(event.deltaX) == 0) ) {
+
+				if( this.prevent_shift_x() ) return
 				this.shift( new this.$.$mol_vector_2d( shift.x - event.deltaY, shift.y ) )
+
 			} else {
-				this.shift( new this.$.$mol_vector_2d( shift.x - event.deltaX, shift.y - event.deltaY ) )
+				this.shift( new this.$.$mol_vector_2d(
+					shift.x - (this.prevent_shift_x() ? 0 : event.deltaX),
+					shift.y - (this.prevent_shift_y() ? 0 : event.deltaY),
+				) )
 			}
 		}
 

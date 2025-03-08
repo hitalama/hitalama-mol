@@ -58,7 +58,8 @@ $shm_hitalama_board_block_float $rise_resize_ratio
 					text <= copy_code \
 	copy_code_template \#value('{ref}')
 	opacity? 1
-	has_scrollbar false
+	has_scrollbar_x false
+	has_scrollbar_y false
 	style *
 		^
 		opacity <= opacity_str \1

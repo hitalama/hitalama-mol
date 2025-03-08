@@ -67,7 +67,8 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 		client_pos_to_pane_pos* => client_pos_to_pane_pos*
 		back_event_pointerdown? <=> back_event_pointerdown? null
 		back_event_contextmenu? <=> back_event_contextmenu? null
-		prevent_zoom <= prevent_zoom false
+		prevent_shift_x <= prevent_shift_x false
+		prevent_shift_y <= prevent_shift_y false
 		outside /
 			^ contextmenu_visible /
 				<= Context_menu $shm_hitalama_contextmenu
@@ -92,7 +93,8 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 					sticks_x <= sticks_x* / 0
 					selected? <=> selected*? false
 					hovered? <=> hovered*? false
-					has_scrollbar => has_scrollbar* false
+					has_scrollbar_x => has_scrollbar_x* false
+					has_scrollbar_y => has_scrollbar_y* false
 					editing? => editing*? false
 					drags_synced <= drags_synced* /$rise_drag
 					on_contextmenu? <=> block_event_contextmenu*? null

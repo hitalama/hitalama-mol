@@ -79,21 +79,6 @@ namespace $.$$ {
 
 			return obj
 		}
-
-		// @ $mol_mem
-		// source_js_decorators(  ) {
-		// 	const list = new Array<string>()
-
-		// 	const add = (prop_name: string, key: boolean, next: boolean) => {
-		// 		if (!key && !next) return
-		// 		if (this.source_js().includes(`/*${prop_name}*/`))
-		// 		list.push(`($mol_mem${key ? '_key' : ''}(($.${ this.self() }.prototype), "${ prop_name }"));`)
-		// 	}
-
-		// 	this.props().forEach(prop => add(prop.name(), prop.multiple(), prop.changeable()))
-
-		// 	return list.join('\n')
-		// }
 		
 	}
 	

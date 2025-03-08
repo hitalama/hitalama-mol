@@ -152,10 +152,17 @@ namespace $.$$ {
 		}
 
 		@ $mol_mem
-		prevent_zoom() {
+		prevent_shift_y() {
 			const ref = this.hovered_ref()
 			if( !ref ) return false
-			return this.has_scrollbar( ref ) ?? false
+			return this.has_scrollbar_y( ref ) ?? false
+		}
+
+		@ $mol_mem
+		prevent_shift_x() {
+			const ref = this.hovered_ref()
+			if( !ref ) return false
+			return this.has_scrollbar_x( ref ) ?? false
 		}
 
 		select_resize() {
