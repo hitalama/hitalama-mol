@@ -103,10 +103,11 @@
 	deploy \shm/hitalama/board/snippets/_widget_ba_messagecount.view.tree
 	deploy \shm/hitalama/board/snippets/_widget_ba_messagecount.view.css
 	deploy \shm/hitalama/board/snippets/_execute_init.js
-\/mol/view/tree2/to/js
-	include \/mol/view/tree2/to/js/test
+	deploy \shm/hitalama/board/snippets/_table_from_sql_result.js
 \/shm/hitalama/duckdb/lib
 	require \/shm/hitalama/duckdb/lib/_index.js
+\/mol/view/tree2/to/js
+	include \/mol/view/tree2/to/js/test
 \/shm/hitalama/duckdb/page
 	deploy \/shm/hitalama/duckdb/parquet/demo.parquet
 \/shm/hitalama/app
