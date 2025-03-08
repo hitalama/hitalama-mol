@@ -37205,7 +37205,7 @@ var $;
         const head = table.schema.fields.map(f => f.name);
         const rows = [...table].map((row) => {
             const json = row.toJSON();
-            rows.push(table.schema.fields.map(f => format_val(f, json[f.name])));
+            return table.schema.fields.map(f => format_val(f, json[f.name]));
         });
         return { head, rows };
     }
