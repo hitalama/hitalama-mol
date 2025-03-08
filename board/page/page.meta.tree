@@ -14,3 +14,4 @@ deploy \shm/hitalama/board/snippets/_my_widget.view.css
 deploy \shm/hitalama/board/snippets/_widget_ba_messagecount.js
 deploy \shm/hitalama/board/snippets/_widget_ba_messagecount.view.tree
 deploy \shm/hitalama/board/snippets/_widget_ba_messagecount.view.css
+deploy \shm/hitalama/board/snippets/_execute_init.js
