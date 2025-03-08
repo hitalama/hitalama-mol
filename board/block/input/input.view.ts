@@ -9,9 +9,7 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		text_rendered() {
-			const template = this.block().Text()?.text() ?? ''
-			const func = new Function( 'const board = this.board;\nconst page = this.page;\nreturn `' + template + '`' )
-			return func.call( { page: this.Board_page(), board: this.board() } )
+			return this.block().preprocessed()
 		}
 		
 	}

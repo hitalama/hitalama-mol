@@ -1,12 +1,10 @@
 $shm_hitalama_board_block_iframe $shm_hitalama_board_block_float
-	auto /
-		<= html_update null
 	sub /
 		<= Drag_view
 		^ iframe_visible /
 			<= Iframe $shm_hitalama_board_block_iframe_frame
 				uri <= uri \
-				html <= html? null
+				html <= html null
 				event_load? <=> iframe_on_load? null
 			<= Tg_post_dom $mol_view
 				sub / ^ tg_post_script /

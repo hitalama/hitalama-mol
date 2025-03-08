@@ -10,9 +10,7 @@ namespace $.$$ {
 		@ $mol_mem
 		Dom() {
 			try {
-				const func = new Function( 'const board = this.board;\nconst page = this.page;\nconst view = this.view;\n'+ this.code() )
-				const res = func.call( { page: this.Board_page(), board: this.board(), view: this } )
-				return res
+				return this.board().execute( this.code(), this.Board_page(), this )
 			} catch (error) {
 				if( !$mol_promise_like( error ) ) {
 					this.data = undefined

@@ -56,7 +56,7 @@ $shm_hitalama_board_block_float $rise_resize_ratio
 				<= Copy_code $mol_button_copy
 					title <= title \
 					text <= copy_code \
-	copy_code_template \board.block('{ref}').text()
+	copy_code_template \#value('{ref}')
 	opacity? 1
 	has_scrollbar false
 	style *

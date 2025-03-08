@@ -36,9 +36,8 @@ namespace $.$$ {
 			return this.block().text() ?? ''
 		}
 
-		html_update() {
-			this.html(null)
-
+		@ $mol_mem
+		html() {
 			const text = this.block().text()
 			if( this.uri_used() ) {
 				return null
@@ -51,18 +50,25 @@ namespace $.$$ {
 				)
 
 			let board_refs_code = ''
-			const html = text.replaceAll( /board\.block[^\s]+/g, match => {
-				board_refs_code += 'this.' + match + ';\n'
-				const replaced = match.replace( 'board', 'window.parent.'+board_path )
+
+			const regex = new RegExp('\\$'+'value[^\\s]+', 'g')
+			const html = text.replaceAll( regex, match => {
+				board_refs_code += match + ';\n'
+				const replaced = match.replace( '$'+'value', 'window.parent.'+board_path+'.block_value' )
 				return replaced
 			} )
 
 			if( board_refs_code ) {
-				const func = new Function( 'const board = this.board;\nconst page = this.page;\nconst view = this.view;\n'+ board_refs_code )
-				func.call( { page: this.Board_page(), board: this.board() } )
+				this.board().execute( board_refs_code )
 			}
+			setTimeout( ()=> this.reload_iframe(), 0)
+			
+			return html
+		}
 
-			setTimeout(() => this.html( html ), 0)
+		reload_iframe() {
+			const el = this.Iframe().dom_node_actual() as HTMLIFrameElement
+			el.srcdoc += ''
 		}
 
 		@ $mol_mem

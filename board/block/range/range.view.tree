@@ -37,4 +37,3 @@ $shm_hitalama_board_block_range $shm_hitalama_board_block_float
 									precision_change 1
 		<= Delete
 		<= Copy_code
-	copy_code_template \board.block('{ref}').range().value()

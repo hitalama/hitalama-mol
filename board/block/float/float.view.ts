@@ -53,7 +53,7 @@ namespace $.$$ {
 		}
 
 		copy_code() {
-			return this.copy_code_template().replace( '{ref}', this.block().ref().description?.toString()! )
+			return this.copy_code_template().replace( '{ref}', this.block().ref().description?.toString()! ).replace( '#', '$' )
 		}
 
 		@ $mol_mem

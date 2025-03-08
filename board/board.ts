@@ -26,6 +26,36 @@ namespace $ {
 		block( ref: string ) {
 			return $hyoo_crus_glob.Node( $hyoo_crus_ref( ref ), $shm_hitalama_board_block )
 		}
+		
+		block_text( ref: string, next?: string ) {
+			return this.block( ref ).text( next )
+		}
+		
+		block_data( ref: string, next?: any ) {
+			return this.block( ref ).data( next )
+		}
+		
+		block_value( ref: string, next?: any ) {
+			const block = this.block( ref )
+			
+			if( block.type() == 'range' ) return block.range().value( next )
+
+			if( next === undefined ) return block.preprocessed()
+			
+			return block.text( next )
+		}
+
+		@ $mol_mem
+		static execute_init_code() {
+			$mol_wire_solid()
+			return this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( '/shm/hitalama/board/snippets/_execute_init.js' ) )
+		}
+
+		execute( code: string, page?: $shm_hitalama_board_page, view?: $mol_view ) {
+			const func = new Function( $shm_hitalama_board.execute_init_code() + code )
+			const res = func.call( { board: this, page, view } )
+			return res
+		}
 
 		@ $mol_action
 		block_add(

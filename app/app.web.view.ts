@@ -60,9 +60,11 @@ namespace $.$$ {
 
 	}
 
+}
+
+namespace $ {
 	export function $shm_hitalama_app_ghpages_fix_link( link: string ) {
 		return ( $.$mol_dom_context.document?.location.host == 'hitalama.github.io'
 			? '/hitalama-mol' : '' ) + link
 	}
-
 }

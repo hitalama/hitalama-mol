@@ -107,6 +107,13 @@ namespace $ {
 		range() {
 			return this.Range(null)!
 		}
+		
+		@ $mol_mem
+		preprocessed( page?: $shm_hitalama_board_page, view?: $mol_view ) {
+			const text = this.text()
+			const board = this.Board()?.remote()!
+			return board.execute( 'return `'+text+'`', page, view )
+		}
 
 		@ $mol_mem
 		table() {

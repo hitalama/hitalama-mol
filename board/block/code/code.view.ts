@@ -10,7 +10,7 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		code( next?: string ): string {
-			return this.block_with_text().Text( next )?.text( next ) ?? ''
+			return this.block_with_text().text( next ) ?? ''
 		}
 
 		@ $mol_mem
@@ -37,10 +37,7 @@ namespace $.$$ {
 		@ $mol_action
 		run() {
 			this.set_time_start()
-
-			const func = new Function( 'const board = this.board;\nconst page = this.page;\nconst view = this.view;\n'+ this.code() )
-			func.call( { page: this.Board_page(), board: this.board(), vide: this } )
-
+			this.board().execute( this.code(), this.Board_page(), this )
 			this.time_end = performance.now()
 		}
 
