@@ -118,6 +118,33 @@ namespace $.$$ {
 			this.contextmenu_showed( false )
 		}
 
+		@ $mol_action
+		form_custom_add() {
+			const [x, y] = this.contextmenu_real_pos()
+			const field_names = [ 'Фамилия', 'Имя', 'Отчество'] 
+			const text = this.board().text_add( [x-200, y], field_names.join('\n') )
+
+			const block = this.board().block_add( 'form_custom', [x, y], 300, 600 )
+			block?.Use_text_from(null)?.remote( text )
+			this.contextmenu_showed( false )
+			
+			const block_table = this.board().table_novirt_add( [x+300, y], 1000, 780 )!
+			const table = block_table.Table(null)?.ensure( block_table.land() )
+			table?.Head_method(null)?.val( `
+				const text = board.block_value('${text!.ref().description!}')
+				return text.split('\\n')
+			` )
+			table?.Rows_method(null)?.val( `
+				const data = board.block_data('${block!.ref().description!}')
+				const head = table.table_head()
+				return data?.map( obj => {
+					return head.map( n => obj[n] )
+				} ) ?? []
+			` )
+
+			return block
+		}
+
 		customs() {
 			const visible = this.board().Customs()?.remote_list().filter( c => c.Visible_in_contextmenu()?.val() )
 			return visible?.map( c => this.Custom_add( c.ref() ) ) ?? []

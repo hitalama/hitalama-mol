@@ -18,6 +18,7 @@ namespace $ {
 		'code_css',
 		'customizer',
 		'custom',
+		'form_custom',
 	] as const
 
 	class $shm_hitalama_board_block_type extends $hyoo_crus_atom_enum( $shm_hitalama_board_block_types ){}
@@ -112,7 +113,7 @@ namespace $ {
 		preprocessed( page?: $shm_hitalama_board_page, view?: $mol_view ) {
 			const text = this.text()
 			const board = this.Board()?.remote()!
-			return board.execute( 'return `'+text+'`', page, view )
+			return board.execute( 'return `'+text+'`', { page, block: this, view } )
 		}
 
 		@ $mol_mem

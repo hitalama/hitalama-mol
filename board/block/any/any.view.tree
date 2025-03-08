@@ -38,4 +38,5 @@ $shm_hitalama_board_block_any $mol_ghost
 		form_edit <= Form_edit $shm_hitalama_board_block_form_edit
 		code_css <= Code_css $shm_hitalama_board_block_code_css
 		customizer <= Customizer $shm_hitalama_board_block_customizer
+		form_custom <= Form_custom $shm_hitalama_board_block_form_custom
 		custom <= Custom $shm_hitalama_board_block_float

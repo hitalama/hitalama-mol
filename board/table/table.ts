@@ -34,11 +34,7 @@ namespace $ {
 			const method = this.Head_method()?.val()
 			if( !method ) return this.Head(next)?.val( next ) ?? []
 
-			const vars = 'const next = this.next;const board = this.board;\n'
-			const func = new Function( vars + method )
-
-			const res = func.call( { next, board: this.board() } )
-			return res
+			return this.board().execute( method, { next, table: this } )
 		}
 		
 		@ $mol_mem
@@ -46,11 +42,8 @@ namespace $ {
 			const method = this.Rows_method()?.val()
 			if( !method ) return this.Rows(next)?.val( next ) ?? []
 
-			const vars = 'const next = this.next;const board = this.board;\n'
-			const func = new Function( vars + method )
-
-			const res = func.call( { next, board: this.board() } )
-			return res
+			const table = this
+			return this.board().execute( method, { next, table } )
 		}
 
 		@ $mol_mem

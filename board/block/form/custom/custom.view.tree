@@ -1,0 +1,16 @@
+$shm_hitalama_board_block_form_custom $shm_hitalama_board_block_float
+	controls /
+		<= Form $mol_form
+			form_fields <= form_fields /
+				<= Field*0 $mol_form_field
+					name <= field_name* \
+					Content <= Field_value* $mol_string
+						value? <=> field_value*? \
+			buttons /
+				<= Publish $mol_button_major
+					title \Отправить
+					click? <=> submit? null
+					enabled <= submit_allowed true
+				<= Clear $mol_button_minor
+					title \Очистить
+					click? <=> clear? null

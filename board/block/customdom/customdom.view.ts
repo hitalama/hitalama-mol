@@ -10,7 +10,7 @@ namespace $.$$ {
 		@ $mol_mem
 		Dom() {
 			try {
-				return this.board().execute( this.code(), this.Board_page(), this )
+				return this.board().execute( this.code(), { page: this.Board_page(), block: this.block(), view: this } )
 			} catch (error) {
 				if( !$mol_promise_like( error ) ) {
 					this.data = undefined

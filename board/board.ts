@@ -51,9 +51,18 @@ namespace $ {
 			return this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( '/shm/hitalama/board/snippets/_execute_init.js' ) )
 		}
 
-		execute( code: string, page?: $shm_hitalama_board_page, view?: $mol_view ) {
-			const func = new Function( $shm_hitalama_board.execute_init_code() + code )
-			const res = func.call( { board: this, page, view } )
+		execute( code: string, context?: Record< string, any > ) {
+			context = {
+				board: this,
+				... context,
+			}
+			let vars = ''
+			for( const key in context ) {
+				vars += `const ${key} = this.${key};\n`
+			}
+			const code_full = vars + $shm_hitalama_board.execute_init_code() + code
+			const func = new Function( code_full )
+			const res = func.call( context )
 			return res
 		}
 
@@ -61,7 +70,7 @@ namespace $ {
 		block_add(
 			type: (typeof $shm_hitalama_board_block_types)[number], 
 			pos: readonly [number, number] | readonly number[] = [0,0],
-			right_x = 200, bottom_x = 100,
+			width = 200, height = 100,
 			name?: string,
 		) {
 			if( name ) {
@@ -84,18 +93,18 @@ namespace $ {
 			block?.Type(null)?.val( type )
 			block?.Body_x(null)?.val( pos[0] )
 			block?.Body_y(null)?.val( pos[1] )
-			block?.Right_edge_x(null)?.val( right_x )
-			block?.Bottom_edge_y(null)?.val( bottom_x )
+			block?.Right_edge_x(null)?.val( width )
+			block?.Bottom_edge_y(null)?.val( height )
 			return block
 		}
 
 		@ $mol_action
 		table_add( 
 			pos: readonly [number, number] | readonly number[] = [0,0],
-			right_x = 200, bottom_x = 100,
+			width = 200, height = 100,
 			name?: string,
 		) {
-			const block = this.block_add( 'table', pos, right_x, bottom_x, name )
+			const block = this.block_add( 'table', pos, width, height, name )
 			block?.table().Board(null)?.remote( this )
 			return block
 		}
@@ -103,10 +112,10 @@ namespace $ {
 		@ $mol_action
 		table_novirt_add( 
 			pos: readonly [number, number] | readonly number[] = [0,0],
-			right_x = 200, bottom_x = 100,
+			width = 200, height = 100,
 			name?: string,
 		) {
-			const block = this.block_add( 'table_novirt', pos, right_x, bottom_x, name )
+			const block = this.block_add( 'table_novirt', pos, width, height, name )
 			block?.table().Board(null)?.remote( this )
 			return block
 		}
@@ -115,9 +124,9 @@ namespace $ {
 		text_add( 
 			pos: readonly [number, number] | readonly number[] = [0,0],
 			text = 'text',
-			right_x = 200, bottom_x = 100,
+			width = 200, height = 100,
 		) {
-			const block = this.block_add( 'text', pos, right_x, bottom_x )
+			const block = this.block_add( 'text', pos, width, height )
 			block?.Text(null)?.value( text )
 			block?.Font_size(null)?.val( this.Last_font_size()?.val() )
 			block?.Color(null)?.val( this.Last_color()?.val() )
