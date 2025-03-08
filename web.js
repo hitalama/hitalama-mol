@@ -21946,7 +21946,7 @@ var $;
         preprocessed(page, view) {
             const text = this.text();
             const board = this.Board()?.remote();
-            return board.execute('return `' + text + '`', { page, block: this, view });
+            return board.execute('return `' + text + '`', { page, this_block: this, view });
         }
         table() {
             return this.Table(null)?.ensure(this.land());
@@ -27326,7 +27326,7 @@ var $;
             time_end;
             run() {
                 this.set_time_start();
-                this.board().execute(this.code(), { page: this.Board_page(), block: this.block(), view: this });
+                this.board().execute(this.code(), { page: this.Board_page(), this_block: this.block(), view: this });
                 this.time_end = performance.now();
             }
             time_passed() {
@@ -30573,7 +30573,7 @@ var $;
             data;
             Dom() {
                 try {
-                    return this.board().execute(this.code(), { page: this.Board_page(), block: this.block(), view: this });
+                    return this.board().execute(this.code(), { page: this.Board_page(), this_block: this.block(), view: this });
                 }
                 catch (error) {
                     if (!$mol_promise_like(error)) {
