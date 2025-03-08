@@ -37,7 +37,7 @@ namespace $.$$ {
 		@ $mol_action
 		run() {
 			this.set_time_start()
-			this.board().execute( this.code(), { page: this.Board_page(), block: this.block(), view: this } )
+			this.board().execute( this.code(), { page: this.Board_page(), this_block: this.block(), view: this } )
 			this.time_end = performance.now()
 		}
 
