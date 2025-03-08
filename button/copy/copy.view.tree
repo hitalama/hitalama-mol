@@ -1,0 +1,4 @@
+$shm_hitalama_button_copy $mol_button_copy
+	sub /
+		<= Icon $mol_icon_content_copy
+		<= title \

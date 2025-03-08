@@ -2,6 +2,13 @@ namespace $.$$ {
 	
 	export class $shm_hitalama_app extends $.$shm_hitalama_app {
 
+		@ $mol_memo.field
+		get $() {
+			return super.$.$mol_ambient({
+				$mol_button_copy: $shm_hitalama_button_copy as any,
+			})
+		}
+
 		profiles_ref(){
 			return 'oAlVNV5P_XfclijB0' //'bnsKLjnH_3pDkf98m' 
 		}

@@ -15,6 +15,12 @@ namespace $.$$ {
 				left: $mol_gap.block,
 			},
 			margin: $mol_gap.block,
+			View: {
+				Copy: {
+					position: 'absolute',
+					left: '-1rem',
+				},
+			},
 		},
 
 		Overlay: {
