@@ -39,4 +39,5 @@ $shm_hitalama_board_block_any $mol_ghost
 		code_css <= Code_css $shm_hitalama_board_block_code_css
 		customizer <= Customizer $shm_hitalama_board_block_customizer
 		form_custom <= Form_custom $shm_hitalama_board_block_form_custom
+		code_sql <= Code_sql $shm_hitalama_board_block_code_sql
 		custom <= Custom $shm_hitalama_board_block_float

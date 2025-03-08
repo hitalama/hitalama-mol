@@ -68,6 +68,10 @@ namespace $.$$ {
 			height: '100%',
 		},
 
+		Fullsize_wrapper: {
+			width: 'max-content',
+		},
+
 		flex: {
 			direction: 'column'
 		},

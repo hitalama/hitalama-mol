@@ -1,4 +1,11 @@
 namespace $.$$ {
+
+	const Result = {
+		position: 'absolute',
+		right: 0,
+		top: '0.5rem',
+		transform: 'translateX(calc(100% + 3rem))',
+	} as const
 	
 	$mol_style_define( $shm_hitalama_board_block_code, {
 
@@ -20,6 +27,13 @@ namespace $.$$ {
 					position: 'absolute',
 					left: '-1rem',
 				},
+				Row: {
+					Numb: {
+						// position: 'sticky',
+						// left: 0,
+						// pointerEvents: 'auto',
+					},
+				},
 			},
 		},
 
@@ -28,6 +42,10 @@ namespace $.$$ {
 			bottom: '2rem',
 			right: '2rem',	
 		},
+
+		Result: Result,
+
+		Result_table: Result,
 
 		Time: {
 			padding: $mol_gap.text,

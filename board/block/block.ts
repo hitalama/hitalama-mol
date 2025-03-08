@@ -19,6 +19,7 @@ namespace $ {
 		'customizer',
 		'custom',
 		'form_custom',
+		'code_sql',
 	] as const
 
 	class $shm_hitalama_board_block_type extends $hyoo_crus_atom_enum( $shm_hitalama_board_block_types ){}
@@ -46,6 +47,9 @@ namespace $ {
 		/** text|code|customdom */
 		Text: $hyoo_crus_text,
 		Use_text_from: $hyoo_crus_atom_ref_to( ()=> $shm_hitalama_board_block ),
+
+		/** code_sql */
+		Subtext: $hyoo_crus_text,
 
 		/** code_css */
 		Enabled: $hyoo_crus_atom_bool,
@@ -88,6 +92,9 @@ namespace $ {
 			return this.Text(next)?.value(next) ?? ''
 		}
 
+		subtext( next?: string ) {
+			return this.Subtext(next)?.value(next) ?? ''
+		}
 		data( next?: any ) {
 			return this.Data(next)?.val(next)
 		}

@@ -16,6 +16,15 @@ namespace $.$$ {
 			outline: '1px solid gray'
 		},
 
+		// Line_vert: {
+		// 	position: 'absolute',
+		// 	width: '2px',
+		// 	height: '100%',
+		// 	background: {
+		// 		color: 'red',
+		// 	},
+		// },
+
 		Content: {
 			position: 'absolute',
 			transition: 'none',

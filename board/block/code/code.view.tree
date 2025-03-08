@@ -2,6 +2,7 @@ $shm_hitalama_board_block_code $shm_hitalama_board_block_float
 	content /
 		<= Drag_view
 		<= Textarea $mol_textarea
+			hint \javascript
 			sidebar_showed true
 			value? <=> code? \
 			spellcheck false
@@ -14,4 +15,14 @@ $shm_hitalama_board_block_code $shm_hitalama_board_block_float
 				<= Run $mol_button_major
 					title \Выполнить
 					click? <=> run? null
+				^ result_view /
+					<= Result $mol_dump_value
+						minimal_height 0
+						value <= result? null
+					<= Result_table $mol_grid
+						minimal_height 0
+						records <= result_table_rows *
+						col_ids <= result_table_col_ids /
+						col_head_content* <= col_head_content* /
 	time_start? 0
+	set_time_start null

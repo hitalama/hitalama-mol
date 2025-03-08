@@ -87,8 +87,29 @@ namespace $ {
 			const res = get_head_and_rows( limit ? table.slice( 0, limit ) : table )
 			return res
 		}
+		
+		// @ $mol_action
+		// static jsons( files: $shm_hitalama_file[], query: string, limit?: number ) {
+		// 	const conn = $shm_hitalama_duckdb.connect_files( files )
+		// 	const table = $mol_wire_sync(conn).query( query )
+		// 	const res = get_head_and_rows( limit ? table.slice( 0, limit ) : table )
+		// 	return res
+		// }
 
 	}
+
+	// function get_jsons( table: Awaited<ReturnType<ReturnType<typeof $shm_hitalama_duckdb.connect_files>[ 'query' ]>> ) {
+
+	// 	const head: string[] = table.schema.fields.map( f => f.name )
+
+	// 	const rows: any[] = [...table].map( ( row: any ) => {
+	// 		const json = row.toJSON()
+	// 		return table.schema.fields.map( f => format_val( f, json[ f.name ] ) )
+	// 	} )
+
+	// 	return { head, rows }
+
+	// }
 
 	function get_head_and_rows( table: Awaited<ReturnType<ReturnType<typeof $shm_hitalama_duckdb.connect_files>[ 'query' ]>> ) {
 

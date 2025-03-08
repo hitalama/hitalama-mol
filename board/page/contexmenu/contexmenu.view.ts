@@ -11,7 +11,7 @@ namespace $.$$ {
 		@ $mol_action
 		input_add() {
 			const block = this.board().block_add( 'input', this.contextmenu_real_pos() )
-			block?.Text(null)?.value( 'Hello' )
+			block?.text( 'Hello' )
 			this.contextmenu_showed( false )
 			return block
 		}
@@ -52,7 +52,7 @@ namespace $.$$ {
 			const code = this.board().block_add( 'code', code_pos, 1220, 680 )
 			const code_str = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( '/shm/hitalama/board/snippets/_table.js' ) )
 				.replace( 'BLOCK_TITLE', `'${ 'Table_' + this.guid_sync() }'` )
-			code?.Text(null)?.value( code_str )
+			code?.text( code_str )
 
 			this.contextmenu_showed( false )
 		}
@@ -61,7 +61,7 @@ namespace $.$$ {
 		deckgl_example_add() {
 			const block = this.board().block_add( 'customdom', this.contextmenu_real_pos(), 700, 700 )
 			const code_str = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( '/shm/hitalama/board/snippets/_deckgl_example.js' ) )
-			block?.Text(null)?.value( code_str )
+			block?.text( code_str )
 			this.contextmenu_showed( false )
 			return block
 		}
@@ -70,7 +70,7 @@ namespace $.$$ {
 		echarts_example_add() {
 			const block = this.board().block_add( 'customdom', this.contextmenu_real_pos(), 700, 500 )
 			const code_str = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( '/shm/hitalama/board/snippets/_echarts_example.js' ) )
-			block?.Text(null)?.value( code_str )
+			block?.text( code_str )
 			this.contextmenu_showed( false )
 			return block
 		}
@@ -79,7 +79,24 @@ namespace $.$$ {
 		code_css_add() {
 			const block = this.board().block_add( 'code_css', this.contextmenu_real_pos(), 600, 300 )
 			const code_str = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( '/shm/hitalama/board/snippets/_css_example.css' ) )
-			block?.Text(null)?.value( code_str )
+			block?.text( code_str )
+			this.contextmenu_showed( false )
+			return block
+		}
+
+		@ $mol_action
+		code_js_add() {
+			const block = this.board().block_add( 'code', this.contextmenu_real_pos(), 600, 300 )
+			block?.text( '' )
+			this.contextmenu_showed( false )
+			return block
+		}
+
+		@ $mol_action
+		code_sql_add() {
+			const block = this.board().block_add( 'code_sql', this.contextmenu_real_pos(), 600, 300 )
+			block?.text( 'const first = result[0]\nreturn result' )
+			block?.subtext( 'SELECT * FROM pg_views' )
 			this.contextmenu_showed( false )
 			return block
 		}

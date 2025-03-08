@@ -24,9 +24,15 @@ $shm_hitalama_board_page_contexmenu $mol_list
 		<= Echarts_example_add $mol_button_minor
 			title \Добавить ECharts example
 			click? <=> echarts_example_add? null
+		<= Code_js_add $mol_button_minor
+			title \Добавить js
+			click? <=> code_css_add? null
 		<= Code_css_add $mol_button_minor
 			title \Добавить css
 			click? <=> code_css_add? null
+		<= Code_sql_add $mol_button_minor
+			title \Добавить sql
+			click? <=> code_sql_add? null
 		<= Customizer_add $mol_button_minor
 			title \Добавить редактор виджетов
 			click? <=> customizer_add? null

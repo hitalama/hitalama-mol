@@ -37,8 +37,45 @@ namespace $.$$ {
 		@ $mol_action
 		run() {
 			this.set_time_start()
-			this.board().execute( this.code(), { page: this.Board_page(), this_block: this.block(), view: this } )
+
+			try {
+				const res = this.board().execute( this.code(), { page: this.Board_page(), this_block: this.block(), view: this } )
+				this.result( res )
+				
+			} catch (error) {
+				if( !$mol_promise_like( error ) ) {
+					console.error( error )
+					this.result( 'Error:\n' + (error as any).message )
+				} else {
+					throw error
+				}
+			}
+
 			this.time_end = performance.now()
+		}
+
+		result_view() {
+			const res = this.result()
+			if( res === null ) return []
+			if( res._format == 'table' ) return [ this.Result_table() ]
+			return [ this.Result() ]
+		}
+		
+		@ $mol_mem
+		result_table_rows() {
+			return this.result().table.rows
+		}
+
+		@ $mol_mem
+		result_table_col_ids() {
+			const head: string[] = this.result().table.head
+			return head.map( (_,i) => i )
+		}
+
+		@ $mol_mem_key
+		col_head_content( n: number ) {
+			const head: string[] = this.result().table.head
+			return [ head?.[n] || '' ]
 		}
 
 		@ $mol_mem

@@ -1,0 +1,11 @@
+$shm_hitalama_board_block_code_sql $shm_hitalama_board_block_code
+	content /
+		<= Drag_view
+		<= Codes $mol_list
+			sub /
+				<= Textarea_sql $mol_textarea
+					hint \sql
+					sidebar_showed true
+					value? <=> sql? \
+					spellcheck false
+				<= Textarea
