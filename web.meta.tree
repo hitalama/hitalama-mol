@@ -102,6 +102,7 @@
 	deploy \shm/hitalama/board/snippets/_widget_ba_messagecount.js
 	deploy \shm/hitalama/board/snippets/_widget_ba_messagecount.view.tree
 	deploy \shm/hitalama/board/snippets/_widget_ba_messagecount.view.css
+	deploy \shm/hitalama/board/snippets/_execute_init.js
 \/mol/view/tree2/to/js
 	include \/mol/view/tree2/to/js/test
 \/shm/hitalama/duckdb/lib
