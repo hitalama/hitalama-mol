@@ -16,14 +16,25 @@ namespace $.$$ {
 			outline: '1px solid gray'
 		},
 
-		// Line_vert: {
-		// 	position: 'absolute',
-		// 	width: '2px',
-		// 	height: '100%',
-		// 	background: {
-		// 		color: 'red',
-		// 	},
-		// },
+		Line_vert: {
+			position: 'absolute',
+			background: {
+				color: $mol_theme.line,
+			},
+			width: '1px',
+			height: '9000px',
+			top: '-4500px',
+		},
+
+		Line_hor: {
+			position: 'absolute',
+			background: {
+				color: $mol_theme.line,
+			},
+			height: '1px',
+			width: '9000px',
+			left: '-4500px',
+		},
 
 		Content: {
 			position: 'absolute',

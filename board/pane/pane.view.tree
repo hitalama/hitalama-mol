@@ -34,7 +34,8 @@ $shm_hitalama_board_pane $mol_view
 			minimal_height 0
 			minimal_width 0
 			sub /
-				- <= Line_vert $mol_view
+				<= Line_vert $mol_view
+				<= Line_hor $mol_view
 				^ body /
 			view_rect => content_view_rect
 			style *

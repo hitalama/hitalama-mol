@@ -61,6 +61,7 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 		select_rect_size => select_rect_size
 		select_resize <= select_resize null
 		zoom? => zoom?
+		shift? => shift?
 		pointer_pos => pointer_pos
 		real_pointer_pos => real_pointer_pos
 		to_real_pos* => to_real_pos*

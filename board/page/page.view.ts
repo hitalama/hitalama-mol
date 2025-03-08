@@ -142,6 +142,7 @@ namespace $.$$ {
 
 		reset_scale() {
 			this.zoom( 1 )
+			this.shift( new $mol_vector_2d( 0, 0 ) )
 		}
 
 		@ $mol_mem_key
@@ -220,7 +221,18 @@ namespace $.$$ {
 
 		@ $mol_mem
 		contextmenu_pos( next?: readonly [number, number] ) {
-			return next ?? [0,0]
+			if( next === undefined ) return [0,0]
+			
+			const pos = [ ... next ]
+
+			const height = this.Context_menu().minimal_height()
+			const board_height = this.dom_node()?.getBoundingClientRect().height ?? Infinity
+
+			if( (pos[1] + height) > board_height ) {
+				pos[1] = board_height - height
+			}
+
+			return pos
 		}
 
 		@ $mol_mem
