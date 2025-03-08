@@ -6208,45 +6208,6 @@ var $;
 ;
 "use strict";
 var $;
-(function ($) {
-    class TestClass extends Uint8Array {
-    }
-    $mol_test({
-        'Uint8Array vs itself'() {
-            $mol_assert_ok($mol_compare_array(new Uint8Array, new Uint8Array));
-            $mol_assert_ok($mol_compare_array(new Uint8Array([0]), new Uint8Array([0])));
-            $mol_assert_not($mol_compare_array(new Uint8Array([0]), new Uint8Array([1])));
-        },
-        'Uint8Array vs subclassed array'() {
-            $mol_assert_not($mol_compare_array(new Uint8Array, new TestClass));
-        },
-    });
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($_1) {
-    $mol_test_mocks.push($ => {
-        class $mol_locale_mock extends $mol_locale {
-            lang(next = 'en') { return next; }
-            static source(lang) {
-                return {};
-            }
-        }
-        __decorate([
-            $mol_mem
-        ], $mol_locale_mock.prototype, "lang", null);
-        __decorate([
-            $mol_mem_key
-        ], $mol_locale_mock, "source", null);
-        $.$mol_locale = $mol_locale_mock;
-    });
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
 (function ($_1) {
     var $$;
     (function ($$) {
@@ -6376,6 +6337,45 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    class TestClass extends Uint8Array {
+    }
+    $mol_test({
+        'Uint8Array vs itself'() {
+            $mol_assert_ok($mol_compare_array(new Uint8Array, new Uint8Array));
+            $mol_assert_ok($mol_compare_array(new Uint8Array([0]), new Uint8Array([0])));
+            $mol_assert_not($mol_compare_array(new Uint8Array([0]), new Uint8Array([1])));
+        },
+        'Uint8Array vs subclassed array'() {
+            $mol_assert_not($mol_compare_array(new Uint8Array, new TestClass));
+        },
+    });
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($_1) {
+    $mol_test_mocks.push($ => {
+        class $mol_locale_mock extends $mol_locale {
+            lang(next = 'en') { return next; }
+            static source(lang) {
+                return {};
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $mol_locale_mock.prototype, "lang", null);
+        __decorate([
+            $mol_mem_key
+        ], $mol_locale_mock, "source", null);
+        $.$mol_locale = $mol_locale_mock;
+    });
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
     $mol_test({
         'Vector limiting'() {
             let point = new $mol_vector_3d(7, 10, 13);
@@ -6458,58 +6458,6 @@ var $;
                 .expanded2(dimensions);
             $mol_assert_like([...expanded.x], [Infinity, -Infinity]);
             $mol_assert_like([...expanded.y], [Infinity, -Infinity]);
-        },
-    });
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
-    $mol_test({
-        'Special'() {
-            $mol_assert_equal($mol_si_short(0), '0');
-            $mol_assert_equal($mol_si_short(1 / 0), '∞');
-            $mol_assert_equal($mol_si_short(-1 / 0), '-∞');
-            $mol_assert_equal($mol_si_short(0 / 0), '∅');
-        },
-        'M'() {
-            $mol_assert_equal($mol_si_short(0), '0');
-            $mol_assert_equal($mol_si_short(0.999500), '1.00');
-            $mol_assert_equal($mol_si_short(-0.999600), '-1.00');
-            $mol_assert_equal($mol_si_short(999.4), '999');
-            $mol_assert_equal($mol_si_short(-999.4), '-999');
-        },
-        'L'() {
-            $mol_assert_equal($mol_si_short(999.5), '1.00k');
-            $mol_assert_equal($mol_si_short(-999.5), '-1.00k');
-            $mol_assert_equal($mol_si_short(999_400), '999k');
-            $mol_assert_equal($mol_si_short(-999_400), '-999k');
-        },
-        'XL'() {
-            $mol_assert_equal($mol_si_short(999_500), '1.00M');
-            $mol_assert_equal($mol_si_short(-999_600), '-1.00M');
-            $mol_assert_equal($mol_si_short(999_400_000), '999M');
-            $mol_assert_equal($mol_si_short(-999_400_000), '-999M');
-        },
-        'S'() {
-            $mol_assert_equal($mol_si_short(0.999400), '999m');
-            $mol_assert_equal($mol_si_short(-0.999400), '-999m');
-            $mol_assert_equal($mol_si_short(0.000_999_500), '1.00m');
-            $mol_assert_equal($mol_si_short(-0.000_999_500), '-1.00m');
-        },
-        'XS'() {
-            $mol_assert_equal($mol_si_short(0.000_999_400), '999µ');
-            $mol_assert_equal($mol_si_short(-0.000_999_400), '-999µ');
-            $mol_assert_equal($mol_si_short(0.000_000_999_600), '1.00µ');
-            $mol_assert_equal($mol_si_short(-0.000_000_999_600), '-1.00µ');
-        },
-        'With unit'() {
-            $mol_assert_equal($mol_si_short(0, 's'), '0 s');
-            $mol_assert_equal($mol_si_short(1 / 0, 's'), '∞ s');
-            $mol_assert_equal($mol_si_short(0 / 0, 's'), '∅ s');
-            $mol_assert_equal($mol_si_short(123, 'Hz'), '123 Hz');
-            $mol_assert_equal($mol_si_short(1234, 'g'), '1.23 kg');
         },
     });
 })($ || ($ = {}));
@@ -8375,6 +8323,58 @@ var $;
                 'key3': '3'
             });
         }
+    });
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_test({
+        'Special'() {
+            $mol_assert_equal($mol_si_short(0), '0');
+            $mol_assert_equal($mol_si_short(1 / 0), '∞');
+            $mol_assert_equal($mol_si_short(-1 / 0), '-∞');
+            $mol_assert_equal($mol_si_short(0 / 0), '∅');
+        },
+        'M'() {
+            $mol_assert_equal($mol_si_short(0), '0');
+            $mol_assert_equal($mol_si_short(0.999500), '1.00');
+            $mol_assert_equal($mol_si_short(-0.999600), '-1.00');
+            $mol_assert_equal($mol_si_short(999.4), '999');
+            $mol_assert_equal($mol_si_short(-999.4), '-999');
+        },
+        'L'() {
+            $mol_assert_equal($mol_si_short(999.5), '1.00k');
+            $mol_assert_equal($mol_si_short(-999.5), '-1.00k');
+            $mol_assert_equal($mol_si_short(999_400), '999k');
+            $mol_assert_equal($mol_si_short(-999_400), '-999k');
+        },
+        'XL'() {
+            $mol_assert_equal($mol_si_short(999_500), '1.00M');
+            $mol_assert_equal($mol_si_short(-999_600), '-1.00M');
+            $mol_assert_equal($mol_si_short(999_400_000), '999M');
+            $mol_assert_equal($mol_si_short(-999_400_000), '-999M');
+        },
+        'S'() {
+            $mol_assert_equal($mol_si_short(0.999400), '999m');
+            $mol_assert_equal($mol_si_short(-0.999400), '-999m');
+            $mol_assert_equal($mol_si_short(0.000_999_500), '1.00m');
+            $mol_assert_equal($mol_si_short(-0.000_999_500), '-1.00m');
+        },
+        'XS'() {
+            $mol_assert_equal($mol_si_short(0.000_999_400), '999µ');
+            $mol_assert_equal($mol_si_short(-0.000_999_400), '-999µ');
+            $mol_assert_equal($mol_si_short(0.000_000_999_600), '1.00µ');
+            $mol_assert_equal($mol_si_short(-0.000_000_999_600), '-1.00µ');
+        },
+        'With unit'() {
+            $mol_assert_equal($mol_si_short(0, 's'), '0 s');
+            $mol_assert_equal($mol_si_short(1 / 0, 's'), '∞ s');
+            $mol_assert_equal($mol_si_short(0 / 0, 's'), '∅ s');
+            $mol_assert_equal($mol_si_short(123, 'Hz'), '123 Hz');
+            $mol_assert_equal($mol_si_short(1234, 'g'), '1.23 kg');
+        },
     });
 })($ || ($ = {}));
 

@@ -85,12 +85,6 @@
 	include \/mol/offline/install
 \/shm/hitalama/token/view
 	deploy \/shm/hitalama/token/logo/logo_vk.svg
-\/shm/hitalama/duckdb/lib
-	require \/shm/hitalama/duckdb/lib/_index.js
-\/shm/hitalama/duckdb/page
-	deploy \/shm/hitalama/duckdb/parquet/demo.parquet
-\/mol/view/tree2/to/js
-	include \/mol/view/tree2/to/js/test
 \/shm/hitalama/board/page
 	deploy \shm/hitalama/board/snippets/_table.js
 	deploy \shm/hitalama/board/snippets/_table_from_csv.js
@@ -108,6 +102,13 @@
 	deploy \shm/hitalama/board/snippets/_widget_ba_messagecount.js
 	deploy \shm/hitalama/board/snippets/_widget_ba_messagecount.view.tree
 	deploy \shm/hitalama/board/snippets/_widget_ba_messagecount.view.css
+\/mol/view/tree2/to/js
+	include \/mol/view/tree2/to/js/test
+\/shm/hitalama/duckdb/lib
+	require \/shm/hitalama/duckdb/lib/_index.js
+\/shm/hitalama/duckdb/page
+	deploy \/shm/hitalama/duckdb/parquet/demo.parquet
 \/shm/hitalama/app
 	include \/shm/hitalama/log
-	deploy \/shm/hitalama/app/foot/foot_logo.png
+	deploy \/shm/hitalama/app/foot/foot_logo_light.png
+	deploy \/shm/hitalama/app/foot/foot_logo_dark.png
