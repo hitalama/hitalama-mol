@@ -14612,7 +14612,7 @@ declare namespace $ {
 		ReturnType< $mol_button_minor['title'] >
 	>
 	type $mol_button_minor__click_shm_hitalama_board_page_contexmenu_16 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_page_contexmenu['code_css_add'] >
+		ReturnType< $shm_hitalama_board_page_contexmenu['code_js_add'] >
 		,
 		ReturnType< $mol_button_minor['click'] >
 	>
@@ -14681,8 +14681,9 @@ declare namespace $ {
 		Deckgl_example_add( ): $mol_button_minor
 		echarts_example_add( next?: any ): any
 		Echarts_example_add( ): $mol_button_minor
-		code_css_add( next?: any ): any
+		code_js_add( next?: any ): any
 		Code_js_add( ): $mol_button_minor
+		code_css_add( next?: any ): any
 		Code_css_add( ): $mol_button_minor
 		code_sql_add( next?: any ): any
 		Code_sql_add( ): $mol_button_minor

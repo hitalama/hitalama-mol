@@ -19180,15 +19180,19 @@ var $;
 			(obj.click) = (next) => ((this.echarts_example_add(next)));
 			return obj;
 		}
-		code_css_add(next){
+		code_js_add(next){
 			if(next !== undefined) return next;
 			return null;
 		}
 		Code_js_add(){
 			const obj = new this.$.$mol_button_minor();
 			(obj.title) = () => ("Добавить js");
-			(obj.click) = (next) => ((this.code_css_add(next)));
+			(obj.click) = (next) => ((this.code_js_add(next)));
 			return obj;
+		}
+		code_css_add(next){
+			if(next !== undefined) return next;
+			return null;
 		}
 		Code_css_add(){
 			const obj = new this.$.$mol_button_minor();
@@ -19285,8 +19289,9 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_page_contexmenu.prototype), "Deckgl_example_add"));
 	($mol_mem(($.$shm_hitalama_board_page_contexmenu.prototype), "echarts_example_add"));
 	($mol_mem(($.$shm_hitalama_board_page_contexmenu.prototype), "Echarts_example_add"));
-	($mol_mem(($.$shm_hitalama_board_page_contexmenu.prototype), "code_css_add"));
+	($mol_mem(($.$shm_hitalama_board_page_contexmenu.prototype), "code_js_add"));
 	($mol_mem(($.$shm_hitalama_board_page_contexmenu.prototype), "Code_js_add"));
+	($mol_mem(($.$shm_hitalama_board_page_contexmenu.prototype), "code_css_add"));
 	($mol_mem(($.$shm_hitalama_board_page_contexmenu.prototype), "Code_css_add"));
 	($mol_mem(($.$shm_hitalama_board_page_contexmenu.prototype), "code_sql_add"));
 	($mol_mem(($.$shm_hitalama_board_page_contexmenu.prototype), "Code_sql_add"));
@@ -45327,10 +45332,29 @@ var $;
             return this.$.$mol_fetch.text($shm_hitalama_app_ghpages_fix_link('/shm/hitalama/board/snippets/_execute_init.js'));
         }
         execute(code, context) {
-            const to_table = (obj) => ({
-                _format: 'table',
-                table: obj
-            });
+            const to_table = (obj) => {
+                if (obj.head && obj.rows)
+                    return {
+                        _format: 'table',
+                        table: obj
+                    };
+                const keys = new Map;
+                const arr = Array.isArray(obj) ? obj : [obj];
+                const rows = [];
+                arr.forEach(obj => {
+                    const row = [];
+                    rows.push(row);
+                    for (const key in obj) {
+                        const index = keys.get(key) ?? keys.size;
+                        keys.set(key, index);
+                        row[index] = obj[key];
+                    }
+                });
+                return {
+                    _format: 'table',
+                    table: { head: [...keys.keys()], rows }
+                };
+            };
             context = {
                 board: this,
                 to_table,
