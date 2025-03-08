@@ -92,46 +92,31 @@ namespace $ {
 
 	function get_head_and_rows( table: Awaited<ReturnType<ReturnType<typeof $shm_hitalama_duckdb.connect_files>[ 'query' ]>> ) {
 
-		const head = []
-		const rows: any[][] = []
+		const head: string[] = table.schema.fields.map( f => f.name )
 
-		for( let col_i = 0; col_i < table.schema.fields.length; col_i++ ) {
-			const field = table.schema.fields[col_i]
-			head[col_i] = field.name
+		const rows: any[] = [...table].map( ( row: any ) => {
+			const json = row.toJSON()
+			rows.push( table.schema.fields.map( f => format_val( f, json[ f.name ] ) ) )
+		} )
 
-			const vector = table.getChild( field.name )
-			if( !vector ) {
-				continue
-			}
-			const arr = vector.toArray()
+		return { head, rows }
 
-			for( let row_i = 0; row_i < arr.length; row_i++ ) {
-				rows[ row_i ] = rows[ row_i ] ?? []
-				rows[ row_i ][ col_i ] = format_val( field.typeId, arr[row_i] )
-			}
-		}
-
-		return {head, rows, table: [...table].map( ( row: any ) => row.toJSON() )}
 	}
 
-	function get_columns( table: Awaited<ReturnType<ReturnType<typeof $shm_hitalama_duckdb.connect_files>[ 'query' ]>> ) {
-		const rec: Record< string, any[] > = {}
-		for( let field of table.schema.fields ) {
-			const vector = table.getChild( field.name )
-			if( !vector ) {
-				continue
-			}
-			rec[ field.name ] = vector.toArray()
-		}
-		return rec
-	}
+	function format_val( field: any, val: any ) {
+		if( val === null ) return ''
 
-	function format_val( field_type_id: number, val: any ) {
-		if( field_type_id == 8 ) {
+		if( field.type.typeId == 8 ) {
 			const date = new $mol_time_moment( val )
 			return date.toString('DD.MM.YYYY')
 		}
+
+		if( field.type.typeId == 7 ) { //Decimal
+			return String( val )
+		}
+
 		if( typeof val === "bigint" ) return String( val )
+
 		return val
 	}
 
