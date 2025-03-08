@@ -41,10 +41,6 @@ namespace $.$$ {
 				const result = $shm_hitalama_duckdb.files_query( files, sql );
 				${this.code()}
 				`
-				const to_table = ( obj: { head: any[], rows: any[] } )=> ({
-					_format: 'table',
-					table: obj
-				})
 
 				const res = this.board().execute( code, {
 					page: this.Board_page(),
@@ -52,9 +48,8 @@ namespace $.$$ {
 					view: this,
 					sql,
 					files,
-					to_table,
 				} )
-				this.result( res )
+				this.result( res ?? null )
 				
 			} catch (error) {
 				if( !$mol_promise_like( error ) ) {

@@ -52,14 +52,23 @@ namespace $ {
 		}
 
 		execute( code: string, context?: Record< string, any > ) {
+
+			const to_table = ( obj: { head: any[], rows: any[] } )=> ({
+				_format: 'table',
+				table: obj
+			})
+
 			context = {
 				board: this,
+				to_table,
 				... context,
 			}
+			
 			let vars = ''
 			for( const key in context ) {
 				vars += `const ${key} = this.${key};\n`
 			}
+
 			const code_full = vars + $shm_hitalama_board.execute_init_code() + code
 			const func = new Function( code_full )
 			const res = func.call( context )

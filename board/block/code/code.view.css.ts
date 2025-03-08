@@ -45,7 +45,10 @@ namespace $.$$ {
 
 		Result: Result,
 
-		Result_table: Result,
+		Result_table: {
+			... Result,
+			top: 0,
+		},
 
 		Time: {
 			padding: $mol_gap.text,

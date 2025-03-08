@@ -40,7 +40,7 @@ namespace $.$$ {
 
 			try {
 				const res = this.board().execute( this.code(), { page: this.Board_page(), this_block: this.block(), view: this } )
-				this.result( res )
+				this.result( res ?? null )
 				
 			} catch (error) {
 				if( !$mol_promise_like( error ) ) {
@@ -54,6 +54,7 @@ namespace $.$$ {
 			this.time_end = performance.now()
 		}
 
+		@ $mol_mem
 		result_view() {
 			const res = this.result()
 			if( res === null ) return []

@@ -15,4 +15,4 @@ $shm_hitalama_board_block_file $shm_hitalama_board_block_float
 		parquet /
 			<= Unpacking_parquet $mol_button_minor
 				title \Распаковка
-				click? <=> unpacking_parquet? null
+				click? <=> unpacking? null

@@ -15,3 +15,4 @@ deploy \shm/hitalama/board/snippets/_widget_ba_messagecount.js
 deploy \shm/hitalama/board/snippets/_widget_ba_messagecount.view.tree
 deploy \shm/hitalama/board/snippets/_widget_ba_messagecount.view.css
 deploy \shm/hitalama/board/snippets/_execute_init.js
+deploy \shm/hitalama/board/snippets/_table_from_sql_result.js

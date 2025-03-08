@@ -1,4 +1,4 @@
-const block = board.table_add( page.get_pointer_pos(), 800, 780, BLOCK_TITLE )
+const block = board.table_add( $cursor_pos, 800, 780, BLOCK_TITLE )
 
 block.table_head( [ 'Дата', 'Кол-во', 'Запрос', 'Минус', 'Область поиска', 'Страна', 'Язык' ] )
 

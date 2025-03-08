@@ -95,7 +95,7 @@ namespace $.$$ {
 		@ $mol_action
 		code_sql_add() {
 			const block = this.board().block_add( 'code_sql', this.contextmenu_real_pos(), 600, 300 )
-			block?.text( 'const first = result[0]\nreturn result' )
+			block?.text( 'return to_table( result )' )
 			block?.subtext( 'SELECT * FROM pg_views' )
 			this.contextmenu_showed( false )
 			return block
