@@ -26865,8 +26865,7 @@ declare namespace $ {
         static connect_files(sources?: $shm_hitalama_file[]): import("@duckdb/duckdb-wasm").AsyncDuckDBConnection;
         static files_query(files: $shm_hitalama_file[], query: string, limit?: number): {
             head: string[];
-            rows: any[][];
-            table: any[];
+            rows: any[];
         };
     }
 }
