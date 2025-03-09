@@ -1965,6 +1965,8 @@ $shm_hitalama_period $mol_view
 		\–
 		<= Date_to $mol_date
 			value? <=> date_to? \
+	period_str? \
+	clear null
 
 $mol_icon_upload $mol_icon path \M9,16V10H5L12,3L19,10H15V16H9M5,20V18H19V20H5Z
 
@@ -3028,14 +3030,23 @@ $shm_hitalama_board_block_customizer $shm_hitalama_board_block_float
 		^
 		mol_theme \$mol_theme_special
 
+$shm_hitalama_attach $mol_attach
+	files? /File
+
+$shm_hitalama_file_attach $mol_view
+	sub /
+		<= File $shm_hitalama_attach
+			files? <=> files? /
+		<= Name $mol_paragraph
+			title <= filename \
+
 $shm_hitalama_board_block_form_custom $shm_hitalama_board_block_float
 	controls /
 		<= Form $mol_form
 			form_fields <= form_fields /
 				<= Field*0 $mol_form_field
 					name <= field_name* \
-					Content <= Field_value* $mol_string
-						value? <=> field_value*? \
+					Content <= Field_content* $mol_view
 			buttons /
 				<= Publish $mol_button_major
 					title \Отправить
@@ -3044,6 +3055,23 @@ $shm_hitalama_board_block_form_custom $shm_hitalama_board_block_float
 				<= Clear $mol_button_minor
 					title \Очистить
 					click? <=> clear? null
+	Content_by_type* *
+		any
+			<= Text*
+		string
+			<= Text* $mol_string
+				value? <=> field_value*? \
+		date
+			<= Date* $mol_date
+				value? <=> field_value*? \
+		period
+			<= Period* $shm_hitalama_period
+				date_from? <=> date_from*? \
+				date_to? <=> date_to*? \
+				period_str? => period_str*?
+		file
+			<= File* $shm_hitalama_file_attach
+				files? <=> field_files*? /
 
 $shm_hitalama_board_block_code_sql $shm_hitalama_board_block_code
 	content /

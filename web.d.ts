@@ -13521,6 +13521,161 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    type Field_type = ReturnType<$shm_hitalama_board_form_custom['types_supported']>[number];
+    const $shm_hitalama_board_form_custom_base: Omit<typeof $hyoo_crus_entity, "prototype"> & (new (...args: any[]) => $mol_type_override<$hyoo_crus_entity, {
+        readonly Use_text_from: (auto?: any) => {
+            Value: Value;
+            remote(next?: $shm_hitalama_board_block | null | undefined): $shm_hitalama_board_block | null;
+            remote_of(peer: string | null, next?: $shm_hitalama_board_block | null | undefined): $shm_hitalama_board_block | null;
+            ensure(config?: null | $hyoo_crus_rank_preset | $hyoo_crus_land): $shm_hitalama_board_block | null;
+            ensure_of(peer: string | null, config?: null | $hyoo_crus_rank_preset | $hyoo_crus_land): $shm_hitalama_board_block | null;
+            ensure_here(peer: string | null): void;
+            ensure_area(peer: string | null, land: $hyoo_crus_land): void;
+            ensure_lord(peer: string | null, preset: $hyoo_crus_rank_preset): void;
+            remote_ensure(preset?: $hyoo_crus_rank_preset): $shm_hitalama_board_block | null;
+            local_ensure(): $shm_hitalama_board_block | null;
+            val(next?: (symbol & {
+                $hyoo_crus_ref: symbol;
+            }) | null | undefined): (symbol & {
+                $hyoo_crus_ref: symbol;
+            }) | null;
+            val_of(peer: string | null, next?: (symbol & {
+                $hyoo_crus_ref: symbol;
+            }) | null | undefined): (symbol & {
+                $hyoo_crus_ref: symbol;
+            }) | null;
+            pick_unit(peer: string | null): $hyoo_crus_sand | undefined;
+            vary(next?: $hyoo_crus_vary_type): $hyoo_crus_vary_type;
+            vary_of(peer: string | null, next?: $hyoo_crus_vary_type): $hyoo_crus_vary_type;
+            [$mol_dev_format_head](): any[];
+            land(): $hyoo_crus_land;
+            head(): string;
+            land_ref(): symbol & {
+                $hyoo_crus_ref: symbol;
+            };
+            ref(): symbol & {
+                $hyoo_crus_ref: symbol;
+            };
+            toJSON(): string | undefined;
+            cast<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1): InstanceType<Node_1>;
+            nodes<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+            units(): $hyoo_crus_sand[];
+            units_of(peer: string | null): $hyoo_crus_sand[];
+            filled(): boolean;
+            can_change(): boolean;
+            last_change(): $mol_time_moment | null;
+            author_peers(): string[];
+            author_lords(): (symbol & {
+                $hyoo_crus_ref: symbol;
+            })[];
+            $: $;
+            destructor(): void;
+            toString(): string;
+            [Symbol.toStringTag]: string;
+            [$mol_ambient_ref]: $;
+        } | null;
+        readonly Objects: (auto?: any) => $hyoo_crus_atom_jsan | null;
+    }>) & {
+        schema: {
+            [x: string]: typeof $hyoo_crus_node;
+        } & {
+            readonly Use_text_from: {
+                new (): {
+                    Value: () => typeof $shm_hitalama_board_block;
+                    remote(next?: $shm_hitalama_board_block | null | undefined): $shm_hitalama_board_block | null;
+                    remote_of(peer: string | null, next?: $shm_hitalama_board_block | null | undefined): $shm_hitalama_board_block | null;
+                    ensure(config?: null | $hyoo_crus_rank_preset | $hyoo_crus_land): $shm_hitalama_board_block | null;
+                    ensure_of(peer: string | null, config?: null | $hyoo_crus_rank_preset | $hyoo_crus_land): $shm_hitalama_board_block | null;
+                    ensure_here(peer: string | null): void;
+                    ensure_area(peer: string | null, land: $hyoo_crus_land): void;
+                    ensure_lord(peer: string | null, preset: $hyoo_crus_rank_preset): void;
+                    remote_ensure(preset?: $hyoo_crus_rank_preset): $shm_hitalama_board_block | null;
+                    local_ensure(): $shm_hitalama_board_block | null;
+                    val(next?: (symbol & {
+                        $hyoo_crus_ref: symbol;
+                    }) | null | undefined): (symbol & {
+                        $hyoo_crus_ref: symbol;
+                    }) | null;
+                    val_of(peer: string | null, next?: (symbol & {
+                        $hyoo_crus_ref: symbol;
+                    }) | null | undefined): (symbol & {
+                        $hyoo_crus_ref: symbol;
+                    }) | null;
+                    pick_unit(peer: string | null): $hyoo_crus_sand | undefined;
+                    vary(next?: $hyoo_crus_vary_type): $hyoo_crus_vary_type;
+                    vary_of(peer: string | null, next?: $hyoo_crus_vary_type): $hyoo_crus_vary_type;
+                    [$mol_dev_format_head](): any[];
+                    land(): $hyoo_crus_land;
+                    head(): string;
+                    land_ref(): symbol & {
+                        $hyoo_crus_ref: symbol;
+                    };
+                    ref(): symbol & {
+                        $hyoo_crus_ref: symbol;
+                    };
+                    toJSON(): string | undefined;
+                    cast<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1): InstanceType<Node_1>;
+                    nodes<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+                    units(): $hyoo_crus_sand[];
+                    units_of(peer: string | null): $hyoo_crus_sand[];
+                    filled(): boolean;
+                    can_change(): boolean;
+                    last_change(): $mol_time_moment | null;
+                    author_peers(): string[];
+                    author_lords(): (symbol & {
+                        $hyoo_crus_ref: symbol;
+                    })[];
+                    $: $;
+                    destructor(): void;
+                    toString(): string;
+                    [Symbol.toStringTag]: string;
+                    [$mol_ambient_ref]: $;
+                };
+                toString(): any;
+                Value: typeof $hyoo_crus_dict;
+                parse: typeof $hyoo_crus_vary_cast_ref;
+                tag: keyof typeof $hyoo_crus_sand_tag;
+                make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
+                $: $;
+                create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
+                toJSON(): any;
+                destructor(): void;
+                [Symbol.toPrimitive](): any;
+            };
+            readonly Objects: typeof $hyoo_crus_atom_jsan;
+        };
+    };
+    export class $shm_hitalama_board_form_custom extends $shm_hitalama_board_form_custom_base {
+        objects(next?: any[]): any[];
+        block_with_text(): $shm_hitalama_board_block | null | undefined;
+        text(next?: string): string;
+        fields_parsed(): {
+            dict: Record<string, {
+                tags: string[];
+                name: string;
+                type: Field_type;
+            }>;
+            arr: {
+                tags: string[];
+                name: string;
+                type: Field_type;
+            }[];
+        };
+        field_parse(str: string): {
+            tags: string[];
+            name: string;
+            type: Field_type;
+        };
+        field_names(): string[];
+        types_supported(): readonly ["any", "string", "date", "period", "file"];
+        field_type(name: string): "string" | "period" | "file" | "any" | "date";
+        field_tags(name: any): string[];
+        obj_add(obj: any): void;
+    }
+    export {};
+}
+
+declare namespace $ {
     const $shm_hitalama_board_table_base: Omit<typeof $hyoo_crus_entity, "prototype"> & (new (...args: any[]) => $mol_type_override<$hyoo_crus_entity, {
         readonly Block: (auto?: any) => {
             Value: Value;
@@ -13584,6 +13739,57 @@ declare namespace $ {
             ensure_lord(peer: string | null, preset: $hyoo_crus_rank_preset): void;
             remote_ensure(preset?: $hyoo_crus_rank_preset): $shm_hitalama_board | null;
             local_ensure(): $shm_hitalama_board | null;
+            val(next?: (symbol & {
+                $hyoo_crus_ref: symbol;
+            }) | null | undefined): (symbol & {
+                $hyoo_crus_ref: symbol;
+            }) | null;
+            val_of(peer: string | null, next?: (symbol & {
+                $hyoo_crus_ref: symbol;
+            }) | null | undefined): (symbol & {
+                $hyoo_crus_ref: symbol;
+            }) | null;
+            pick_unit(peer: string | null): $hyoo_crus_sand | undefined;
+            vary(next?: $hyoo_crus_vary_type): $hyoo_crus_vary_type;
+            vary_of(peer: string | null, next?: $hyoo_crus_vary_type): $hyoo_crus_vary_type;
+            [$mol_dev_format_head](): any[];
+            land(): $hyoo_crus_land;
+            head(): string;
+            land_ref(): symbol & {
+                $hyoo_crus_ref: symbol;
+            };
+            ref(): symbol & {
+                $hyoo_crus_ref: symbol;
+            };
+            toJSON(): string | undefined;
+            cast<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1): InstanceType<Node_1>;
+            nodes<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+            units(): $hyoo_crus_sand[];
+            units_of(peer: string | null): $hyoo_crus_sand[];
+            filled(): boolean;
+            can_change(): boolean;
+            last_change(): $mol_time_moment | null;
+            author_peers(): string[];
+            author_lords(): (symbol & {
+                $hyoo_crus_ref: symbol;
+            })[];
+            $: $;
+            destructor(): void;
+            toString(): string;
+            [Symbol.toStringTag]: string;
+            [$mol_ambient_ref]: $;
+        } | null;
+        readonly Form_custom: (auto?: any) => {
+            Value: Value;
+            remote(next?: $shm_hitalama_board_form_custom | null | undefined): $shm_hitalama_board_form_custom | null;
+            remote_of(peer: string | null, next?: $shm_hitalama_board_form_custom | null | undefined): $shm_hitalama_board_form_custom | null;
+            ensure(config?: null | $hyoo_crus_rank_preset | $hyoo_crus_land): $shm_hitalama_board_form_custom | null;
+            ensure_of(peer: string | null, config?: null | $hyoo_crus_rank_preset | $hyoo_crus_land): $shm_hitalama_board_form_custom | null;
+            ensure_here(peer: string | null): void;
+            ensure_area(peer: string | null, land: $hyoo_crus_land): void;
+            ensure_lord(peer: string | null, preset: $hyoo_crus_rank_preset): void;
+            remote_ensure(preset?: $hyoo_crus_rank_preset): $shm_hitalama_board_form_custom | null;
+            local_ensure(): $shm_hitalama_board_form_custom | null;
             val(next?: (symbol & {
                 $hyoo_crus_ref: symbol;
             }) | null | undefined): (symbol & {
@@ -13761,6 +13967,69 @@ declare namespace $ {
                 destructor(): void;
                 [Symbol.toPrimitive](): any;
             };
+            readonly Form_custom: {
+                new (): {
+                    Value: () => typeof $shm_hitalama_board_form_custom;
+                    remote(next?: $shm_hitalama_board_form_custom | null | undefined): $shm_hitalama_board_form_custom | null;
+                    remote_of(peer: string | null, next?: $shm_hitalama_board_form_custom | null | undefined): $shm_hitalama_board_form_custom | null;
+                    ensure(config?: null | $hyoo_crus_rank_preset | $hyoo_crus_land): $shm_hitalama_board_form_custom | null;
+                    ensure_of(peer: string | null, config?: null | $hyoo_crus_rank_preset | $hyoo_crus_land): $shm_hitalama_board_form_custom | null;
+                    ensure_here(peer: string | null): void;
+                    ensure_area(peer: string | null, land: $hyoo_crus_land): void;
+                    ensure_lord(peer: string | null, preset: $hyoo_crus_rank_preset): void;
+                    remote_ensure(preset?: $hyoo_crus_rank_preset): $shm_hitalama_board_form_custom | null;
+                    local_ensure(): $shm_hitalama_board_form_custom | null;
+                    val(next?: (symbol & {
+                        $hyoo_crus_ref: symbol;
+                    }) | null | undefined): (symbol & {
+                        $hyoo_crus_ref: symbol;
+                    }) | null;
+                    val_of(peer: string | null, next?: (symbol & {
+                        $hyoo_crus_ref: symbol;
+                    }) | null | undefined): (symbol & {
+                        $hyoo_crus_ref: symbol;
+                    }) | null;
+                    pick_unit(peer: string | null): $hyoo_crus_sand | undefined;
+                    vary(next?: $hyoo_crus_vary_type): $hyoo_crus_vary_type;
+                    vary_of(peer: string | null, next?: $hyoo_crus_vary_type): $hyoo_crus_vary_type;
+                    [$mol_dev_format_head](): any[];
+                    land(): $hyoo_crus_land;
+                    head(): string;
+                    land_ref(): symbol & {
+                        $hyoo_crus_ref: symbol;
+                    };
+                    ref(): symbol & {
+                        $hyoo_crus_ref: symbol;
+                    };
+                    toJSON(): string | undefined;
+                    cast<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1): InstanceType<Node_1>;
+                    nodes<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+                    units(): $hyoo_crus_sand[];
+                    units_of(peer: string | null): $hyoo_crus_sand[];
+                    filled(): boolean;
+                    can_change(): boolean;
+                    last_change(): $mol_time_moment | null;
+                    author_peers(): string[];
+                    author_lords(): (symbol & {
+                        $hyoo_crus_ref: symbol;
+                    })[];
+                    $: $;
+                    destructor(): void;
+                    toString(): string;
+                    [Symbol.toStringTag]: string;
+                    [$mol_ambient_ref]: $;
+                };
+                toString(): any;
+                Value: typeof $hyoo_crus_dict;
+                parse: typeof $hyoo_crus_vary_cast_ref;
+                tag: keyof typeof $hyoo_crus_sand_tag;
+                make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
+                $: $;
+                create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
+                toJSON(): any;
+                destructor(): void;
+                [Symbol.toPrimitive](): any;
+            };
             readonly Head: typeof $hyoo_crus_atom_jsan;
             readonly Head_method: typeof $hyoo_crus_atom_str;
             readonly Rows: typeof $hyoo_crus_atom_jsan;
@@ -13772,6 +14041,7 @@ declare namespace $ {
     };
     export class $shm_hitalama_board_table extends $shm_hitalama_board_table_base {
         board(): $shm_hitalama_board;
+        form_custom(): $shm_hitalama_board_form_custom | null | undefined;
         table_head(next?: any): any[];
         table_rows(next?: any): any[];
         col_types(next?: any): any[];
@@ -15962,6 +16232,57 @@ declare namespace $ {
             [Symbol.toStringTag]: string;
             [$mol_ambient_ref]: $;
         } | null;
+        readonly Form_custom: (auto?: any) => {
+            Value: Value;
+            remote(next?: $shm_hitalama_board_form_custom | null | undefined): $shm_hitalama_board_form_custom | null;
+            remote_of(peer: string | null, next?: $shm_hitalama_board_form_custom | null | undefined): $shm_hitalama_board_form_custom | null;
+            ensure(config?: null | $hyoo_crus_rank_preset | $hyoo_crus_land): $shm_hitalama_board_form_custom | null;
+            ensure_of(peer: string | null, config?: null | $hyoo_crus_rank_preset | $hyoo_crus_land): $shm_hitalama_board_form_custom | null;
+            ensure_here(peer: string | null): void;
+            ensure_area(peer: string | null, land: $hyoo_crus_land): void;
+            ensure_lord(peer: string | null, preset: $hyoo_crus_rank_preset): void;
+            remote_ensure(preset?: $hyoo_crus_rank_preset): $shm_hitalama_board_form_custom | null;
+            local_ensure(): $shm_hitalama_board_form_custom | null;
+            val(next?: (symbol & {
+                $hyoo_crus_ref: symbol;
+            }) | null | undefined): (symbol & {
+                $hyoo_crus_ref: symbol;
+            }) | null;
+            val_of(peer: string | null, next?: (symbol & {
+                $hyoo_crus_ref: symbol;
+            }) | null | undefined): (symbol & {
+                $hyoo_crus_ref: symbol;
+            }) | null;
+            pick_unit(peer: string | null): $hyoo_crus_sand | undefined;
+            vary(next?: $hyoo_crus_vary_type): $hyoo_crus_vary_type;
+            vary_of(peer: string | null, next?: $hyoo_crus_vary_type): $hyoo_crus_vary_type;
+            [$mol_dev_format_head](): any[];
+            land(): $hyoo_crus_land;
+            head(): string;
+            land_ref(): symbol & {
+                $hyoo_crus_ref: symbol;
+            };
+            ref(): symbol & {
+                $hyoo_crus_ref: symbol;
+            };
+            toJSON(): string | undefined;
+            cast<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1): InstanceType<Node_1>;
+            nodes<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+            units(): $hyoo_crus_sand[];
+            units_of(peer: string | null): $hyoo_crus_sand[];
+            filled(): boolean;
+            can_change(): boolean;
+            last_change(): $mol_time_moment | null;
+            author_peers(): string[];
+            author_lords(): (symbol & {
+                $hyoo_crus_ref: symbol;
+            })[];
+            $: $;
+            destructor(): void;
+            toString(): string;
+            [Symbol.toStringTag]: string;
+            [$mol_ambient_ref]: $;
+        } | null;
         readonly Table: (auto?: any) => {
             Value: Value;
             remote(next?: $shm_hitalama_board_table | null | undefined): $shm_hitalama_board_table | null;
@@ -16389,6 +16710,69 @@ declare namespace $ {
                     ensure_lord(peer: string | null, preset: $hyoo_crus_rank_preset): void;
                     remote_ensure(preset?: $hyoo_crus_rank_preset): $shm_hitalama_board_form | null;
                     local_ensure(): $shm_hitalama_board_form | null;
+                    val(next?: (symbol & {
+                        $hyoo_crus_ref: symbol;
+                    }) | null | undefined): (symbol & {
+                        $hyoo_crus_ref: symbol;
+                    }) | null;
+                    val_of(peer: string | null, next?: (symbol & {
+                        $hyoo_crus_ref: symbol;
+                    }) | null | undefined): (symbol & {
+                        $hyoo_crus_ref: symbol;
+                    }) | null;
+                    pick_unit(peer: string | null): $hyoo_crus_sand | undefined;
+                    vary(next?: $hyoo_crus_vary_type): $hyoo_crus_vary_type;
+                    vary_of(peer: string | null, next?: $hyoo_crus_vary_type): $hyoo_crus_vary_type;
+                    [$mol_dev_format_head](): any[];
+                    land(): $hyoo_crus_land;
+                    head(): string;
+                    land_ref(): symbol & {
+                        $hyoo_crus_ref: symbol;
+                    };
+                    ref(): symbol & {
+                        $hyoo_crus_ref: symbol;
+                    };
+                    toJSON(): string | undefined;
+                    cast<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1): InstanceType<Node_1>;
+                    nodes<Node_1 extends typeof $hyoo_crus_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+                    units(): $hyoo_crus_sand[];
+                    units_of(peer: string | null): $hyoo_crus_sand[];
+                    filled(): boolean;
+                    can_change(): boolean;
+                    last_change(): $mol_time_moment | null;
+                    author_peers(): string[];
+                    author_lords(): (symbol & {
+                        $hyoo_crus_ref: symbol;
+                    })[];
+                    $: $;
+                    destructor(): void;
+                    toString(): string;
+                    [Symbol.toStringTag]: string;
+                    [$mol_ambient_ref]: $;
+                };
+                toString(): any;
+                Value: typeof $hyoo_crus_dict;
+                parse: typeof $hyoo_crus_vary_cast_ref;
+                tag: keyof typeof $hyoo_crus_sand_tag;
+                make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
+                $: $;
+                create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
+                toJSON(): any;
+                destructor(): void;
+                [Symbol.toPrimitive](): any;
+            };
+            readonly Form_custom: {
+                new (): {
+                    Value: () => typeof $shm_hitalama_board_form_custom;
+                    remote(next?: $shm_hitalama_board_form_custom | null | undefined): $shm_hitalama_board_form_custom | null;
+                    remote_of(peer: string | null, next?: $shm_hitalama_board_form_custom | null | undefined): $shm_hitalama_board_form_custom | null;
+                    ensure(config?: null | $hyoo_crus_rank_preset | $hyoo_crus_land): $shm_hitalama_board_form_custom | null;
+                    ensure_of(peer: string | null, config?: null | $hyoo_crus_rank_preset | $hyoo_crus_land): $shm_hitalama_board_form_custom | null;
+                    ensure_here(peer: string | null): void;
+                    ensure_area(peer: string | null, land: $hyoo_crus_land): void;
+                    ensure_lord(peer: string | null, preset: $hyoo_crus_rank_preset): void;
+                    remote_ensure(preset?: $hyoo_crus_rank_preset): $shm_hitalama_board_form_custom | null;
+                    local_ensure(): $shm_hitalama_board_form_custom | null;
                     val(next?: (symbol & {
                         $hyoo_crus_ref: symbol;
                     }) | null | undefined): (symbol & {
@@ -18712,11 +19096,20 @@ declare namespace $ {
 		date_to( next?: string ): string
 		Date_to( ): $mol_date
 		sub( ): readonly(any)[]
+		period_str( next?: string ): string
+		clear( ): any
 	}
 	
 }
 
 //# sourceMappingURL=period.view.tree.d.ts.map
+declare namespace $.$$ {
+    class $shm_hitalama_period extends $.$shm_hitalama_period {
+        period_str(next?: string): string;
+        clear(): void;
+    }
+}
+
 declare namespace $.$$ {
 }
 
@@ -22390,60 +22783,139 @@ declare namespace $.$$ {
 
 declare namespace $ {
 
-	type $mol_string__value_shm_hitalama_board_block_form_custom_1 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_form_custom['field_value'] >
+	export class $shm_hitalama_attach extends $mol_attach {
+		files( next?: readonly(File)[] ): readonly(File)[]
+	}
+	
+}
+
+//# sourceMappingURL=attach.view.tree.d.ts.map
+declare namespace $.$$ {
+    class $shm_hitalama_attach extends $.$shm_hitalama_attach {
+        attach_new(files: File[]): void;
+    }
+}
+
+declare namespace $.$$ {
+}
+
+declare namespace $ {
+
+	type $shm_hitalama_attach__files_shm_hitalama_file_attach_1 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_file_attach['files'] >
 		,
-		ReturnType< $mol_string['value'] >
+		ReturnType< $shm_hitalama_attach['files'] >
 	>
-	type $mol_form_field__name_shm_hitalama_board_block_form_custom_2 = $mol_type_enforce<
+	type $mol_paragraph__title_shm_hitalama_file_attach_2 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_file_attach['filename'] >
+		,
+		ReturnType< $mol_paragraph['title'] >
+	>
+	export class $shm_hitalama_file_attach extends $mol_view {
+		files( next?: readonly(any)[] ): readonly(any)[]
+		File( ): $shm_hitalama_attach
+		filename( ): string
+		Name( ): $mol_paragraph
+		sub( ): readonly(any)[]
+	}
+	
+}
+
+//# sourceMappingURL=attach.view.tree.d.ts.map
+declare namespace $.$$ {
+    class $shm_hitalama_file_attach extends $.$shm_hitalama_file_attach {
+        filename(): string;
+    }
+}
+
+declare namespace $.$$ {
+}
+
+declare namespace $ {
+
+	type $mol_form_field__name_shm_hitalama_board_block_form_custom_1 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_form_custom['field_name'] >
 		,
 		ReturnType< $mol_form_field['name'] >
 	>
-	type $mol_form_field__Content_shm_hitalama_board_block_form_custom_3 = $mol_type_enforce<
-		ReturnType< $shm_hitalama_board_block_form_custom['Field_value'] >
+	type $mol_form_field__Content_shm_hitalama_board_block_form_custom_2 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_form_custom['Field_content'] >
 		,
 		ReturnType< $mol_form_field['Content'] >
 	>
-	type $mol_button_major__title_shm_hitalama_board_block_form_custom_4 = $mol_type_enforce<
+	type $mol_button_major__title_shm_hitalama_board_block_form_custom_3 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_button_major['title'] >
 	>
-	type $mol_button_major__click_shm_hitalama_board_block_form_custom_5 = $mol_type_enforce<
+	type $mol_button_major__click_shm_hitalama_board_block_form_custom_4 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_form_custom['submit'] >
 		,
 		ReturnType< $mol_button_major['click'] >
 	>
-	type $mol_button_major__enabled_shm_hitalama_board_block_form_custom_6 = $mol_type_enforce<
+	type $mol_button_major__enabled_shm_hitalama_board_block_form_custom_5 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_form_custom['submit_allowed'] >
 		,
 		ReturnType< $mol_button_major['enabled'] >
 	>
-	type $mol_button_minor__title_shm_hitalama_board_block_form_custom_7 = $mol_type_enforce<
+	type $mol_button_minor__title_shm_hitalama_board_block_form_custom_6 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_button_minor['title'] >
 	>
-	type $mol_button_minor__click_shm_hitalama_board_block_form_custom_8 = $mol_type_enforce<
+	type $mol_button_minor__click_shm_hitalama_board_block_form_custom_7 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_form_custom['clear'] >
 		,
 		ReturnType< $mol_button_minor['click'] >
 	>
-	type $mol_form__form_fields_shm_hitalama_board_block_form_custom_9 = $mol_type_enforce<
+	type $mol_form__form_fields_shm_hitalama_board_block_form_custom_8 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_block_form_custom['form_fields'] >
 		,
 		ReturnType< $mol_form['form_fields'] >
 	>
-	type $mol_form__buttons_shm_hitalama_board_block_form_custom_10 = $mol_type_enforce<
+	type $mol_form__buttons_shm_hitalama_board_block_form_custom_9 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_form['buttons'] >
 	>
+	type $mol_string__value_shm_hitalama_board_block_form_custom_10 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_form_custom['field_value'] >
+		,
+		ReturnType< $mol_string['value'] >
+	>
+	type $mol_date__value_shm_hitalama_board_block_form_custom_11 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_form_custom['field_value'] >
+		,
+		ReturnType< $mol_date['value'] >
+	>
+	type __shm_hitalama_board_block_form_custom_12 = $mol_type_enforce<
+		Parameters< $shm_hitalama_board_block_form_custom['period_str'] >[0]
+		,
+		Parameters< $shm_hitalama_board_block_form_custom['Period'] >[0]
+	>
+	type __shm_hitalama_board_block_form_custom_13 = $mol_type_enforce<
+		Parameters< $shm_hitalama_board_block_form_custom['period_str'] >[1]
+		,
+		Parameters< $shm_hitalama_board_block_form_custom['Period'] >[0]
+	>
+	type $shm_hitalama_period__date_from_shm_hitalama_board_block_form_custom_14 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_form_custom['date_from'] >
+		,
+		ReturnType< $shm_hitalama_period['date_from'] >
+	>
+	type $shm_hitalama_period__date_to_shm_hitalama_board_block_form_custom_15 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_form_custom['date_to'] >
+		,
+		ReturnType< $shm_hitalama_period['date_to'] >
+	>
+	type $shm_hitalama_file_attach__files_shm_hitalama_board_block_form_custom_16 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_board_block_form_custom['field_files'] >
+		,
+		ReturnType< $shm_hitalama_file_attach['files'] >
+	>
 	export class $shm_hitalama_board_block_form_custom extends $shm_hitalama_board_block_float {
 		field_name( id: any): string
-		field_value( id: any, next?: string ): string
-		Field_value( id: any): $mol_string
+		Field_content( id: any): $mol_view
 		Field( id: any): $mol_form_field
 		form_fields( ): readonly(any)[]
 		submit( next?: any ): any
@@ -22452,7 +22924,23 @@ declare namespace $ {
 		clear( next?: any ): any
 		Clear( ): $mol_button_minor
 		Form( ): $mol_form
+		field_value( id: any, next?: string ): string
+		Text( id: any): $mol_string
+		Date( id: any): $mol_date
+		date_from( id: any, next?: string ): string
+		date_to( id: any, next?: string ): string
+		period_str( id: any, next?: ReturnType< ReturnType< $shm_hitalama_board_block_form_custom['Period'] >['period_str'] > ): ReturnType< ReturnType< $shm_hitalama_board_block_form_custom['Period'] >['period_str'] >
+		Period( id: any): $shm_hitalama_period
+		field_files( id: any, next?: readonly(any)[] ): readonly(any)[]
+		File( id: any): $shm_hitalama_file_attach
 		controls( ): readonly(any)[]
+		Content_by_type( id: any): ({ 
+			'any': ReturnType< $shm_hitalama_board_block_form_custom['Text'] >,
+			'string': ReturnType< $shm_hitalama_board_block_form_custom['Text'] >,
+			'date': ReturnType< $shm_hitalama_board_block_form_custom['Date'] >,
+			'period': ReturnType< $shm_hitalama_board_block_form_custom['Period'] >,
+			'file': ReturnType< $shm_hitalama_board_block_form_custom['File'] >,
+		}) 
 	}
 	
 }
@@ -22460,11 +22948,15 @@ declare namespace $ {
 //# sourceMappingURL=custom.view.tree.d.ts.map
 declare namespace $.$$ {
     class $shm_hitalama_board_block_form_custom extends $.$shm_hitalama_board_block_form_custom {
-        block_with_text(): $shm_hitalama_board_block;
+        custom(): $shm_hitalama_board_form_custom;
         field_names(): string[];
         form_fields(): readonly (any)[];
-        field_name(id: any): string;
+        field_type(id: string): "string" | "period" | "file" | "any" | "date";
+        field_name(name: any): string;
+        Field_content(name: string): $.$mol_string | $.$mol_date | $.$shm_hitalama_period | $.$shm_hitalama_file_attach;
+        field_value(name: any, next?: any): any;
         clear(): void;
+        field_file(n: string): $shm_hitalama_file | null;
         submit(): void;
     }
 }

@@ -18112,9 +18112,103 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    const tag_regexp = /#\w*/g;
+    class $shm_hitalama_board_form_custom extends $hyoo_crus_entity.with({
+        Use_text_from: $hyoo_crus_atom_ref_to(() => $shm_hitalama_board_block),
+        Objects: $hyoo_crus_atom_jsan,
+    }) {
+        objects(next) {
+            return this.Objects(next)?.val(next) ?? [];
+        }
+        block_with_text() {
+            return this.Use_text_from()?.remote();
+        }
+        text(next) {
+            return this.block_with_text()?.text(next) ?? '';
+        }
+        fields_parsed() {
+            const lines = this.text().split('\n').flatMap(line => line.split('|')).map(s => s.trim());
+            const dict = {};
+            const arr = lines.map(line => {
+                const parsed = this.field_parse(line);
+                dict[parsed.name] = parsed;
+                return parsed;
+            });
+            return { dict, arr };
+        }
+        field_parse(str) {
+            const tags = [];
+            const name = str.replaceAll(tag_regexp, tag => {
+                tags.push(tag);
+                return '';
+            }).trim();
+            const type_tag = tags.find(t => this.types_supported().includes(t.slice(1)));
+            return {
+                tags,
+                name,
+                type: (type_tag?.slice(1) ?? 'any'),
+            };
+        }
+        field_names() {
+            return this.fields_parsed().arr.map(f => f.name);
+        }
+        types_supported() {
+            return [
+                'any',
+                'string',
+                'date',
+                'period',
+                'file',
+            ];
+        }
+        field_type(name) {
+            return this.fields_parsed().dict?.[name].type;
+        }
+        field_tags(name) {
+            return this.fields_parsed().dict[name].tags;
+        }
+        obj_add(obj) {
+            this.objects([...this.objects(), obj]);
+        }
+    }
+    __decorate([
+        $mol_mem
+    ], $shm_hitalama_board_form_custom.prototype, "objects", null);
+    __decorate([
+        $mol_mem
+    ], $shm_hitalama_board_form_custom.prototype, "block_with_text", null);
+    __decorate([
+        $mol_mem
+    ], $shm_hitalama_board_form_custom.prototype, "text", null);
+    __decorate([
+        $mol_mem
+    ], $shm_hitalama_board_form_custom.prototype, "fields_parsed", null);
+    __decorate([
+        $mol_action
+    ], $shm_hitalama_board_form_custom.prototype, "field_parse", null);
+    __decorate([
+        $mol_mem
+    ], $shm_hitalama_board_form_custom.prototype, "field_names", null);
+    __decorate([
+        $mol_mem_key
+    ], $shm_hitalama_board_form_custom.prototype, "field_type", null);
+    __decorate([
+        $mol_mem_key
+    ], $shm_hitalama_board_form_custom.prototype, "field_tags", null);
+    __decorate([
+        $mol_action
+    ], $shm_hitalama_board_form_custom.prototype, "obj_add", null);
+    $.$shm_hitalama_board_form_custom = $shm_hitalama_board_form_custom;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
     class $shm_hitalama_board_table extends $hyoo_crus_entity.with({
         Block: $hyoo_crus_atom_ref_to(() => $shm_hitalama_board_block),
         Board: $hyoo_crus_atom_ref_to(() => $shm_hitalama_board),
+        Form_custom: $hyoo_crus_atom_ref_to(() => $shm_hitalama_board_form_custom),
         Head: $hyoo_crus_atom_jsan,
         Head_method: $hyoo_crus_atom_str,
         Rows: $hyoo_crus_atom_jsan,
@@ -18126,13 +18220,26 @@ var $;
         board() {
             return this.Board()?.remote() ?? this.Block()?.remote()?.Board()?.remote();
         }
+        form_custom() {
+            return this.Form_custom()?.remote();
+        }
         table_head(next) {
+            const custom = this.form_custom();
+            if (custom)
+                return custom.field_names();
             const method = this.Head_method()?.val();
             if (!method)
                 return this.Head(next)?.val(next) ?? [];
             return this.board().execute(method, { next, table: this });
         }
         table_rows(next) {
+            const custom = this.form_custom();
+            if (custom) {
+                const head = this.table_head();
+                return custom.objects().map(obj => {
+                    return head.map(n => obj[n]);
+                }) ?? [];
+            }
             const method = this.Rows_method()?.val();
             if (!method)
                 return this.Rows(next)?.val(next) ?? [];
@@ -18140,6 +18247,9 @@ var $;
             return this.board().execute(method, { next, table });
         }
         col_types(next) {
+            const custom = this.form_custom();
+            if (custom)
+                return custom.fields_parsed().arr.map(f => f.type);
             const types_raw = this.Col_types(next)?.val(next) ?? [];
             const types = [...types_raw];
             this.table_head()?.forEach((title, i) => {
@@ -18170,6 +18280,9 @@ var $;
     __decorate([
         $mol_mem
     ], $shm_hitalama_board_table.prototype, "board", null);
+    __decorate([
+        $mol_mem
+    ], $shm_hitalama_board_table.prototype, "form_custom", null);
     __decorate([
         $mol_mem
     ], $shm_hitalama_board_table.prototype, "table_head", null);
@@ -19316,31 +19429,32 @@ var $;
     (function ($$) {
         class $shm_hitalama_board_page_contexmenu extends $.$shm_hitalama_board_page_contexmenu {
             text_add() {
-                const block = this.board().text_add(this.contextmenu_real_pos());
                 this.contextmenu_showed(false);
+                const block = this.board().text_add(this.contextmenu_real_pos());
                 return block;
             }
             input_add() {
+                this.contextmenu_showed(false);
                 const block = this.board().block_add('input', this.contextmenu_real_pos());
                 block?.text('Hello');
-                this.contextmenu_showed(false);
                 return block;
             }
             iframe_add() {
+                this.contextmenu_showed(false);
                 const block = this.board().block_add('iframe', this.contextmenu_real_pos(), 500, 700);
                 block?.text('https://www.google.com/search?igu=1');
-                this.contextmenu_showed(false);
                 return block;
             }
             range_add() {
-                const block = this.board().block_add('range', this.contextmenu_real_pos());
                 this.contextmenu_showed(false);
+                const block = this.board().block_add('range', this.contextmenu_real_pos());
                 return block;
             }
             guid_sync() {
                 return $mol_guid();
             }
             form_add() {
+                this.contextmenu_showed(false);
                 const form_pos = this.contextmenu_real_pos();
                 const form = this.board().block_add('form', form_pos, 450, 780);
                 const table_pos = [form_pos[0] + 460, form_pos[1]];
@@ -19354,46 +19468,46 @@ var $;
                 const code_str = this.$.$mol_fetch.text($shm_hitalama_app_ghpages_fix_link('/shm/hitalama/board/snippets/_table.js'))
                     .replace('BLOCK_TITLE', `'${'Table_' + this.guid_sync()}'`);
                 code?.text(code_str);
-                this.contextmenu_showed(false);
             }
             deckgl_example_add() {
+                this.contextmenu_showed(false);
                 const block = this.board().block_add('customdom', this.contextmenu_real_pos(), 700, 700);
                 const code_str = this.$.$mol_fetch.text($shm_hitalama_app_ghpages_fix_link('/shm/hitalama/board/snippets/_deckgl_example.js'));
                 block?.text(code_str);
-                this.contextmenu_showed(false);
                 return block;
             }
             echarts_example_add() {
+                this.contextmenu_showed(false);
                 const block = this.board().block_add('customdom', this.contextmenu_real_pos(), 700, 500);
                 const code_str = this.$.$mol_fetch.text($shm_hitalama_app_ghpages_fix_link('/shm/hitalama/board/snippets/_echarts_example.js'));
                 block?.text(code_str);
-                this.contextmenu_showed(false);
                 return block;
             }
             code_css_add() {
+                this.contextmenu_showed(false);
                 const block = this.board().block_add('code_css', this.contextmenu_real_pos(), 600, 300);
                 const code_str = this.$.$mol_fetch.text($shm_hitalama_app_ghpages_fix_link('/shm/hitalama/board/snippets/_css_example.css'));
                 block?.text(code_str);
-                this.contextmenu_showed(false);
                 return block;
             }
             code_js_add() {
+                this.contextmenu_showed(false);
                 const block = this.board().block_add('code', this.contextmenu_real_pos(), 600, 300);
                 block?.text('');
-                this.contextmenu_showed(false);
                 return block;
             }
             code_sql_add() {
+                this.contextmenu_showed(false);
                 const block = this.board().block_add('code_sql', this.contextmenu_real_pos(), 600, 300);
                 block?.text('return to_table( result )');
                 block?.subtext('SELECT * FROM pg_views');
-                this.contextmenu_showed(false);
                 return block;
             }
             get_custom_guid() {
                 return $mol_guid(12).replace(/[0-9]/g, '').toLowerCase();
             }
             customizer_add() {
+                this.contextmenu_showed(false);
                 const board = this.board();
                 const block = board.block_add('customizer', this.contextmenu_real_pos(), 1200, 600);
                 const custom = board.Customs(null)?.make(board.land());
@@ -19409,29 +19523,19 @@ var $;
                 const code_css = this.$.$mol_fetch.text($shm_hitalama_app_ghpages_fix_link('/shm/hitalama/board/snippets/_widget_ba_messagecount.view.css'))
                     .replaceAll('widget_ba_messagecount', type_custom);
                 custom?.Code_css(null)?.value(code_css);
-                this.contextmenu_showed(false);
             }
             form_custom_add() {
-                const [x, y] = this.contextmenu_real_pos();
-                const field_names = ['Фамилия', 'Имя', 'Отчество'];
-                const text = this.board().text_add([x - 200, y], field_names.join('\n'));
-                const block = this.board().block_add('form_custom', [x, y], 300, 600);
-                block?.Use_text_from(null)?.remote(text);
                 this.contextmenu_showed(false);
-                const block_table = this.board().table_novirt_add([x + 300, y], 1000, 780);
+                const [x, y] = this.contextmenu_real_pos();
+                const field_names = ['Запрос', 'Дата #date', 'Период #period', 'Файл #file'];
+                const text = this.board().text_add([x - 200, y], field_names.join('\n'));
+                const form = this.board().block_add('form_custom', [x, y], 300, 600);
+                const custom = form?.Form_custom(null)?.ensure(form.land());
+                custom?.Use_text_from(null)?.remote(text);
+                const block_table = this.board().block_add('table', [x + 300, y], 1000, 780);
                 const table = block_table.Table(null)?.ensure(block_table.land());
-                table?.Head_method(null)?.val(`
-				const text = board.block_value('${text.ref().description}')
-				return text.split('\\n')
-			`);
-                table?.Rows_method(null)?.val(`
-				const data = board.block_data('${block.ref().description}')
-				const head = table.table_head()
-				return data?.map( obj => {
-					return head.map( n => obj[n] )
-				} ) ?? []
-			`);
-                return block;
+                table?.Form_custom(null)?.remote(custom);
+                return form;
             }
             customs() {
                 const visible = this.board().Customs()?.remote_list().filter(c => c.Visible_in_contextmenu()?.val());
@@ -22003,6 +22107,7 @@ var $;
         Range: $shm_hitalama_board_range,
         Form: $shm_hitalama_board_form,
         Form_edit: $hyoo_crus_atom_ref_to(() => $shm_hitalama_board_form),
+        Form_custom: $hyoo_crus_atom_ref_to(() => $shm_hitalama_board_form_custom),
         Table: $hyoo_crus_atom_ref_to(() => $shm_hitalama_board_table),
         Chart: $shm_hitalama_board_chart,
         Use_chart_from: $hyoo_crus_atom_ref_to(() => $shm_hitalama_board_block),
@@ -23654,9 +23759,7 @@ var $;
                 width: '100%',
                 height: '100%',
             },
-            Fullsize_wrapper: {
-                width: 'max-content',
-            },
+            Fullsize_wrapper: {},
             flex: {
                 direction: 'column'
             },
@@ -25755,15 +25858,51 @@ var $;
 				(this.Date_to())
 			];
 		}
+		period_str(next){
+			if(next !== undefined) return next;
+			return "";
+		}
+		clear(){
+			return null;
+		}
 	};
 	($mol_mem(($.$shm_hitalama_period.prototype), "date_from"));
 	($mol_mem(($.$shm_hitalama_period.prototype), "Date_from"));
 	($mol_mem(($.$shm_hitalama_period.prototype), "date_to"));
 	($mol_mem(($.$shm_hitalama_period.prototype), "Date_to"));
+	($mol_mem(($.$shm_hitalama_period.prototype), "period_str"));
 
 
 ;
 "use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $shm_hitalama_period extends $.$shm_hitalama_period {
+            period_str(next) {
+                if (next === '') {
+                    this.clear();
+                    return '';
+                }
+                const from = this.date_from();
+                const to = this.date_to();
+                return (from && to) ? from + ' – ' + to : '';
+            }
+            clear() {
+                this.date_from('');
+                this.date_to('');
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $shm_hitalama_period.prototype, "period_str", null);
+        $$.$shm_hitalama_period = $shm_hitalama_period;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
 
 ;
 "use strict";
@@ -32387,23 +32526,124 @@ var $;
 })($ || ($ = {}));
 
 ;
+	($.$shm_hitalama_attach) = class $shm_hitalama_attach extends ($.$mol_attach) {
+		files(next){
+			if(next !== undefined) return next;
+			return [];
+		}
+	};
+	($mol_mem(($.$shm_hitalama_attach.prototype), "files"));
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $shm_hitalama_attach extends $.$shm_hitalama_attach {
+            attach_new(files) {
+                this.files(files);
+            }
+        }
+        __decorate([
+            $mol_action
+        ], $shm_hitalama_attach.prototype, "attach_new", null);
+        $$.$shm_hitalama_attach = $shm_hitalama_attach;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        $mol_style_define($shm_hitalama_attach, {
+            Content: {
+                padding: 0,
+            },
+        });
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+	($.$shm_hitalama_file_attach) = class $shm_hitalama_file_attach extends ($.$mol_view) {
+		files(next){
+			if(next !== undefined) return next;
+			return [];
+		}
+		File(){
+			const obj = new this.$.$shm_hitalama_attach();
+			(obj.files) = (next) => ((this.files(next)));
+			return obj;
+		}
+		filename(){
+			return "";
+		}
+		Name(){
+			const obj = new this.$.$mol_paragraph();
+			(obj.title) = () => ((this.filename()));
+			return obj;
+		}
+		sub(){
+			return [(this.File()), (this.Name())];
+		}
+	};
+	($mol_mem(($.$shm_hitalama_file_attach.prototype), "files"));
+	($mol_mem(($.$shm_hitalama_file_attach.prototype), "File"));
+	($mol_mem(($.$shm_hitalama_file_attach.prototype), "Name"));
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $shm_hitalama_file_attach extends $.$shm_hitalama_file_attach {
+            filename() {
+                const file = this.files()[0];
+                return file?.name;
+            }
+        }
+        $$.$shm_hitalama_file_attach = $shm_hitalama_file_attach;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        $mol_style_define($shm_hitalama_file_attach, {
+            Name: {
+                padding: $mol_gap.text,
+            },
+        });
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
 	($.$shm_hitalama_board_block_form_custom) = class $shm_hitalama_board_block_form_custom extends ($.$shm_hitalama_board_block_float) {
 		field_name(id){
 			return "";
 		}
-		field_value(id, next){
-			if(next !== undefined) return next;
-			return "";
-		}
-		Field_value(id){
-			const obj = new this.$.$mol_string();
-			(obj.value) = (next) => ((this.field_value(id, next)));
+		Field_content(id){
+			const obj = new this.$.$mol_view();
 			return obj;
 		}
 		Field(id){
 			const obj = new this.$.$mol_form_field();
 			(obj.name) = () => ((this.field_name(id)));
-			(obj.Content) = () => ((this.Field_value(id)));
+			(obj.Content) = () => ((this.Field_content(id)));
 			return obj;
 		}
 		form_fields(){
@@ -32439,18 +32679,74 @@ var $;
 			(obj.buttons) = () => ([(this.Publish()), (this.Clear())]);
 			return obj;
 		}
+		field_value(id, next){
+			if(next !== undefined) return next;
+			return "";
+		}
+		Text(id){
+			const obj = new this.$.$mol_string();
+			(obj.value) = (next) => ((this.field_value(id, next)));
+			return obj;
+		}
+		Date(id){
+			const obj = new this.$.$mol_date();
+			(obj.value) = (next) => ((this.field_value(id, next)));
+			return obj;
+		}
+		date_from(id, next){
+			if(next !== undefined) return next;
+			return "";
+		}
+		date_to(id, next){
+			if(next !== undefined) return next;
+			return "";
+		}
+		period_str(id, next){
+			return (this.Period(id).period_str(next));
+		}
+		Period(id){
+			const obj = new this.$.$shm_hitalama_period();
+			(obj.date_from) = (next) => ((this.date_from(id, next)));
+			(obj.date_to) = (next) => ((this.date_to(id, next)));
+			return obj;
+		}
+		field_files(id, next){
+			if(next !== undefined) return next;
+			return [];
+		}
+		File(id){
+			const obj = new this.$.$shm_hitalama_file_attach();
+			(obj.files) = (next) => ((this.field_files(id, next)));
+			return obj;
+		}
 		controls(){
 			return [(this.Form())];
 		}
+		Content_by_type(id){
+			return {
+				"any": (this.Text(id)), 
+				"string": (this.Text(id)), 
+				"date": (this.Date(id)), 
+				"period": (this.Period(id)), 
+				"file": (this.File(id))
+			};
+		}
 	};
-	($mol_mem_key(($.$shm_hitalama_board_block_form_custom.prototype), "field_value"));
-	($mol_mem_key(($.$shm_hitalama_board_block_form_custom.prototype), "Field_value"));
+	($mol_mem_key(($.$shm_hitalama_board_block_form_custom.prototype), "Field_content"));
 	($mol_mem_key(($.$shm_hitalama_board_block_form_custom.prototype), "Field"));
 	($mol_mem(($.$shm_hitalama_board_block_form_custom.prototype), "submit"));
 	($mol_mem(($.$shm_hitalama_board_block_form_custom.prototype), "Publish"));
 	($mol_mem(($.$shm_hitalama_board_block_form_custom.prototype), "clear"));
 	($mol_mem(($.$shm_hitalama_board_block_form_custom.prototype), "Clear"));
 	($mol_mem(($.$shm_hitalama_board_block_form_custom.prototype), "Form"));
+	($mol_mem_key(($.$shm_hitalama_board_block_form_custom.prototype), "field_value"));
+	($mol_mem_key(($.$shm_hitalama_board_block_form_custom.prototype), "Text"));
+	($mol_mem_key(($.$shm_hitalama_board_block_form_custom.prototype), "Date"));
+	($mol_mem_key(($.$shm_hitalama_board_block_form_custom.prototype), "date_from"));
+	($mol_mem_key(($.$shm_hitalama_board_block_form_custom.prototype), "date_to"));
+	($mol_mem_key(($.$shm_hitalama_board_block_form_custom.prototype), "Period"));
+	($mol_mem_key(($.$shm_hitalama_board_block_form_custom.prototype), "field_files"));
+	($mol_mem_key(($.$shm_hitalama_board_block_form_custom.prototype), "File"));
 
 
 ;
@@ -32463,34 +32759,81 @@ var $;
     var $$;
     (function ($$) {
         class $shm_hitalama_board_block_form_custom extends $.$shm_hitalama_board_block_form_custom {
-            block_with_text() {
-                const use_from = this.block().Use_text_from()?.remote();
-                return use_from ?? this.block();
+            custom() {
+                return this.block().Form_custom()?.remote();
             }
             field_names() {
-                const field_names = this.block_with_text().text().split('\n');
-                return field_names;
+                return this.custom().field_names();
             }
             form_fields() {
-                return this.field_names().map(name => this.Field(name));
+                return this.field_names().map(str => this.Field(str));
             }
-            field_name(id) {
-                return id;
+            field_type(id) {
+                return this.custom().field_type(id);
+            }
+            field_name(name) {
+                return name;
+            }
+            Field_content(name) {
+                const type = this.field_type(name);
+                return this.Content_by_type(name)[type];
+            }
+            field_value(name, next) {
+                const type = this.field_type(name);
+                if (type == 'file') {
+                    if (next === '') {
+                        this.field_files(name, []);
+                        return '';
+                    }
+                    const file = this.field_file(name);
+                    return file?.ref().description;
+                }
+                else if (type == 'period') {
+                    return this.period_str(name, next);
+                }
+                return next ?? '';
             }
             clear() {
                 this.field_names().forEach(name => {
                     this.field_value(name, '');
                 });
             }
+            field_file(n) {
+                const file_native = this.field_files(n)[0];
+                if (!file_native)
+                    return null;
+                const file = this.board().Files(null)?.make(this.board().land());
+                file?.title(file_native.name);
+                file?.Size(null)?.val(file_native.size);
+                file?.File(null)?.ensure(this.board().land())?.blob(file_native);
+                return file;
+            }
             submit() {
-                const data = this.block().data() ?? [];
-                const obj = Object.fromEntries(this.field_names().map(n => [n, this.field_value(n)]));
-                this.block().data([[...data, obj]]);
+                const obj = Object.fromEntries(this.field_names().map(n => {
+                    const type = this.field_type(n);
+                    if (type == 'date') {
+                        const val = this.field_value(n);
+                        const moment = new $mol_time_moment(val);
+                        return [n, val ? moment.toString('DD.MM.YYYY') : ''];
+                    }
+                    return [n, this.field_value(n)];
+                }));
+                this.custom().obj_add(obj);
+                this.clear();
             }
         }
         __decorate([
             $mol_mem
-        ], $shm_hitalama_board_block_form_custom.prototype, "block_with_text", null);
+        ], $shm_hitalama_board_block_form_custom.prototype, "custom", null);
+        __decorate([
+            $mol_mem_key
+        ], $shm_hitalama_board_block_form_custom.prototype, "field_value", null);
+        __decorate([
+            $mol_action
+        ], $shm_hitalama_board_block_form_custom.prototype, "clear", null);
+        __decorate([
+            $mol_mem_key
+        ], $shm_hitalama_board_block_form_custom.prototype, "field_file", null);
         $$.$shm_hitalama_board_block_form_custom = $shm_hitalama_board_block_form_custom;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
@@ -32502,6 +32845,9 @@ var $;
     var $$;
     (function ($$) {
         $mol_style_define($shm_hitalama_board_block_form_custom, {
+            background: {
+                color: $mol_theme.card,
+            },
             Form: {
                 Body: {
                     padding: {
