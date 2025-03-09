@@ -21145,8 +21145,8 @@ var $;
 		has_scrollbar_y(id){
 			return (this.Block(id).has_scrollbar_y());
 		}
-		editing(id, next){
-			return (this.Block(id).editing(next));
+		editing(id){
+			return (this.Block(id).editing());
 		}
 		drags_synced(id){
 			return [];
@@ -23165,8 +23165,7 @@ var $;
 		bind_view(){
 			return null;
 		}
-		editing(next){
-			if(next !== undefined) return next;
+		editing(){
 			return false;
 		}
 		toolbar_transform(){
@@ -23395,7 +23394,6 @@ var $;
 		}
 	};
 	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "Sidebar"));
-	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "editing"));
 	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "Top_icon"));
 	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "to_top"));
 	($mol_mem(($.$shm_hitalama_board_block_float.prototype), "Top"));
@@ -24506,6 +24504,9 @@ var $;
 			if(next !== undefined) return next;
 			return [];
 		}
+		text_focused(){
+			return (this.Text().focused());
+		}
 		textarea_height(){
 			return "100%";
 		}
@@ -24723,15 +24724,14 @@ var $;
                     return;
                 const { x, y } = this.blocker_pointerdown_last;
                 if (Math.abs(x - next.x) < 5 && Math.abs(y - next.y) < 5) {
-                    this.editing(true);
                     this.Text().Edit().focused(true);
                     this.Text().Edit().dom_node_actual().select();
                 }
             }
-            editing(next) {
-                if (this.selected() === false)
-                    return false;
-                return next ?? false;
+            editing() {
+                if (this.selected() && this.text_focused())
+                    return true;
+                return false;
             }
             blocker() {
                 return this.editing() ? [] : super.blocker();
@@ -44106,8 +44106,8 @@ var $;
 			if(next !== undefined) return next;
 			return false;
 		}
-		editing(next){
-			return (this.Sub().editing(next));
+		editing(){
+			return (this.Sub().editing());
 		}
 		has_scrollbar_x(){
 			return (this.Sub().has_scrollbar_x());
