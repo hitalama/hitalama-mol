@@ -55,6 +55,7 @@ namespace $ {
 
 			context = {
 				board: this,
+				page: undefined,
 				to_table,
 				... context,
 			}
