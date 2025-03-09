@@ -1,0 +1,7 @@
+$shm_hitalama_period $mol_view
+	sub /
+		<= Date_from $mol_date
+			value? <=> date_from? \
+		\–
+		<= Date_to $mol_date
+			value? <=> date_to? \

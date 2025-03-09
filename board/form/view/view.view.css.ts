@@ -5,12 +5,6 @@ namespace $.$$ {
 		Period_field: {
 			Content: {
 				padding: 0,
-				align: {
-					items: 'center',
-				},
-				flex: {
-					wrap: 'wrap',
-				},
 			},
 		},
 
