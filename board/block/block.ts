@@ -62,6 +62,9 @@ namespace $ {
 		/** form_edit */
 		Form_edit: $hyoo_crus_atom_ref_to( ()=> $shm_hitalama_board_form ),
 
+		/** form_custom */
+		Form_custom: $hyoo_crus_atom_ref_to( ()=> $shm_hitalama_board_form_custom ),
+
 		/** table|chart */
 		Table: $hyoo_crus_atom_ref_to( ()=> $shm_hitalama_board_table ),
 
@@ -95,6 +98,7 @@ namespace $ {
 		subtext( next?: string ) {
 			return this.Subtext(next)?.value(next) ?? ''
 		}
+
 		data( next?: any ) {
 			return this.Data(next)?.val(next)
 		}

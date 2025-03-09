@@ -1,6 +1,6 @@
 $shm_hitalama_file_attach $mol_view
 	sub /
 		<= File $shm_hitalama_attach
-			files => files
+			files? <=> files? /
 		<= Name $mol_paragraph
 			title <= filename \

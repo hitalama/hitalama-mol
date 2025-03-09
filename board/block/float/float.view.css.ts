@@ -69,7 +69,7 @@ namespace $.$$ {
 		},
 
 		Fullsize_wrapper: {
-			width: 'max-content',
+			// width: 'max-content',
 		},
 
 		flex: {

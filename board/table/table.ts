@@ -2,10 +2,12 @@ namespace $ {
 
 	export class $shm_hitalama_board_table extends $hyoo_crus_entity.with({
 
-		/** @deprecated Use Board */
+		/** @deprecated Use Board (since table-block is one-to-many) */
 		Block: $hyoo_crus_atom_ref_to( ()=> $shm_hitalama_board_block ),
 		
 		Board: $hyoo_crus_atom_ref_to( ()=> $shm_hitalama_board ),
+
+		Form_custom: $hyoo_crus_atom_ref_to( ()=> $shm_hitalama_board_form_custom ),
 
 		Head: $hyoo_crus_atom_jsan,
 		Head_method: $hyoo_crus_atom_str,
@@ -30,7 +32,15 @@ namespace $ {
 		}
 
 		@ $mol_mem
+		form_custom() {
+			return this.Form_custom()?.remote()
+		}
+
+		@ $mol_mem
 		table_head( next?: any ): any[] {
+			const custom = this.form_custom()
+			if( custom ) return custom.field_names()
+
 			const method = this.Head_method()?.val()
 			if( !method ) return this.Head(next)?.val( next ) ?? []
 
@@ -39,6 +49,14 @@ namespace $ {
 		
 		@ $mol_mem
 		table_rows( next?: any ): any[] {
+			const custom = this.form_custom()
+			if( custom ) {
+				const head = this.table_head()
+				return custom.objects().map( obj => {
+					return head.map( n => obj[n] )
+				} ) ?? []
+			}
+
 			const method = this.Rows_method()?.val()
 			if( !method ) return this.Rows(next)?.val( next ) ?? []
 
@@ -48,6 +66,9 @@ namespace $ {
 
 		@ $mol_mem
 		col_types( next?: any ) {
+			const custom = this.form_custom()
+			if( custom ) return custom.fields_parsed().arr.map( f => f.type )
+			
 			const types_raw = this.Col_types(next)?.val(next) ?? []
 
 			const types = [...types_raw] 

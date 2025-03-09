@@ -3,31 +3,31 @@ namespace $.$$ {
 		
 		@ $mol_action
 		text_add() {
-			const block = this.board().text_add( this.contextmenu_real_pos() )
 			this.contextmenu_showed( false )
+			const block = this.board().text_add( this.contextmenu_real_pos() )
 			return block
 		}
 
 		@ $mol_action
 		input_add() {
+			this.contextmenu_showed( false )
 			const block = this.board().block_add( 'input', this.contextmenu_real_pos() )
 			block?.text( 'Hello' )
-			this.contextmenu_showed( false )
 			return block
 		}
 
 		@ $mol_action
 		iframe_add() {
+			this.contextmenu_showed( false )
 			const block = this.board().block_add( 'iframe', this.contextmenu_real_pos(), 500, 700 )
 			block?.text( 'https://www.google.com/search?igu=1' )
-			this.contextmenu_showed( false )
 			return block
 		}
 
 		@ $mol_action
 		range_add() {
-			const block = this.board().block_add( 'range', this.contextmenu_real_pos() )
 			this.contextmenu_showed( false )
+			const block = this.board().block_add( 'range', this.contextmenu_real_pos() )
 			return block
 		}
 
@@ -38,6 +38,8 @@ namespace $.$$ {
 
 		@ $mol_action
 		form_add() {
+			this.contextmenu_showed( false )
+
 			const form_pos = this.contextmenu_real_pos()
 			const form = this.board().block_add( 'form', form_pos, 450, 780 )
 			
@@ -53,51 +55,49 @@ namespace $.$$ {
 			const code_str = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( '/shm/hitalama/board/snippets/_table.js' ) )
 				.replace( 'BLOCK_TITLE', `'${ 'Table_' + this.guid_sync() }'` )
 			code?.text( code_str )
-
-			this.contextmenu_showed( false )
 		}
 
 		@ $mol_action
 		deckgl_example_add() {
+			this.contextmenu_showed( false )
 			const block = this.board().block_add( 'customdom', this.contextmenu_real_pos(), 700, 700 )
 			const code_str = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( '/shm/hitalama/board/snippets/_deckgl_example.js' ) )
 			block?.text( code_str )
-			this.contextmenu_showed( false )
 			return block
 		}
 
 		@ $mol_action
 		echarts_example_add() {
+			this.contextmenu_showed( false )
 			const block = this.board().block_add( 'customdom', this.contextmenu_real_pos(), 700, 500 )
 			const code_str = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( '/shm/hitalama/board/snippets/_echarts_example.js' ) )
 			block?.text( code_str )
-			this.contextmenu_showed( false )
 			return block
 		}
 
 		@ $mol_action
 		code_css_add() {
+			this.contextmenu_showed( false )
 			const block = this.board().block_add( 'code_css', this.contextmenu_real_pos(), 600, 300 )
 			const code_str = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( '/shm/hitalama/board/snippets/_css_example.css' ) )
 			block?.text( code_str )
-			this.contextmenu_showed( false )
 			return block
 		}
 
 		@ $mol_action
 		code_js_add() {
+			this.contextmenu_showed( false )
 			const block = this.board().block_add( 'code', this.contextmenu_real_pos(), 600, 300 )
 			block?.text( '' )
-			this.contextmenu_showed( false )
 			return block
 		}
 
 		@ $mol_action
 		code_sql_add() {
+			this.contextmenu_showed( false )
 			const block = this.board().block_add( 'code_sql', this.contextmenu_real_pos(), 600, 300 )
 			block?.text( 'return to_table( result )' )
 			block?.subtext( 'SELECT * FROM pg_views' )
-			this.contextmenu_showed( false )
 			return block
 		}
 
@@ -108,6 +108,8 @@ namespace $.$$ {
 		
 		@ $mol_action
 		customizer_add() {
+			this.contextmenu_showed( false )
+
 			const board = this.board()
 			const block = board.block_add( 'customizer', this.contextmenu_real_pos(), 1200, 600 )
 			const custom = board.Customs(null)?.make( board.land() )
@@ -131,35 +133,25 @@ namespace $.$$ {
 			const code_css = this.$.$mol_fetch.text( $shm_hitalama_app_ghpages_fix_link( '/shm/hitalama/board/snippets/_widget_ba_messagecount.view.css' ) )
 				.replaceAll( 'widget_ba_messagecount', type_custom )
 			custom?.Code_css(null)?.value( code_css )
-
-			this.contextmenu_showed( false )
 		}
 
 		@ $mol_action
 		form_custom_add() {
-			const [x, y] = this.contextmenu_real_pos()
-			const field_names = [ 'Фамилия', 'Имя', 'Отчество'] 
-			const text = this.board().text_add( [x-200, y], field_names.join('\n') )
-
-			const block = this.board().block_add( 'form_custom', [x, y], 300, 600 )
-			block?.Use_text_from(null)?.remote( text )
 			this.contextmenu_showed( false )
 			
-			const block_table = this.board().table_novirt_add( [x+300, y], 1000, 780 )!
-			const table = block_table.Table(null)?.ensure( block_table.land() )
-			table?.Head_method(null)?.val( `
-				const text = board.block_value('${text!.ref().description!}')
-				return text.split('\\n')
-			` )
-			table?.Rows_method(null)?.val( `
-				const data = board.block_data('${block!.ref().description!}')
-				const head = table.table_head()
-				return data?.map( obj => {
-					return head.map( n => obj[n] )
-				} ) ?? []
-			` )
+			const [x, y] = this.contextmenu_real_pos()
+			const field_names = [ 'Запрос', 'Дата #date', 'Период #period', 'Файл #file'] 
+			const text = this.board().text_add( [x-200, y], field_names.join('\n') )
 
-			return block
+			const form = this.board().block_add( 'form_custom', [x, y], 300, 600 )
+			const custom = form?.Form_custom(null)?.ensure( form.land() )
+			custom?.Use_text_from(null)?.remote( text )
+			
+			const block_table = this.board().block_add( 'table', [x+300, y], 1000, 780 )!
+			const table = block_table.Table(null)?.ensure( block_table.land() )
+			table?.Form_custom(null)?.remote( custom )
+			
+			return form
 		}
 
 		customs() {
