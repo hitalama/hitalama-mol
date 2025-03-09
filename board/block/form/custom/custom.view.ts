@@ -92,6 +92,11 @@ namespace $.$$ {
 
 			this.clear()
 		}
+
+		buttons() {
+			if( this.block().Hide_buttons()?.val() ) return []
+			return super.buttons()
+		}
 		
 	}
 }

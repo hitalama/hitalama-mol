@@ -154,6 +154,35 @@ namespace $.$$ {
 			return form
 		}
 
+		@ $mol_action
+		secrets_add() {
+			this.contextmenu_showed( false )
+
+			const [x, y] = this.contextmenu_real_pos()
+
+			const secrets: any = $shm_hitalama_profile.current()?.secrets()
+			const keys = []
+			for (const key in secrets) {
+				if( secrets[key] ) keys.push( key )
+			}
+
+			if( keys.length == 0 ) keys.push( 'token_ba' )
+
+			const field_names = keys
+			const text = this.board().text_add( [x-200, y], field_names.join('\n'), 200, 300 )
+
+			const form = this.board().block_add( 'form_custom', [x, y], 300, 600 )
+			form?.Hide_buttons(null)?.val( true )
+			form?.Data_method(null)?.val(`
+				return $`+`shm_hitalama_profile.current()?.secrets(next)
+			`)
+
+			const custom = form?.Form_custom(null)?.ensure( form.land() )
+			custom?.Use_text_from(null)?.remote( text )
+			
+			return form
+		}
+
 		customs() {
 			const visible = this.board().Customs()?.remote_list().filter( c => c.Visible_in_contextmenu()?.val() )
 			return visible?.map( c => this.Custom_add( c.ref() ) ) ?? []

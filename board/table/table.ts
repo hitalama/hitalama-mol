@@ -28,7 +28,7 @@ namespace $ {
 
 		@ $mol_mem
 		board() {
-			return this.Board()?.remote() ?? this.Block()?.remote()?.Board()?.remote()!
+			return this.Board()?.remote() ?? this.Block()?.remote()?.board()!
 		}
 
 		@ $mol_mem

@@ -43,6 +43,7 @@ namespace $ {
 		Font_size: $hyoo_crus_atom_real,
 
 		Data: $hyoo_crus_atom_json,
+		Data_method: $hyoo_crus_atom_str,
 
 		/** text|code|customdom */
 		Text: $hyoo_crus_text,
@@ -64,6 +65,7 @@ namespace $ {
 
 		/** form_custom */
 		Form_custom: $hyoo_crus_atom_ref_to( ()=> $shm_hitalama_board_form_custom ),
+		Hide_buttons: $hyoo_crus_atom_bool, //submit/clear
 
 		/** table|chart */
 		Table: $hyoo_crus_atom_ref_to( ()=> $shm_hitalama_board_table ),
@@ -84,6 +86,11 @@ namespace $ {
 		view( next?: $mol_view ) {
 			return next
 		}
+		
+		@ $mol_mem
+		board() {
+			return this.Board()?.remote()!
+		}
 
 		@ $mol_mem
 		css_id() {
@@ -99,8 +106,12 @@ namespace $ {
 			return this.Subtext(next)?.value(next) ?? ''
 		}
 
+		@ $mol_mem
 		data( next?: any ) {
-			return this.Data(next)?.val(next)
+			const method = this.Data_method()?.val()
+			if( !method ) return this.Data(next)?.val(next)
+
+			return this.board().execute( method, { next, this_block: this } )
 		}
 
 		color( next?: string ) {

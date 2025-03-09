@@ -2,6 +2,8 @@ namespace $ {
 
 	export class $shm_hitalama_profile extends $hyoo_crus_entity.with({
 
+		Secrets: $hyoo_crus_atom_ref_to( ()=> $hyoo_crus_atom_json ),
+
 		Tokens: $hyoo_crus_list_ref_to( ()=> $shm_hitalama_token ),
 		Groups_lists: $hyoo_crus_list_ref_to( ()=> $shm_hitalama_list ),
 
@@ -55,6 +57,16 @@ namespace $ {
 			const home = this.$.$hyoo_crus_glob!.home()
 			home.Hall(null)!.remote( this )
 			return true
+		}
+
+		@ $mol_mem
+		secrets( next?: any ) {
+			return this.Secrets(next)?.ensure( {'': $hyoo_crus_rank_deny} )?.val( next ) ?? {}
+		}
+
+		@ $mol_mem_key
+		secret_val( key: string ){
+			return (this.secrets() as any)[key] ?? ''
 		}
 		
 	}
