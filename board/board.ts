@@ -53,31 +53,6 @@ namespace $ {
 
 		execute( code: string, context?: Record< string, any > ) {
 
-			const to_table = ( obj: any )=> {
-				if( obj.head && obj.rows ) return {
-					_format: 'table',
-					table: obj
-				}
-
-				const keys = new Map< string, number >
-				const arr = Array.isArray(obj) ? obj : [obj]
-				const rows: any[][] = []
-				arr.forEach( obj => {
-					const row: any[] = []
-					rows.push( row )
-					for( const key in obj ) {
-						const index = keys.get( key ) ?? keys.size
-						keys.set( key, index )
-						row[ index ] = obj[ key ]
-					}
-				} )
-
-				return {
-					_format: 'table',
-					table: { head: [ ...keys.keys() ], rows }
-				}
-			}
-
 			context = {
 				board: this,
 				to_table,
@@ -202,6 +177,31 @@ namespace $ {
 			transfer.deserialize( dto )
 		}
 		
+	}
+
+	function to_table( obj: any ) {
+		if( obj.head && obj.rows ) return {
+			_format: 'table',
+			table: obj
+		}
+
+		const keys = new Map< string, number >
+		const arr = Array.isArray(obj) ? obj : [obj]
+		const rows: any[][] = []
+		arr.forEach( obj => {
+			const row: any[] = []
+			rows.push( row )
+			for( const key in obj ) {
+				const index = keys.get( key ) ?? keys.size
+				keys.set( key, index )
+				row[ index ] = obj[ key ]
+			}
+		} )
+
+		return {
+			_format: 'table',
+			table: { head: [ ...keys.keys() ], rows }
+		}
 	}
 
 }
