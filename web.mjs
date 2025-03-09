@@ -45332,29 +45332,6 @@ var $;
             return this.$.$mol_fetch.text($shm_hitalama_app_ghpages_fix_link('/shm/hitalama/board/snippets/_execute_init.js'));
         }
         execute(code, context) {
-            const to_table = (obj) => {
-                if (obj.head && obj.rows)
-                    return {
-                        _format: 'table',
-                        table: obj
-                    };
-                const keys = new Map;
-                const arr = Array.isArray(obj) ? obj : [obj];
-                const rows = [];
-                arr.forEach(obj => {
-                    const row = [];
-                    rows.push(row);
-                    for (const key in obj) {
-                        const index = keys.get(key) ?? keys.size;
-                        keys.set(key, index);
-                        row[index] = obj[key];
-                    }
-                });
-                return {
-                    _format: 'table',
-                    table: { head: [...keys.keys()], rows }
-                };
-            };
             context = {
                 board: this,
                 to_table,
@@ -45471,6 +45448,29 @@ var $;
         $mol_mem
     ], $shm_hitalama_board, "execute_init_code", null);
     $.$shm_hitalama_board = $shm_hitalama_board;
+    function to_table(obj) {
+        if (obj.head && obj.rows)
+            return {
+                _format: 'table',
+                table: obj
+            };
+        const keys = new Map;
+        const arr = Array.isArray(obj) ? obj : [obj];
+        const rows = [];
+        arr.forEach(obj => {
+            const row = [];
+            rows.push(row);
+            for (const key in obj) {
+                const index = keys.get(key) ?? keys.size;
+                keys.set(key, index);
+                row[index] = obj[key];
+            }
+        });
+        return {
+            _format: 'table',
+            table: { head: [...keys.keys()], rows }
+        };
+    }
 })($ || ($ = {}));
 
 ;
