@@ -39,6 +39,18 @@ namespace $ {
 			const block = this.block( ref )
 			
 			if( block.type() == 'range' ) return block.range().value( next )
+			
+			else if( block.type() == 'form_custom' ) return block.data()
+
+			else if( block.type() == 'table' ) {
+				const custom = block.table().form_custom()
+				if( custom ) return custom.objects()
+
+				const head = block.table_head()
+				const rows = block.table_rows()
+				return rows.map( r => Object.fromEntries( head.map( (h, i)=> [ h, r[i] ] ) ) )
+			}
+
 
 			if( next === undefined ) return block.preprocessed()
 			

@@ -6,4 +6,7 @@ $shm_hitalama_period $mol_view
 		<= Date_to $mol_date
 			value? <=> date_to? \
 	period_str? \
+	period? *
+		from \
+		to \
 	clear null

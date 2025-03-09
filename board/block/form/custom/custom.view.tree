@@ -18,15 +18,14 @@ $shm_hitalama_board_block_form_custom $shm_hitalama_board_block_float
 			<= Text*
 		string
 			<= Text* $mol_string
-				value? <=> field_value*? \
+				value? <=> field_value*? null
 		date
 			<= Date* $mol_date
-				value? <=> field_value*? \
+				value? <=> field_value*?
 		period
 			<= Period* $shm_hitalama_period
-				date_from? <=> date_from*? \
-				date_to? <=> date_to*? \
-				period_str? => period_str*?
+				period? <=> field_value*?
+				period_str => period_str*
 		file
 			<= File* $shm_hitalama_file_attach
 				files? <=> field_files*? /

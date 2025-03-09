@@ -65,6 +65,35 @@ namespace $ {
 		}
 
 		@ $mol_mem
+		objects( next?: any[] ) {
+			const custom = this.form_custom()
+			if( custom ) return custom.objects()
+
+			if( next ) {
+				const keys = new Map< string, number >
+				const rows: any[][] = []
+
+				next.forEach( obj => {
+					const row: any[] = []
+					rows.push( row )
+					for( const key in obj ) {
+						const index = keys.get( key ) ?? keys.size
+						keys.set( key, index )
+						row[ index ] = obj[ key ]
+					}
+				} )
+				
+				this.table_head( [ ...keys.keys() ] )
+				this.table_rows( rows )
+				return next
+			}
+
+			const head = this.table_head()
+			const rows = this.table_rows()
+			return rows.map( r => Object.fromEntries( head.map( (h, i)=> [ h, r[i] ] ) ) )
+		}
+
+		@ $mol_mem
 		col_types( next?: any ) {
 			const custom = this.form_custom()
 			if( custom ) return custom.fields_parsed().arr.map( f => f.type )

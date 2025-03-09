@@ -35,17 +35,22 @@ namespace $.$$ {
 			if( type == 'file' ) {
 				if( next === '' ) {
 					this.field_files( name, [] )
-					return ''
+					return this.data_value( name, '' )
 				}
 				const file = this.field_file( name )
-				return file?.ref().description
+				return this.data_value( name, file?.ref().description )
 			}
 
-			else if( type == 'period' ) {
-				return this.period_str( name, next )
-			}
+			return this.data_value( name, next )	
+		}
 
-			return next ?? ''
+		@ $mol_mem_key
+		data_value( name: any, next?: any ) {
+			const data: any = this.block().data() ?? {}
+			if( next === undefined ) return data[ name ] ?? ''
+
+			this.block().data( { ...data, [ name ]: next } )
+			return next
 		}
 
 		@ $mol_action
