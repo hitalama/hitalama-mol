@@ -1038,6 +1038,9 @@ $shm_hitalama_board_page_contexmenu $mol_list
 		<= Form_custom_add $mol_button_minor
 			title \Добавить редактор формы
 			click? <=> form_custom_add? null
+		<= Secrets_add $mol_button_minor
+			title \Добавить секреты
+			click? <=> secrets_add? null
 		^ customs /
 			<= Custom_add*0 $mol_button_minor
 				title <= custom_add_title* \Добавить {title}
@@ -1966,6 +1969,9 @@ $shm_hitalama_period $mol_view
 		<= Date_to $mol_date
 			value? <=> date_to? \
 	period_str? \
+	period? *
+		from \
+		to \
 	clear null
 
 $mol_icon_upload $mol_icon path \M9,16V10H5L12,3L19,10H15V16H9M5,20V18H19V20H5Z
@@ -3047,7 +3053,7 @@ $shm_hitalama_board_block_form_custom $shm_hitalama_board_block_float
 				<= Field*0 $mol_form_field
 					name <= field_name* \
 					Content <= Field_content* $mol_view
-			buttons /
+			buttons <= buttons /
 				<= Publish $mol_button_major
 					title \Отправить
 					click? <=> submit? null
@@ -3060,15 +3066,14 @@ $shm_hitalama_board_block_form_custom $shm_hitalama_board_block_float
 			<= Text*
 		string
 			<= Text* $mol_string
-				value? <=> field_value*? \
+				value? <=> field_value*? null
 		date
 			<= Date* $mol_date
-				value? <=> field_value*? \
+				value? <=> field_value*?
 		period
 			<= Period* $shm_hitalama_period
-				date_from? <=> date_from*? \
-				date_to? <=> date_to*? \
-				period_str? => period_str*?
+				period? <=> field_value*?
+				period_str => period_str*
 		file
 			<= File* $shm_hitalama_file_attach
 				files? <=> field_files*? /
