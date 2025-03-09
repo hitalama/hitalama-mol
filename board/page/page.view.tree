@@ -94,12 +94,12 @@ $shm_hitalama_board_page $shm_hitalama_entity_page
 					sticks_x <= sticks_x* / 0
 					selected? <=> selected*? false
 					hovered? <=> hovered*? false
-					has_scrollbar_x => has_scrollbar_x* false
-					has_scrollbar_y => has_scrollbar_y* false
-					editing? => editing*? false
+					has_scrollbar_x => has_scrollbar_x*
+					has_scrollbar_y => has_scrollbar_y*
+					editing => editing*
 					drags_synced <= drags_synced* /$rise_drag
 					on_contextmenu? <=> block_event_contextmenu*? null
-					Contextmenu_body => Block_contextmenu_body* /
+					Contextmenu_body => Block_contextmenu_body*
 			^ cursors /
 				<= Cursor* $shm_hitalama_board_presence_cursor
 					pos <= cursor_pos* null

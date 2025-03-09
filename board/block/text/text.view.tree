@@ -4,6 +4,7 @@ $shm_hitalama_board_block_text $shm_hitalama_board_block_float
 			value? <=> text? \
 			selection? <=> selection? /number
 			spellcheck false
+			focused => text_focused
 			style *
 				color <= color
 				fontSize <= font_size_px

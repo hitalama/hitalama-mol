@@ -26,7 +26,7 @@ $shm_hitalama_board_block_float $rise_resize_ratio
 	auto /
 		^
 		<= bind_view null
-		<= editing? false
+		<= editing false
 	toolbar /
 		<= Toolbar $mol_view
 			style *

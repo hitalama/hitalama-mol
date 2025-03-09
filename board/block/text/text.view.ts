@@ -40,16 +40,15 @@ namespace $.$$ {
 			const { x, y } = this.blocker_pointerdown_last
 
 			if( Math.abs( x - next.x ) < 5 && Math.abs( y - next.y ) < 5 ) {
-				this.editing( true )
 				this.Text().Edit().focused(true)
 				;( this.Text().Edit().dom_node_actual() as HTMLTextAreaElement ).select()
 			}
 		}
 
 		@ $mol_mem
-		editing( next?: boolean ): boolean {
-			if( this.selected() === false ) return false
-			return next ?? false
+		editing(): boolean {
+			if( this.selected() && this.text_focused() ) return true
+			return false
 		}
 
 		@ $mol_mem
