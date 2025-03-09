@@ -1958,6 +1958,14 @@ $mol_date_calendar $mol_calendar
 			minimal_height 24
 			enabled <= enabled true
 
+$shm_hitalama_period $mol_view
+	sub /
+		<= Date_from $mol_date
+			value? <=> date_from? \
+		\–
+		<= Date_to $mol_date
+			value? <=> date_to? \
+
 $mol_icon_upload $mol_icon path \M9,16V10H5L12,3L19,10H15V16H9M5,20V18H19V20H5Z
 
 $mol_button_open $mol_button_minor
@@ -2022,11 +2030,9 @@ $shm_hitalama_board_form_view $mol_form
 		<= Period_field $mol_form_field
 			name \Период
 			content /
-				<= Date_from $mol_date
-					value? <=> date_from? \
-				\–
-				<= Date_to $mol_date
-					value? <=> date_to? \
+				<= Period $shm_hitalama_period
+					date_from? <=> date_from? \
+					date_to? <=> date_to? \
 		<= Country_field $mol_form_field
 			name \Страны
 			Content <= Country $mol_string

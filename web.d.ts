@@ -18696,6 +18696,32 @@ declare namespace $ {
 
 declare namespace $ {
 
+	type $mol_date__value_shm_hitalama_period_1 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_period['date_from'] >
+		,
+		ReturnType< $mol_date['value'] >
+	>
+	type $mol_date__value_shm_hitalama_period_2 = $mol_type_enforce<
+		ReturnType< $shm_hitalama_period['date_to'] >
+		,
+		ReturnType< $mol_date['value'] >
+	>
+	export class $shm_hitalama_period extends $mol_view {
+		date_from( next?: string ): string
+		Date_from( ): $mol_date
+		date_to( next?: string ): string
+		Date_to( ): $mol_date
+		sub( ): readonly(any)[]
+	}
+	
+}
+
+//# sourceMappingURL=period.view.tree.d.ts.map
+declare namespace $.$$ {
+}
+
+declare namespace $ {
+
 	export class $mol_icon_upload extends $mol_icon {
 		path( ): string
 	}
@@ -18906,15 +18932,15 @@ declare namespace $ {
 		,
 		ReturnType< $mol_form_field['Content'] >
 	>
-	type $mol_date__value_shm_hitalama_board_form_view_8 = $mol_type_enforce<
+	type $shm_hitalama_period__date_from_shm_hitalama_board_form_view_8 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_form_view['date_from'] >
 		,
-		ReturnType< $mol_date['value'] >
+		ReturnType< $shm_hitalama_period['date_from'] >
 	>
-	type $mol_date__value_shm_hitalama_board_form_view_9 = $mol_type_enforce<
+	type $shm_hitalama_period__date_to_shm_hitalama_board_form_view_9 = $mol_type_enforce<
 		ReturnType< $shm_hitalama_board_form_view['date_to'] >
 		,
-		ReturnType< $mol_date['value'] >
+		ReturnType< $shm_hitalama_period['date_to'] >
 	>
 	type $mol_form_field__name_shm_hitalama_board_form_view_10 = $mol_type_enforce<
 		string
@@ -19135,9 +19161,8 @@ declare namespace $ {
 		Excluded_words( ): $mol_textarea
 		Excluded_words_field( ): $mol_form_field
 		date_from( next?: string ): string
-		Date_from( ): $mol_date
 		date_to( next?: string ): string
-		Date_to( ): $mol_date
+		Period( ): $shm_hitalama_period
 		Period_field( ): $mol_form_field
 		country( next?: string ): string
 		Country( ): $mol_string

@@ -25729,6 +25729,60 @@ var $;
 })($ || ($ = {}));
 
 ;
+	($.$shm_hitalama_period) = class $shm_hitalama_period extends ($.$mol_view) {
+		date_from(next){
+			if(next !== undefined) return next;
+			return "";
+		}
+		Date_from(){
+			const obj = new this.$.$mol_date();
+			(obj.value) = (next) => ((this.date_from(next)));
+			return obj;
+		}
+		date_to(next){
+			if(next !== undefined) return next;
+			return "";
+		}
+		Date_to(){
+			const obj = new this.$.$mol_date();
+			(obj.value) = (next) => ((this.date_to(next)));
+			return obj;
+		}
+		sub(){
+			return [
+				(this.Date_from()), 
+				"–", 
+				(this.Date_to())
+			];
+		}
+	};
+	($mol_mem(($.$shm_hitalama_period.prototype), "date_from"));
+	($mol_mem(($.$shm_hitalama_period.prototype), "Date_from"));
+	($mol_mem(($.$shm_hitalama_period.prototype), "date_to"));
+	($mol_mem(($.$shm_hitalama_period.prototype), "Date_to"));
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        $mol_style_define($shm_hitalama_period, {
+            align: {
+                items: 'center',
+            },
+            flex: {
+                wrap: 'wrap',
+            },
+        });
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
 	($.$mol_icon_upload) = class $mol_icon_upload extends ($.$mol_icon) {
 		path(){
 			return "M9,16V10H5L12,3L19,10H15V16H9M5,20V18H19V20H5Z";
@@ -26060,28 +26114,20 @@ var $;
 			if(next !== undefined) return next;
 			return "";
 		}
-		Date_from(){
-			const obj = new this.$.$mol_date();
-			(obj.value) = (next) => ((this.date_from(next)));
-			return obj;
-		}
 		date_to(next){
 			if(next !== undefined) return next;
 			return "";
 		}
-		Date_to(){
-			const obj = new this.$.$mol_date();
-			(obj.value) = (next) => ((this.date_to(next)));
+		Period(){
+			const obj = new this.$.$shm_hitalama_period();
+			(obj.date_from) = (next) => ((this.date_from(next)));
+			(obj.date_to) = (next) => ((this.date_to(next)));
 			return obj;
 		}
 		Period_field(){
 			const obj = new this.$.$mol_form_field();
 			(obj.name) = () => ("Период");
-			(obj.content) = () => ([
-				(this.Date_from()), 
-				"–", 
-				(this.Date_to())
-			]);
+			(obj.content) = () => ([(this.Period())]);
 			return obj;
 		}
 		country(next){
@@ -26349,9 +26395,8 @@ var $;
 	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Excluded_words"));
 	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Excluded_words_field"));
 	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "date_from"));
-	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Date_from"));
 	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "date_to"));
-	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Date_to"));
+	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Period"));
 	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Period_field"));
 	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "country"));
 	($mol_mem(($.$shm_hitalama_board_form_view.prototype), "Country"));
@@ -26515,12 +26560,6 @@ var $;
             Period_field: {
                 Content: {
                     padding: 0,
-                    align: {
-                        items: 'center',
-                    },
-                    flex: {
-                        wrap: 'wrap',
-                    },
                 },
             },
             Social_media_field: {
@@ -45334,6 +45373,7 @@ var $;
         execute(code, context) {
             context = {
                 board: this,
+                page: undefined,
                 to_table,
                 ...context,
             };
